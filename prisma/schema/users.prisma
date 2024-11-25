@@ -1,0 +1,34 @@
+model User {
+  id         Int    @id @default(autoincrement())
+  last_name  String
+  first_name String
+  email      String @unique
+  password   String
+
+  role String
+
+  articles          Articles[]
+  comments          Comments[]
+  favorites         Favorites[]
+  accounts          Account[]
+  sessions          Session[]
+  ArticlesSubmitted ArticlesSubmitted[]
+  User_Role         User_Role?
+}
+
+model User_Role {
+  id Int @id @default(autoincrement())
+
+  user_id Int
+  role    RoleType
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@unique([user_id])
+}
+
+enum RoleType {
+  EDITOR
+  ADMIN
+  MODERATOR
+}

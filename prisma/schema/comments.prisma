@@ -1,0 +1,11 @@
+model Comments {
+  id         Int @id @default(autoincrement())
+  user_id    Int
+  article_id Int
+
+  content      String
+  comment_date DateTime
+
+  user    User     @relation(fields: [user_id], references: [id])
+  article Articles @relation(fields: [article_id], references: [id])
+}

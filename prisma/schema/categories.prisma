@@ -1,0 +1,17 @@
+model Categories {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  type              Category
+  Articles          Articles[]
+  ArticlesSubmitted ArticlesSubmitted[]
+}
+
+enum Category {
+  ANALOG
+  DIGITAL
+  CHRONOGRAPH
+  SMARTWATCH
+  HYBRID
+  LUXURY
+  OTHER
+}

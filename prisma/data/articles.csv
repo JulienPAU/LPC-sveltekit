@@ -1,0 +1,6 @@
+id,title,content,images,publish_date,user_id,category_id,status,article_type
+1,Guide d'achat Rolex Submariner,"Un guide complet pour l'achat...",/images/sub.jpg,2024-01-15,2,1,PUBLISHED,GUIDE
+2,Test Apple Watch Series 8,"Notre test complet de la dernière...",/images/watch8.jpg,2024-02-01,4,2,PUBLISHED,REVIEW
+3,Histoire de l'horlogerie,"L'évolution des montres à travers...",/images/history.jpg,2024-02-15,2,1,PUBLISHED,ARTICLE
+4,Lexique technique,"Tous les termes techniques expliqués...",/images/terms.jpg,2024-03-01,4,1,PUBLISHED,LEXIQUE
+5,Comparatif montres connectées,"Comparaison des meilleures montres...",/images/compare.jpg,2024-03-10,2,2,DRAFT,GUIDE
