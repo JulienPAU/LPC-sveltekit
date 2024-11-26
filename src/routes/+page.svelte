@@ -4,10 +4,10 @@
 	export let data: PageData;
 </script>
 
-<h1>Home</h1>
+<h2>Home</h2>
 {#each data.articles as article}
 	<article>
-		<h2>{article.title}</h2>
+		<h3>{article.title}</h3>
 		<p>Par {article.user.last_name} dans {article.category.name}</p>
 		<div>{article.content}</div>
 	</article>
