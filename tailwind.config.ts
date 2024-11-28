@@ -12,6 +12,9 @@ export default {
 			fontFamily: {
 				orelega: ['Orelega One'],
 			},
+			fontSize: {
+				'custom': '3.375rem', // Taille personnalisée en rem (équivalent à 38px si base 16px)
+			},
 		}
 	},
 

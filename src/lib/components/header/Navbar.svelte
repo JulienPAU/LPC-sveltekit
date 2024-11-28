@@ -1,9 +1,11 @@
 <script>
 	import LPC_BC from '$lib/assets/logos/LPC_BC.svg';
+	import LPC_WC from '$lib/assets/logos/LPC_WC.svg';
 	let isMenuOpen = false;
 </script>
 
-<div class="bg-opacity- navbar sticky top-5 z-50 mx-5 mb-20 w-auto rounded-2xl bg-base-200">
+<!-- sticky top-5 -->
+<navbar class=" navbar z-50 mx-0 mb-10 w-auto rounded-2xl text-white sm:mx-0 sm:mb-10 lg:mb-20">
 	<!-- Navbar Start -->
 	<div class="navbar-start">
 		<!-- Mobile menu burger -->
@@ -30,7 +32,7 @@
 				</svg>
 			</button>
 			<ul
-				class={`menu-compact menu dropdown-content mt-3 w-52 rounded-box bg-base-100 p-2 shadow ${
+				class={`menu-compact menu dropdown-content mt-3 w-52 rounded-box bg-gray-600 p-2 shadow ${
 					isMenuOpen ? 'block' : 'hidden'
 				}`}
 			>
@@ -39,7 +41,7 @@
 				<li>
 					<details>
 						<summary>Divers</summary>
-						<ul class="rounded-t-none bg-base-100 p-2">
+						<ul class="rounded-t-none bg-gray-600 p-2">
 							<li><a>Link 1</a></li>
 							<li><a>Link 2</a></li>
 						</ul>
@@ -56,7 +58,7 @@
 				<li>
 					<details>
 						<summary>Divers</summary>
-						<ul class="rounded-t-none bg-base-100 p-2">
+						<ul class="rounded-t-none bg-gray-600 p-2">
 							<li><a>Link 1</a></li>
 							<li><a>Link 2</a></li>
 						</ul>
@@ -68,7 +70,7 @@
 
 	<!-- Navbar Center -->
 	<div class="navbar-center">
-		<img alt="logo" src={LPC_BC} class="lg:h-30 h-14 object-contain md:h-20" />
+		<img alt="logo" src={LPC_WC} class="lg:h-30 h-14 object-contain md:h-20" />
 	</div>
 
 	<!-- Navbar End -->
@@ -89,10 +91,10 @@
 				/>
 			</svg>
 		</button>
-		<div class="lg:flex">
+		<div class="sm:hidden lg:flex">
 			<ul class="menu menu-horizontal px-1 sm:text-sm md:text-lg lg:text-lg">
 				<li><a href="#">Login</a></li>
 			</ul>
 		</div>
 	</div>
-</div>
+</navbar>

@@ -2,6 +2,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import url('https://fonts.googleapis.com/css2?family=Orelega+One&display=swap');
+@font-face {
+	font-family: 'digital';
+	src: url('$lib/assets/fonts/digital-7.regular.ttf');
+}
 
 :root {
 	font-family:
@@ -34,11 +38,12 @@ summary {
 		sans-serif;
 	font-weight: 500;
 	letter-spacing: 0.1rem;
-	color: black;
+	color: white;
 }
 
 :is(h1, h2, h3, h4, h5, h6) {
 	font-family: 'Orelega One', serif;
+	letter-spacing: 0.3rem;
 }
 
 h1 {
@@ -52,7 +57,44 @@ h3 {
 }
 
 header {
-	margin: 0;
-	overflow: hidden;
-	background: black;
+	background: linear-gradient(128deg, #000000, #4a4e4d, #454952);
+	background-size: 600% 600%;
+
+	-webkit-animation: AnimationName 30s ease infinite;
+	-moz-animation: AnimationName 30s ease infinite;
+	animation: AnimationName 30s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+	0% {
+		background-position: 2% 0%;
+	}
+	50% {
+		background-position: 99% 100%;
+	}
+	100% {
+		background-position: 2% 0%;
+	}
+}
+@-moz-keyframes AnimationName {
+	0% {
+		background-position: 2% 0%;
+	}
+	50% {
+		background-position: 99% 100%;
+	}
+	100% {
+		background-position: 2% 0%;
+	}
+}
+@keyframes AnimationName {
+	0% {
+		background-position: 2% 0%;
+	}
+	50% {
+		background-position: 99% 100%;
+	}
+	100% {
+		background-position: 2% 0%;
+	}
 }
