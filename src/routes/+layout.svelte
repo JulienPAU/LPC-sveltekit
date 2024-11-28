@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Navbar from '$lib/components/header/Navbar.svelte';
+	import Header from '$lib/components/header/header.svelte';
 	import '../app.css';
 	let { children } = $props();
 </script>
 
-<Navbar />
+<Header />
 
 {@render children()}
