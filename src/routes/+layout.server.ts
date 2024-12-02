@@ -6,6 +6,9 @@ export const load: LayoutServerLoad = async () => {
         where: {
             status: 'PUBLISHED'
         },
+        orderBy: {
+            publish_date: 'desc'
+        },
         include: {
             category: true,
             user: true

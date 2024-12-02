@@ -4,5 +4,8 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [enhancedImages(),
-	sveltekit()]
+	sveltekit()],
+	optimizeDeps: {
+		include: ['lodash.get', 'lodash.isequal', 'lodash.clonedeep']
+	}
 });

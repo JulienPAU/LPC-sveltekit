@@ -7,6 +7,12 @@
 	src: url('$lib/assets/fonts/digital-7.regular.ttf');
 }
 
+body {
+	margin: 0;
+	padding: 0;
+	max-width: full;
+}
+
 :root {
 	font-family:
 		Roboto,
@@ -41,11 +47,19 @@ summary {
 	color: white;
 }
 
-:is(h1, h2, h3, h4, h5, h6) {
-	font-family: 'Orelega One', serif;
-	letter-spacing: 0.3rem;
+li:hover {
+	border-bottom: 2px solid #eab308;
 }
 
+:is(h1, h2, h3, h4, h5, h6) {
+	font-family: 'Orelega One', serif;
+	letter-spacing: 0.2rem;
+}
+.burger_menu {
+	width: 30px;
+	margin: 0 auto;
+	display: block;
+}
 h1 {
 	font-size: clamp(2rem, 5vw, 2.5rem);
 }
@@ -55,14 +69,21 @@ h2 {
 h3 {
 	font-size: clamp(1.4rem, 3.5vw, 1.75rem);
 }
+.author {
+	font-style: italic;
+	font-size: small;
+}
 
-header {
-	background: linear-gradient(128deg, #000000, #4a4e4d, #454952);
+header,
+footer,
+.menu-compact,
+.drop {
+	background: linear-gradient(128deg, #000000, #343636, #181f30);
 	background-size: 600% 600%;
 
-	-webkit-animation: AnimationName 30s ease infinite;
-	-moz-animation: AnimationName 30s ease infinite;
-	animation: AnimationName 30s ease infinite;
+	-webkit-animation: AnimationName 25s ease infinite;
+	-moz-animation: AnimationName 25s ease infinite;
+	animation: AnimationName 25s ease infinite;
 }
 
 @-webkit-keyframes AnimationName {

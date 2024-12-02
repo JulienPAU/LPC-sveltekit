@@ -1,21 +1,32 @@
-<script lang="ts">
-	export let title: string;
-	export let content: string;
-	export let imageUrl: string;
-	export let author: string;
-	export let category: string;
+<script>
+	import { truncateText } from '$lib/utils';
+
+	export let props = {
+		title: '',
+		content: '',
+		imageUrl: 'https://via.placeholder.com/150',
+		author: 'Auteur inconnu',
+		category: 'Catégorie inconnue'
+	};
 </script>
 
-<div class="card w-96 bg-base-100 shadow-xl sm:w-4/5 xl:w-96">
+<div class="xl:w3/5 card w-96 bg-base-100 shadow-xl sm:w-4/5 md:w-96 lg:w-2/6">
 	<figure>
-		<img src={imageUrl} alt={title} />
+		<img src={props.imageUrl || 'https://via.placeholder.com/150'} alt={props.title || 'Image'} />
 	</figure>
 	<div class="card-body">
-		<h3 class="card-title">{title}</h3>
-		<p>Par {author} dans {category}</p>
-		<div>{content}</div>
+		<h2 class="card-title font-light">{props.title}</h2>
+		<p class="mb-5 italic leading-3">
+			Par {props.author || 'Auteur inconnu'} dans {props.category || 'Catégorie inconnue'}
+		</p>
+		<div class="mb-5">{truncateText(props.content, 140) || 'Contenu indisponible'}</div>
 		<div class="card-actions justify-end">
-			<button class="btn btn-primary">Lire plus</button>
+			<a href="#"
+				><button
+					class="btn bg-yellow-500 text-xl hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+					>+</button
+				></a
+			>
 		</div>
 	</div>
 </div>
