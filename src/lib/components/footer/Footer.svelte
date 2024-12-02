@@ -9,7 +9,7 @@
 				<img class="h-14 w-40" alt="Les petits cadrans logo" src={LPC_FAV_WLT} />
 			</a>
 			<ul
-				class="items-cente justify-center gap-14 text-center text-lg transition-all duration-500 sm:flex lg:gap-10 xl:gap-14"
+				class="items-center justify-center gap-14 text-center text-lg transition-all duration-500 sm:flex lg:gap-10 xl:gap-14"
 			>
 				<!-- <li>
 					<a href="javascript:;" class="text-white">Les Petits Cadrans</a>
@@ -44,7 +44,10 @@
 					</svg>
 				</a>
 				<a
-					href="javascript:;"
+					href="https://www.linkedin.com/in/paulus--julien
+
+"
+					target="_blank"
 					class="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 hover:bg-yellow-500"
 					aria-label="Icon 3"
 				>
@@ -62,7 +65,6 @@
 				</a>
 			</div>
 		</div>
-		<!--Grid-->
 		<div class="border-t border-gray-700 py-7">
 			<div class="flex items-center justify-center">
 				<span class="text-gray-400"

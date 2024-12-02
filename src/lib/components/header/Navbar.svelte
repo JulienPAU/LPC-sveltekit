@@ -84,8 +84,8 @@
 
 		<!-- Desktop links -->
 		<div class="hidden lg:flex">
-			<ul class="menu menu-horizontal px-1 sm:text-sm md:text-lg lg:text-lg">
-				<li><a href="/">Accueil</a></li>
+			<ul class="menu menu-horizontal p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
+				<li><a href="/" class="border-none">Accueil</a></li>
 				<li><a href="articles">Articles</a></li>
 				<li>
 					<details>
