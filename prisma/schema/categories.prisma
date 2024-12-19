@@ -1,7 +1,7 @@
 model Categories {
   id                Int                 @id @default(autoincrement())
-  name              String
   type              Category
+  name              String
   Articles          Articles[]
   ArticlesSubmitted ArticlesSubmitted[]
 }
@@ -11,7 +11,7 @@ enum Category {
   DIGITAL
   CHRONOGRAPH
   SMARTWATCH
+  OTHER
   HYBRID
   LUXURY
-  OTHER
 }

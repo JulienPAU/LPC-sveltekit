@@ -1,24 +1,19 @@
 model Tags {
-  id   Int    @id @default(autoincrement())
-  name String
-
+  id       Int           @id @default(autoincrement())
+  name     String
   articles ArticleTags[]
 }
 
 model ArticleTags {
   article_id Int
   tag_id     Int
-
-  article Articles @relation(fields: [article_id], references: [id])
-  tag     Tags     @relation(fields: [tag_id], references: [id])
+  article    Articles @relation(fields: [article_id], references: [id])
+  tag        Tags     @relation(fields: [tag_id], references: [id])
 
   @@id([article_id, tag_id])
 }
 
-
-
 enum Tags_Name {
-  
   SPORT
   CASUAL
   DRESS
@@ -29,5 +24,4 @@ enum Tags_Name {
   CHRONOGRAPH
   LUXURY
   OTHER
-
 }

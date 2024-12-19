@@ -1,5 +1,5 @@
 model Watches {
-  id               Int     @id @default(autoincrement())
+  id               Int              @id @default(autoincrement())
   brand            String
   model            String
   movement         String?
@@ -7,16 +7,14 @@ model Watches {
   case_material    String?
   strap_material   String?
   type             Category
-
-  articles ArticleWatches[]
+  articles         ArticleWatches[]
 }
 
 model ArticleWatches {
   article_id Int
   watch_id   Int
-
-  article Articles @relation(fields: [article_id], references: [id])
-  watch   Watches  @relation(fields: [watch_id], references: [id])
+  article    Articles @relation(fields: [article_id], references: [id])
+  watch      Watches  @relation(fields: [watch_id], references: [id])
 
   @@id([article_id, watch_id])
 }

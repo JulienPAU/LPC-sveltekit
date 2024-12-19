@@ -47,8 +47,10 @@ summary {
 	color: white;
 }
 
-li:hover {
-	border-bottom: 2px solid #eab308;
+a:hover,
+summary:hover,
+.search:hover {
+	color: #eab308;
 }
 
 :is(h1, h2, h3, h4, h5, h6) {
@@ -74,19 +76,20 @@ h3 {
 	font-size: small;
 }
 
-header,
+/* header,
 footer,
 .menu-compact,
-.drop {
+.drop,
+{
 	background: linear-gradient(128deg, #000000, #343636, #181f30);
 	background-size: 600% 600%;
 
 	-webkit-animation: AnimationName 25s ease infinite;
 	-moz-animation: AnimationName 25s ease infinite;
 	animation: AnimationName 25s ease infinite;
-}
+} */
 
-@-webkit-keyframes AnimationName {
+/* @-webkit-keyframes AnimationName {
 	0% {
 		background-position: 2% 0%;
 	}
@@ -117,5 +120,28 @@ footer,
 	}
 	100% {
 		background-position: 2% 0%;
+	}
+} */
+
+.slide-in-bottom {
+	opacity: 0;
+	transform: translateY(1000px);
+	transition:
+		opacity 0.5s,
+		transform 0.5s;
+}
+
+.animate {
+	animation: slide-in-bottom 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes slide-in-bottom {
+	0% {
+		transform: translateY(1000px);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
 	}
 }

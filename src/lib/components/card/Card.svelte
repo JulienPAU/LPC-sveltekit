@@ -18,8 +18,9 @@
 	</figure>
 	<div class="card-body">
 		<h2 class="card-title font-light">{props.title}</h2>
-		<p class="mb-5 italic leading-3">
-			Par {props.author || 'Auteur inconnu'} dans {props.category || 'Catégorie inconnue'}
+		<p class="mb-5 text-sm leading-3">
+			Par <span class="italic"> {props.author || 'Auteur inconnu'}</span> dans
+			<span class="italic"> {props.category || 'Catégorie inconnue'}</span>
 		</p>
 		<div class="mb-5">{truncateText(props.content, 140) || 'Contenu indisponible'}</div>
 		<div class="card-actions justify-end">

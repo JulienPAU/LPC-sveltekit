@@ -2,7 +2,7 @@
 	import LPC_FAV_WLT from '$lib/assets/logos/LPC_FAV_WLT.svg';
 </script>
 
-<footer class="w-full">
+<footer class="w-full bg-gray-900">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex flex-col items-center justify-between gap-8 py-16 lg:flex-row">
 			<a href="/" class="flex justify-center" aria-label="Lien vers l'accueil">
@@ -22,7 +22,9 @@
 					<a href="javascript:;" class="text-white">Contact</a>
 				</li>
 				<li>
-					<a href="javascript:;" class="text-yellow-500">Proposer un article</a>
+					<a href="javascript:;" class="text-yellow-500 hover:text-yellow-400"
+						>Proposer un article</a
+					>
 				</li>
 			</ul>
 			<div class="flex space-x-4 sm:justify-center">

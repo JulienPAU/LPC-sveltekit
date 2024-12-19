@@ -2,14 +2,13 @@
 	import Navbar from './Navbar.svelte';
 	import digit from '$lib/assets/digit.png';
 	import DigitalClock from './DigitalClock.svelte';
-	import type { StringifyOptions } from 'querystring';
 
 	export let title: String, content: String;
 </script>
 
-<header class="mb-20 min-h-fit bg-gray-400 px-4">
+<header class=" min-h-fit bg-gray-900 px-4">
 	<Navbar />
-	<div class="mb-10 flex flex-col items-center justify-center md:flex-row">
+	<div class=" flex flex-col items-center justify-center md:flex-row">
 		<div class="flex items-center justify-center md:order-last md:w-2/5">
 			<img src={digit} alt="Casio" class="w-3/5" />
 			<div class="absolute">
@@ -22,7 +21,7 @@
 		>
 			<h1 class="mb-10 text-yellow-500">{title}</h1>
 
-			<p class=" mb-14 text-justify text-lg leading-loose">
+			<p class=" mb-14 text-justify text-xl font-semibold">
 				{content}
 			</p>
 		</div>

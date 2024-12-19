@@ -61,6 +61,7 @@ async function main() {
 					id: parseInt(user.id),
 					last_name: user.last_name,
 					first_name: user.first_name,
+					username: user.username,
 					email: user.email,
 					password: user.password,
 					role: user.role

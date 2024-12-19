@@ -5,6 +5,7 @@
 	import Glycine from '$lib/assets/watches/Glycine.png';
 
 	import type { PageData } from './$types';
+	import SectionTitle from '$lib/components/SectionTitle.svelte';
 
 	export let data: PageData;
 
@@ -15,15 +16,15 @@
 	const remainingArticles = articles.slice(2); // Tous les articles après
 </script>
 
-<h2 class="mb-16 text-center">Derniers articles</h2>
-<section class="mb-20 flex w-full flex-wrap justify-center gap-10">
+<SectionTitle title="Derniers articles" />
+<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20 xl:gap-20">
 	{#each firstTwoArticles as article}
 		<Card
 			props={{
 				title: article.title,
 				content: article.content,
 				imageUrl: Glycine,
-				author: article.user.last_name,
+				author: article.user.username,
 				category: article.category.name
 			}}
 		/>
@@ -31,8 +32,8 @@
 </section>
 
 <Band />
-<h2 class="mb-16 text-center">Tous les articles</h2>
 
+<SectionTitle title="Tous les articles" />
 <section class="mb-20 flex w-full flex-wrap justify-center gap-10">
 	{#each remainingArticles as article}
 		<Card
@@ -40,7 +41,7 @@
 				title: article.title,
 				content: article.content,
 				imageUrl: Glycine,
-				author: article.user.last_name,
+				author: article.user.username,
 				category: article.category.name
 			}}
 		/>
@@ -55,6 +56,5 @@
 		></a
 	>
 </div>
-<h2 class="mb-16 text-center">Galerie</h2>
-
+<SectionTitle title="Galerie" />
 <Carousel />

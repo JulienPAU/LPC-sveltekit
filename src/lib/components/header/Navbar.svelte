@@ -4,7 +4,7 @@
 </script>
 
 <!-- sticky top-5 -->
-<navbar class=" navbar z-50 mx-0 w-auto rounded-2xl px-0 pt-5 text-white sm:mx-0 sm:mb-5 lg:mb-20">
+<navbar class=" navbar z-50 mx-0 w-auto rounded-2xl px-0 pt-5 text-white sm:mx-0 sm:mb-5">
 	<!-- Navbar Start -->
 	<div class="navbar-start">
 		<!-- Mobile menu burger -->
@@ -64,7 +64,7 @@
 				</svg>
 			</button>
 			<ul
-				class={`menu-compact menu dropdown-content z-50 mt-3 w-52 rounded-box bg-[#484C4F] p-2 shadow ${
+				class={`menu-compact menu dropdown-content z-50 mt-3 w-52 rounded-box bg-gray-900 p-2 shadow ${
 					isMenuOpen ? 'block' : 'hidden'
 				}`}
 			>
@@ -84,13 +84,13 @@
 
 		<!-- Desktop links -->
 		<div class="hidden lg:flex">
-			<ul class="menu menu-horizontal p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
+			<ul class="menu menu-horizontal bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
 				<li><a href="/" class="border-none">Accueil</a></li>
 				<li><a href="articles">Articles</a></li>
 				<li>
 					<details>
 						<summary>Divers</summary>
-						<ul class="drop rounded-t-none bg-gray-600 p-2">
+						<ul class="drop rounded-t-none bg-gray-900 p-2">
 							<li><a href="/">Wiki</a></li>
 							<li><a href="/">Lexique</a></li>
 						</ul>
@@ -107,7 +107,7 @@
 
 	<!-- Navbar End -->
 	<div class="navbar-end">
-		<button class="btn btn-ghost p-0" aria-label="Search">
+		<button class="search btn btn-ghost p-0" aria-label="Search">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-5 w-5"
@@ -125,7 +125,7 @@
 		</button>
 		<div class="lg:flex">
 			<ul class="menu menu-horizontal px-1 sm:text-sm md:text-lg lg:text-lg">
-				<li><a href="/">Login</a></li>
+				<li><a href="/auth/signin">Login</a></li>
 			</ul>
 		</div>
 	</div>

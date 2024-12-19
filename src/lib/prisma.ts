@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client'
 
 interface CustomNodeJsGlobal {
     prisma: PrismaClient
+    log: ['query', 'info', 'warn', 'error'],
+
 }
 
 declare const global: CustomNodeJsGlobal
