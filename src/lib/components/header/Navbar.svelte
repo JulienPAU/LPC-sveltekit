@@ -4,7 +4,7 @@
 </script>
 
 <!-- sticky top-5 -->
-<navbar class=" navbar z-50 mx-0 w-auto rounded-2xl px-0 pt-5 text-white sm:mx-0 sm:mb-5">
+<navbar class="  navbar z-50 mx-0 w-auto bg-gray-900 px-0 pt-5 text-white sm:mx-0">
 	<!-- Navbar Start -->
 	<div class="navbar-start">
 		<!-- Mobile menu burger -->
@@ -64,7 +64,7 @@
 				</svg>
 			</button>
 			<ul
-				class={`menu-compact menu dropdown-content z-50 mt-3 w-52 rounded-box bg-gray-900 p-2 shadow ${
+				class={`menu-compact menu dropdown-content z-50 mt-3 w-52 rounded-b-lg bg-gray-900 p-2 shadow ${
 					isMenuOpen ? 'block' : 'hidden'
 				}`}
 			>
@@ -86,7 +86,7 @@
 		<div class="hidden lg:flex">
 			<ul class="menu menu-horizontal bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
 				<li><a href="/" class="border-none">Accueil</a></li>
-				<li><a href="articles">Articles</a></li>
+				<li><a href="/articles">Articles</a></li>
 				<li>
 					<details>
 						<summary>Divers</summary>
@@ -102,7 +102,7 @@
 
 	<!-- Navbar Center -->
 	<div class="navbar-center">
-		<a href="/"><img alt="logo" src={LPC_WC} class="lg:h-30 h-14 object-contain md:h-20" /></a>
+		<a href="/"><img alt="logo" src={LPC_WC} class="lg:h-30 mb-3 h-14 object-contain md:h-20" /></a>
 	</div>
 
 	<!-- Navbar End -->

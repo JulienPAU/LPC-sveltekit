@@ -6,7 +6,7 @@
 	export let title: String, content: String;
 </script>
 
-<header class=" min-h-fit bg-gray-900 px-4">
+<header class=" min-h-fit bg-gray-900">
 	<Navbar />
 	<div class=" flex flex-col items-center justify-center md:flex-row">
 		<div class="flex items-center justify-center md:order-last md:w-2/5">

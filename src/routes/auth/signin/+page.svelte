@@ -14,6 +14,8 @@
 		if (!response.ok) {
 			errorMessage = result.message || 'Une erreur est survenue.';
 		}
+
+		window.location.href = '/dashboard/profil';
 	}
 </script>
 

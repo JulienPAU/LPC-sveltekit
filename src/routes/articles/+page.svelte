@@ -1,12 +1,15 @@
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
 	import Glycine from '$lib/assets/watches/Glycine.png';
+	import SectionTitle from '$lib/components/SectionTitle.svelte';
 
 	export let data;
 	const { articles } = data;
 </script>
 
-<section class="mb-20 flex w-full flex-wrap justify-center gap-10">
+<SectionTitle title="Articles" />
+
+<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20">
 	{#each articles as article}
 		<Card
 			props={{

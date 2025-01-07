@@ -30,7 +30,7 @@
 			/>
 		</div>
 		<div class="carousel-item h-[500px]">
-			<img src="src/lib/assets/watches/Humism.jpg" alt="Drink" class="h-full w-full object-cover" />
+			<img src="src/lib/assets/watches/Humism.png" alt="Drink" class="h-full w-full object-cover" />
 		</div>
 		<div class="carousel-item h-[500px]">
 			<img src="src/lib/assets/watches/olto.jpg" alt="Drink" class="h-full w-full object-cover" />

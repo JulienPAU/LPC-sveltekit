@@ -15,7 +15,7 @@
 					<a href="javascript:;" class="text-white">Les Petits Cadrans</a>
 				</li> -->
 				<li class="my-2 sm:my-0">
-					<a href="articles" class="text-white">Articles</a>
+					<a href="/articles" class="text-white">Articles</a>
 				</li>
 				<li><a href="javascript:;" class="text-white">Lexique</a></li>
 				<li class="my-2 sm:my-0">

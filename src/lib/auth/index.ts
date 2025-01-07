@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import prisma from '$lib/prisma';
 import { JWT_SECRET_Key } from '$env/static/private';
 
-// Login utilisateur
+
 export async function login(email: string, password: string) {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -15,13 +15,11 @@ export async function login(email: string, password: string) {
     return { token, user: { id: user.id, first_name: user.first_name, last_name: user.last_name } };
 }
 
-// Enregistrer un nouvel utilisateur
 export async function signup(email: string, password: string, first_name: string, last_name: string, username: string) {
     if (!email || !username) {
         throw new Error("L'email et le nom d'utilisateur sont requis.");
     }
 
-    // Vérifie si l'utilisateur existe déjà par email ou username
     const existingUser = await prisma.user.findFirst({
         where: {
             OR: [{ email }, { username }],
@@ -37,10 +35,8 @@ export async function signup(email: string, password: string, first_name: string
         }
     }
 
-    // Hash du mot de passe
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Création du nouvel utilisateur
     return prisma.user.create({
         data: {
             email,
