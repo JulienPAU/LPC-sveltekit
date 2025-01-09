@@ -125,7 +125,7 @@
 		</button>
 		<div class="lg:flex">
 			<ul class="menu menu-horizontal px-1 sm:text-sm md:text-lg lg:text-lg">
-				<li><a href="/auth/signin">Login</a></li>
+				<li><a href="/auth/login">Login</a></li>
 			</ul>
 		</div>
 	</div>

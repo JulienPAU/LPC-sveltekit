@@ -20,7 +20,7 @@ export async function POST({ request }) {
             user: { id: newUser.id, email: newUser.email },
         });
     } catch (err) {
-        console.error('Erreur lors de la création du compte :', err);
+        console.error('Erreur lors de la création du compte:', err);
 
         if (err instanceof Error) {
             if (err.message.includes('email')) {
@@ -29,7 +29,7 @@ export async function POST({ request }) {
             if (err.message.includes('nom d\'utilisateur')) {
                 throw error(409, 'Ce nom d\'utilisateur est déjà pris.');
             }
-            throw error(500, err.message); // Erreur interne
+            throw error(500, err.message);
         }
 
         throw error(500, 'Une erreur inconnue est survenue.');

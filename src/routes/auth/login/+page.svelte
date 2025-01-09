@@ -1,6 +1,10 @@
 <script lang="ts">
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
 
+	import { signIn, signOut } from '@auth/sveltekit/client';
+
+	let password: string;
+
 	let errorMessage = '';
 
 	async function handleSignin(event: Event) {
@@ -50,7 +54,9 @@
 				</svg>
 			</div>
 
-			<span class="w-5/6 px-4 py-3 text-center font-bold">Se connecter avec Google</span>
+			<button on:click={() => signIn('google')} class="w-5/6 px-4 py-3 text-center font-bold"
+				>Se connecter avec Google</button
+			>
 		</a>
 
 		<div class="mt-4 flex items-center justify-between">
@@ -113,3 +119,32 @@
 		</div>
 	</div>
 </div>
+
+<!-- 
+<section id="test">
+	<h1>SvelteKit Auth Example</h1>
+	<nav>
+		<p>
+			These actions are all using the methods exported from
+			<code>@auth/sveltekit/client</code>
+		</p>
+		<div class="actions">
+			<div class="wrapper-form">
+				<button on:click={() => signIn('google')} class="w-5/6 px-4 py-3 text-center font-bold">Se connecter avec Google</button>
+			</div>
+			<div class="wrapper-form">
+				<button on:click={() => signIn('discord')}>Sign In with Discord</button>
+			</div>
+			<div class="wrapper-form">
+				<div class="input-wrapper">
+					<label for="password">Password</label>
+					<input bind:value={password} type="password" id="password" name="password" required />
+				</div>
+				<button on:click={() => signIn('credentials', { password })}>
+					Sign In with Credentials
+				</button>
+				<button on:click={() => signOut()}> Sign Out </button>
+			</div>
+		</div>
+	</nav>
+</section> -->

@@ -14,6 +14,10 @@
 	// Séparez les articles en deux groupes
 	const firstTwoArticles = articles.slice(0, 2); // Les deux premiers
 	const remainingArticles = articles.slice(2); // Tous les articles après
+
+	import { signIn, signOut } from '@auth/sveltekit/client';
+
+	let password: string;
 </script>
 
 <SectionTitle title="Derniers articles" />
