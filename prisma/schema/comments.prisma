@@ -1,6 +1,6 @@
 model Comments {
   id           Int      @id @default(autoincrement())
-  user_id      Int
+  user_id      String
   article_id   Int
   content      String
   comment_date DateTime

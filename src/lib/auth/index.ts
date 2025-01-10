@@ -1,23 +1,28 @@
+// lib/user.ts
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import prisma from '$lib/prisma';
-import { JWT_SECRET_Key } from '$env/static/private';
 
+function validatePassword(password: string): boolean {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*]/.test(password);
 
-export async function login(email: string, password: string) {
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-        throw new Error('Email ou mot de passe incorrect.');
-    }
-
-    // Générer un token JWT
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET_Key, { expiresIn: '1h' });
-    return { token, user: { id: user.id, first_name: user.first_name, last_name: user.last_name } };
+    return password.length >= minLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasNumbers &&
+        hasSpecialChar;
 }
 
-export async function signup(email: string, password: string, first_name: string, last_name: string, username: string) {
+export async function createUser(email: string, password: string, first_name: string, last_name: string, username: string) {
     if (!email || !username) {
         throw new Error("L'email et le nom d'utilisateur sont requis.");
+    }
+
+    if (!validatePassword(password)) {
+        throw new Error("Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.");
     }
 
     const existingUser = await prisma.user.findFirst({
@@ -41,19 +46,12 @@ export async function signup(email: string, password: string, first_name: string
         data: {
             email,
             password: hashedPassword,
-            first_name: first_name,
-            last_name: last_name,
+            first_name,
+            last_name,
             username,
+            role: 'READER',
         },
     });
 }
 
 
-// Vérifier le token JWT
-export function verifyToken(token: string) {
-    try {
-        return jwt.verify(token, JWT_SECRET_Key);
-    } catch {
-        return null;
-    }
-}

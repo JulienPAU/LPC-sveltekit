@@ -1,5 +1,5 @@
 model User {
-  id                Int                 @id @default(autoincrement())
+  id                String                 @id @default(cuid())
 
   last_name         String
   first_name        String
@@ -7,6 +7,7 @@ model User {
   password          String
   role              String?             @default("READER")
   username          String?             @unique
+  profile_picture           String?
   
   accounts          Account[]
   articles          Articles[]
@@ -15,11 +16,15 @@ model User {
   favorites         Favorites[]
   sessions          Session[]
   User_Role         User_Role[]
+
+  authProvider String?    // Pour identifier si c'est Google ou email/password
+  verified     Boolean    @default(false)
+  lastLogin    DateTime?
 }
 
 model User_Role {
   id      Int      @id @default(autoincrement())
-  user_id Int
+  user_id String
   role    RoleType @default(READER)
   user    User     @relation(fields: [user_id], references: [id])
 }

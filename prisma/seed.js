@@ -58,7 +58,7 @@ async function main() {
 		for (const user of users) {
 			await prisma.user.create({
 				data: {
-					id: parseInt(user.id),
+					id: user.id,
 					last_name: user.last_name,
 					first_name: user.first_name,
 					username: user.username,
@@ -96,7 +96,7 @@ async function main() {
 					content: article.content,
 					images: article.images,
 					publish_date: new Date(article.publish_date),
-					user_id: parseInt(article.user_id),
+					user_id: article.user_id,
 					category_id: parseInt(article.category_id),
 					status: article.status,
 					article_type: article.article_type
@@ -113,7 +113,7 @@ async function main() {
 					title: article.title,
 					content: article.content,
 					images: article.images,
-					user_id: parseInt(article.user_id),
+					user_id: article.user_id,
 					category_id: parseInt(article.category_id),
 					article_type: article.article_type,
 					submit_date: new Date(article.submit_date)
@@ -129,7 +129,7 @@ async function main() {
 					id: parseInt(comment.id),
 					content: comment.content,
 					comment_date: new Date(comment.comment_date),
-					user_id: parseInt(comment.user_id),
+					user_id: comment.user_id,
 					article_id: parseInt(comment.article_id)
 				}
 			});
@@ -151,7 +151,7 @@ async function main() {
 		for (const favorite of favorites) {
 			await prisma.favorites.create({
 				data: {
-					user_id: parseInt(favorite.user_id),
+					user_id: favorite.user_id,
 					article_id: parseInt(favorite.article_id)
 				}
 			});

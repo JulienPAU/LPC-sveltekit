@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
 
 	let errorMessage = '';
@@ -13,6 +14,8 @@
 
 		if (!response.ok) {
 			errorMessage = result.message || 'Une erreur est survenue.';
+		} else {
+			goto('/auth/login');
 		}
 	}
 </script>

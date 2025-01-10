@@ -1,7 +1,18 @@
-// import { redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
-// export function load({ cookies }) {
-//     if (!cookies.get('logged_in')) {
-//         redirect(303, `/login?redirectTo="/"`);
-//     }
-// }
+export const load = async (event) => {
+    const session = await event.locals.auth();
+
+
+    if (!session?.user) {
+        throw redirect(302, '/auth/login');
+    }
+    console.log("Session:", session?.user);
+    return {
+
+
+        user: session.user
+    };
+};
+
+

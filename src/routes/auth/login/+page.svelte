@@ -1,25 +1,39 @@
 <script lang="ts">
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
+	import { signIn } from '@auth/sveltekit/client';
+	import { goto } from '$app/navigation';
 
-	import { signIn, signOut } from '@auth/sveltekit/client';
-
-	let password: string;
-
-	let errorMessage = '';
+	let error = '';
 
 	async function handleSignin(event: Event) {
-		const formData = new FormData(event.target as HTMLFormElement);
-		const response = await fetch('/api/auth/login', {
-			method: 'POST',
-			body: JSON.stringify(Object.fromEntries(formData))
+		event.preventDefault();
+		const formElement = event.target as HTMLFormElement;
+		const formData = new FormData(formElement);
+		const email = formData.get('email') as string;
+		const password = formData.get('password') as string;
+
+		const result = await signIn('credentials', {
+			email,
+			password,
+			redirect: false
 		});
-		const result = await response.json();
 
-		if (!response.ok) {
-			errorMessage = result.message || 'Une erreur est survenue.';
+		if (!result?.ok) {
+			error = 'Email ou mot de passe incorrect';
+		} else {
+			goto('/dashboard');
 		}
-
-		window.location.href = '/dashboard/profil';
+	}
+	async function handleGoogleSignin() {
+		try {
+			await signIn('google', {
+				callbackUrl: '/dashboard',
+				redirect: true
+			});
+		} catch (error) {
+			console.error('Erreur lors de la connexion avec Google:', error);
+			error = 'Erreur lors de la connexion avec Google.';
+		}
 	}
 </script>
 
@@ -54,7 +68,7 @@
 				</svg>
 			</div>
 
-			<button on:click={() => signIn('google')} class="w-5/6 px-4 py-3 text-center font-bold"
+			<button on:click={handleGoogleSignin} class="w-5/6 px-4 py-3 text-center font-bold"
 				>Se connecter avec Google</button
 			>
 		</a>

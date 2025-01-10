@@ -1,6 +1,6 @@
-id,last_name,first_name,username,email,password,User_role
-1,Admin, Principal,admin,admin@watches.com,123,ADMIN
-2,Jean, Gene,Cleanse,jean@watches.com,123,EDITOR
-3,Marie, Thérèse,amen,marie@gmail.com,123,EDITOR
-4,Pierre, Richard,Blond,pierre@watches.com,123,EDITOR
-5,Sophie, Marceau,Maupu,sophie@gmail.com,123,MODERATOR
+id,last_name,first_name,username,email,password,role
+"1",Admin, Principal,admin,admin@watches.com,123,ADMIN
+"2",Jean, Gene,Cleanse,jean@watches.com,123,EDITOR
+"3",Marie, Thérèse,amen,marie@gmail.com,123,EDITOR
+"4",Pierre, Richard,Blond,pierre@watches.com,123,EDITOR
+"5",Sophie, Marceau,Maupu,sophie@gmail.com,123,MODERATOR
