@@ -125,6 +125,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
             }
             return session;
         }
+
     },
     secret: process.env.AUTH_SECRET, // secret provenant des variables d'environnement
     trustHost: true

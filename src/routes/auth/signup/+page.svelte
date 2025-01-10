@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
+	import { signIn } from '@auth/sveltekit/client';
 
 	let errorMessage = '';
 
@@ -16,6 +17,18 @@
 			errorMessage = result.message || 'Une erreur est survenue.';
 		} else {
 			goto('/auth/login');
+		}
+	}
+
+	async function handleGoogleSignin() {
+		try {
+			await signIn('google', {
+				callbackUrl: '/dashboard',
+				redirect: true
+			});
+		} catch (error) {
+			console.error('Erreur lors de la connexion avec Google:', error);
+			error = 'Erreur lors de la connexion avec Google.';
 		}
 	}
 </script>
@@ -51,7 +64,9 @@
 				</svg>
 			</div>
 
-			<span class="w-5/6 px-4 py-3 text-center font-bold">Se connecter avec Google</span>
+			<button on:click={handleGoogleSignin} class="w-5/6 px-4 py-3 text-center font-bold"
+				>Se connecter avec Google</button
+			>
 		</a>
 
 		<div class="mt-4 flex items-center justify-between">
