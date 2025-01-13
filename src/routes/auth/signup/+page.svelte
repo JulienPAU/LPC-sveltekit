@@ -158,5 +158,14 @@
 				</button>
 			</div>
 		</form>
+		<div class="mt-4 flex items-center justify-between">
+			<span class="w-1/5 border-b md:w-1/4 dark:border-gray-600"></span>
+
+			<a href="login" class="text-xs uppercase text-gray-500 hover:underline dark:text-gray-400"
+				>Se connecter</a
+			>
+
+			<span class="w-1/5 border-b md:w-1/4 dark:border-gray-600"></span>
+		</div>
 	</div>
 </div>

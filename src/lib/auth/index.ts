@@ -50,6 +50,11 @@ export async function createUser(email: string, password: string, first_name: st
             last_name,
             username,
             role: 'READER',
+            User_Role: {
+                create: {
+                    role: "READER"
+                }
+            }
         },
     });
 }
