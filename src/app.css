@@ -59,11 +59,12 @@ summary:hover,
 	font-family: 'Orelega One', serif;
 	letter-spacing: 0.2rem;
 }
-.burger_menu {
+/* .burger_menu {
 	width: 30px;
 	margin: 0 auto;
 	display: block;
-}
+} */
+
 h1 {
 	font-size: clamp(2rem, 5vw, 2.5rem);
 }

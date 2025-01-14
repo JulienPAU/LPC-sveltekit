@@ -31,8 +31,8 @@
 			</div>
 			{#if isMenuOpen}
 				<ul class="menu-compact menu bg-gray-800 p-4 text-gray-100">
-					<li><a href="#">Dashboard</a></li>
-					<li><a href="#">Customers</a></li>
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a href="/dashboard/profil">Profil</a></li>
 					<li><a href="#">Milestones</a></li>
 					<li><a href="#">Team</a></li>
 					<li><a href="#">Tasks</a></li>

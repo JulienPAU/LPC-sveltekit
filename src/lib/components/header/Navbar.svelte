@@ -9,65 +9,26 @@
 	<!-- Navbar Start -->
 	<div class="navbar-start">
 		<!-- Mobile menu burger -->
-		<div class="dropdown">
-			<button
-				type="button"
-				class="btn btn-ghost lg:hidden"
-				aria-label="Toggle navigation menu"
-				on:click={() => (isMenuOpen = !isMenuOpen)}
-			>
+		<div class="dropdown px-2 lg:hidden">
+			<div tabindex="0" role="button" class="btn btn-circle btn-ghost">
 				<svg
-					class="burger_menu"
-					xmlns="$lib\assets\burger\menu.svg"
-					viewBox="0 0 10 10"
-					stroke="#eee"
-					stroke-width=".6"
-					fill="rgba(0,0,0,0)"
-					stroke-linecap="round"
-					style="cursor: pointer"
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
 				>
-					<path d="M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7">
-						<animate
-							dur="0.2s"
-							attributeName="d"
-							values="M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7;M3,3L5,5L7,3M5,5L5,5M3,7L5,5L7,7"
-							fill="freeze"
-							begin="start.begin"
-						/>
-						<animate
-							dur="0.2s"
-							attributeName="d"
-							values="M3,3L5,5L7,3M5,5L5,5M3,7L5,5L7,7;M2,3L5,3L8,3M2,5L8,5M2,7L5,7L8,7"
-							fill="freeze"
-							begin="reverse.begin"
-						/>
-					</path>
-					<rect width="10" height="10" stroke="none">
-						<animate dur="2s" id="reverse" attributeName="width" begin="click" />
-					</rect>
-					<rect width="10" height="10" stroke="none">
-						<animate
-							dur="0.001s"
-							id="start"
-							attributeName="width"
-							values="10;0"
-							fill="freeze"
-							begin="click"
-						/>
-						<animate
-							dur="0.001s"
-							attributeName="width"
-							values="0;10"
-							fill="freeze"
-							begin="reverse.begin"
-						/>
-					</rect>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 6h16M4 12h16M4 18h16M4"
+					/>
 				</svg>
-			</button>
-			<ul
-				class={`menu-compact menu dropdown-content z-50 mt-3 w-52 rounded-b-lg bg-gray-900 p-2 shadow ${
-					isMenuOpen ? 'block' : 'hidden'
-				}`}
+			</div>
+			<button
+				tabindex="0"
+				class="menu dropdown-content menu-sm z-[1] mt-3 w-40 gap-5 rounded-b-lg bg-gray-900 p-2 shadow"
 			>
 				<li><a href="/">Accueil</a></li>
 				<li><a href="articles">Articles</a></li>
@@ -80,7 +41,7 @@
 						</ul>
 					</details>
 				</li>
-			</ul>
+			</button>
 		</div>
 
 		<!-- Desktop links -->
@@ -125,7 +86,7 @@
 			</svg>
 		</button>
 		<div class="lg:flex">
-			<ul class="menu menu-horizontal px-3 sm:text-sm md:text-lg lg:text-lg">
+			<ul class="menu menu-horizontal px-5 sm:text-sm md:text-lg lg:text-lg">
 				{#if $page?.data?.session}
 					<div class="dropdown dropdown-left lg:dropdown-hover">
 						<button class="avatar cursor-pointer" tabindex="0">
