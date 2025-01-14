@@ -3,7 +3,7 @@ import { error, json } from '@sveltejs/kit';
 export const GET = async (event) => {
     // Récupération de la session utilisateur
     const session = await event.locals.auth();
-    console.log("Session:", session);
+    // console.log("Session:", session);
 
     // Vérification de l'authentification
     if (!session || !session.user) {

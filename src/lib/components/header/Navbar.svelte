@@ -1,5 +1,9 @@
 <script>
 	import LPC_WC from '$lib/assets/logos/LPC_WC.svg';
+	import { page } from '$app/stores';
+
+	console.log($page.data.session);
+
 	let isMenuOpen = false;
 </script>
 
@@ -124,8 +128,35 @@
 			</svg>
 		</button>
 		<div class="lg:flex">
-			<ul class="menu menu-horizontal px-1 sm:text-sm md:text-lg lg:text-lg">
-				<li><a href="/auth/login">Login</a></li>
+			<ul class="menu menu-horizontal px-3 sm:text-sm md:text-lg lg:text-lg">
+				{#if $page?.data?.session}
+					<div class="dropdown dropdown-left lg:dropdown-hover">
+						<button class="avatar cursor-pointer" tabindex="0">
+							<div class="w-10 rounded-full border border-yellow-500 text-sm">
+								<img
+									src={$page?.data?.session?.user?.image ||
+										$page?.data?.session?.user?.profile_picture ||
+										'src/lib/assets/user.png'}
+									alt="Avatar"
+								/>
+							</div>
+						</button>
+						<ul
+							class=" menu dropdown-content z-[1] w-52 rounded-box border border-yellow-500 bg-gray-900 p-2 shadow"
+						>
+							<li><a href="/dashboard">Dashboard</a></li>
+							<li><a href="/dashboard/profil">Profil</a></li>
+							<!-- <li><a href="/settings">Paramètres</a></li> -->
+							<li>
+								<form method="POST" action="/auth/signout">
+									<button type="submit" class="deco w-full text-left">Déconnexion</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+				{:else}
+					<li><a href="/auth/login">Login</a></li>
+				{/if}
 			</ul>
 		</div>
 	</div>

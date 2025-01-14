@@ -29,7 +29,8 @@ body {
 }
 
 a,
-summary {
+summary,
+.deco {
 	font-family:
 		Roboto,
 		system-ui,
@@ -49,7 +50,8 @@ summary {
 
 a:hover,
 summary:hover,
-.search:hover {
+.search:hover,
+.deco:hover {
 	color: #eab308;
 }
 

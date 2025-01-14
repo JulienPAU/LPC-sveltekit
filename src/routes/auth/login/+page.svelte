@@ -21,7 +21,9 @@
 		if (!result?.ok) {
 			error = 'Email ou mot de passe incorrect';
 		} else {
-			goto('/dashboard');
+			goto('/dashboard').then(() => {
+				location.reload(); // Force le rafraîchissement de la page
+			});
 		}
 	}
 	async function handleGoogleSignin() {
