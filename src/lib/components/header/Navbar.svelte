@@ -1,9 +1,6 @@
 <script>
 	import LPC_WC from '$lib/assets/logos/LPC_WC.svg';
 	import { page } from '$app/stores';
-
-	console.log($page.data.session);
-
 	let isMenuOpen = false;
 </script>
 

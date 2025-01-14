@@ -157,7 +157,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                 (session.user as CustomUser).id = token.id as string;
                 (session.user as CustomUser).email = token.email as string;
                 (session.user as CustomUser).User_Role = token.User_Role as string;
-                (session.user as CustomUser).profile_picture = token.profile_picture as string || "src/lib/assets/user.png";
+                (session.user as CustomUser).profile_picture = token.profile_picture as string || "/src/lib/assets/user.png";
                 // (session.user as CustomUser).role = token.role as string;
                 // Ajoute les autres champs nécessaires au session.user
             }
