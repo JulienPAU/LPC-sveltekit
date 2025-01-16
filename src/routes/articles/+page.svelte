@@ -1,15 +1,14 @@
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
 	import Glycine from '$lib/assets/watches/Glycine.png';
-	import SectionTitle from '$lib/components/SectionTitle.svelte';
 
 	export let data;
 	const { articles } = data;
 </script>
 
-<SectionTitle title="Articles" />
+<!-- <SectionTitle title="Articles" /> -->
 
-<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20">
+<section class="mb-20 mt-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20">
 	{#each articles as article}
 		<Card
 			props={{
@@ -32,7 +31,7 @@
 		</button></a
 	>
 
-	<a href="#">
+	<a href="/articles">
 		<button
 			class="btn mb-20 bg-yellow-500 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 			>Charger +

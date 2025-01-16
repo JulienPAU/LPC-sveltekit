@@ -31,7 +31,7 @@
 				class="menu dropdown-content menu-sm z-[1] mt-3 w-40 gap-5 rounded-b-lg bg-gray-900 p-2 shadow"
 			>
 				<li><a href="/">Accueil</a></li>
-				<li><a href="articles">Articles</a></li>
+				<li><a href="/articles">Articles</a></li>
 				<li>
 					<details>
 						<summary>Divers</summary>

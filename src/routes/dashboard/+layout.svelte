@@ -47,10 +47,8 @@
 		<nav class="menu h-screen w-64 space-y-2 bg-gray-700 p-4 text-gray-100">
 			<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
 			<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
-			<li><a href="#" class="hover:bg-gray-600">Milestones</a></li>
-			<li><a href="#" class="hover:bg-gray-600">Team</a></li>
-			<li><a href="#" class="hover:bg-gray-600">Tasks</a></li>
-			<li><a href="#" class="hover:bg-gray-600">Settings</a></li>
+			<li><a href="#" class="hover:bg-gray-600">Mes articles</a></li>
+			<li><a href="#" class="hover:bg-gray-600">Déconnexion</a></li>
 		</nav>
 		<main class="flex-1 bg-gray-100 p-4">
 			{@render children()}
