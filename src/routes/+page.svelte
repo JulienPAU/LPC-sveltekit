@@ -14,8 +14,6 @@
 	// Séparez les articles en deux groupes
 	const firstTwoArticles = articles.slice(0, 2); // Les deux premiers
 	const remainingArticles = articles.slice(2); // Tous les articles après
-
-	let password: string;
 </script>
 
 <SectionTitle title="Derniers articles" />
@@ -27,7 +25,8 @@
 				content: article.content,
 				imageUrl: Glycine,
 				author: article.user.username,
-				category: article.category.name
+				category: article.category.name,
+				id: article.id
 			}}
 		/>
 	{/each}
@@ -44,7 +43,8 @@
 				content: article.content,
 				imageUrl: Glycine,
 				author: article.user.username,
-				category: article.category.name
+				category: article.category.name,
+				id: article.id
 			}}
 		/>
 	{/each}

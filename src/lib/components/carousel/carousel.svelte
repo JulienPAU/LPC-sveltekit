@@ -14,36 +14,40 @@
 	<div bind:this={carousel} class="carousel carousel-end mb-20">
 		<div class="carousel-item h-[500px]">
 			<img
-				src="src/lib/assets/watches/Boderry_voyager.JPG"
+				src="/src/lib/assets/watches/Boderry_voyager.JPG"
 				alt="Drink"
 				class="h-full w-full object-cover"
 			/>
 		</div>
 		<div class="carousel-item h-[500px]">
-			<img src="src/lib/assets/watches/casio.png" alt="Drink" class="h-full w-full object-cover" />
+			<img src="/src/lib/assets/watches/casio.png" alt="Drink" class="h-full w-full object-cover" />
 		</div>
 		<div class="carousel-item h-[500px]">
 			<img
-				src="src/lib/assets/watches/Glycine.png"
+				src="/src/lib/assets/watches/Glycine.png"
 				alt="Drink"
 				class="h-full w-full object-cover"
 			/>
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img src="src/lib/assets/watches/Humism.png" alt="Drink" class="h-full w-full object-cover" />
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img src="src/lib/assets/watches/olto.jpg" alt="Drink" class="h-full w-full object-cover" />
 		</div>
 		<div class="carousel-item h-[500px]">
 			<img
-				src="src/lib/assets/watches/seagull.JPG"
+				src="/src/lib/assets/watches/Humism.png"
 				alt="Drink"
 				class="h-full w-full object-cover"
 			/>
 		</div>
 		<div class="carousel-item h-[500px]">
-			<img src="src/lib/assets/watches/seiko.JPG" alt="Drink" class="h-full w-full object-cover" />
+			<img src="/src/lib/assets/watches/olto.jpg" alt="Drink" class="h-full w-full object-cover" />
+		</div>
+		<div class="carousel-item h-[500px]">
+			<img
+				src="/src/lib/assets/watches/seagull.JPG"
+				alt="Drink"
+				class="h-full w-full object-cover"
+			/>
+		</div>
+		<div class="carousel-item h-[500px]">
+			<img src="/src/lib/assets/watches/seiko.JPG" alt="Drink" class="h-full w-full object-cover" />
 		</div>
 	</div>
 

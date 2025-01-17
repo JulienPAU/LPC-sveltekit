@@ -38,3 +38,9 @@ export function onScroll(node: HTMLElement): OnScrollReturn {
 		}
 	};
 }
+
+
+export function formatDate(date: string): string {
+	const options = { year: 'numeric' as const, month: 'long' as const, day: 'numeric' as const };
+	return new Date(date).toLocaleDateString('fr-FR', options);
+}

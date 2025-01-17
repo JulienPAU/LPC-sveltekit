@@ -16,7 +16,8 @@
 				content: article.content,
 				imageUrl: Glycine,
 				author: article.user.last_name,
-				category: article.category.name
+				category: article.category.name,
+				id: article.id
 			}}
 		/>
 	{/each}

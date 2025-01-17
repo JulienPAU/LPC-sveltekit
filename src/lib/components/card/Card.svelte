@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { truncateText } from '$lib/utils';
 
 	export let props = {
@@ -6,7 +6,8 @@
 		content: '',
 		imageUrl: 'https://via.placeholder.com/150',
 		author: 'Auteur inconnu',
-		category: 'Catégorie inconnue'
+		category: 'Catégorie inconnue',
+		id: 0
 	};
 </script>
 
@@ -24,7 +25,7 @@
 		</p>
 		<div class="mb-5">{truncateText(props.content, 140) || 'Contenu indisponible'}</div>
 		<div class="card-actions justify-end">
-			<a href="articles" class="before:content[''] before:absolute before:inset-0">
+			<a href="/articles/{props.id}" class="before:content[''] before:absolute before:inset-0">
 				<!-- <button
 					class="btn bg-yellow-500 text-xl hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 					>+</button

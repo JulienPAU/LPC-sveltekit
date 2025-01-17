@@ -11,6 +11,14 @@ export async function GET({ params }: { params: { id: string } }) {
 
     const article = await prisma.articles.findUnique({
         where: { id },
+        include: {
+            user: {
+                select: {
+                    username: true,
+                    // role: true, // Expose uniquement le rôle si nécessaire
+                },
+            },
+        },
     });
 
     if (!article) {
