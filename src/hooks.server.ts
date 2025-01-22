@@ -8,11 +8,10 @@ import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 
 async function authorizationHandle({ event, resolve }: { event: RequestEvent, resolve: (event: RequestEvent, opts?: ResolveOptions) => MaybePromise<Response> }) {
     // Protect any routes under /authenticated
-    if (event.url.pathname.startsWith('/dashboard')) {
+    if (event.url.pathname.startsWith('/dashboard') || event.url.pathname.startsWith('/articles/publish')) {
         const session = await event.locals.auth();
 
         if (!session) {
-            // Redirect to the signin page
             throw redirect(303, '/auth/login');
         }
         // console.log("Sessionnnnnn:", session);
@@ -25,14 +24,12 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
         // console.log("Session:", session?.user?.User_Role);
 
         if (session?.user?.User_Role !== 'ADMIN') {
-            // Redirect to the signin page
             throw redirect(303, '/auth/login');
         }
         // console.log("Session:", session);
     }
 
 
-    // If the request is still here, just proceed as normally
     return resolve(event);
 }
 

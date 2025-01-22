@@ -7,7 +7,7 @@
 
 	export let data;
 	export let { article } = data;
-	console.log('data reçue:', article); // Pour debug
+	// console.log('data reçue:', article); // Pour debug
 </script>
 
 {#if article}
@@ -18,16 +18,7 @@
 			<p
 				class="mb-6 text-base font-semibold leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 			>
-				Intro : Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo odit, quia ipsam unde
-				dicta modi quis nesciunt, ad maiores quam placeat quos id est inventore expedita? Optio
-				laudantium minima cumque! Corporis odit soluta accusantium autem explicabo, fuga illum nam
-				incidunt ratione neque velit repudiandae similique qui corrupti vel dolores quas recusandae
-				consequatur consectetur quo porro dolorem iure vero. Temporibus, magnam? Voluptatum cum
-				voluptate aperiam, delectus velit aut quidem ut nisi eveniet, excepturi, ex ipsam facere
-				harum aspernatur sint! Non consequuntur quae quis ea optio reprehenderit doloremque sed unde
-				animi qui! Assumenda, et dolorum a id impedit non? Consectetur id velit expedita commodi ex
-				aperiam magnam nihil modi perferendis cumque! Neque distinctio dolores atque illum odio
-				voluptates eum quam quae in? Perspiciatis enim tempora nobis consequuntur laboriosam fugit
+				{article.introduction}
 			</p>
 			<img
 				src={Glycine}
@@ -35,7 +26,11 @@
 				class="mx-auto mb-6 w-full sm:mb-8 sm:w-4/5 lg:mb-10 lg:w-3/5"
 			/>
 			<p class="mb-6 text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl">
-				{article.content}
+				{article.body}
+			</p>
+
+			<p class="mb-6 text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl">
+				{article.ending}
 			</p>
 			<div class="text-sm sm:text-base">
 				Par <strong>{article.user.username}</strong> le {formatDate(article.publish_date)} dans

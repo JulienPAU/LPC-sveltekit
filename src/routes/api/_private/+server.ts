@@ -1,3 +1,5 @@
+// src/routes/api/_private/+server.ts
+
 import { error, json } from '@sveltejs/kit';
 
 export const GET = async (event) => {

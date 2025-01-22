@@ -22,9 +22,9 @@
 					<a href="javascript:;" class="text-white">Contact</a>
 				</li>
 				<li>
-					<a href="javascript:;" class="text-yellow-500 hover:text-yellow-400"
-						>Proposer un article</a
-					>
+					<a href="/articles/publish" class="text-yellow-500 hover:text-yellow-400">
+						Proposer un article
+					</a>
 				</li>
 			</ul>
 			<div class="flex space-x-4 sm:justify-center">

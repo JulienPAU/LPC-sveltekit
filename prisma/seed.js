@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { parse } from 'csv-parse';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -33,7 +34,6 @@ async function main() {
 			prisma.articleWatches.deleteMany(),
 			prisma.favorites.deleteMany(),
 			prisma.comments.deleteMany(),
-			prisma.articlesSubmitted.deleteMany(),
 			prisma.articles.deleteMany(),
 			prisma.tags.deleteMany(),
 			prisma.watches.deleteMany(),
@@ -56,6 +56,8 @@ async function main() {
 		// Users
 		const users = await readCSV('users.csv');
 		for (const user of users) {
+			const hashedPassword = await bcrypt.hash(user.password, 12); // Hachage du mot de passe
+
 			await prisma.user.create({
 				data: {
 					id: user.id,
@@ -63,8 +65,13 @@ async function main() {
 					first_name: user.first_name,
 					username: user.username,
 					email: user.email,
-					password: user.password,
-					role: user.role
+					password: hashedPassword,
+					role: user.role,
+					User_Role: {
+						create: {
+							role: user.role
+						}
+					}
 				}
 			});
 		}
@@ -89,12 +96,13 @@ async function main() {
 		// Articles
 		const articles = await readCSV('articles.csv');
 		for (const article of articles) {
-			await prisma.articles.create({
+			const createdArticle = await prisma.articles.create({
 				data: {
 					id: parseInt(article.id),
 					title: article.title,
-					content: article.content,
-					images: article.images,
+					introduction: article.introduction,
+					body: article.body,
+					ending: article.ending,
 					publish_date: new Date(article.publish_date),
 					user_id: article.user_id,
 					category_id: parseInt(article.category_id),
@@ -102,23 +110,18 @@ async function main() {
 					article_type: article.article_type
 				}
 			});
-		}
-
-		// ArticlesSubmitted
-		const articlesSubmitted = await readCSV('articles_submitted.csv');
-		for (const article of articlesSubmitted) {
-			await prisma.articlesSubmitted.create({
-				data: {
-					id: parseInt(article.id),
-					title: article.title,
-					content: article.content,
-					images: article.images,
-					user_id: article.user_id,
-					category_id: parseInt(article.category_id),
-					article_type: article.article_type,
-					submit_date: new Date(article.submit_date)
+			if (article.images) {
+				const imagePaths = article.images.split(','); // Si plusieurs images, elles sont séparées par des virgules
+				for (const imagePath of imagePaths) {
+					await prisma.articleImage.create({
+						data: {
+							article_id: createdArticle.id,
+							url: imagePath.trim(), // On retire les espaces inutiles
+							public_id: imagePath.trim() // Ou ici tu peux mettre un autre ID pour la gestion des images
+						}
+					});
 				}
-			});
+			}
 		}
 
 		// Comments

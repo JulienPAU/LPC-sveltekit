@@ -3,7 +3,7 @@
 
 	export let props = {
 		title: '',
-		content: '',
+		introduction: '',
 		imageUrl: 'https://via.placeholder.com/150',
 		author: 'Auteur inconnu',
 		category: 'Catégorie inconnue',
@@ -20,10 +20,10 @@
 	<div class="card-body">
 		<h2 class="card-title font-light">{props.title}</h2>
 		<p class="mb-5 text-sm leading-3">
-			Par <span class="italic"> {props.author || 'Auteur inconnu'}</span> dans
+			Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
 			<span class="italic"> {props.category || 'Catégorie inconnue'}</span>
 		</p>
-		<div class="mb-5">{truncateText(props.content, 140) || 'Contenu indisponible'}</div>
+		<div class="mb-5">{truncateText(props.introduction, 140) || 'Contenu indisponible'}</div>
 		<div class="card-actions justify-end">
 			<a href="/articles/{props.id}" class="before:content[''] before:absolute before:inset-0">
 				<!-- <button

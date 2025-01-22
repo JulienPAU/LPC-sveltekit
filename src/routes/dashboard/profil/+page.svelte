@@ -1,1 +1,3 @@
-<div class="p-8">Profil</div>
+<section class="p-8">
+	<div>Profil</div>
+</section>

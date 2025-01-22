@@ -12,7 +12,7 @@ export async function GET() {
         select: {
             id: true,
             title: true,
-            content: true,
+            introduction: true,
             images: true,
             publish_date: true,
             article_type: true,

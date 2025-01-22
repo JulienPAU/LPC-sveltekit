@@ -22,7 +22,7 @@
 		<Card
 			props={{
 				title: article.title,
-				content: article.content,
+				introduction: article.introduction,
 				imageUrl: Glycine,
 				author: article.user.username,
 				category: article.category.name,
@@ -40,7 +40,7 @@
 		<Card
 			props={{
 				title: article.title,
-				content: article.content,
+				introduction: article.introduction,
 				imageUrl: Glycine,
 				author: article.user.username,
 				category: article.category.name,

@@ -3,7 +3,6 @@ model Categories {
   type              Category
   name              String
   Articles          Articles[]
-  ArticlesSubmitted ArticlesSubmitted[]
 }
 
 enum Category {

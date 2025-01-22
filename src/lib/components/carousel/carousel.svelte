@@ -41,7 +41,7 @@
 		</div>
 		<div class="carousel-item h-[500px]">
 			<img
-				src="/src/lib/assets/watches/seagull.JPG"
+				src="/src/lib/assets/watches/seagull.png"
 				alt="Drink"
 				class="h-full w-full object-cover"
 			/>

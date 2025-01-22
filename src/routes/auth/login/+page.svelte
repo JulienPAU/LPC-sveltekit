@@ -44,7 +44,7 @@
 >
 	<div class="hidden bg-cover lg:block lg:w-1/2" style="background-image: url({Mouvement});"></div>
 
-	<div class="flex w-full flex-col justify-center px-6 py-8 md:px-36 lg:w-1/2">
+	<div class="flex w-full flex-col justify-center px-6 py-8 md:px-36 lg:w-1/2 lg:px-60">
 		<a
 			href="#"
 			class="mt-4 flex transform items-center justify-center rounded-lg border text-gray-600 transition-colors duration-300 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"

@@ -10,8 +10,9 @@ import type { RoleType } from "@prisma/client";
 
 export interface SessionUser {
     id: string;
+    googleId: string | null;
     email: string;
-    name: string; // Toujours une chaîne
+    name?: string;
     first_name?: string;
     last_name?: string;
     username?: string;
@@ -21,12 +22,14 @@ export interface SessionUser {
 
 export type CustomUser = {
     id: string;
+    googleId: string | null;
     email: string;
     role: string | null;
     User_Role?: string;
     password: string | null;
-    last_name: string;
-    first_name: string;
+    name?: string | null;
+    last_name: string | null;
+    first_name: string | null;
     username: string | null;
     profile_picture: string | null;
     authProvider: string | null;
@@ -67,7 +70,10 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                 return {
                     id: user.id.toString(),
                     email: user.email,
-                    name: `${user.first_name} ${user.last_name}`,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    name: user.username,
+                    username: user.username,
                     role: user.role,
 
                 };
@@ -92,11 +98,11 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 
 
                 if (!existingUser) {
-                    await prisma.user.create({
+                    const newUser = await prisma.user.create({
                         data: {
                             email: user.email as string,
                             username: user.name as string,
-                            id: account.providerAccountId as string,
+                            googleId: user.id as string, // Stocke l'ID Google
                             first_name: "",
                             last_name: "",
                             password: "",
@@ -108,9 +114,13 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                                 }
                             }
                         }
+
                     });
 
+                    user.id = newUser.id;
                 } else {
+
+
 
                     if (!existingUser.User_Role) {
                         await prisma.user.update({
@@ -128,38 +138,75 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                         where: { id: existingUser.id },
                         data: { role: user.role || "READER", lastLogin: new Date() }
                     });
+                    user.id = existingUser.id
                 }
+
+
 
                 // console.log("User end signin:", user);
             }
             return true;
         },
-        async jwt({ token, user }: { token: JWT; user: AuthUser | CustomUser }) {
-
+        async jwt({ token, user }: { token: JWT; user?: AuthUser | CustomUser }) {
             if (user) {
-                token.id = user.id;
-                token.email = user.email;
-                token.profile_picture = user.profile_picture;
+                const existingUser = await prisma.user.findUnique({
+                    where: { email: user.email as string },
+                    select: {
+                        id: true,
+                        googleId: true,
+                        email: true,
+                        profile_picture: true,
+                        User_Role: {
+                            select: { role: true } // Récupère uniquement le rôle
+                        },
+                        first_name: true,
+                        last_name: true,
+                        username: true,
+                        name: true
+                    }
+                });
 
+                if (existingUser) {
+                    token.id = existingUser.id;
+                    token.googleId = existingUser.googleId;
+                    token.email = existingUser.email;
+                    token.profile_picture = existingUser.profile_picture;
+                    token.username = existingUser.username || existingUser.name;
+                    token.first_name = existingUser.first_name;
+                    token.last_name = existingUser.last_name;
 
-                if (user.User_Role && user.User_Role.length > 0) {
-                    token.User_Role = user.User_Role;  // Assigne le rôle du premier élément de User_Role
+                    if (existingUser.User_Role?.length > 0) {
+                        token.User_Role = existingUser.User_Role[0].role;
+                    } else {
+                        token.User_Role = "READER"; // Valeur par défaut
+                    }
                 } else {
-                    token.User_Role = 'READER';  // Valeur par défaut
+                    console.error("Utilisateur introuvable pour l'email :", user.email);
                 }
-
             }
-            // console.log("Token:", token);
+            //  else {
+            //     console.warn("Aucun utilisateur passé au callback JWT");
+            // }
+
+            // console.log("Token final:", token);
             return token;
         },
+
         async session({ session, token }: { session: AuthSession; token: JWT }) {
             if (session.user) {
                 (session.user as CustomUser).id = token.id as string;
                 (session.user as CustomUser).email = token.email as string;
                 (session.user as CustomUser).User_Role = token.User_Role as string;
                 (session.user as CustomUser).profile_picture = token.profile_picture as string || "/src/lib/assets/user.png";
-                // (session.user as CustomUser).role = token.role as string;
-                // Ajoute les autres champs nécessaires au session.user
+                (session.user as CustomUser).username = token.username as string || null;
+                (session.user as CustomUser).first_name = token.first_name as string || null;
+                (session.user as CustomUser).last_name = token.last_name as string || null;
+
+
+                (session.user as CustomUser).name = token.first_name && token.last_name
+                    ? `${token.first_name} ${token.last_name}`
+                    : token.username as string;
+
             }
             // console.log("Session auth.ts:", session);
             return session;

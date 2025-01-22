@@ -1,6 +1,7 @@
 <script>
 	import LPC_WC from '$lib/assets/logos/LPC_WC.svg';
 	import { page } from '$app/stores';
+
 	let isMenuOpen = false;
 </script>
 
@@ -94,8 +95,14 @@
 								<img
 									src={$page?.data?.session?.user?.image ||
 										$page?.data?.session?.user?.profile_picture ||
-										'src/lib/assets/user.png'}
+										'/src/lib/assets/user.png'}
 									alt="Avatar"
+									on:error={(event) => {
+										const target = /** @type {HTMLImageElement} */ (event.target);
+										if (target.src !== '/src/lib/assets/user.png') {
+											target.src = '/src/lib/assets/user.png';
+										}
+									}}
 								/>
 							</div>
 						</button>

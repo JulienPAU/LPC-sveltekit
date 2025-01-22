@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
 	import Glycine from '$lib/assets/watches/Glycine.png';
+	import Seagull from '$lib/assets/watches/seagull.png';
 
 	export let data;
 	const { articles } = data;
@@ -13,8 +14,8 @@
 		<Card
 			props={{
 				title: article.title,
-				content: article.content,
-				imageUrl: Glycine,
+				introduction: article.introduction,
+				imageUrl: Seagull,
 				author: article.user.last_name,
 				category: article.category.name,
 				id: article.id

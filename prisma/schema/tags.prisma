@@ -7,8 +7,8 @@ model Tags {
 model ArticleTags {
   article_id Int
   tag_id     Int
-  article    Articles @relation(fields: [article_id], references: [id])
-  tag        Tags     @relation(fields: [tag_id], references: [id])
+  article    Articles @relation(fields: [article_id], references: [id], onDelete: Cascade)
+  tag        Tags     @relation(fields: [tag_id], references: [id], onDelete: Cascade)
 
   @@id([article_id, tag_id])
 }

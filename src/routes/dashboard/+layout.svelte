@@ -33,10 +33,12 @@
 				<ul class="menu-compact menu bg-gray-800 p-4 text-gray-100">
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/dashboard/profil">Profil</a></li>
-					<li><a href="#">Milestones</a></li>
-					<li><a href="#">Team</a></li>
-					<li><a href="#">Tasks</a></li>
-					<li><a href="#">Settings</a></li>
+
+					<li>
+						<form method="POST" action="/auth/signout">
+							<button type="submit" class="deco w-full text-left">Déconnexion</button>
+						</form>
+					</li>
 				</ul>
 			{/if}
 		</div>
@@ -48,7 +50,11 @@
 			<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
 			<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
 			<li><a href="#" class="hover:bg-gray-600">Mes articles</a></li>
-			<li><a href="#" class="hover:bg-gray-600">Déconnexion</a></li>
+			<li>
+				<form method="POST" action="/auth/signout">
+					<button type="submit" class="deco w-full text-left">Déconnexion</button>
+				</form>
+			</li>
 		</nav>
 		<main class="flex-1 bg-gray-100 p-4">
 			{@render children()}

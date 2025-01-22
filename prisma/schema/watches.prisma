@@ -13,8 +13,8 @@ model Watches {
 model ArticleWatches {
   article_id Int
   watch_id   Int
-  article    Articles @relation(fields: [article_id], references: [id])
-  watch      Watches  @relation(fields: [watch_id], references: [id])
+  article    Articles @relation(fields: [article_id], references: [id],  onDelete: Cascade)
+  watch      Watches  @relation(fields: [watch_id], references: [id],  onDelete: Cascade)
 
   @@id([article_id, watch_id])
 }
