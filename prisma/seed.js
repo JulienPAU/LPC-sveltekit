@@ -93,94 +93,94 @@ async function main() {
 			});
 		}
 
-		// Articles
-		const articles = await readCSV('articles.csv');
-		for (const article of articles) {
-			const createdArticle = await prisma.articles.create({
-				data: {
-					id: parseInt(article.id),
-					title: article.title,
-					introduction: article.introduction,
-					body: article.body,
-					ending: article.ending,
-					publish_date: new Date(article.publish_date),
-					user_id: article.user_id,
-					category_id: parseInt(article.category_id),
-					status: article.status,
-					article_type: article.article_type
-				}
-			});
-			if (article.images) {
-				const imagePaths = article.images.split(','); // Si plusieurs images, elles sont séparées par des virgules
-				for (const imagePath of imagePaths) {
-					await prisma.articleImage.create({
-						data: {
-							article_id: createdArticle.id,
-							url: imagePath.trim(), // On retire les espaces inutiles
-							public_id: imagePath.trim() // Ou ici tu peux mettre un autre ID pour la gestion des images
-						}
-					});
-				}
-			}
-		}
+		// // Articles
+		// const articles = await readCSV('articles.csv');
+		// for (const article of articles) {
+		// 	const createdArticle = await prisma.articles.create({
+		// 		data: {
+		// 			id: parseInt(article.id),
+		// 			title: article.title,
+		// 			introduction: article.introduction,
+		// 			body: article.body,
+		// 			ending: article.ending,
+		// 			publish_date: new Date(article.publish_date),
+		// 			user_id: article.user_id,
+		// 			category_id: parseInt(article.category_id),
+		// 			status: article.status,
+		// 			article_type: article.article_type
+		// 		}
+		// 	});
+		// 	if (article.images) {
+		// 		const imagePaths = article.images.split(','); // Si plusieurs images, elles sont séparées par des virgules
+		// 		for (const imagePath of imagePaths) {
+		// 			await prisma.articleImage.create({
+		// 				data: {
+		// 					article_id: createdArticle.id,
+		// 					url: imagePath.trim(), // On retire les espaces inutiles
+		// 					public_id: imagePath.trim() // Ou ici tu peux mettre un autre ID pour la gestion des images
+		// 				}
+		// 			});
+		// 		}
+		// 	}
+		// }
 
-		// Comments
-		const comments = await readCSV('comments.csv');
-		for (const comment of comments) {
-			await prisma.comments.create({
-				data: {
-					id: parseInt(comment.id),
-					content: comment.content,
-					comment_date: new Date(comment.comment_date),
-					user_id: comment.user_id,
-					article_id: parseInt(comment.article_id)
-				}
-			});
-		}
+		// // Comments
+		// const comments = await readCSV('comments.csv');
+		// for (const comment of comments) {
+		// 	await prisma.comments.create({
+		// 		data: {
+		// 			id: parseInt(comment.id),
+		// 			content: comment.content,
+		// 			comment_date: new Date(comment.comment_date),
+		// 			user_id: comment.user_id,
+		// 			article_id: parseInt(comment.article_id)
+		// 		}
+		// 	});
+		// }
 
-		// Tags
-		const tags = await readCSV('tags.csv');
-		for (const tag of tags) {
-			await prisma.tags.create({
-				data: {
-					id: parseInt(tag.id),
-					name: tag.name
-				}
-			});
-		}
+		// // Tags
+		// const tags = await readCSV('tags.csv');
+		// for (const tag of tags) {
+		// 	await prisma.tags.create({
+		// 		data: {
+		// 			id: parseInt(tag.id),
+		// 			name: tag.name
+		// 		}
+		// 	});
+		// }
 
-		// Favorites
-		const favorites = await readCSV('favorites.csv');
-		for (const favorite of favorites) {
-			await prisma.favorites.create({
-				data: {
-					user_id: favorite.user_id,
-					article_id: parseInt(favorite.article_id)
-				}
-			});
-		}
+		// // Favorites
+		// const favorites = await readCSV('favorites.csv');
+		// for (const favorite of favorites) {
+		// 	await prisma.favorites.create({
+		// 		data: {
+		// 			user_id: favorite.user_id,
+		// 			article_id: parseInt(favorite.article_id)
+		// 		}
+		// 	});
+		// }
 
-		// ArticleTags
-		const articleTags = await readCSV('article_tags.csv');
-		for (const articleTag of articleTags) {
-			await prisma.articleTags.create({
-				data: {
-					article_id: parseInt(articleTag.article_id),
-					tag_id: parseInt(articleTag.tag_id)
-				}
-			});
-		}
+		// // ArticleTags
+		// const articleTags = await readCSV('article_tags.csv');
+		// for (const articleTag of articleTags) {
+		// 	await prisma.articleTags.create({
+		// 		data: {
+		// 			article_id: parseInt(articleTag.article_id),
+		// 			tag_id: parseInt(articleTag.tag_id)
+		// 		}
+		// 	});
+		// }
 
-		// ArticleWatches
-		const articleWatches = await readCSV('article_watches.csv');
-		for (const articleWatch of articleWatches) {
-			await prisma.articleWatches.create({
-				data: {
-					article_id: parseInt(articleWatch.article_id),
-					watch_id: parseInt(articleWatch.watch_id)
-				}
-			});
-		}
+		// // ArticleWatches
+		// const articleWatches = await readCSV('article_watches.csv');
+		// for (const articleWatch of articleWatches) {
+		// 	await prisma.articleWatches.create({
+		// 		data: {
+		// 			article_id: parseInt(articleWatch.article_id),
+		// 			watch_id: parseInt(articleWatch.watch_id)
+		// 		}
+		// 	});
+		// }
 	} catch (error) {
 		console.error('Error seeding database:', error);
 		throw error;

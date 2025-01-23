@@ -4,24 +4,17 @@
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 
-	let articleId: Number | null = null;
+	let articleId: number | null = null;
+	let isSubmitting = false;
 
 	let files: File[] = [];
 
-	// function handleFileUpload(event: Event) {
-	// 	const target = event.target as HTMLInputElement;
-	// 	if (target.files) {
-	// 		files = Array.from(target.files); // Met à jour la liste des fichiers
-	// 	}
-	// }
-
 	function formatFileSize(size: number): string {
-		return (size / 1024).toFixed(2) + ' Ko'; // Convertit en kilooctets avec 2 décimales
+		return (size / (1024 * 1024)).toFixed(2) + ' Mo';
 	}
 
 	async function handleUploadComplete(data: any) {
-		// articleId = data.articleId;
-		console.log('Upload réussi !', data);
+		console.log("Préparation à l'upload", data);
 	}
 
 	function handleUploadError(error: Error) {
@@ -31,8 +24,41 @@
 
 	async function handleSubmit(event: Event) {
 		event.preventDefault();
+		isSubmitting = true;
+
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
+
+		const MAX_FILE_SIZE = 4 * 1024 * 1024;
+		const MAX_FILE_COUNT = 6;
+
+		// Récupérer les fichiers de l'ImageUploader
+		const imageUploader = document.querySelector('input[type="file"]') as HTMLInputElement;
+		if (imageUploader && imageUploader.files) {
+			const selectedFiles = Array.from(imageUploader.files);
+
+			// Vérification du nombre de fichiers
+			if (selectedFiles.length > MAX_FILE_COUNT) {
+				alert(`Maximum ${MAX_FILE_COUNT} fichiers autorisés`);
+				isSubmitting = false;
+				return;
+			}
+
+			// Vérification de la taille des fichiers
+			const oversizedFiles = selectedFiles.filter((file) => file.size > MAX_FILE_SIZE);
+			if (oversizedFiles.length > 0) {
+				const oversizedFileNames = oversizedFiles
+					.map((file) => `${file.name} (${formatFileSize(file.size)})`)
+					.join(', ');
+				alert(`Fichiers trop volumineux : ${oversizedFileNames}. Limite : 4 Mo par fichier`);
+				isSubmitting = false;
+				return;
+			}
+
+			selectedFiles.forEach((file) => {
+				formData.append('images', file);
+			});
+		}
 
 		try {
 			const response = await fetch('/api/_public/articles/publish', {
@@ -48,6 +74,8 @@
 			const result = await response.json();
 			if (result.articleId) {
 				articleId = result.articleId;
+				isSubmitting = false;
+				alert('Article créé avec succès, fichiers téléchargés.');
 				console.log('Article créé avec succès. ID:', articleId);
 			} else {
 				throw new Error("ID de l'article manquant dans la réponse.");
@@ -146,7 +174,7 @@
 				/>
 			</div>
 
-			{#if files.length > 0}
+			<!-- {#if files.length > 0}
 				<ul class="mt-3 text-sm text-gray-700">
 					{#each files as file}
 						<li>
@@ -154,9 +182,11 @@
 						</li>
 					{/each}
 				</ul>
-			{/if}
+			{/if} -->
 		</div>
 		<!-- <input type="hidden" id="articleId" name="articleId" value={articleId} /> -->
-		<button type="submit" class="iems-center btn btn-warning mt-20 text-xl">Valider</button>
+		<button type="submit" class="btn btn-warning mt-20 text-xl" disabled={isSubmitting}>
+			{isSubmitting ? 'En cours...' : 'Valider'}
+		</button>
 	</form>
 </section>

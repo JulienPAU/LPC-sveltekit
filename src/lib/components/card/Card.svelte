@@ -14,8 +14,12 @@
 <div
 	class="xl:w3/5 tranform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105 sm:w-4/5 md:w-96 lg:w-2/6"
 >
-	<figure>
-		<img src={props.imageUrl || 'https://via.placeholder.com/150'} alt={props.title || 'Image'} />
+	<figure class="max-h-96 overflow-hidden">
+		<img
+			src={props.imageUrl || 'https://via.placeholder.com/150'}
+			alt={props.title || 'Image'}
+			class="h-96 w-full max-w-full object-cover"
+		/>
 	</figure>
 	<div class="card-body">
 		<h2 class="card-title font-light">{props.title}</h2>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	let carousel: HTMLDivElement | null = null;
+	export let images: { url: string }[];
 
 	function scrollCarousel(direction: number) {
 		if (carousel) {
@@ -8,46 +9,32 @@
 			carousel.scrollLeft += direction * carousel.offsetWidth;
 		}
 	}
+	$: processedImages =
+		images?.length > 0
+			? images
+					.flat()
+					.sort(() => 0.5 - Math.random())
+					.slice(0, 10)
+					.map((img) => ({ url: img.url }))
+			: [
+					{ url: '/src/lib/assets/watches/Boderry_voyager.JPG' },
+					{ url: '/src/lib/assets/watches/casio.png' },
+					{ url: '/src/lib/assets/watches/Glycine.png' },
+					{ url: '/src/lib/assets/watches/Humism.png' },
+					{ url: '/src/lib/assets/watches/olto.jpg' },
+					{ url: '/src/lib/assets/watches/seagull.png' },
+					{ url: '/src/lib/assets/watches/seiko.JPG' }
+				];
 </script>
 
 <div class="relative">
 	<div bind:this={carousel} class="carousel carousel-end mb-20">
 		<div class="carousel-item h-[500px]">
-			<img
-				src="/src/lib/assets/watches/Boderry_voyager.JPG"
-				alt="Drink"
-				class="h-full w-full object-cover"
-			/>
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img src="/src/lib/assets/watches/casio.png" alt="Drink" class="h-full w-full object-cover" />
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img
-				src="/src/lib/assets/watches/Glycine.png"
-				alt="Drink"
-				class="h-full w-full object-cover"
-			/>
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img
-				src="/src/lib/assets/watches/Humism.png"
-				alt="Drink"
-				class="h-full w-full object-cover"
-			/>
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img src="/src/lib/assets/watches/olto.jpg" alt="Drink" class="h-full w-full object-cover" />
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img
-				src="/src/lib/assets/watches/seagull.png"
-				alt="Drink"
-				class="h-full w-full object-cover"
-			/>
-		</div>
-		<div class="carousel-item h-[500px]">
-			<img src="/src/lib/assets/watches/seiko.JPG" alt="Drink" class="h-full w-full object-cover" />
+			{#if images}
+				{#each processedImages as image}
+					<img src={image.url} alt=" l'article" class="h-full w-full object-cover" />
+				{/each}
+			{/if}
 		</div>
 	</div>
 

@@ -7,7 +7,7 @@ export async function GET() {
             status: 'PUBLISHED',
         },
         orderBy: {
-            publish_date: 'desc',
+            id: 'desc',
         },
         select: {
             id: true,

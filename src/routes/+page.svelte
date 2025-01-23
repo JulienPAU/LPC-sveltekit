@@ -2,7 +2,6 @@
 	import Band from '$lib/components/band/band.svelte';
 	import Card from '$lib/components/card/Card.svelte';
 	import Carousel from '$lib/components/carousel/carousel.svelte';
-	import Glycine from '$lib/assets/watches/Glycine.png';
 
 	import type { PageData } from './$types';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
@@ -10,6 +9,8 @@
 	export let data: PageData;
 
 	const articles = data.articles;
+
+	const imageUrls = articles.map((img: { images: string[] }) => img.images);
 
 	// Séparez les articles en deux groupes
 	const firstTwoArticles = articles.slice(0, 2); // Les deux premiers
@@ -23,9 +24,10 @@
 			props={{
 				title: article.title,
 				introduction: article.introduction,
-				imageUrl: Glycine,
+				imageUrl:
+					article.images.length > 0 ? article.images[0].url : 'https://via.placeholder.com/150',
 				author: article.user.username,
-				category: article.category.name,
+				category: article.article_type,
 				id: article.id
 			}}
 		/>
@@ -41,9 +43,10 @@
 			props={{
 				title: article.title,
 				introduction: article.introduction,
-				imageUrl: Glycine,
+				imageUrl:
+					article.images.length > 0 ? article.images[0].url : 'https://via.placeholder.com/150',
 				author: article.user.username,
-				category: article.category.name,
+				category: article.article_type,
 				id: article.id
 			}}
 		/>
@@ -59,4 +62,4 @@
 	>
 </div>
 <SectionTitle title="Galerie" />
-<Carousel />
+<Carousel images={imageUrls} />

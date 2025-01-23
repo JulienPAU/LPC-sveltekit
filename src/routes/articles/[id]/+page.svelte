@@ -1,13 +1,12 @@
 <!-- src/routes/articles/[id]/+page.svelte -->
 <script lang="ts">
-	import Glycine from '$lib/assets/watches/Glycine.png';
 	import Carousel from '$lib/components/carousel/carousel.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import { formatDate } from '$lib/utils.js';
 
 	export let data;
 	export let { article } = data;
-	// console.log('data reçue:', article); // Pour debug
+	// console.log('data reçue:', article);
 </script>
 
 {#if article}
@@ -21,7 +20,7 @@
 				{article.introduction}
 			</p>
 			<img
-				src={Glycine}
+				src={article.images[0].url}
 				alt="Article illustration"
 				class="mx-auto mb-6 w-full sm:mb-8 sm:w-4/5 lg:mb-10 lg:w-3/5"
 			/>
@@ -37,8 +36,13 @@
 				<i>{article.article_type}</i>
 			</div>
 		</div>
+		<!-- <div class="image-gallery">
+			{#each article.images as image}
+				<img src={image.url} alt=" l'article" class="image-item" />
+			{/each}
+		</div> -->
 	</section>
-	<Carousel />
+	<Carousel images={article.images} />
 {:else}
 	<p>L'article est introuvable ou une erreur s'est produite.</p>
 {/if}

@@ -1,3 +1,5 @@
+// src/routes/api/_public/articles/publish/+server.ts
+
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import prisma from '$lib/prisma';
@@ -65,7 +67,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                 throw error(400, 'User ID is required');
             }
             const uploadPromises = files.map(file =>
-                UploadService.uploadImage(file, userId)
+                UploadService.uploadImage(file, userId, article.id)
             );
             const uploadResults = await Promise.all(uploadPromises);
 

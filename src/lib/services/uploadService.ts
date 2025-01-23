@@ -2,10 +2,14 @@
 import { cloudinary } from '$lib/cloudinary';
 
 export class UploadService {
-    static async uploadImage(file: File, userId: string,) {
+    static async uploadImage(file: File, userId: string, articleId?: number) {
         // const customPublicId = `${userId}_${articleId}_${Date.now()}`;
 
-        const customPublicId = `${userId}_${Date.now()}`;
+        const folderPath = articleId
+            ? `articles/${articleId}`
+            : `articles/${userId}`; const now = new Date();
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+        const customPublicId = `${userId}_${articleId ? articleId + '_' : ''}${formattedDate}_${Date.now()}`;
         try {
             // Convertir le File en Buffer
             const arrayBuffer = await file.arrayBuffer();
@@ -15,7 +19,7 @@ export class UploadService {
             const result = await new Promise((resolve, reject) => {
                 cloudinary.uploader.upload_stream(
                     {
-                        folder: `articles/${userId}`,
+                        folder: folderPath,
                         resource_type: 'auto',
                         format: 'webp', // Conversion automatique en WebP
                         quality: 'auto', // Optimisation automatique de la qualité,
@@ -33,11 +37,7 @@ export class UploadService {
                 ).end(buffer);
             });
 
-            // // Extraire les informations nécessaires de Cloudinary
-            // const { public_id, secure_url } = result as CloudinaryUploadResult;
 
-            // // Enregistrer l'image dans la base de données
-            // const image = await ImageService.createImage(articleId, public_id, secure_url);
 
             // return image; // Retourner les données enregistrées
             return result as CloudinaryUploadResult;

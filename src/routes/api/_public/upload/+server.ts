@@ -37,19 +37,20 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         const formData = await request.formData();
 
         const files = formData.getAll('images') as File[];
-        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 Mo
-        // const articleId = Number(formData.get('articleId'));
+        const MAX_FILE_SIZE = 4 * 1024 * 1024; // 5 Mo
+        const MAX_FILE_COUNT = 6; // Limite à 10 fichiers
 
+
+        if (files.length > MAX_FILE_COUNT) {
+            throw error(400, `Too many files. Maximum ${MAX_FILE_COUNT} photos sont autorisés`);
+        }
 
         files.forEach(file => {
             if (file.size > MAX_FILE_SIZE) {
-                throw error(400, `${file.name} exceeds maximum file size`);
+                throw error(400, `${file.name} doit être inférieur a 4MO`);
             }
         });
 
-        // if (!articleId || isNaN(articleId)) {
-        //     throw error(400, 'Invalid or missing articleId');
-        // }
 
         if (!files || files.length === 0) {
             throw error(400, 'No files provided');

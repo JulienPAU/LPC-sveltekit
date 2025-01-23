@@ -15,9 +15,10 @@
 			props={{
 				title: article.title,
 				introduction: article.introduction,
-				imageUrl: Seagull,
+				imageUrl:
+					article.images.length > 0 ? article.images[0].url : 'https://via.placeholder.com/150',
 				author: article.user.last_name,
-				category: article.category.name,
+				category: article.article_type,
 				id: article.id
 			}}
 		/>
