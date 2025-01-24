@@ -10,6 +10,7 @@ export class UploadService {
             : `articles/${userId}`; const now = new Date();
         const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
         const customPublicId = `${userId}_${articleId ? articleId + '_' : ''}${formattedDate}_${Date.now()}`;
+
         try {
             // Convertir le File en Buffer
             const arrayBuffer = await file.arrayBuffer();
