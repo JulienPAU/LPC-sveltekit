@@ -18,7 +18,6 @@ export async function GET({ params }: { params: { id: string } }) {
                     // role: true, // Expose uniquement le rôle si nécessaire
                 },
             },
-            images: true,
         },
     });
 

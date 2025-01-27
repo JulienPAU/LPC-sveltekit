@@ -1,35 +1,59 @@
-<!-- src/lib/components/ImageUploader.svelte -->
-
 <script lang="ts">
-	export let maxFiles = 6;
-	export let acceptedTypes = 'image/jpeg,image/png,image/webp';
+	import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';
 
-	export let onUploadComplete: (data: any) => void;
-	export let onUploadError: (error: Error) => void;
+	export let maxFiles = DEFAULT_FILE_VALIDATION.maxFileCount;
+	export let acceptedTypes = DEFAULT_FILE_VALIDATION.acceptedTypes.join(',');
+	export let maxFileSize = DEFAULT_FILE_VALIDATION.maxFileSize;
+	export let minFiles = DEFAULT_FILE_VALIDATION.minFileCount;
 
 	let files: File[] = [];
-	const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 Mo en octets
+	export let onFilesSelected = (files: File[]) => {};
+
 	let errorMessage = '';
 
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
 		if (input.files) {
-			errorMessage = ''; // Réinitialiser le message d'erreur
+			console.log('Fichiers sélectionnés:', input.files.length); // Debug
 
+			errorMessage = '';
+
+			if (input.files.length > maxFiles) {
+				errorMessage = `Maximum ${maxFiles} fichiers autorisés`;
+				input.value = ''; // Reset l'input
+				files = [];
+				onFilesSelected(files);
+				return;
+			}
 			const selectedFiles = Array.from(input.files).filter((file) => {
-				if (file.size > MAX_FILE_SIZE) {
-					errorMessage = `${file.name} dépasse la taille maximale de 5 Mo`;
+				if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
+					errorMessage = `Type de fichier non supporté : ${file.name}`;
 					return false;
 				}
+
+				// if (file.size > maxFileSize) {
+				// 	errorMessage = `${file.name} dépasse la taille maximale`;
+				// 	return false;
+				// }
 				return true;
 			});
 
+			console.log('Fichiers après validation:', selectedFiles.length); // Debug
+
 			if (selectedFiles.length > maxFiles) {
+				console.log('Trop de fichiers'); // Debug
+
 				errorMessage = `Maximum ${maxFiles} fichiers autorisés`;
 				return;
 			}
 
+			if (selectedFiles.length < minFiles) {
+				errorMessage = `Maximum ${minFiles} fichiers autorisés`;
+				return;
+			}
+
 			files = selectedFiles;
+			onFilesSelected(files);
 		}
 	}
 </script>
@@ -42,15 +66,17 @@
 		class="file-input file-input-bordered file-input-warning w-full"
 		on:change={handleFileSelect}
 	/>
-
+	{#if errorMessage}
+		<div class="mt-2 text-red-500">{errorMessage}</div>
+	{/if}
 	{#if files.length > 0}
 		<div class="preview mt-4">
-			<label for="file-upload" class="mb-1 block text-lg font-bold text-gray-700">
+			<label for="file-input" class="mb-1 block text-lg font-bold text-gray-700">
 				Vos photos :
 			</label>
 			<ul class="list-disc pl-5">
 				{#each files as file}
-					<li>{file.name} ({Math.round(file.size / 1024)}KB)</li>
+					<li>{file.name} ({(file.size / 1024).toFixed(2)} Ko)</li>
 				{/each}
 			</ul>
 		</div>

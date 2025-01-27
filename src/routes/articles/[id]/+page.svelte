@@ -20,7 +20,7 @@
 				{article.introduction}
 			</p>
 			<img
-				src={article.images[0].url}
+				src={article.images[0] || '/LPC_FAV_BLT.png'}
 				alt="Article illustration"
 				class="mx-auto mb-6 w-full sm:mb-8 sm:w-4/5 lg:mb-10 lg:w-3/5"
 			/>

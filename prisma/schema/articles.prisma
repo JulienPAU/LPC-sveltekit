@@ -10,7 +10,7 @@ model Articles {
   submit_date    DateTime?  // Date à laquelle l'article a été soumis
   update_date    DateTime?  // Date à laquelle l'article a été mis à jour
 
-  images         ArticleImage[]  // Relation avec les images
+  images         Json[]  // Relation avec les images
   status         Status     
   article_type   Article_Type
   ArticleTags    ArticleTags[]
@@ -20,17 +20,6 @@ model Articles {
   Comments       Comments[]
   Favorites      Favorites[]
 }
-
-model ArticleImage {
-  id         Int      @id @default(autoincrement())
-  article_id Int
-  url        String
-  public_id  String   // Pour la gestion Cloudinary
-  article    Articles @relation(fields: [article_id], references: [id], onDelete: Cascade)
-
-  @@index([article_id])
-}
-
 
 
 

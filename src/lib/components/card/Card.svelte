@@ -4,7 +4,7 @@
 	export let props = {
 		title: '',
 		introduction: '',
-		imageUrl: 'https://via.placeholder.com/150',
+		imageUrl: 'LPC_FAV_BLT.png',
 		author: 'Auteur inconnu',
 		category: 'Catégorie inconnue',
 		id: 0
@@ -16,7 +16,7 @@
 >
 	<figure class="max-h-96 overflow-hidden">
 		<img
-			src={props.imageUrl || 'https://via.placeholder.com/150'}
+			src={props.imageUrl || 'LPC_FAV_BLT.png'}
 			alt={props.title || 'Image'}
 			class="h-96 w-full max-w-full object-cover"
 		/>

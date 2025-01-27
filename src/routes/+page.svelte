@@ -9,8 +9,12 @@
 	export let data: PageData;
 
 	const articles = data.articles;
+	// console.log('data reçue:', articles);
 
-	const imageUrls = articles.map((img: { images: string[] }) => img.images);
+	// Extraire les images de tous les articles
+	const imageUrls = articles.flatMap((article: { images: string[] }) => article.images);
+
+	// console.log(imageUrls); // Vérification des URLs
 
 	// Séparez les articles en deux groupes
 	const firstTwoArticles = articles.slice(0, 2); // Les deux premiers
@@ -24,8 +28,7 @@
 			props={{
 				title: article.title,
 				introduction: article.introduction,
-				imageUrl:
-					article.images.length > 0 ? article.images[0].url : 'https://via.placeholder.com/150',
+				imageUrl: article.images[0],
 				author: article.user.username,
 				category: article.article_type,
 				id: article.id
@@ -43,8 +46,7 @@
 			props={{
 				title: article.title,
 				introduction: article.introduction,
-				imageUrl:
-					article.images.length > 0 ? article.images[0].url : 'https://via.placeholder.com/150',
+				imageUrl: article.images[0],
 				author: article.user.username,
 				category: article.article_type,
 				id: article.id
@@ -61,5 +63,6 @@
 		></a
 	>
 </div>
+
 <SectionTitle title="Galerie" />
 <Carousel images={imageUrls} />
