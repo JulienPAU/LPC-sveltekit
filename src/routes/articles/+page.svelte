@@ -1,7 +1,5 @@
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
-	import Glycine from '$lib/assets/watches/Glycine.png';
-	import Seagull from '$lib/assets/watches/seagull.png';
 
 	export let data;
 	const { articles } = data;
@@ -15,11 +13,14 @@
 			props={{
 				title: article.title,
 				introduction: article.introduction,
-				imageUrl:
-					article.images.length > 0 ? article.images[0].url : 'https://via.placeholder.com/150',
-				author: article.user.last_name,
+				imageUrl: article.images[0],
+				author: article.user.username,
 				category: article.article_type,
-				id: article.id
+				id: article.id,
+				isDashboard: false,
+				status: 'PUBLISHED',
+				style:
+					'xl:w3/5 tranform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105 sm:w-4/5 md:w-96 lg:w-2/6'
 			}}
 		/>
 	{/each}

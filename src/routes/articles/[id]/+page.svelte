@@ -6,7 +6,8 @@
 
 	export let data;
 	export let { article } = data;
-	// console.log('data reçue:', article);
+
+	console.log('article:', article);
 </script>
 
 {#if article}

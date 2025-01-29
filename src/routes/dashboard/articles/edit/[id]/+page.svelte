@@ -1,41 +1,41 @@
-<!-- routes/articles/publish/+page.svelte -->
+<!-- routes/articles/[id]/edit/+page.svelte -->
 <script lang="ts">
 	import ArticleForm from '$lib/components/form/ArticleForm.svelte';
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
-	import type { ArticleUploadResponse } from '$lib/types/article';
+	import type { ArticleUploadResponse } from '$lib/types/article.js';
 
-	let selectedFiles: File[] = [];
 	let isSubmitting = false;
-	let articleId: number | null = null;
+	let selectedFiles: File[] = [];
+
+	export let data;
+	export let { article } = data;
 
 	function handleFilesSelected(files: File[]) {
 		selectedFiles = files;
 	}
 
-	async function handleSubmit(event: Event) {
+	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
 		isSubmitting = true;
 
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		const imageUploader = document.querySelector('input[type="file"]') as HTMLInputElement;
-
-		if (!imageUploader) {
-			throw new Error(`Minimum une photo requise`);
+		// Vérifie qu'il y a bien des fichiers sélectionnés
+		if (selectedFiles.length === 0) {
+			alert('Ajoutez au moins une image');
+			isSubmitting = false;
+			return;
 		}
 
-		if (imageUploader && imageUploader.files) {
-			const selectedFiles = Array.from(imageUploader.files);
-
-			selectedFiles.forEach((file) => {
-				formData.append('files', file);
-			});
-		}
+		// Ajoute les fichiers à FormData
+		selectedFiles.forEach((file) => {
+			formData.append('files', file);
+		});
 
 		try {
-			const response = await fetch('/api/_public/articles/publish', {
+			const response = await fetch(`/api/_public/articles/edit/${article.id}`, {
 				method: 'POST',
 				body: formData
 			});
@@ -46,12 +46,11 @@
 
 			const result: ArticleUploadResponse = await response.json();
 
-			if (result.articleId) {
-				articleId = result.articleId;
+			if (result) {
 				isSubmitting = false;
-				alert('Article créé avec succès, fichiers téléchargés.');
+				alert('Article mis à jour avec succès');
 			} else {
-				throw new Error("ID de l'article manquant dans la réponse.");
+				throw new Error("Erreur lors de la mise à jour de l'article");
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
@@ -62,8 +61,8 @@
 </script>
 
 <section class="flex flex-col items-center justify-evenly px-5 pb-5">
-	<SectionTitle title="Proposer un article" />
-	<ArticleForm {isSubmitting} onSubmit={handleSubmit} onFilesSelected={handleFilesSelected}>
+	<SectionTitle title="Modifier l'article" />
+	<ArticleForm isEditing={true} {article} onSubmit={handleSubmit}>
 		<ImageUploader
 			slot="imageUploader"
 			maxFiles={6}

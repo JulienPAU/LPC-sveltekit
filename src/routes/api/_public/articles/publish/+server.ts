@@ -1,6 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import type { ArticleFormData, ArticleUploadResponse } from '$lib/types/article';
+import { DEFAULT_FILE_VALIDATION, type ArticleFormData, type ArticleUploadResponse } from '$lib/types/article';
 import type { Article_Type } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 
@@ -12,6 +12,33 @@ export const POST = async ({ request, locals }) => {
         }
 
         const formData = await request.formData();
+
+
+        const files = formData.getAll('files') as File[];
+
+
+        if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
+            throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);
+        }
+
+        if (files.length < DEFAULT_FILE_VALIDATION.minFileCount) {
+            throw error(400, `Minimum ${DEFAULT_FILE_VALIDATION.minFileCount} fichiers requis`);
+        }
+
+        // Validation de chaque fichier
+        for (const file of files) {
+            if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
+                throw error(400, `Type de fichier non supporté : ${file.name}`);
+            }
+
+            if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
+                throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
+            }
+        }
+
+
+
+
         const data: ArticleFormData = {
             'titre-article': formData.get('titre-article')?.toString().trim() || '',
             'introduction': formData.get('introduction')?.toString().trim() || '',
@@ -19,6 +46,19 @@ export const POST = async ({ request, locals }) => {
             'end': formData.get('end')?.toString().trim() || '',
             'type': formData.get('type')?.toString() as Article_Type || 'ARTICLE',
         };
+
+
+        // const existingArticle = await prisma.articles.findFirst({
+        //     where: {
+        //         title: data['titre-article'],
+        //     },
+        // });
+
+        // if (existingArticle) {
+        //     throw error(400, `Un article avec ce titre existe déjà.`);
+        // }
+
+
 
         // Validation et création de l'article
         const article = await prisma.articles.create({
@@ -34,8 +74,10 @@ export const POST = async ({ request, locals }) => {
             }
         });
 
-        const files = formData.getAll('files') as File[];
-        console.log('Fichiers reçus sur le serveur:', files); // Debug
+        // if (article.id) {
+        //     throw error(400, `Article déjà créé`);
+        // }
+
 
         // Upload des fichiers sur Uploadthing
         const uploadResults = await Promise.all(
@@ -44,7 +86,6 @@ export const POST = async ({ request, locals }) => {
                     // Créer un UTFile avec le nom du fichier et le customId
                     const utFile = new UTFile([file], `article_${article.id}_${session.user?.id}_${file.name}`);
 
-                    console.log("utFile:", utFile, "utfFile name:", utFile.name); // Debug
 
                     const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN, });
                     const result = await utapi.uploadFiles(utFile);
@@ -54,7 +95,6 @@ export const POST = async ({ request, locals }) => {
                         return undefined;
                     }
 
-                    console.log(`Upload réussi pour ${file.name}:`, result.data.url);
                     return result.data.url;
                 } catch (err) {
                     console.error(`Erreur lors de l'upload de ${file.name}:`, err);
@@ -70,7 +110,11 @@ export const POST = async ({ request, locals }) => {
                 where: { id: article.id },
                 data: { images: uploadedImageUrls }
             });
-            console.log('Article mis à jour avec les images:', updatedArticle);
+            return json({
+                success: true,
+                articleId: updatedArticle.id,
+                imageUrls: uploadedImageUrls
+            });
         } else {
             console.warn('Aucune image valide uploadée. article pas  mis à jour.');
         }

@@ -4,19 +4,20 @@
 	export let props = {
 		title: '',
 		introduction: '',
-		imageUrl: 'LPC_FAV_BLT.png',
+		imageUrl: '/LPC_FAV_BLT.png',
 		author: 'Auteur inconnu',
 		category: 'Catégorie inconnue',
-		id: 0
+		id: 0,
+		style: '',
+		isDashboard: false,
+		status: 'PUBLISHED'
 	};
 </script>
 
-<div
-	class="xl:w3/5 tranform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105 sm:w-4/5 md:w-96 lg:w-2/6"
->
+<div class={props.style}>
 	<figure class="max-h-96 overflow-hidden">
 		<img
-			src={props.imageUrl || 'LPC_FAV_BLT.png'}
+			src={props.imageUrl || '/LPC_FAV_BLT.png'}
 			alt={props.title || 'Image'}
 			class="h-96 w-full max-w-full object-cover"
 		/>
@@ -28,8 +29,29 @@
 			<span class="italic"> {props.category || 'Catégorie inconnue'}</span>
 		</p>
 		<div class="mb-5">{truncateText(props.introduction, 140) || 'Contenu indisponible'}</div>
+
+		{#if props.isDashboard}
+			<div
+				class="absolute right-2 top-2 rounded px-2 py-1 font-semibold
+			{props.status === 'PUBLISHED' ? 'bg-green-500 text-white' : ''}
+			{props.status === 'SUBMITTED' ? 'bg-orange-500 text-white' : ''}
+			{props.status === 'DRAFT' ? 'bg-gray-500 text-white' : ''}"
+			>
+				{#if props.status === 'PUBLISHED'}
+					✔️ Publié
+				{:else if props.status === 'SUBMITTED'}
+					⏳ En attente
+				{:else}
+					📝 Brouillon
+				{/if}
+			</div>
+		{/if}
+
 		<div class="card-actions justify-end">
-			<a href="/articles/{props.id}" class="before:content[''] before:absolute before:inset-0">
+			<a
+				href={props.isDashboard ? `/dashboard/articles/edit/${props.id}` : `/articles/${props.id}`}
+				class="before:content[''] before:absolute before:inset-0"
+			>
 				<!-- <button
 					class="btn bg-yellow-500 text-xl hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 					>+</button

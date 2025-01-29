@@ -14,15 +14,13 @@
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
 		if (input.files) {
-			console.log('Fichiers sélectionnés:', input.files.length); // Debug
-
 			errorMessage = '';
+			files = [];
 
 			if (input.files.length > maxFiles) {
 				errorMessage = `Maximum ${maxFiles} fichiers autorisés`;
 				input.value = ''; // Reset l'input
-				files = [];
-				onFilesSelected(files);
+				onFilesSelected([]);
 				return;
 			}
 			const selectedFiles = Array.from(input.files).filter((file) => {
@@ -31,27 +29,25 @@
 					return false;
 				}
 
-				// if (file.size > maxFileSize) {
-				// 	errorMessage = `${file.name} dépasse la taille maximale`;
-				// 	return false;
-				// }
+				if (file.size > maxFileSize) {
+					errorMessage = `${file.name} dépasse 2 MO`;
+					return false;
+				}
 				return true;
 			});
 
-			console.log('Fichiers après validation:', selectedFiles.length); // Debug
-
-			if (selectedFiles.length > maxFiles) {
-				console.log('Trop de fichiers'); // Debug
-
-				errorMessage = `Maximum ${maxFiles} fichiers autorisés`;
+			if (errorMessage) {
+				input.value = '';
+				onFilesSelected([]);
 				return;
 			}
 
 			if (selectedFiles.length < minFiles) {
-				errorMessage = `Maximum ${minFiles} fichiers autorisés`;
+				errorMessage = `Minimum ${minFiles} fichiers requis`;
+				input.value = '';
+				onFilesSelected([]);
 				return;
 			}
-
 			files = selectedFiles;
 			onFilesSelected(files);
 		}
@@ -76,7 +72,7 @@
 			</label>
 			<ul class="list-disc pl-5">
 				{#each files as file}
-					<li>{file.name} ({(file.size / 1024).toFixed(2)} Ko)</li>
+					<li>{file.name} ({(file.size / (1024 * 1024)).toFixed(2)} Mo)</li>
 				{/each}
 			</ul>
 		</div>

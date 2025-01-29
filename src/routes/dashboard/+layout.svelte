@@ -1,3 +1,5 @@
+<!-- src/ routes/ dashboard/ +layout.svelte -->
+
 <script lang="ts">
 	import Navbar from '$lib/components/header/Navbar.svelte';
 
@@ -15,7 +17,7 @@
 
 <Navbar />
 
-<div class="flex h-screen flex-col">
+<div class="flex flex-col">
 	<!-- Barre de navigation mobile -->
 	<div class="lg:hidden">
 		<div class="bg-gray-700 text-gray-100 lg:hidden">
@@ -33,7 +35,8 @@
 				<ul class="menu-compact menu bg-gray-800 p-4 text-gray-100">
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/dashboard/profil">Profil</a></li>
-
+					<li><a href="/articles/publish">Publier un article</a></li>
+					<li><a href="/dashboard/articles" class="hover:bg-gray-600">Mes articles</a></li>
 					<li>
 						<form method="POST" action="/auth/signout">
 							<button type="submit" class="deco w-full text-left">Déconnexion</button>
@@ -45,11 +48,12 @@
 		{@render children()}
 	</div>
 	<!-- Barre latérale pour grands écrans -->
-	<div class="hidden lg:flex lg:flex-row">
+	<div class="hidden bg-gray-700 lg:flex lg:flex-row">
 		<nav class="menu h-screen w-64 space-y-2 bg-gray-700 p-4 text-gray-100">
 			<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
 			<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
-			<li><a href="#" class="hover:bg-gray-600">Mes articles</a></li>
+			<li><a href="/articles/publish">Publier un article</a></li>
+			<li><a href="/dashboard/articles" class="hover:bg-gray-600">Mes articles</a></li>
 			<li>
 				<form method="POST" action="/auth/signout">
 					<button type="submit" class="deco w-full text-left">Déconnexion</button>

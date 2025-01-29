@@ -1,7 +1,6 @@
 <script>
 	export let data;
 	const session = data?.session;
-	// console.log('session data', session);
 </script>
 
 <section class="p-8">

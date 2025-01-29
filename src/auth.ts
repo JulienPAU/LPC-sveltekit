@@ -216,6 +216,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
     secret: process.env.AUTH_SECRET,
     trustHost: true,
     jwt: {
-        maxAge: 24 * 60 * 60,  // Expiration du token en secondes (ici 24 heures)
+        maxAge: 2 * 60 * 60,  // Expiration du token en secondes (ici 24 heures)
     },
 });

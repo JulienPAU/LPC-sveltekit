@@ -3,7 +3,6 @@
 	import Header from '$lib/components/header/Header.svelte';
 	import '../app.css';
 	import { page } from '$app/stores';
-	import Navbar from '$lib/components/header/Navbar.svelte';
 
 	let { children } = $props();
 

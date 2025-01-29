@@ -111,7 +111,8 @@
 						>
 							<li><a href="/dashboard">Dashboard</a></li>
 							<li><a href="/dashboard/profil">Profil</a></li>
-							<!-- <li><a href="/settings">Paramètres</a></li> -->
+							<li><a href="/articles/publish">Publier un article</a></li>
+							<li><a href="/dashboard/articles">Mes articles</a></li>
 							<li>
 								<form method="POST" action="/auth/signout">
 									<button type="submit" class="deco w-full text-left">Déconnexion</button>

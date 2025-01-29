@@ -143,3 +143,182 @@ footer,
 		opacity: 1;
 	}
 }
+
+/* From Uiverse.io by csozidev */
+/* SVG loader made by: csozi | Website: www.csozi.hu*/
+
+/*You dont need this "p" style*/
+.text {
+	font-weight: bolder;
+	font-size: 17px;
+	color: black;
+	position: absolute;
+	translate: -50% 0px;
+	top: 20px;
+	left: 50%;
+	text-align: center;
+}
+
+.loader {
+	overflow: visible;
+	height: fit-content;
+	width: fit-content;
+	padding: 20px;
+	display: flex;
+}
+
+.logo {
+	fill: none;
+	stroke-dasharray: 20px;
+	/*<-- Play with this number until it look cool */
+	stroke: black;
+	animation: load 15s infinite linear;
+}
+
+@keyframes load {
+	0% {
+		stroke-dashoffset: 0px;
+	}
+
+	100% {
+		stroke-dashoffset: 200px;
+		/* <-- This number should always be 10 times the number up there*/
+	}
+}
+
+/* From Uiverse.io by aadium */
+.cloader {
+	width: 20rem;
+	height: 20rem;
+	border: 8px solid black; /* Proportionnel à la taille */
+	border-radius: 50%;
+	margin: 50px auto;
+	position: relative;
+	padding: 4rem; /* Proportionnel à la taille */
+}
+
+.clface {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transform: translateY(-6px); /* Ajusté pour être proportionnel */
+}
+
+.top {
+	height: 20px; /* x2 de l'original */
+	width: 8px; /* x2 de l'original */
+	content: '';
+	background-color: white;
+	border-radius: 5em;
+	margin-top: -60px; /* Ajusté proportionnellement */
+	margin-left: 84px; /* Ajusté proportionnellement */
+}
+
+.bottom {
+	height: 20px;
+	width: 8px;
+	content: '';
+	background-color: black;
+	border-radius: 5em;
+	margin-top: 270px;
+	margin-left: 84px;
+}
+
+.left {
+	height: 8px; /* x2 de l'original */
+	width: 20px; /* x2 de l'original */
+	content: '';
+	background-color: black;
+	border-radius: 5em;
+	margin-top: -164px; /* Ajusté proportionnellement */
+	margin-left: 224px; /* Ajusté proportionnellement */
+}
+
+.right {
+	height: 8px; /* x2 de l'original */
+	width: 20px; /* x2 de l'original */
+	content: '';
+	background-color: black;
+	border-radius: 5em;
+	margin-top: -8px; /* Ajusté proportionnellement */
+	margin-left: -70px; /* Ajusté proportionnellement */
+}
+
+.clsface {
+	position: absolute;
+	width: 80px; /* x2 de l'original */
+	height: 80px; /* x2 de l'original */
+	margin-left: 48px; /* Ajusté proportionnellement */
+	margin-top: 40px; /* Ajusté proportionnellement */
+	border-radius: 6em;
+	border: 4px solid #636363; /* x2 de l'original */
+	z-index: -1;
+}
+
+.hand {
+	width: 65%; /* Inchangé, car basé sur la largeur du parent */
+	height: 8px; /* x2 de l'original */
+	background-color: black;
+	border-radius: 3em;
+	border: none;
+	position: absolute;
+	top: 85%;
+	left: -15%;
+	transform-origin: 100%;
+	transform: rotate(90deg);
+	z-index: 999;
+}
+
+.pin {
+	width: 25%; /* Inchangé, car basé sur le parent */
+	height: 25%;
+	border-radius: 50%;
+	background: black;
+	position: absolute;
+	top: 86%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#sub {
+	width: 20%; /* x2 de l'original */
+	height: 20%; /* x2 de l'original */
+	border-radius: 50%;
+	background: #636363;
+	position: absolute;
+	top: 133%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#h1 {
+	animation: rotate 4s linear infinite;
+}
+
+#h2 {
+	width: 45%;
+	left: 5%;
+	top: 45%;
+	background-color: #636363;
+	animation: rotate 1s linear infinite;
+}
+
+.top-marker {
+	height: 20px;
+	width: 8px;
+	content: '';
+	background-color: black;
+	border-radius: 5em;
+	margin-top: -20px;
+	margin-left: 84px;
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(90deg);
+	}
+
+	to {
+		transform: rotate(450deg);
+	}
+}
