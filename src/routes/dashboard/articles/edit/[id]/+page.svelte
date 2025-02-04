@@ -55,11 +55,11 @@
 		const formData = new FormData(form);
 
 		// Vérifie qu'il y a bien des fichiers sélectionnés
-		if (selectedFiles.length === 0) {
-			alert('Ajoutez au moins une image');
-			isSubmitting = false;
-			return;
-		}
+		// if (selectedFiles.length === 0) {
+		// 	alert('Ajoutez au moins une image');
+		// 	isSubmitting = false;
+		// 	return;
+		// }
 
 		// Ajoute les fichiers à FormData
 		selectedFiles.forEach((file) => {

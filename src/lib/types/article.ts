@@ -1,4 +1,4 @@
-import type { Article_Type } from '@prisma/client';
+import type { Article_Type, Category } from '@prisma/client';
 
 export interface ArticleFormData {
     'titre-article': string;
@@ -6,6 +6,7 @@ export interface ArticleFormData {
     'corps-article': string;
     'end': string;
     'type': Article_Type;
+    'category': Category;
     'files'?: File[];
 }
 

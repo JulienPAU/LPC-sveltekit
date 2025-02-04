@@ -1,7 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION, type ArticleFormData } from '$lib/types/article';
-import type { Article_Type } from '@prisma/client';
+import type { Article_Type, Category } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 
 export const POST = async ({ request, locals, params }) => {
@@ -80,13 +80,33 @@ export const POST = async ({ request, locals, params }) => {
             uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
         }
 
+
+
         const data: ArticleFormData = {
             'titre-article': formData.get('titre-article')?.toString().trim() || '',
             'introduction': formData.get('introduction')?.toString().trim() || '',
             'corps-article': formData.get('corps-article')?.toString().trim() || '',
             'end': formData.get('end')?.toString().trim() || '',
             'type': formData.get('type')?.toString() as Article_Type || 'ARTICLE',
+            'category': formData.get('category')?.toString() as Category,
         };
+
+        const categoryName = data.category; // Nom de la catégorie envoyé dans le formulaire
+
+        let categoryId: number | null = null;
+
+        if (categoryName) {
+            const category = await prisma.categories.findFirst({
+                where: { type: categoryName as Category },
+            });
+
+            if (category) {
+                categoryId = category.id;
+            } else {
+                throw new Error(`La catégorie ${categoryName} n'existe pas.`);
+            }
+        }
+
 
         const article = await prisma.articles.update({
             where: { id: articleId },
@@ -99,6 +119,8 @@ export const POST = async ({ request, locals, params }) => {
                 status: 'SUBMITTED',
                 article_type: data.type,
                 images: uploadedImageUrls, // Conserve les anciennes images si aucune nouvelle n'est ajoutée
+                category: categoryId ? { connect: { id: categoryId } } : undefined,
+
             }
         });
 

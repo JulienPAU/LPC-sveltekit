@@ -1,6 +1,8 @@
 <!-- src/lib/components/form/ArticleForm.svelte -->
 
 <script lang="ts">
+	import type { Category } from '@prisma/client';
+
 	export let isEditing = false;
 	export let article = {
 		title: '',
@@ -8,8 +10,10 @@
 		introduction: '',
 		body: '',
 		ending: '',
-		images: []
+		images: [],
+		category: { type: '' }
 	};
+
 	export let onSubmit: (event: SubmitEvent) => void;
 	export let onDelete: ((event: MouseEvent) => void) | null = null;
 
@@ -26,21 +30,39 @@
 	function cancelDelete() {
 		confirmDelete = false;
 	}
+
+	let selectedCategory = article.category?.type || 'Choisir une catégorie';
+
+	$: if (selectedCategory) {
+		if (!article.category) {
+			article.category = { type: selectedCategory };
+		} else {
+			article.category.type = selectedCategory;
+		}
+	}
 </script>
 
 <form on:submit={onSubmit} class="mx-auto mb-10 w-full max-w-4xl rounded-xl bg-gray-200 p-10">
 	<div class="mb-5 flex flex-col gap-5 md:flex-row">
 		<div class="w-full">
-			<label for="titre-article" class="mb-1 block text-lg font-bold text-gray-700">
-				Titre de l'article
-			</label>
-			<input
-				id="titre-article"
-				name="titre-article"
-				type="text"
-				class="input input-bordered input-warning w-full"
-				bind:value={article.title}
-			/>
+			<label for="category" class="mb-1 block text-lg font-bold text-gray-700"> Catégorie </label>
+
+			<select
+				id="category"
+				name="category"
+				class="select select-warning w-full text-lg"
+				bind:value={selectedCategory}
+			>
+				<option disabled selected>Choisir une catégorie</option>
+
+				<option value="LUXURY">Montres de luxe</option>
+				<option value="SMARTWATCH">Montres connectées</option>
+				<option value="DIGITAL">Montres digitales</option>
+				<option value="ANALOG">Montres analogiques</option>
+				<option value="HYBRID">Montres hybrides</option>
+				<option value="CHRONOGRAPH">Montres chronographe</option>
+				<option value="OTHER">Autre catégorie</option>
+			</select>
 		</div>
 
 		<div class="w-full">
@@ -51,9 +73,8 @@
 				class="select select-warning w-full text-lg"
 				bind:value={article.article_type}
 			>
-				{#if !isEditing}
-					<option value="" disabled selected class="text-black">Choisir un type</option>
-				{/if}
+				<option value="" disabled selected class="text-black">Choisir un type</option>
+
 				<option value="ARTICLE">Article</option>
 				<option value="REVIEW">Review</option>
 				<option value="TECHNICAL">Technique</option>
@@ -62,20 +83,19 @@
 			</select>
 		</div>
 	</div>
-	<!-- <div class="w-full">
-				<label for="categorie" class="mb-1 block text-lg font-bold text-gray-700">
-					Catégorie
-				</label>
 
-				<select id="categorie" name="categorie" class="select select-warning w-full text-lg">
-					<option disabled selected>Choisir une catégorie</option>
-					<option value="LUXURY">Montres de luxe</option>
-					<option value="SMARTWATCH">Montres connectées</option>
-					<option value="DIGITAL">Montres digitales</option>
-					<option value="ANALOG">Montres analogiques</option>
-					<option value="HYBRID">Montres hybrides</option>
-				</select>
-			</div> -->
+	<div class="w-full">
+		<label for="titre-article" class="mb-1 block text-lg font-bold text-gray-700">
+			Titre de l'article
+		</label>
+		<input
+			id="titre-article"
+			name="titre-article"
+			type="text"
+			class="input input-bordered input-warning mb-5 w-full"
+			bind:value={article.title}
+		/>
+	</div>
 
 	<div>
 		<label for="introduction" class="mb-1 block text-lg font-bold text-gray-700">
@@ -164,7 +184,11 @@
 						</div>
 					</div>
 				{:else}
-					<button type="button" class=" btn bg-red-500 text-xl" on:click={askDelete}>
+					<button
+						type="button"
+						class=" btn bg-red-500 text-xl hover:bg-red-400"
+						on:click={askDelete}
+					>
 						Supprimer
 					</button>
 				{/if}

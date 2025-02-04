@@ -1,7 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION, type ArticleFormData, type ArticleUploadResponse } from '$lib/types/article';
-import type { Article_Type } from '@prisma/client';
+import type { Article_Type, Category } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 
 export const POST = async ({ request, locals }) => {
@@ -47,6 +47,8 @@ export const POST = async ({ request, locals }) => {
             'corps-article': formData.get('corps-article')?.toString().trim() || '',
             'end': formData.get('end')?.toString().trim() || '',
             'type': formData.get('type')?.toString() as Article_Type || 'ARTICLE',
+            'category': formData.get('category')?.toString() as Category,
+
         };
 
 
@@ -59,6 +61,16 @@ export const POST = async ({ request, locals }) => {
         // if (existingArticle) {
         //     throw error(400, `Un article avec ce titre existe déjà.`);
         // }
+        const categoryName = data.category; // Nom de la catégorie envoyé dans le formulaire
+
+
+        const category = await prisma.categories.findFirst({
+            where: { type: categoryName as Category }, // Recherche de la catégorie par son nom
+        });
+
+        if (!category) {
+            throw new Error(`La catégorie ${categoryName} n'existe pas.`);
+        }
 
 
 
@@ -72,7 +84,9 @@ export const POST = async ({ request, locals }) => {
                 ending: data.end,
                 submit_date: new Date(),
                 status: 'SUBMITTED',
-                article_type: data.type
+                article_type: data.type,
+                category: { connect: { id: category.id } },
+
             }
         });
 

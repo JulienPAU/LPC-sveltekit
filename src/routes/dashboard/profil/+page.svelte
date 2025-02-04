@@ -95,133 +95,140 @@
 	}
 </script>
 
-<SectionTitle title="Votre profil" />
-<form
-	on:submit={handleSubmit}
-	class="mx-auto w-full max-w-4xl items-center rounded-xl bg-gray-200 p-10"
->
-	<div class="flex flex-col gap-5">
-		<div class="flex flex-col gap-5 md:flex-row">
-			<div class="w-full">
-				<label for="username" class="mb-1 block text-lg font-bold text-gray-700"> Username </label>
-				<input
-					id="username"
-					name="username"
-					type="text"
-					class="input input-bordered input-warning w-full"
-					bind:value={username}
-				/>
+<section class="px-5 lg:p-0">
+	<SectionTitle title="Votre profil" />
+
+	<form
+		on:submit={handleSubmit}
+		class="mx-auto w-full max-w-4xl items-center rounded-xl bg-gray-200 p-10"
+	>
+		<div class="flex flex-col gap-5">
+			<div class="flex flex-col gap-5 md:flex-row">
+				<div class="w-full">
+					<label for="username" class="mb-1 block text-lg font-bold text-gray-700">
+						Username
+					</label>
+					<input
+						id="username"
+						name="username"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={username}
+					/>
+				</div>
+
+				<div class="w-full">
+					<label for="role" class="mb-1 block text-lg font-bold text-gray-700"> Role </label>
+					<input
+						id="role"
+						name="role"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						value={user.role.toLowerCase()}
+						disabled
+					/>
+				</div>
 			</div>
 
-			<div class="w-full">
-				<label for="role" class="mb-1 block text-lg font-bold text-gray-700"> Role </label>
+			<div class="flex flex-col gap-5 md:flex-row">
+				<div class="w-full">
+					<label for="first_name" class="mb-1 block text-lg font-bold text-gray-700">
+						First Name
+					</label>
+					<input
+						id="first_name"
+						name="first_name"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={firstName}
+						placeholder="Non spécifié"
+					/>
+				</div>
+
+				<div class="w-full">
+					<label for="last_name" class="mb-1 block text-lg font-bold text-gray-700">
+						Last Name
+					</label>
+					<input
+						id="last_name"
+						name="last_name"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={lastName}
+						placeholder="Non spécifié"
+					/>
+				</div>
+			</div>
+
+			<div>
+				<label for="email" class="mb-1 block text-lg font-bold text-gray-700"> Email </label>
 				<input
-					id="role"
-					name="role"
-					type="text"
+					id="email"
+					name="email"
+					type="email"
 					class="input input-bordered input-warning w-full"
-					value={user.role.toLowerCase()}
+					value={user.email}
 					disabled
 				/>
 			</div>
-		</div>
 
-		<div class="flex flex-col gap-5 md:flex-row">
-			<div class="w-full">
-				<label for="first_name" class="mb-1 block text-lg font-bold text-gray-700">
-					First Name
+			<div>
+				<label for="current_password" class="mb-1 block text-lg font-bold text-gray-700">
+					Current Password
 				</label>
 				<input
-					id="first_name"
-					name="first_name"
-					type="text"
+					id="current_password"
+					name="current_password"
+					type="password"
 					class="input input-bordered input-warning w-full"
-					bind:value={firstName}
-					placeholder="Non spécifié"
+					placeholder="Enter current password"
 				/>
 			</div>
 
-			<div class="w-full">
-				<label for="last_name" class="mb-1 block text-lg font-bold text-gray-700">
-					Last Name
+			<div>
+				<label for="new_password" class="mb-1 block text-lg font-bold text-gray-700">
+					New Password
 				</label>
 				<input
-					id="last_name"
-					name="last_name"
-					type="text"
+					id="new_password"
+					name="new_password"
+					type="password"
 					class="input input-bordered input-warning w-full"
-					bind:value={lastName}
-					placeholder="Non spécifié"
+					placeholder="Enter new password"
 				/>
 			</div>
-		</div>
 
-		<div>
-			<label for="email" class="mb-1 block text-lg font-bold text-gray-700"> Email </label>
-			<input
-				id="email"
-				name="email"
-				type="email"
-				class="input input-bordered input-warning w-full"
-				value={user.email}
-				disabled
-			/>
+			<div class="flex justify-between">
+				<button type="button" class="btn btn-primary text-xl" on:click={resetForm}>
+					Annuler
+				</button>
+				<button type="submit" class="btn btn-warning text-xl"> Enregistrer </button>
+			</div>
 		</div>
+	</form>
 
-		<div>
-			<label for="current_password" class="mb-1 block text-lg font-bold text-gray-700">
-				Current Password
-			</label>
-			<input
-				id="current_password"
-				name="current_password"
-				type="password"
-				class="input input-bordered input-warning w-full"
-				placeholder="Enter current password"
-			/>
+	{#if confirmDelete}
+		<div class="mt-5 flex flex-col items-center gap-2">
+			<p class="mb-2 text-xl font-bold">Etes vous sur de vouloir supprimer?</p>
+			<div class="mb-10 flex gap-2 lg:mb-0">
+				<button
+					type="button"
+					class="btn btn-error text-xl"
+					disabled={isSubmitting}
+					on:click={handleDelete}
+				>
+					Oui, supprimer
+				</button>
+				<button type="button" class="btn btn-primary text-xl" on:click={cancelDelete}>
+					Annuler
+				</button>
+			</div>
 		</div>
-
-		<div>
-			<label for="new_password" class="mb-1 block text-lg font-bold text-gray-700">
-				New Password
-			</label>
-			<input
-				id="new_password"
-				name="new_password"
-				type="password"
-				class="input input-bordered input-warning w-full"
-				placeholder="Enter new password"
-			/>
-		</div>
-
-		<div class="flex justify-between">
-			<button type="button" class="btn btn-primary text-xl" on:click={resetForm}> Annuler </button>
-			<button type="submit" class="btn btn-warning text-xl"> Enregistrer </button>
-		</div>
-	</div>
-</form>
-
-{#if confirmDelete}
-	<div class="mt-5 flex flex-col items-center gap-2">
-		<p class="mb-2 text-xl font-bold">Etes vous sur de vouloir supprimer?</p>
-		<div class="mb-10 flex gap-2 lg:mb-0">
-			<button
-				type="button"
-				class="btn btn-error text-xl"
-				disabled={isSubmitting}
-				on:click={handleDelete}
+	{:else}
+		<div class="mb-10 mt-10 flex w-full justify-center lg:mb-0">
+			<button type="button" class=" btn btn-error text-xl" on:click={askDelete}>
+				Supprimer mon compte</button
 			>
-				Oui, supprimer
-			</button>
-			<button type="button" class="btn btn-primary text-xl" on:click={cancelDelete}>
-				Annuler
-			</button>
 		</div>
-	</div>
-{:else}
-	<div class="mb-10 mt-10 flex w-full justify-center lg:mb-0">
-		<button type="button" class=" btn btn-error text-xl" on:click={askDelete}>
-			Supprimer mon compte</button
-		>
-	</div>
-{/if}
+	{/if}
+</section>

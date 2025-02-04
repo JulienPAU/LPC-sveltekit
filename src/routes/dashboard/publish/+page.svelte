@@ -21,9 +21,6 @@
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		console.log('selectedFiles:', selectedFiles);
-		console.log('formData avant ajout:', formData);
-
 		// Utilise selectedFiles pour ajouter les fichiers au formData
 		if (selectedFiles.length === 0) {
 			alert('Minimum une photo requise');
@@ -34,8 +31,6 @@
 		selectedFiles.forEach((file) => {
 			formData.append('files', file);
 		});
-
-		console.log('formData après ajout:', formData);
 
 		try {
 			const response = await fetch('/api/_public/articles/publish', {
