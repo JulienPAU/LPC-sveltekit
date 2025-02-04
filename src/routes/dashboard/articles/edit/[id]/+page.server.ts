@@ -5,6 +5,9 @@ interface Params {
 export async function load({ params, fetch }: { params: Params, fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response> }) {
 
     try {
+
+
+
         const response = await fetch(`/api/_public/article_id/${params.id}`);
 
         if (!response.ok) {

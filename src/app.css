@@ -30,7 +30,8 @@ body {
 
 a,
 summary,
-.deco {
+.deco,
+.logs-btn {
 	font-family:
 		Roboto,
 		system-ui,
@@ -52,7 +53,7 @@ a:hover,
 summary:hover,
 .search:hover,
 .deco:hover {
-	color: #eab308;
+	color: rgb(234, 179, 8);
 }
 
 :is(h1, h2, h3, h4, h5, h6) {

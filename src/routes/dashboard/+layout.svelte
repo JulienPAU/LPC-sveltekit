@@ -32,14 +32,19 @@
 				</button>
 			</div>
 			{#if isMenuOpen}
-				<ul class="menu-compact menu bg-gray-800 p-4 text-gray-100">
-					<li><a href="/dashboard">Dashboard</a></li>
-					<li><a href="/dashboard/profil">Profil</a></li>
-					<li><a href="/articles/publish">Publier un article</a></li>
-					<li><a href="/dashboard/articles" class="hover:bg-gray-600">Mes articles</a></li>
+				<ul class="menu-compact menu bg-gray-800 p-4 font-bold text-gray-100">
+					<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
+					<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
+					<li><a href="/dashboard/publish" class="hover:bg-gray-600">Publier un article</a></li>
 					<li>
-						<form method="POST" action="/auth/signout">
-							<button type="submit" class="deco w-full text-left">Déconnexion</button>
+						<a href="/dashboard/articles" class="hover:bg-gray-600">Voir ou modifier mes articles</a
+						>
+					</li>
+					<li>
+						<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
+							<button type="submit" class="deco w-full text-left group-hover:text-red-500">
+								Déconnexion
+							</button>
 						</form>
 					</li>
 				</ul>
@@ -48,15 +53,36 @@
 		{@render children()}
 	</div>
 	<!-- Barre latérale pour grands écrans -->
-	<div class="hidden bg-gray-700 lg:flex lg:flex-row">
-		<nav class="menu h-screen w-64 space-y-2 bg-gray-700 p-4 text-gray-100">
-			<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
-			<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
-			<li><a href="/articles/publish">Publier un article</a></li>
-			<li><a href="/dashboard/articles" class="hover:bg-gray-600">Mes articles</a></li>
+	<div class=" hidden bg-gray-700 lg:flex lg:flex-row">
+		<nav class="menu sticky top-0 h-screen w-80 space-y-2 bg-gray-700 p-4 text-gray-100">
 			<li>
-				<form method="POST" action="/auth/signout">
-					<button type="submit" class="deco w-full text-left">Déconnexion</button>
+				<a href="/dashboard" class="text-lg font-bold hover:bg-gray-600"
+					><i class="fa-solid fa-chart-pie" style="color: #eab308;"></i> Dashboard</a
+				>
+			</li>
+			<li>
+				<a href="/dashboard/profil" class="text-lg font-bold hover:bg-gray-600"
+					><i class="fa-solid fa-user" style="color: #eab308;"></i> Profil</a
+				>
+			</li>
+			<li>
+				<a href="/dashboard/publish" class="text-lg font-bold hover:bg-gray-600"
+					><i class="fa-solid fa-pen-clip" style="color: #eab308;"></i> Publier un article</a
+				>
+			</li>
+			<li>
+				<a href="/dashboard/articles" class="text-lg font-bold hover:bg-gray-600"
+					><i class="fa-solid fa-newspaper" style="color: #eab308;"></i> Mes articles</a
+				>
+			</li>
+			<li>
+				<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
+					<button
+						type="submit"
+						class="deco w-full text-left text-lg font-bold group-hover:text-red-500"
+					>
+						<i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
+					</button>
 				</form>
 			</li>
 		</nav>

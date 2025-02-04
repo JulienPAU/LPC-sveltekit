@@ -1,12 +1,15 @@
+// src/ routes/ dashboard/ +layout.server.ts
 
-
-export async function load({ fetch, locals }) {
+export async function load({ fetch, locals, depends }) {
 
     const session = await locals.auth();
 
 
 
     try {
+        depends('app:user');  // Puisqu'on manipule des articles
+
+
         const response = await fetch(`/api/_public/dashboard/${session?.user?.id}`);
 
 

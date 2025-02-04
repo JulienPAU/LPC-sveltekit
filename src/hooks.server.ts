@@ -8,7 +8,7 @@ import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 
 async function authorizationHandle({ event, resolve }: { event: RequestEvent, resolve: (event: RequestEvent, opts?: ResolveOptions) => MaybePromise<Response> }) {
     // Protect any routes under /authenticated
-    if (event.url.pathname.startsWith('/dashboard') || event.url.pathname.startsWith('/articles/publish')) {
+    if (event.url.pathname.startsWith('/dashboard')) {
         const session = await event.locals.auth();
 
         if (!session) {

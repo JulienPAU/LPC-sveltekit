@@ -1,7 +1,7 @@
 <!-- src/lib/components/form/ArticleForm.svelte -->
 
 <script lang="ts">
-	export let isEditing = false; // Pour différencier mode édition vs création
+	export let isEditing = false;
 	export let article = {
 		title: '',
 		article_type: '',
@@ -11,13 +11,22 @@
 		images: []
 	};
 	export let onSubmit: (event: SubmitEvent) => void;
+	export let onDelete: ((event: MouseEvent) => void) | null = null;
+
 	export let isSubmitting = false;
 
-	// Prop optionnelle pour la fonction de gestion des fichiers
 	export let onFilesSelected: ((files: File[]) => void) | null = null;
-</script>
 
-src/
+	let confirmDelete = false;
+
+	function askDelete() {
+		confirmDelete = true;
+	}
+
+	function cancelDelete() {
+		confirmDelete = false;
+	}
+</script>
 
 <form on:submit={onSubmit} class="mx-auto mb-10 w-full max-w-4xl rounded-xl bg-gray-200 p-10">
 	<div class="mb-5 flex flex-col gap-5 md:flex-row">
@@ -43,7 +52,7 @@ src/
 				bind:value={article.article_type}
 			>
 				{#if !isEditing}
-					<option disabled selected>Choisir un type</option>
+					<option value="" disabled selected class="text-black">Choisir un type</option>
 				{/if}
 				<option value="ARTICLE">Article</option>
 				<option value="REVIEW">Review</option>
@@ -104,22 +113,26 @@ src/
 
 	<div class="flex-col">
 		{#if isEditing}
-			<div class="w-full">
+			<div class="mb-5 w-full">
 				<label for="upload-files" class="mb-1 block text-lg font-bold text-gray-700">
-					Télécharger des fichiers
+					Modifier les photos de l'article
 				</label>
 				<slot name="imageUploader" />
 			</div>
-			<div>
+			<div class="mb-20">
 				<label for="img" class="mb-1 block text-lg font-bold text-gray-700">Images</label>
-				<div class="l flex flex-wrap gap-5">
+				<div class=" flex flex-wrap gap-1">
 					{#each article.images as image}
-						<img src={image} alt="l'article" class="image-item h-48 w-auto" />
+						<img
+							src={image}
+							alt="l'article"
+							class="image-item w-1/5 rounded-xl sm:w-1/5 lg:w-1/5"
+						/>
 					{/each}
 				</div>
 			</div>
 		{:else if onFilesSelected}
-			<div class="w-full">
+			<div class="mb-20 w-full">
 				<label for="upload-files" class="mb-1 block text-lg font-bold text-gray-700">
 					Télécharger des fichiers
 				</label>
@@ -127,8 +140,35 @@ src/
 			</div>
 		{/if}
 
-		<button type="submit" class="btn btn-warning mt-20 text-xl" disabled={isSubmitting}>
-			{isSubmitting ? 'En cours...' : 'Valider'}
-		</button>
+		<div class="flex justify-between">
+			<button type="submit" class="btn btn-warning text-xl" disabled={isSubmitting}>
+				{isSubmitting ? 'En cours...' : 'Valider'}
+			</button>
+
+			{#if isEditing}
+				{#if confirmDelete}
+					<div class="flex flex-col items-center gap-2">
+						<p class="mb-2 text-xl font-bold">Etes vous sur de vouloir supprimer?</p>
+						<div class="flex gap-2">
+							<button
+								type="button"
+								class="btn btn-error text-xl"
+								disabled={isSubmitting}
+								on:click={onDelete}
+							>
+								Oui, supprimer
+							</button>
+							<button type="button" class="btn btn-primary text-xl" on:click={cancelDelete}>
+								Annuler
+							</button>
+						</div>
+					</div>
+				{:else}
+					<button type="button" class=" btn bg-red-500 text-xl" on:click={askDelete}>
+						Supprimer
+					</button>
+				{/if}
+			{/if}
+		</div>
 	</div>
 </form>

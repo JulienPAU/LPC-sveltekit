@@ -1,3 +1,5 @@
+<!-- src/routes/+page.svelte -->
+
 <script lang="ts">
 	import Band from '$lib/components/band/band.svelte';
 	import Card from '$lib/components/card/Card.svelte';
@@ -6,49 +8,33 @@
 	import type { PageData } from './$types';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import Loader from '$lib/components/loader.svelte';
+	import { invalidate } from '$app/navigation';
 
 	export let data: PageData;
 
-	let loading = true;
-
-	if (data) {
-		loading = false;
-	}
+	let loading = data ? false : true;
 	const articles = data.articles;
-	// console.log('data reçue:', articles);
+	// console.log('Données reçues:', articles);
 
-	// Extraire les images de tous les articles
-	const imageUrls = articles.flatMap((article: { images: string[] }) => article.images);
+	// Extraire toutes les images pour la galerie
+	const imageUrls = articles.flatMap((article: any) =>
+		Array.isArray(article.images) ? article.images : []
+	);
 
-	// console.log(imageUrls); // Vérification des URLs
+	// Séparer les articles en deux groupes
+	const firstTenArticles = articles.slice(0, 10);
+	const remainingArticles = articles.slice(10);
 
-	// Séparez les articles en deux groupes
-	const firstTwoArticles = articles.slice(0, 4); // Les deux premiers
-	const remainingArticles = articles.slice(4); // Tous les articles après
+	async function refreshData() {
+		await invalidate('articles');
+	}
 </script>
 
 {#if loading}
 	<Loader />
 {:else}
 	<SectionTitle title="Derniers articles" />
-	<section class="mb-20 flex w-full flex-wrap justify-center gap-20 lg:gap-20 xl:gap-10">
-		{#each firstTwoArticles as article}
-			<Card
-				props={{
-					title: article.title,
-					introduction: article.introduction,
-					imageUrl: article.images[0],
-					author: article.user.username,
-					category: article.article_type,
-					id: article.id,
-					isDashboard: false,
-					status: 'PUBLISHED',
-					style:
-						'xl:w3/5 tranform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105  md:w-4/5 lg:w-1/5 h-[400px]'
-				}}
-			/>
-		{/each}
-	</section>
+	<Carousel items={firstTenArticles} type="articles" />
 
 	<Band />
 
@@ -59,14 +45,18 @@
 				props={{
 					title: article.title,
 					introduction: article.introduction,
-					imageUrl: article.images[0],
+					imageUrl:
+						Array.isArray(article.images) && article.images.length > 0
+							? article.images[0]
+							: undefined, // Fallback géré dans Card
 					author: article.user.username,
 					category: article.article_type,
 					id: article.id,
 					isDashboard: false,
 					status: 'PUBLISHED',
+					imgStyle: 'h-[400px]',
 					style:
-						'xl:w3/5 tranform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105 sm:w-4/5 md:w-96 lg:w-2/6'
+						'xl:w3/5 transform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105 sm:w-4/5 md:w-96 lg:w-2/6'
 				}}
 			/>
 		{/each}
@@ -76,11 +66,12 @@
 		<a href="articles">
 			<button
 				class="btn mb-20 bg-yellow-500 text-lg hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
-				>Voir plus</button
-			></a
-		>
+			>
+				Voir plus
+			</button>
+		</a>
 	</div>
 
 	<SectionTitle title="Galerie" />
-	<Carousel images={imageUrls} />
+	<Carousel items={imageUrls} type="images" />
 {/if}

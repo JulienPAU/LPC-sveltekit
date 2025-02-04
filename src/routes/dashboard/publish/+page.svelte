@@ -1,5 +1,6 @@
 <!-- routes/articles/publish/+page.svelte -->
 <script lang="ts">
+	import { invalidate } from '$app/navigation';
 	import ArticleForm from '$lib/components/form/ArticleForm.svelte';
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
@@ -20,19 +21,21 @@
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		const imageUploader = document.querySelector('input[type="file"]') as HTMLInputElement;
+		console.log('selectedFiles:', selectedFiles);
+		console.log('formData avant ajout:', formData);
 
-		if (!imageUploader) {
-			throw new Error(`Minimum une photo requise`);
+		// Utilise selectedFiles pour ajouter les fichiers au formData
+		if (selectedFiles.length === 0) {
+			alert('Minimum une photo requise');
+			isSubmitting = false;
+			return;
 		}
 
-		if (imageUploader && imageUploader.files) {
-			const selectedFiles = Array.from(imageUploader.files);
+		selectedFiles.forEach((file) => {
+			formData.append('files', file);
+		});
 
-			selectedFiles.forEach((file) => {
-				formData.append('files', file);
-			});
-		}
+		console.log('formData après ajout:', formData);
 
 		try {
 			const response = await fetch('/api/_public/articles/publish', {
@@ -49,6 +52,8 @@
 			if (result.articleId) {
 				articleId = result.articleId;
 				isSubmitting = false;
+				await invalidate('app:user');
+
 				alert('Article créé avec succès, fichiers téléchargés.');
 			} else {
 				throw new Error("ID de l'article manquant dans la réponse.");

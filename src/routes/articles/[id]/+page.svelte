@@ -7,7 +7,7 @@
 	export let data;
 	export let { article } = data;
 
-	console.log('article:', article);
+	// console.log('article:', article);
 </script>
 
 {#if article}
@@ -15,20 +15,34 @@
 		<SectionTitle title={article.title} />
 
 		<div class="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-20">
+			<h3>Introduction</h3>
 			<p
 				class="mb-6 text-base font-semibold leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 			>
 				{article.introduction}
 			</p>
-			<img
-				src={article.images[0] || '/LPC_FAV_BLT.png'}
-				alt="Article illustration"
-				class="mx-auto mb-6 w-full sm:mb-8 sm:w-4/5 lg:mb-10 lg:w-3/5"
-			/>
-			<p class="mb-6 text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl">
+			<div class="mx-auto mb-6 flex h-[300px] sm:mb-8 lg:mb-10">
+				<img
+					src={article.images.length > 0 ? article.images[0] : '/LPC_FAV_BLT.png'}
+					alt="Article illustration"
+					class=" h-full w-full rounded-xl object-cover"
+				/>
+			</div>
+
+			<p
+				class="mb-6 whitespace-pre-line text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
+			>
 				{article.body}
 			</p>
 
+			<div class="mx-auto mb-6 flex h-[300px] sm:mb-8 lg:mb-10">
+				<img
+					src={article.images.length > 0 ? article.images[1] : '/LPC_FAV_BLT.png'}
+					alt="Article illustration"
+					class=" h-full w-full rounded-xl object-cover"
+				/>
+			</div>
+			<h3>Conclusion</h3>
 			<p class="mb-6 text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl">
 				{article.ending}
 			</p>
@@ -43,7 +57,7 @@
 			{/each}
 		</div> -->
 	</section>
-	<Carousel images={article.images} />
+	<Carousel items={article.images} type="images" />
 {:else}
 	<p>L'article est introuvable ou une erreur s'est produite.</p>
 {/if}

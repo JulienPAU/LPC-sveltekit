@@ -1,6 +1,10 @@
 <script lang="ts">
+	import Card from '../card/Card.svelte';
+
 	let carousel: HTMLDivElement | null = null;
-	export let images: string[];
+
+	export let items: (string | any)[];
+	export let type: 'images' | 'articles' = 'images';
 
 	function scrollCarousel(direction: number) {
 		if (carousel) {
@@ -8,18 +12,24 @@
 		}
 	}
 
-	$: processedImages =
-		images?.length > 0
-			? images.sort(() => 0.5 - Math.random()).slice(0, 10)
-			: [
-					'/src/lib/assets/watches/Boderry_voyager.JPG',
-					'/src/lib/assets/watches/casio.png',
-					'/src/lib/assets/watches/Glycine.png',
-					'/src/lib/assets/watches/Humism.png',
-					'/src/lib/assets/watches/olto.jpg',
-					'/src/lib/assets/watches/seagull.png',
-					'/src/lib/assets/watches/seiko.JPG'
-				];
+	$: processedItems =
+		type === 'images'
+			? items?.length > 0
+				? items.sort(() => 0.5 - Math.random()).slice(0, 10)
+				: [
+						'/src/lib/assets/watches/Boderry_voyager.JPG',
+						'/src/lib/assets/watches/casio.png',
+						'/src/lib/assets/watches/Glycine.png',
+						'/src/lib/assets/watches/Humism.png',
+						'/src/lib/assets/watches/olto.jpg',
+						'/src/lib/assets/watches/seagull.png',
+						'/src/lib/assets/watches/seiko.JPG'
+					]
+			: items.slice(0, 10);
+
+	$: carouselClasses = `carousel mx-0 flex w-full snap-x overflow-x-auto px-4  md:mx-2 lg:mx-3 ${
+		type === 'images' ? 'gap-2' : 'gap-6 py-10'
+	}`;
 </script>
 
 <div class="relative mb-10 flex items-center justify-center">
@@ -39,19 +49,33 @@
 		</svg>
 	</button>
 
-	<div
-		bind:this={carousel}
-		class="carousel mx-0 flex w-full snap-x overflow-x-auto md:mx-2 lg:mx-3"
-	>
-		{#if processedImages.length > 0}
-			{#each processedImages as image}
-				<div class="carousel-item h-[250px] w-[253px] flex-shrink-0 snap-center">
-					<img
-						src={image}
-						alt="article"
-						class="h-full w-full rounded-xl border-2 border-white object-cover"
-					/>
-				</div>
+	<div bind:this={carousel} class={carouselClasses}>
+		{#if processedItems.length > 0}
+			{#each processedItems as item}
+				{#if type === 'images'}
+					<div class="carousel-item h-[250px] w-[253px] flex-shrink-0 snap-center">
+						<img src={item} alt="article" class="h-full w-full rounded-xl object-cover" />
+					</div>
+				{:else}
+					<div class="carousel-item w-[350px] flex-shrink-0 snap-center lg:w-[420px]">
+						<Card
+							props={{
+								title: item.title,
+								introduction: item.introduction,
+								imageUrl:
+									Array.isArray(item.images) && item.images.length > 0 ? item.images[0] : undefined,
+								author: item.user.username,
+								category: item.article_type,
+								id: item.id,
+								isDashboard: false,
+								status: 'PUBLISHED',
+								imgStyle: 'h-[250px]',
+								style:
+									'transform card w-full bg-base-100 shadow-xl transition duration-500 hover:scale-105  overflow-hidden'
+							}}
+						/>
+					</div>
+				{/if}
 			{/each}
 		{/if}
 	</div>

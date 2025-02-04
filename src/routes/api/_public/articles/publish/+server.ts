@@ -16,6 +16,8 @@ export const POST = async ({ request, locals }) => {
 
         const files = formData.getAll('files') as File[];
 
+        console.log('files:', files);
+
 
         if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
             throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);

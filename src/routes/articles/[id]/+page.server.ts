@@ -13,6 +13,8 @@ export async function load({ params, fetch }: { params: Params, fetch: (input: R
 
         const article = await response.json();
 
+
+
         return { article, id: params.id };
     } catch (error) {
         console.error("Load error:", error);

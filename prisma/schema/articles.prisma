@@ -10,7 +10,7 @@ model Articles {
   submit_date    DateTime?  // Date à laquelle l'article a été soumis
   update_date    DateTime?  // Date à laquelle l'article a été mis à jour
 
-  images         Json[]  // Relation avec les images
+  images         String[]  
   status         Status     
   article_type   Article_Type
   ArticleTags    ArticleTags[]

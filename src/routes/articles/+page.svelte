@@ -19,6 +19,7 @@
 				id: article.id,
 				isDashboard: false,
 				status: 'PUBLISHED',
+				imgStyle: 'h-[400px]',
 				style:
 					'xl:w3/5 tranform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105 sm:w-4/5 md:w-96 lg:w-2/6'
 			}}

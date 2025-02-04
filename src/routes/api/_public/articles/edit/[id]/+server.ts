@@ -1,16 +1,10 @@
-// src/ routes/api/_public/articles/edit/[id]/+server.ts
-
-
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION, type ArticleFormData } from '$lib/types/article';
 import type { Article_Type } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 
-
-
 export const POST = async ({ request, locals, params }) => {
-
     const articleId = parseInt(params.id);
 
     try {
@@ -24,91 +18,67 @@ export const POST = async ({ request, locals, params }) => {
         const files = formData.getAll('files') as File[];
         const hasNewFiles = files.length > 0;
 
+        // Récupérer l'article existant et ses images
+        const existingArticle = await prisma.articles.findUnique({
+            where: { id: articleId },
+            select: { images: true }
+        });
 
-        if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
-            throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);
-        }
-
-        if (files.length < DEFAULT_FILE_VALIDATION.minFileCount) {
-            throw error(400, `Minimum ${DEFAULT_FILE_VALIDATION.minFileCount} fichiers requis`);
-        }
-
-        // Validation de chaque fichier
-        for (const file of files) {
-            if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
-                throw error(400, `Type de fichier non supporté : ${file.name}`);
-            }
-
-            if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
-                throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
-            }
-        }
+        let uploadedImageUrls: string[] = existingArticle?.images || []; // Conserver les images existantes par défaut
 
         if (hasNewFiles) {
             if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
                 throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);
             }
 
-            // Validation de chaque fichier
             for (const file of files) {
                 if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
                     throw error(400, `Type de fichier non supporté : ${file.name}`);
                 }
-
                 if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
                     throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
                 }
             }
-        }
 
-        const existingArticle = await prisma.articles.findUnique({
-            where: { id: articleId },
-            select: { images: true }
-        });
+            const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
 
-        const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
-
-        // Supprimer les anciennes images si elles existent
-        if (existingArticle?.images && existingArticle.images.length > 0) {
-            try {
-                // Extraire les fileKeys des URLs existantes
-                const fileKeys = existingArticle.images.map(url => {
-                    const urlParts = typeof url === 'string' ? url.split('/') : [];
-                    return urlParts[urlParts.length - 1];
-                });
-
-                // Supprimer les anciennes images
-                await utapi.deleteFiles(fileKeys);
-            } catch (err) {
-                console.error('Erreur lors de la suppression des anciennes images:', err);
-                // Continuer même si la suppression échoue
-            }
-        }
-
-        const uploadResults = await Promise.all(
-            files.map(async (file) => {
+            // Supprimer les anciennes images seulement si de nouvelles images sont uploadées
+            if (existingArticle?.images && existingArticle.images.length > 0) {
                 try {
-                    const customFileName = `article_${params.id}_${session.user?.id}_${file.name}`;
-                    const utFile = new UTFile([file], customFileName);
-                    const result = await utapi.uploadFiles(utFile);
+                    const fileKeys = existingArticle.images.map(url => {
+                        const urlParts = typeof url === 'string' ? url.split('/') : [];
+                        return urlParts[urlParts.length - 1];
+                    });
 
-                    if (!result || !result.data) {
-                        console.error('Échec de l\'upload pour:', file.name);
+                    await utapi.deleteFiles(fileKeys);
+                } catch (err) {
+                    console.error('Erreur lors de la suppression des anciennes images:', err);
+                }
+            }
+
+            // Upload des nouvelles images
+            const uploadResults = await Promise.all(
+                files.map(async (file) => {
+                    try {
+                        const customFileName = `article_${params.id}_${session.user?.id}_${file.name}`;
+                        const utFile = new UTFile([file], customFileName);
+                        const result = await utapi.uploadFiles(utFile);
+
+                        if (!result || !result.data) {
+                            console.error('Échec de l\'upload pour:', file.name);
+                            return undefined;
+                        }
+
+                        return result.data.url;
+                    } catch (err) {
+                        console.error(`Erreur lors de l'upload de ${file.name}:`, err);
                         return undefined;
                     }
+                })
+            );
 
-                    return result.data.url;
-                } catch (err) {
-                    console.error(`Erreur lors de l'upload de ${file.name}:`, err);
-                    return undefined;
-                }
-            })
-        );
-
-        const uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
-
-
-
+            uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
+        }
 
         const data: ArticleFormData = {
             'titre-article': formData.get('titre-article')?.toString().trim() || '',
@@ -119,9 +89,7 @@ export const POST = async ({ request, locals, params }) => {
         };
 
         const article = await prisma.articles.update({
-            where: {
-                id: articleId
-            },
+            where: { id: articleId },
             data: {
                 title: data['titre-article'],
                 introduction: data.introduction,
@@ -130,16 +98,14 @@ export const POST = async ({ request, locals, params }) => {
                 submit_date: new Date(),
                 status: 'SUBMITTED',
                 article_type: data.type,
-                images: uploadedImageUrls
+                images: uploadedImageUrls, // Conserve les anciennes images si aucune nouvelle n'est ajoutée
             }
         });
 
         return json({ article });
 
-
-
     } catch (err) {
         console.error('Erreur modification de l\'article :', err);
         throw error(500, 'Erreur modification de l\'article');
     }
-}
+};

@@ -10,7 +10,8 @@
 		id: 0,
 		style: '',
 		isDashboard: false,
-		status: 'PUBLISHED'
+		status: 'PUBLISHED',
+		imgStyle: ''
 	};
 </script>
 
@@ -19,16 +20,22 @@
 		<img
 			src={props.imageUrl || '/LPC_FAV_BLT.png'}
 			alt={props.title || 'Image'}
-			class="h-96 w-full max-w-full object-cover"
+			class="{props.imgStyle} w-full max-w-full object-cover"
 		/>
 	</figure>
+
 	<div class="card-body">
 		<h2 class="card-title font-light">{props.title}</h2>
-		<p class="mb-5 text-sm leading-3">
-			Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
-			<span class="italic"> {props.category || 'Catégorie inconnue'}</span>
-		</p>
-		<div class="mb-5">{truncateText(props.introduction, 140) || 'Contenu indisponible'}</div>
+
+		{#if props.isDashboard}
+			{null}
+		{:else}
+			<p class="mb-5 text-sm leading-3">
+				Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
+				<span class="italic"> {props.category || 'Catégorie inconnue'}</span>
+			</p>
+			<div class="mb-5">{truncateText(props.introduction, 140) || 'Contenu indisponible'}</div>
+		{/if}
 
 		{#if props.isDashboard}
 			<div
@@ -51,11 +58,8 @@
 			<a
 				href={props.isDashboard ? `/dashboard/articles/edit/${props.id}` : `/articles/${props.id}`}
 				class="before:content[''] before:absolute before:inset-0"
+				aria-label="Lire l'article"
 			>
-				<!-- <button
-					class="btn bg-yellow-500 text-xl hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
-					>+</button
-				> -->
 			</a>
 		</div>
 	</div>

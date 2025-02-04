@@ -1,8 +1,8 @@
+<!-- src/lib/ components/header/Navbar.svelte -->
+
 <script>
 	import LPC_WC from '$lib/assets/logos/LPC_WC.svg';
 	import { page } from '$app/stores';
-
-	let isMenuOpen = false;
 </script>
 
 <!-- sticky top-5 -->
@@ -31,14 +31,14 @@
 				tabindex="0"
 				class="menu dropdown-content menu-sm z-[1] mt-3 w-40 gap-5 rounded-b-lg bg-gray-900 p-2 shadow"
 			>
-				<li><a href="/">Accueil</a></li>
-				<li><a href="/articles">Articles</a></li>
+				<li><a href="/" class="hover:bg-gray-600">Accueil</a></li>
+				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
 				<li>
 					<details>
 						<summary>Divers</summary>
 						<ul class="rounded-t-none p-2">
-							<li><a href="/">Wiki</a></li>
-							<li><a href="/">Lexique</a></li>
+							<li><a href="/" class="hover:bg-gray-600">Wiki</a></li>
+							<li><a href="/" class="hover:bg-gray-600">Lexique</a></li>
 						</ul>
 					</details>
 				</li>
@@ -46,16 +46,16 @@
 		</div>
 
 		<!-- Desktop links -->
-		<div class="hidden lg:flex">
+		<div class="z-10 hidden lg:flex">
 			<ul class="menu menu-horizontal bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
-				<li><a href="/" class="border-none">Accueil</a></li>
-				<li><a href="/articles">Articles</a></li>
-				<li>
+				<li><a href="/" class="border-none hover:bg-gray-600">Accueil</a></li>
+				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
+				<li class="rounded-lg hover:bg-gray-600">
 					<details>
 						<summary>Divers</summary>
 						<ul class="drop rounded-t-none bg-gray-900 p-2">
-							<li><a href="/">Wiki</a></li>
-							<li><a href="/">Lexique</a></li>
+							<li><a href="/" class="hover:bg-gray-600">Wiki</a></li>
+							<li><a href="/" class="hover:bg-gray-600">Lexique</a></li>
 						</ul>
 					</details>
 				</li>
@@ -109,13 +109,15 @@
 						<ul
 							class=" menu dropdown-content z-[1] w-52 rounded-box border border-yellow-500 bg-gray-900 p-2 shadow"
 						>
-							<li><a href="/dashboard">Dashboard</a></li>
-							<li><a href="/dashboard/profil">Profil</a></li>
-							<li><a href="/articles/publish">Publier un article</a></li>
-							<li><a href="/dashboard/articles">Mes articles</a></li>
+							<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
+							<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
+							<li><a href="/dashboard/publish" class="hover:bg-gray-600">Publier un article</a></li>
+							<li><a href="/dashboard/articles" class="hover:bg-gray-600">Mes articles</a></li>
 							<li>
-								<form method="POST" action="/auth/signout">
-									<button type="submit" class="deco w-full text-left">Déconnexion</button>
+								<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
+									<button type="submit" class="deco w-full text-left group-hover:text-red-500">
+										Déconnexion
+									</button>
 								</form>
 							</li>
 						</ul>
