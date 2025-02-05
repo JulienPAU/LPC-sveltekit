@@ -8,6 +8,11 @@ export interface ArticleFormData {
     'type': Article_Type;
     'category': Category;
     'files'?: File[];
+    'brand': string;
+    'model': string;
+    'movement': string | null;
+    'water_resistance': string | null;
+    'straps': string[];
 }
 
 export interface ArticleUploadResponse {

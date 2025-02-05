@@ -12,6 +12,12 @@
 	export let data;
 	export let { article } = data;
 
+	let currentStraps: string[] = [];
+
+	function handleStrapsChange(straps: string[]) {
+		currentStraps = straps;
+	}
+
 	function handleFilesSelected(files: File[]) {
 		selectedFiles = files;
 	}
@@ -54,12 +60,10 @@
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		// Vérifie qu'il y a bien des fichiers sélectionnés
-		// if (selectedFiles.length === 0) {
-		// 	alert('Ajoutez au moins une image');
-		// 	isSubmitting = false;
-		// 	return;
-		// }
+		formData.delete('straps');
+		currentStraps.forEach((strap) => {
+			formData.append('straps', strap);
+		});
 
 		// Ajoute les fichiers à FormData
 		selectedFiles.forEach((file) => {
@@ -97,7 +101,13 @@
 
 <section class="flex flex-col items-center justify-evenly px-5 pb-5">
 	<SectionTitle title="Modifier l'article" />
-	<ArticleForm isEditing={true} {article} onSubmit={handleSubmit} onDelete={handleDelete}>
+	<ArticleForm
+		isEditing={true}
+		{article}
+		onSubmit={handleSubmit}
+		onDelete={handleDelete}
+		onStrapsChange={handleStrapsChange}
+	>
 		<ImageUploader
 			slot="imageUploader"
 			maxFiles={6}

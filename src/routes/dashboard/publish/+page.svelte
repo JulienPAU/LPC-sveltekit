@@ -10,6 +10,12 @@
 	let isSubmitting = false;
 	let articleId: number | null = null;
 
+	let selectedStraps: string[] = [];
+
+	function handleStrapsChange(straps: string[]) {
+		selectedStraps = straps;
+	}
+
 	function handleFilesSelected(files: File[]) {
 		selectedFiles = files;
 	}
@@ -20,6 +26,8 @@
 
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
+
+		// Ajouter les bracelets sélectionnés
 
 		// Utilise selectedFiles pour ajouter les fichiers au formData
 		if (selectedFiles.length === 0) {
@@ -63,7 +71,12 @@
 
 <section class="flex flex-col items-center justify-evenly px-5 pb-5">
 	<SectionTitle title="Proposer un article" />
-	<ArticleForm {isSubmitting} onSubmit={handleSubmit} onFilesSelected={handleFilesSelected}>
+	<ArticleForm
+		{isSubmitting}
+		onSubmit={handleSubmit}
+		onFilesSelected={handleFilesSelected}
+		on:strapsChange={handleStrapsChange}
+	>
 		<ImageUploader
 			slot="imageUploader"
 			maxFiles={6}

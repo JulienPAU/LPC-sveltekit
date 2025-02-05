@@ -15,10 +15,22 @@ export async function GET({ params }: { params: { id: string } }) {
             user: {
                 select: {
                     username: true,
-                    // role: true, // Expose uniquement le rôle si nécessaire
                 },
             },
             category: true,
+            ArticleWatches: {
+                include: {
+                    watch: {
+                        include: {
+                            straps: {
+                                include: {
+                                    strap: true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
     });
 
