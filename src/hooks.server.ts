@@ -1,4 +1,5 @@
 import { redirect, type Handle } from '@sveltejs/kit';
+import type { User } from './lib/types/user';
 
 type MaybePromise<T> = T | Promise<T>;
 import { handle as authenticationHandle } from './auth';
@@ -21,12 +22,17 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
     if (event.url.pathname.startsWith('/api/_private')) {
         const session = await event.locals.auth();
 
-        // console.log("Session:", session?.user?.User_Role);
+        if (session) {
+            // Assurez-vous que session.user est de type User
+            const user = session.user as User;
 
-        if (session?.user?.User_Role !== 'ADMIN') {
-            throw redirect(303, '/auth/login');
+            // Vérifiez le rôle de l'utilisateur
+            const userRole = user.User_Role?.find(role => role.role === 'ADMIN');
+
+            if (!userRole) {
+                throw redirect(303, '/auth/login');
+            }
         }
-        // console.log("Session:", session);
     }
 
 

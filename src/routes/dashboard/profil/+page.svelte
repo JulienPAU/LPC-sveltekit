@@ -8,8 +8,6 @@
 
 	export let { user } = data;
 
-	console.log('user', user.authProvider);
-
 	let username = user.username;
 	let firstName = user.first_name || '';
 	let lastName = user.last_name || '';
