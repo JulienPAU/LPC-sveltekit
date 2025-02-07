@@ -3,39 +3,13 @@ import Google from "@auth/core/providers/google";
 import Credentials from "@auth/core/providers/credentials";
 import prisma from "$lib/prisma";
 import bcrypt from "bcrypt";
-import type { Session as AuthSession, User as AuthUser } from "@auth/core/types";
+import type { Session as AuthSession, } from "@auth/core/types";
 import type { JWT } from "next-auth/jwt";
 import type { RoleType } from "@prisma/client";
+import type { CustomUser } from "$lib/types/user";
+import type { AuthUser } from "$lib/types/user";
 
 
-export interface SessionUser {
-    id: string;
-    googleId: string | null;
-    email: string;
-    name?: string;
-    first_name?: string;
-    last_name?: string;
-    username?: string;
-    role?: "Reader";
-    user_role: "Reader";
-}
-
-export type CustomUser = {
-    id: string;
-    googleId: string | null;
-    email: string;
-    role: string | null;
-    User_Role?: string;
-    password: string | null;
-    name?: string | null;
-    last_name: string | null;
-    first_name: string | null;
-    username: string | null;
-    profile_picture: string | null;
-    authProvider: string | null;
-    verified: boolean;
-    lastLogin: Date | null;
-};
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
     providers: [

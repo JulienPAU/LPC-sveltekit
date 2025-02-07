@@ -4,6 +4,7 @@
 	import LPC_WC from '$lib/assets/logos/LPC_WC.svg';
 	import logoC from '$lib/assets/logos/logoC.svg';
 	import { page } from '$app/stores';
+	import type { CustomUser } from '$lib/types/user';
 	export let watches: Array<{ brand: string; model: string }> = [];
 
 	const uniqueBrands = [...new Set(watches.map((watch) => watch.brand))];
@@ -125,8 +126,8 @@
 						<button class="avatar cursor-pointer" tabindex="0">
 							<div class="w-10 rounded-full border border-yellow-500 text-sm lg:w-12">
 								<img
-									src={$page?.data?.session?.user?.image ||
-										$page?.data?.session?.user?.profile_picture ||
+									src={($page?.data?.session?.user &&
+										($page.data.session.user as CustomUser)?.profile_picture) ||
 										'/src/lib/assets/user.png'}
 									alt="Avatar"
 									on:error={(event) => {

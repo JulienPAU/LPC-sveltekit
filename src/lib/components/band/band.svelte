@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 	import { onScroll } from '$lib/utils';
 </script>
 
-<div class=" relative bg-gray-200">
+<section class=" relative bg-gray-200">
 	<!--avec animation <div use:onScroll class="slide-in-bottom relative mb-20 bg-gray-200"> -->
 
 	<!-- Contenu -->
@@ -18,4 +18,4 @@
 			</a>
 		</div>
 	</div>
-</div>
+</section>
