@@ -15,15 +15,19 @@
 	// import { page } from '$app/stores';
 </script>
 
-<Navbar />
+<!-- <Navbar /> -->
 
 <div class="flex flex-col">
 	<!-- Barre de navigation mobile -->
 	<div class="lg:hidden">
 		<div class="bg-gray-700 text-gray-100 lg:hidden">
 			<div class="flex items-center justify-between p-4">
-				<h1 class="text-xl">Menu</h1>
-				<button class="btn btn-square btn-ghost" onclick={toggleMenu} aria-label="Toggle Menu">
+				<h1>Menu</h1>
+				<button
+					class="btn btn-square btn-ghost text-2xl"
+					onclick={toggleMenu}
+					aria-label="Toggle Menu"
+				>
 					{#if isMenuOpen}
 						✕
 					{:else}
@@ -33,17 +37,34 @@
 			</div>
 			{#if isMenuOpen}
 				<ul class="menu-compact menu bg-gray-800 p-4 font-bold text-gray-100">
-					<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
-					<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
-					<li><a href="/dashboard/publish" class="hover:bg-gray-600">Publier un article</a></li>
 					<li>
-						<a href="/dashboard/articles" class="hover:bg-gray-600">Voir ou modifier mes articles</a
+						<a href="/dashboard" class="text-lg hover:bg-gray-600">
+							<i class="fa-solid fa-chart-pie" style="color: #eab308;"></i> Dashboard</a
 						>
 					</li>
 					<li>
-						<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
+						<a href="/dashboard/profil" class="text-lg hover:bg-gray-600">
+							<i class="fa-solid fa-user" style="color: #eab308;"></i> Profil</a
+						>
+					</li>
+					<li>
+						<a href="/dashboard/publish" class="text-lg hover:bg-gray-600">
+							<i class="fa-solid fa-pen-clip" style="color: #eab308;"></i> Proposer un article</a
+						>
+					</li>
+					<li>
+						<a href="/dashboard/articles" class="text-lg hover:bg-gray-600">
+							<i class="fa-solid fa-newspaper" style="color: #eab308;"></i> Mes articles</a
+						>
+					</li>
+					<li>
+						<form
+							method="POST"
+							action="/auth/signout"
+							class="group w-full text-lg hover:bg-gray-600"
+						>
 							<button type="submit" class="deco w-full text-left group-hover:text-red-500">
-								Déconnexion
+								<i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
 							</button>
 						</form>
 					</li>
@@ -67,7 +88,7 @@
 			</li>
 			<li>
 				<a href="/dashboard/publish" class="text-lg font-bold hover:bg-gray-600"
-					><i class="fa-solid fa-pen-clip" style="color: #eab308;"></i> Publier un article</a
+					><i class="fa-solid fa-pen-clip" style="color: #eab308;"></i> Proposer un article</a
 				>
 			</li>
 			<li>
@@ -80,8 +101,7 @@
 					<button
 						type="submit"
 						class="deco w-full text-left text-lg font-bold group-hover:text-red-500"
-					>
-						<i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
+						><i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
 					</button>
 				</form>
 			</li>

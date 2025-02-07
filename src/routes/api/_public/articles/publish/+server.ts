@@ -39,9 +39,6 @@ export const POST = async ({ request, locals }) => {
             }
         }
 
-
-
-
         const data: ArticleFormData = {
             'titre-article': formData.get('titre-article')?.toString().trim() || '',
             'introduction': formData.get('introduction')?.toString().trim() || '',
@@ -57,7 +54,6 @@ export const POST = async ({ request, locals }) => {
             'straps': formData.getAll('straps').map(s => s.toString())
 
         };
-
 
 
         const result = await prisma.$transaction(async (tx) => {

@@ -54,9 +54,11 @@
 	$: timeDisplay = use24Hour ? time : `${time} ${period}`;
 </script>
 
-<div class="flex items-center justify-center font-['digital']">
-	<div class="flex w-full max-w-[300px] flex-col items-center justify-between space-y-4 rounded-md">
-		<div class="xl:text-custom text-3xl font-bold sm:text-3xl md:text-xs lg:text-3xl">
+<div class=" font-['digital']">
+	<div class="flex w-full max-w-[300px] flex-col items-center justify-between rounded-md">
+		<div
+			class="mb-1 text-[1rem] font-bold sm:text-xl md:mb-2 md:text-[1.2rem] lg:mb-4 lg:text-[2.3rem]"
+		>
 			{timeDisplay}
 		</div>
 

@@ -14,7 +14,7 @@
 				href="/dashboard/publish"
 				class="rounded-md bg-yellow-500 px-6 py-3 font-bold text-black hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 			>
-				Publiez un article
+				Proposer un article
 			</a>
 		</div>
 	</div>

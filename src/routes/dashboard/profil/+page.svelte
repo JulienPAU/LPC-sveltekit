@@ -8,6 +8,8 @@
 
 	export let { user } = data;
 
+	console.log('user', user.authProvider);
+
 	let username = user.username;
 	let firstName = user.first_name || '';
 	let lastName = user.last_name || '';
@@ -93,6 +95,11 @@
 	function cancelDelete() {
 		confirmDelete = false;
 	}
+
+	let isGoogle = false;
+	if (user.authProvider === 'google') {
+		isGoogle = true;
+	}
 </script>
 
 <section class="px-5 lg:p-0">
@@ -106,7 +113,7 @@
 			<div class="flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
 					<label for="username" class="mb-1 block text-lg font-bold text-gray-700">
-						Username
+						Nom d'utilisateur
 					</label>
 					<input
 						id="username"
@@ -133,7 +140,7 @@
 			<div class="flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
 					<label for="first_name" class="mb-1 block text-lg font-bold text-gray-700">
-						First Name
+						Prénom
 					</label>
 					<input
 						id="first_name"
@@ -146,9 +153,7 @@
 				</div>
 
 				<div class="w-full">
-					<label for="last_name" class="mb-1 block text-lg font-bold text-gray-700">
-						Last Name
-					</label>
+					<label for="last_name" class="mb-1 block text-lg font-bold text-gray-700"> Nom </label>
 					<input
 						id="last_name"
 						name="last_name"
@@ -174,7 +179,7 @@
 
 			<div>
 				<label for="current_password" class="mb-1 block text-lg font-bold text-gray-700">
-					Current Password
+					Mot de passe actuel
 				</label>
 				<input
 					id="current_password"
@@ -182,12 +187,13 @@
 					type="password"
 					class="input input-bordered input-warning w-full"
 					placeholder="Enter current password"
+					disabled={isGoogle}
 				/>
 			</div>
 
 			<div>
 				<label for="new_password" class="mb-1 block text-lg font-bold text-gray-700">
-					New Password
+					Nouveau mot de passe
 				</label>
 				<input
 					id="new_password"
@@ -195,6 +201,7 @@
 					type="password"
 					class="input input-bordered input-warning w-full"
 					placeholder="Enter new password"
+					disabled={isGoogle}
 				/>
 			</div>
 

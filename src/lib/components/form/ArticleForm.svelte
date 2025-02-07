@@ -26,8 +26,14 @@
 		]
 	};
 
-	const watches = article.ArticleWatches[0].watch;
-
+	const watches = article.ArticleWatches?.[0]?.watch || {
+		id: 0,
+		brand: '',
+		model: '',
+		movement: null,
+		water_resistance: null,
+		straps: [{ strap: { material: '' } }]
+	};
 	const straps = watches?.straps?.map((s) => s.strap.material) || [];
 
 	export let onSubmit: (event: SubmitEvent) => void;
@@ -298,6 +304,7 @@
 								checked={selectedStraps.has(strap)}
 								on:change={() => toggleStrap(strap)}
 								class="form-checkbox h-5 w-5 text-slate-500"
+								disabled={!article.ArticleWatches?.[0]?.watch}
 							/>
 							<span class="text-lg text-gray-900">{strap}</span>
 						</label>

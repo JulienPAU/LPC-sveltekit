@@ -3,8 +3,11 @@
 	import Header from '$lib/components/header/Header.svelte';
 	import '../app.css';
 	import { page } from '$app/stores';
+	import Navbar from '$lib/components/header/Navbar.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
+
+	let { watches } = data;
 
 	const isHome = $derived($page.url.pathname === '/');
 
@@ -15,7 +18,9 @@
 </script>
 
 {#if isHome}
-	<Header title="Bienvenue sur Les Petits Cadrans !" {content} />
+	<Header title="Bienvenue sur Les Petits Cadrans !" {content} {watches} />
+{:else}
+	<Navbar {watches} />
 {/if}
 
 {@render children()}

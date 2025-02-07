@@ -29,6 +29,16 @@ export async function GET() {
                     // role: true, // Expose uniquement le rôle si nécessaire
                 },
             },
+            ArticleWatches: {
+                select: {
+                    watch: {
+                        select: {
+                            brand: true,
+                            model: true,
+                        },
+                    },
+                },
+            },
         },
     });
 

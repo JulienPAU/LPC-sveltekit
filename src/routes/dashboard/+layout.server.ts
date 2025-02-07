@@ -12,9 +12,6 @@ export async function load({ fetch, locals, depends }) {
 
         const response = await fetch(`/api/_public/dashboard/${session?.user?.id}`);
 
-
-
-
         if (!response.ok) {
             throw new Error(`API error: ${response.status}`);
         }

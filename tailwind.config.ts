@@ -14,6 +14,7 @@ export default {
 			},
 			fontSize: {
 				'custom': '3.375rem', // Taille personnalisée en rem (équivalent à 38px si base 16px)
+				'digit': '5rem', // Taille personnalisée en rem (équivalent à 24px si base 16px)
 			},
 		}
 	},

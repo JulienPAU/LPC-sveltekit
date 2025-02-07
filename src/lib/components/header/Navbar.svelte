@@ -1,8 +1,12 @@
 <!-- src/lib/ components/header/Navbar.svelte -->
 
-<script>
+<script lang="ts">
 	import LPC_WC from '$lib/assets/logos/LPC_WC.svg';
+	import logoC from '$lib/assets/logos/logoC.svg';
 	import { page } from '$app/stores';
+	export let watches: Array<{ brand: string; model: string }> = [];
+
+	const uniqueBrands = [...new Set(watches.map((watch) => watch.brand))];
 </script>
 
 <!-- sticky top-5 -->
@@ -29,10 +33,25 @@
 			</div>
 			<button
 				tabindex="0"
-				class="menu dropdown-content menu-sm z-[1] mt-3 w-40 gap-5 rounded-b-lg bg-gray-900 p-2 shadow"
+				class="menu dropdown-content menu-sm z-[1] w-40 gap-5 rounded-b-lg bg-gray-900 p-2 shadow"
 			>
 				<li><a href="/" class="hover:bg-gray-600">Accueil</a></li>
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
+				<li>
+					<details>
+						<summary>Marques</summary>
+						<ul class="drop rounded-t-none bg-slate-900 p-2">
+							{#each uniqueBrands as brand}
+								<li class="hover:bg-gray-600">
+									<a href="/{brand.toLowerCase()}" class="text-white hover:bg-gray-600">
+										{brand}
+									</a>
+								</li>
+							{/each}
+						</ul>
+					</details>
+				</li>
+
 				<li>
 					<details>
 						<summary>Divers</summary>
@@ -52,9 +71,22 @@
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
+						<summary>Marques</summary>
+						<ul class="drop rounded-t-none bg-slate-900 p-2">
+							{#each uniqueBrands as brand}
+								<li>
+									<a href="/{brand.toLowerCase()}" class="text-white hover:bg-gray-600">
+										{brand}
+									</a>
+								</li>
+							{/each}
+						</ul>
+					</details>
+				</li>
+				<li class="rounded-lg hover:bg-gray-600">
+					<details>
 						<summary>Divers</summary>
-						<ul class="drop rounded-t-none bg-gray-900 p-2">
-							<li><a href="/" class="hover:bg-gray-600">Wiki</a></li>
+						<ul class="drop rounded-t-none bg-slate-900 p-2">
 							<li><a href="/" class="hover:bg-gray-600">Lexique</a></li>
 						</ul>
 					</details>
@@ -65,7 +97,7 @@
 
 	<!-- Navbar Center -->
 	<div class="navbar-center">
-		<a href="/"><img alt="logo" src={LPC_WC} class="lg:h-30 mb-3 h-14 object-contain md:h-20" /></a>
+		<a href="/"><img alt="logo" src={logoC} class="mb-3 h-16 object-contain md:h-20 lg:h-24" /></a>
 	</div>
 
 	<!-- Navbar End -->
@@ -91,7 +123,7 @@
 				{#if $page?.data?.session}
 					<div class="dropdown dropdown-left lg:dropdown-hover">
 						<button class="avatar cursor-pointer" tabindex="0">
-							<div class="w-10 rounded-full border border-yellow-500 text-sm">
+							<div class="w-10 rounded-full border border-yellow-500 text-sm lg:w-12">
 								<img
 									src={$page?.data?.session?.user?.image ||
 										$page?.data?.session?.user?.profile_picture ||
@@ -99,8 +131,10 @@
 									alt="Avatar"
 									on:error={(event) => {
 										const target = /** @type {HTMLImageElement} */ (event.target);
-										if (target.src !== '/src/lib/assets/user.png') {
-											target.src = '/src/lib/assets/user.png';
+										if ((target as HTMLImageElement)?.src !== '/src/lib/assets/user.png') {
+											if (target) {
+												(target as HTMLImageElement).src = '/src/lib/assets/user.png';
+											}
 										}
 									}}
 								/>
@@ -109,21 +143,43 @@
 						<ul
 							class=" menu dropdown-content z-[1] w-52 rounded-box border border-yellow-500 bg-gray-900 p-2 shadow"
 						>
-							<li><a href="/dashboard" class="hover:bg-gray-600">Dashboard</a></li>
-							<li><a href="/dashboard/profil" class="hover:bg-gray-600">Profil</a></li>
-							<li><a href="/dashboard/publish" class="hover:bg-gray-600">Publier un article</a></li>
-							<li><a href="/dashboard/articles" class="hover:bg-gray-600">Mes articles</a></li>
+							<li>
+								<a href="/dashboard" class="hover:bg-gray-600"
+									><i class="fa-solid fa-chart-pie" style="color: #eab308;"></i> Dashboard</a
+								>
+							</li>
+							<li>
+								<a href="/dashboard/profil" class="hover:bg-gray-600"
+									><i class="fa-solid fa-user" style="color: #eab308;"></i> Profil</a
+								>
+							</li>
+							<li>
+								<a href="/dashboard/publish" class="hover:bg-gray-600"
+									><i class="fa-solid fa-pen-clip" style="color: #eab308;"></i> Proposer un article</a
+								>
+							</li>
+							<li>
+								<a href="/dashboard/articles" class="hover:bg-gray-600"
+									><i class="fa-solid fa-newspaper" style="color: #eab308;"></i> Mes articles</a
+								>
+							</li>
 							<li>
 								<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
 									<button type="submit" class="deco w-full text-left group-hover:text-red-500">
-										Déconnexion
+										<i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
 									</button>
 								</form>
 							</li>
 						</ul>
 					</div>
 				{:else}
-					<li><a href="/auth/login">Login</a></li>
+					<li>
+						<a
+							href="/auth/login"
+							class="btn bg-warning text-sm font-bold text-black hover:bg-yellow-400 hover:text-black lg:text-lg"
+							>Login</a
+						>
+					</li>
 				{/if}
 			</ul>
 		</div>

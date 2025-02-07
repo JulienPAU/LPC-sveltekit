@@ -39,13 +39,22 @@
 			<div class="rounded-xl bg-white p-6 shadow-md">
 				<h3 class="mb-4 text-center">Actions Rapides</h3>
 				<div class="space-y-3">
-					<a href="/dashboard/publish" class="btn btn-warning w-full text-lg hover:text-white">
-						<i class="fa-solid fa-pen-clip text-slate-800"></i> Publier un Article
+					<a
+						href="/dashboard/publish"
+						class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
+					>
+						<i class="fa-solid fa-pen-clip text-slate-800"></i> Proposer un Article
 					</a>
-					<a href="/dashboard/articles" class="btn btn-warning w-full text-lg hover:text-white">
+					<a
+						href="/dashboard/articles"
+						class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
+					>
 						<i class="fa-solid fa-newspaper text-slate-800"></i> Gérer mes Articles
 					</a>
-					<a href="/dashboard/profil" class="btn btn-warning w-full text-lg hover:text-white">
+					<a
+						href="/dashboard/profil"
+						class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
+					>
 						<i class="fa-solid fa-user text-slate-800"></i> Mon Profil
 					</a>
 				</div>
@@ -56,7 +65,7 @@
 	<div class="mt-10 w-full max-w-4xl rounded-xl bg-white p-6 shadow-lg">
 		<h3 class="mb-4">📌 Comment fonctionne Les Petits Cadrans ?</h3>
 		<p class="text-gray-600">
-			Les Petits Cadrans est une plateforme dédiée aux passionnés d'horlogerie. Vous pouvez publier
+			Les Petits Cadrans est une plateforme dédiée aux passionnés d'horlogerie. Vous pouvez proposer
 			vos articles et explorer ceux des autres contributeurs.
 		</p>
 		<p class="mt-4 text-gray-600">
