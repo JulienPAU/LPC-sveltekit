@@ -7,6 +7,14 @@
 	import type { CustomUser } from '$lib/types/user';
 	export let watches: Array<{ brand: string; model: string }> = [];
 
+	const getValidImageSrc = (user: any) => {
+		if (!user) return '/src/lib/assets/user.png';
+		if (user.image?.includes('googleusercontent.com')) {
+			return user.profile_picture || '/src/lib/assets/user.png';
+		}
+		return user.image || user.profile_picture || '/src/lib/assets/user.png';
+	};
+
 	const uniqueBrands = [...new Set(watches.map((watch) => watch.brand))];
 </script>
 
@@ -126,16 +134,12 @@
 						<button class="avatar cursor-pointer" tabindex="0">
 							<div class="w-10 rounded-full border border-yellow-500 text-sm lg:w-12">
 								<img
-									src={($page?.data?.session?.user &&
-										($page.data.session.user as CustomUser)?.profile_picture) ||
-										'/src/lib/assets/user.png'}
+									src={getValidImageSrc($page?.data?.session?.user)}
 									alt="Avatar"
 									on:error={(event) => {
-										const target = /** @type {HTMLImageElement} */ (event.target);
-										if ((target as HTMLImageElement)?.src !== '/src/lib/assets/user.png') {
-											if (target) {
-												(target as HTMLImageElement).src = '/src/lib/assets/user.png';
-											}
+										const img = event.target as HTMLImageElement;
+										if (img.src !== '/src/lib/assets/user.png') {
+											img.src = '/src/lib/assets/user.png';
 										}
 									}}
 								/>
@@ -166,8 +170,8 @@
 							</li>
 							<li>
 								<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
-									<button type="submit" class="deco w-full text-left group-hover:text-red-500">
-										<i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
+									<button type="submit" class="deco w-full text-left group-hover:text-[#D22B2B]">
+										<i class="fa-solid fa-right-from-bracket" style="color:#D22B2B;"></i> Déconnexion
 									</button>
 								</form>
 							</li>

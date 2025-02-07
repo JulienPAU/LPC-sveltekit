@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Card from '../card/Card.svelte';
 
 	let carousel: HTMLDivElement | null = null;
@@ -27,9 +28,34 @@
 					]
 			: items.slice(0, 10);
 
-	$: carouselClasses = `carousel mx-0 flex w-full snap-x overflow-x-auto px-4  md:mx-2 lg:mx-3 ${
-		type === 'images' ? 'gap-2' : 'gap-6 py-10'
+	$: carouselClasses = `carousel mx-0 flex w-full snap-x overflow-x-auto px-4 flex   md:mx-2 lg:mx-3 ${
+		type === 'images' ? 'gap-2 ' : 'gap-6 py-10'
 	}`;
+
+	function openModal(imageSrc: string) {
+		const modal = document.getElementById('imageModal');
+		const modalImage = document.getElementById('modalImage');
+		if (modalImage) {
+			(modalImage as HTMLImageElement).src = imageSrc;
+		}
+		if (modal) {
+			modal.classList.remove('hidden');
+		}
+	}
+
+	function closeModal() {
+		const modal = document.getElementById('imageModal');
+		if (modal) {
+			modal.classList.add('hidden');
+		}
+	}
+
+	onMount(() => {
+		const closeModalButton = document.getElementById('closeModal');
+		if (closeModalButton) {
+			closeModalButton.addEventListener('click', closeModal);
+		}
+	});
 </script>
 
 <div class="relative mb-10 flex items-center justify-center">
@@ -53,8 +79,15 @@
 		{#if processedItems.length > 0}
 			{#each processedItems as item}
 				{#if type === 'images'}
-					<div class="carousel-item h-[250px] w-[253px] flex-shrink-0 snap-center">
-						<img src={item} alt="article" class="h-full w-full rounded-xl object-cover" />
+					<div class="carousel-item mx-auto h-[250px] w-[253px] flex-shrink-0 snap-center">
+						<button
+							type="button"
+							class="h-full w-full rounded-xl object-cover"
+							on:click={() => openModal(item)}
+							on:keydown={(e) => e.key === 'Enter' && openModal(item)}
+							aria-label="Cliquez pour agrandir l'image"
+							style="background-image: url({item}); background-size: cover; background-position: center;"
+						></button>
 					</div>
 				{:else}
 					<div class="carousel-item w-[350px] flex-shrink-0 snap-center lg:w-[420px]">
@@ -95,4 +128,14 @@
 			/>
 		</svg>
 	</button>
+</div>
+
+<div
+	id="imageModal"
+	class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75"
+>
+	<div class="relative flex h-full w-full items-center justify-center">
+		<img id="modalImage" class="max-h-full max-w-full" alt="Full size" />
+		<button id="closeModal" class="absolute right-0 top-0 m-4 text-6xl text-white">&times;</button>
+	</div>
 </div>

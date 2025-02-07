@@ -63,8 +63,8 @@
 							action="/auth/signout"
 							class="group w-full text-lg hover:bg-gray-600"
 						>
-							<button type="submit" class="deco w-full text-left group-hover:text-red-500">
-								<i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
+							<button type="submit" class="deco w-full text-left group-hover:text-[#D22B2B]">
+								<i class="fa-solid fa-right-from-bracket" style="color:#D22B2B;"></i> Déconnexion
 							</button>
 						</form>
 					</li>
@@ -100,8 +100,8 @@
 				<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
 					<button
 						type="submit"
-						class="deco w-full text-left text-lg font-bold group-hover:text-red-500"
-						><i class="fa-solid fa-right-from-bracket" style="color: #bd1705;"></i> Déconnexion
+						class="deco w-full text-left text-lg font-bold group-hover:text-[#D22B2B]"
+						><i class="fa-solid fa-right-from-bracket" style="color: #D22B2B;"></i> Déconnexion
 					</button>
 				</form>
 			</li>

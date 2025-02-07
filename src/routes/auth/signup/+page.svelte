@@ -31,6 +31,22 @@
 			error = 'Erreur lors de la connexion avec Google.';
 		}
 	}
+
+	function togglePasswordVisibility() {
+		const passwordInput = document.getElementById('password') as HTMLInputElement;
+		const togglePassword = document.getElementById('togglePassword');
+
+		const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+		passwordInput.setAttribute('type', type);
+
+		// Change the icon using innerHTML
+		if (togglePassword) {
+			togglePassword.innerHTML =
+				type === 'password'
+					? '<i class="fa-regular fa-eye" style="color: #ffffff;"></i>'
+					: '<i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i>';
+		}
+	}
 </script>
 
 <div
@@ -64,7 +80,7 @@
 				</svg>
 			</div>
 
-			<span class="logs-btn w-5/6 px-4 py-3 text-center font-bold">Se connecter avec Google</span>
+			<span class="logs-btn w-5/6 px-4 py-3 text-center font-bold">S'inscrire avec Google</span>
 		</button>
 
 		<div class="mt-4 flex items-center justify-between">
@@ -137,11 +153,23 @@
 					>
 				</div>
 
-				<input
-					class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
-					type="password"
-					name="password"
-				/>
+				<div class="relative">
+					<input
+						id="password"
+						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+						type="password"
+						name="password"
+					/>
+					<button
+						id="togglePassword"
+						type="button"
+						class="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer text-gray-600 dark:text-gray-300"
+						on:click={togglePasswordVisibility}
+						aria-label="Toggle password visibility"
+					>
+						<i class="fa-regular fa-eye" style="color: #ffffff;"></i>
+					</button>
+				</div>
 			</div>
 
 			{#if errorMessage}

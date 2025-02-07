@@ -320,7 +320,7 @@
 					<slot name="imageUploader" />
 				</div>
 				<div class="mb-20">
-					<label for="img" class="mb-1 block text-lg font-bold text-gray-700">Images</label>
+					<label for="img" class="mb-1 block text-lg font-bold text-gray-700">Photos</label>
 					<div class=" flex flex-wrap gap-1">
 						{#each article.images as image}
 							<img
@@ -355,7 +355,7 @@
 						<div class="flex gap-2">
 							<button
 								type="button"
-								class="btn btn-error text-xl"
+								class="btn bg-[#C41E3A] text-xl text-white hover:bg-[#D22B2B]"
 								disabled={isSubmitting}
 								on:click={onDelete}
 							>
@@ -369,7 +369,7 @@
 				{:else}
 					<button
 						type="button"
-						class=" btn bg-red-500 text-xl hover:bg-red-400"
+						class=" btn bg-[#C41E3A] text-xl text-white hover:bg-[#D22B2B]"
 						on:click={askDelete}
 					>
 						Supprimer

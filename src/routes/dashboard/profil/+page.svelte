@@ -231,7 +231,11 @@
 		</div>
 	{:else}
 		<div class="mb-10 mt-10 flex w-full justify-center lg:mb-0">
-			<button type="button" class=" btn btn-error text-xl" on:click={askDelete}>
+			<button
+				type="button"
+				class=" btn bg-[#C41E3A] text-xl text-white hover:bg-[#D22B2B]"
+				on:click={askDelete}
+			>
 				Supprimer mon compte</button
 			>
 		</div>

@@ -62,6 +62,10 @@
 		class="file-input file-input-bordered file-input-warning w-full"
 		on:change={handleFileSelect}
 	/>
+	<p class="my-1 italic">
+		Minimum {minFiles} photo, maximum {maxFiles} photos, 2 Mo max par photos.
+	</p>
+	<p class=" italic">Formats acceptés : JPEG / PNG / WEBP</p>
 	{#if errorMessage}
 		<div class="mt-2 text-red-500">{errorMessage}</div>
 	{/if}
