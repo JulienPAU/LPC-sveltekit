@@ -35,7 +35,7 @@ model Favorites {
 enum Status {
   PUBLISHED
   SUBMITTED
-  DRAFT
+  REFUSED
 }
 
 enum Article_Type {

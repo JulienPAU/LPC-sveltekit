@@ -17,6 +17,7 @@ export async function GET({ params }: { params: { id: string } }) {
                     id: 'desc',
                 },
             },
+            User_Role: true,
 
         },
     });

@@ -48,7 +48,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                     last_name: user.last_name,
                     name: user.username,
                     username: user.username,
-                    role: user.role,
 
                 };
             }
@@ -81,7 +80,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                             last_name: "",
                             password: "",
                             authProvider: "google",
-                            role: "READER",
                             User_Role: {
                                 create: {
                                     role: user.role as RoleType
@@ -110,7 +108,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                     }
                     await prisma.user.update({
                         where: { id: existingUser.id },
-                        data: { role: user.role || "READER", lastLogin: new Date() }
+                        data: { lastLogin: new Date() }
                     });
                     user.id = existingUser.id
                 }

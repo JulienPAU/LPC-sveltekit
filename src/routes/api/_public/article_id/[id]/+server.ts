@@ -15,6 +15,11 @@ export async function GET({ params }: { params: { id: string } }) {
             user: {
                 select: {
                     username: true,
+                    User_Role: {
+                        select: {
+                            role: true
+                        }
+                    },
                 },
             },
             category: true,

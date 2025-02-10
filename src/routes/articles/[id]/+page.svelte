@@ -5,9 +5,29 @@
 	import { formatDate } from '$lib/utils.js';
 
 	export let data;
-	export let { article } = data;
+	export let { article, user } = data;
 
-	// console.log('article:', article);
+	console.log('user:', user);
+
+	const userRole = Array.isArray(user?.User_Role) ? user.User_Role[0]?.role : user?.User_Role;
+
+	async function updateStatus(newStatus: 'PUBLISHED' | 'REFUSED') {
+		try {
+			const response = await fetch(`/api/_public/articles/manage/${article.id}`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ status: newStatus })
+			});
+
+			if (response.ok) {
+				window.location.href = '/dashboard/articles';
+			}
+		} catch (err) {
+			console.error('Erreur lors de la mise à jour:', err);
+		}
+	}
+
+	// console.log('article id:', article);
 </script>
 
 {#if article}
@@ -51,11 +71,26 @@
 				<i>{article.article_type}</i>
 			</div>
 		</div>
-		<!-- <div class="image-gallery">
-			{#each article.images as image}
-				<img src={image.url} alt=" l'article" class="image-item" />
-			{/each}
-		</div> -->
+
+		{#if userRole === 'ADMIN' || (userRole === 'MODERATOR' && article.status === 'SUBMITTED')}
+			<div
+				class="mx-auto mb-20 flex w-full flex-wrap justify-evenly gap-10 rounded-lg bg-gray-100 p-10 lg:w-1/2"
+			>
+				<button
+					class="btn bg-green-400 text-xl font-bold hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
+					on:click={() => updateStatus('PUBLISHED')}
+				>
+					Publier
+				</button>
+
+				<button
+					class="btn bg-red-400 text-xl font-bold hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
+					on:click={() => updateStatus('REFUSED')}
+				>
+					Refuser
+				</button>
+			</div>
+		{/if}
 	</section>
 	<Carousel items={article.images} type="images" />
 {:else}

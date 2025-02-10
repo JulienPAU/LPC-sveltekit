@@ -7,7 +7,6 @@ model User {
   first_name        String
   email             String              @unique
   password          String
-  role              String?             @default("READER")
   username          String?             @unique
   profile_picture           String?
   

@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Card from '../card/Card.svelte';
+	import Skeleton from '../skeleton.svelte';
 
 	let carousel: HTMLDivElement | null = null;
 
 	export let items: (string | any)[];
 	export let type: 'images' | 'articles' = 'images';
+
+	let loading = true;
 
 	function scrollCarousel(direction: number) {
 		if (carousel) {
@@ -29,7 +32,7 @@
 			: items.slice(0, 10);
 
 	$: carouselClasses = `carousel mx-0 flex w-full snap-x overflow-x-auto px-4 flex   md:mx-2 lg:mx-3 ${
-		type === 'images' ? 'gap-2 ' : 'gap-6 py-10'
+		type === 'images' ? 'gap-2   ' : 'gap-6 py-10'
 	}`;
 
 	function openModal(imageSrc: string) {
@@ -56,9 +59,18 @@
 			closeModalButton.addEventListener('click', closeModal);
 		}
 	});
+
+	$: if (items && items.length > 0) {
+		loading = false;
+	}
+
+	// Simuler un délai de chargement
+	// setTimeout(() => {
+	// 	loading = false;
+	// }, 10000); // Délai de 2 secondes pour montrer le skeleton
 </script>
 
-<div class="relative mb-10 flex items-center justify-center">
+<div class="relative mb-10 flex items-center justify-center px-4">
 	<button
 		aria-label="boutton précédent"
 		class="btn-circle ml-2 hidden bg-gray-300 hover:bg-gray-200 md:block"
@@ -76,10 +88,18 @@
 	</button>
 
 	<div bind:this={carousel} class={carouselClasses}>
-		{#if processedItems.length > 0}
+		{#if loading}
+			{#each Array(items.length) as _}
+				<Skeleton
+					containerClass="flex-shrink-0 flex-col md:w-96 lg:w-[420px]"
+					imageClass="h-[350px]"
+					{type}
+				/>
+			{/each}
+		{:else if processedItems.length > 0}
 			{#each processedItems as item}
 				{#if type === 'images'}
-					<div class="carousel-item mx-auto h-[250px] w-[253px] flex-shrink-0 snap-center">
+					<div class="carousel-item h-[250px] w-[253px] flex-shrink-0 snap-center">
 						<button
 							type="button"
 							class="h-full w-full rounded-xl object-cover"
@@ -101,10 +121,11 @@
 								category: item.article_type,
 								id: item.id,
 								isDashboard: false,
+								isModerator: false,
 								status: 'PUBLISHED',
 								imgStyle: 'h-[250px]',
 								style:
-									'transform card w-full bg-base-100 shadow-xl transition duration-500 hover:scale-105  overflow-hidden'
+									'transform card w-full bg-base-100 shadow-xl transition duration-500 hover:scale-105  overflow-hidden '
 							}}
 						/>
 					</div>

@@ -98,9 +98,11 @@
 	if (user.authProvider === 'google') {
 		isGoogle = true;
 	}
+
+	const userRole = user.User_Role[0].role;
 </script>
 
-<section class="px-5 lg:p-0">
+<section class="px-5 lg:px-0">
 	<SectionTitle title="Votre profil" />
 
 	<form
@@ -129,7 +131,7 @@
 						name="role"
 						type="text"
 						class="input input-bordered input-warning w-full"
-						value={user.role.toLowerCase()}
+						value={userRole.toLowerCase()}
 						disabled
 					/>
 				</div>

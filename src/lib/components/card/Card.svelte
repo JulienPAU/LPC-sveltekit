@@ -10,6 +10,7 @@
 		id: 0,
 		style: '',
 		isDashboard: false,
+		isModerator: false,
 		status: 'PUBLISHED',
 		imgStyle: ''
 	};
@@ -27,7 +28,7 @@
 	<div class="card-body">
 		<h2 class="card-title font-light">{props.title}</h2>
 
-		{#if props.isDashboard}
+		{#if props.isDashboard || props.isModerator}
 			{null}
 		{:else}
 			<p class="mb-5 text-sm leading-3">
@@ -37,19 +38,19 @@
 			<div class="mb-5">{truncateText(props.introduction, 140) || 'Contenu indisponible'}</div>
 		{/if}
 
-		{#if props.isDashboard}
+		{#if props.isDashboard || props.isModerator}
 			<div
 				class="absolute right-2 top-2 rounded px-2 py-1 font-semibold
-			{props.status === 'PUBLISHED' ? 'bg-green-500 text-white' : ''}
-			{props.status === 'SUBMITTED' ? 'bg-orange-500 text-white' : ''}
-			{props.status === 'DRAFT' ? 'bg-gray-500 text-white' : ''}"
+			{props.status === 'PUBLISHED' ? 'rounded-lg bg-green-500 text-white' : ''}
+			{props.status === 'SUBMITTED' ? 'rounded-lg bg-orange-500 text-white' : ''}
+			{props.status === 'REFUSED' ? 'rounded-lg bg-red-500 text-white' : ''}"
 			>
 				{#if props.status === 'PUBLISHED'}
 					✔️ Publié
 				{:else if props.status === 'SUBMITTED'}
 					⏳ En attente
 				{:else}
-					📝 Brouillon
+					📝 Refusé
 				{/if}
 			</div>
 		{/if}

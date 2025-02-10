@@ -53,8 +53,7 @@ export interface SessionUser {
     first_name?: string;
     last_name?: string;
     username?: string;
-    role?: "Reader";
-    user_role: "Reader";
+    User_Role: RoleType;
     profile_picture?: string;
 }
 

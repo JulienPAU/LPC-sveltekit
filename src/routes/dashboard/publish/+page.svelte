@@ -27,8 +27,6 @@
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		// Ajouter les bracelets sélectionnés
-
 		// Utilise selectedFiles pour ajouter les fichiers au formData
 		if (selectedFiles.length === 0) {
 			alert('Minimum une photo requise');

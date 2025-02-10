@@ -44,3 +44,24 @@ export function formatDate(date: string): string {
 	const options = { year: 'numeric' as const, month: 'long' as const, day: 'numeric' as const };
 	return new Date(date).toLocaleDateString('fr-FR', options);
 }
+
+
+
+export function togglePasswordVisibility(passwordInputId: string, togglePasswordId: string) {
+	const passwordInput = document.getElementById(passwordInputId);
+	const togglePassword = document.getElementById(togglePasswordId);
+
+	if (passwordInput) {
+		const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+		passwordInput.setAttribute('type', type);
+
+		if (togglePassword) {
+			togglePassword.innerHTML =
+				type === 'password'
+					? '<i class="fa-regular fa-eye" style="color: #ffffff;"></i>'
+					: '<i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i>';
+		}
+	}
+}
+
+

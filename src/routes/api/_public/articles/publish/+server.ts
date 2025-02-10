@@ -2,7 +2,9 @@
 
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import { DEFAULT_FILE_VALIDATION, type ArticleFormData, type ArticleUploadResponse } from '$lib/types/article';
+import { DEFAULT_FILE_VALIDATION, type ArticleUploadResponse } from '$lib/types/article';
+import { articlePublishSchema } from '$lib/schemas/articles';  // Assure-toi que le chemin est correct
+
 import type { Article_Type, Category } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 
@@ -39,7 +41,7 @@ export const POST = async ({ request, locals }) => {
             }
         }
 
-        const data: ArticleFormData = {
+        const parsedData = articlePublishSchema.safeParse({
             'titre-article': formData.get('titre-article')?.toString().trim() || '',
             'introduction': formData.get('introduction')?.toString().trim() || '',
             'corps-article': formData.get('corps-article')?.toString().trim() || '',
@@ -52,8 +54,14 @@ export const POST = async ({ request, locals }) => {
             'movement': formData.get('movement')?.toString() || null,
             'water_resistance': formData.get('water_resistance')?.toString() || null,
             'straps': formData.getAll('straps').map(s => s.toString())
+        });
 
-        };
+        if (!parsedData.success) {
+            // Si la validation échoue, renvoie une erreur avec les messages d'erreur
+            throw error(400, `Données invalides : ${parsedData.error.errors.map(e => e.message).join(', ')}`);
+        }
+
+        const data = parsedData.data;
 
 
         const result = await prisma.$transaction(async (tx) => {
@@ -93,7 +101,7 @@ export const POST = async ({ request, locals }) => {
                 model: data.model,
                 movement: data.movement,
                 water_resistance: data.water_resistance,
-                straps: data.straps
+                straps: data.straps ?? []
             });
         }
 

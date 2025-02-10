@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
+	import { togglePasswordVisibility } from '$lib/utils';
 	import { signIn } from '@auth/sveltekit/client';
 
 	let errorMessage = '';
@@ -29,22 +30,6 @@
 		} catch (error) {
 			console.error('Erreur lors de la connexion avec Google:', error);
 			error = 'Erreur lors de la connexion avec Google.';
-		}
-	}
-
-	function togglePasswordVisibility() {
-		const passwordInput = document.getElementById('password') as HTMLInputElement;
-		const togglePassword = document.getElementById('togglePassword');
-
-		const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-		passwordInput.setAttribute('type', type);
-
-		// Change the icon using innerHTML
-		if (togglePassword) {
-			togglePassword.innerHTML =
-				type === 'password'
-					? '<i class="fa-regular fa-eye" style="color: #ffffff;"></i>'
-					: '<i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i>';
 		}
 	}
 </script>
@@ -164,7 +149,7 @@
 						id="togglePassword"
 						type="button"
 						class="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer text-gray-600 dark:text-gray-300"
-						on:click={togglePasswordVisibility}
+						on:click={() => togglePasswordVisibility('password', 'togglePassword')}
 						aria-label="Toggle password visibility"
 					>
 						<i class="fa-regular fa-eye" style="color: #ffffff;"></i>

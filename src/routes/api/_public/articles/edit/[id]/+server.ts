@@ -1,6 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import { DEFAULT_FILE_VALIDATION, type ArticleFormData } from '$lib/types/article';
+import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';
+import { articleUpdateSchema } from '$lib/schemas/articles';
+
 import type { Article_Type, Category } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 
@@ -68,20 +70,27 @@ export const POST = async ({ request, locals, params }) => {
             uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
         }
 
-        const data: ArticleFormData = {
+        const formDataObject = {
             'titre-article': formData.get('titre-article')?.toString().trim() || '',
             'introduction': formData.get('introduction')?.toString().trim() || '',
             'corps-article': formData.get('corps-article')?.toString().trim() || '',
             'end': formData.get('end')?.toString().trim() || '',
             'type': formData.get('type')?.toString() as Article_Type || 'ARTICLE',
             'category': formData.get('category')?.toString() as Category,
-
             'brand': formData.get('brand')?.toString().trim() || '',
             'model': formData.get('model')?.toString().trim() || '',
             'movement': formData.get('movement')?.toString() || null,
             'water_resistance': formData.get('water_resistance')?.toString() || null,
             'straps': formData.getAll('straps').map(s => s.toString())
         };
+
+        const parsedData = articleUpdateSchema.safeParse(formDataObject);
+
+        if (!parsedData.success) {
+            throw error(400, new Error(`Validation échouée: ${JSON.stringify(parsedData.error.format())}`));
+        }
+
+        const data = parsedData.data;
 
         const updatedArticle = await prisma.$transaction(async (tx) => {
             const category = await tx.categories.findFirst({
@@ -116,7 +125,7 @@ export const POST = async ({ request, locals, params }) => {
                 model: data.model,
                 movement: data.movement,
                 water_resistance: data.water_resistance,
-                straps: data.straps
+                straps: data.straps || []
             });
         }
 
