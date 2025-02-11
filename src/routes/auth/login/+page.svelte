@@ -3,8 +3,10 @@
 	import { signIn } from '@auth/sveltekit/client';
 	import { goto } from '$app/navigation';
 	import { togglePasswordVisibility } from '$lib/utils';
+	import ResetPasswordModal from '$lib/components/ResetPasswordModal.svelte';
 
 	let error = '';
+	let showResetModal = false;
 
 	async function handleSignin(event: Event) {
 		event.preventDefault();
@@ -37,6 +39,10 @@
 			console.error('Erreur lors de la connexion avec Google:', error);
 			error = 'Erreur lors de la connexion avec Google.';
 		}
+	}
+
+	function handleResetModalClose() {
+		showResetModal = false;
 	}
 </script>
 
@@ -101,9 +107,13 @@
 						class="mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200"
 						for="loggingPassword">Mot de passe</label
 					>
-					<a href="#" class="text-xs text-gray-500 hover:underline dark:text-gray-300"
-						>Mot de passe oublié ?</a
+					<button
+						type="button"
+						on:click={() => (showResetModal = true)}
+						class="mb-2 text-sm font-semibold text-gray-500 hover:underline dark:text-gray-300"
 					>
+						Mot de passe oublié ?
+					</button>
 				</div>
 				<div class="relative">
 					<input
@@ -145,31 +155,6 @@
 	</div>
 </div>
 
-<!-- 
-<section id="test">
-	<h1>SvelteKit Auth Example</h1>
-	<nav>
-		<p>
-			These actions are all using the methods exported from
-			<code>@auth/sveltekit/client</code>
-		</p>
-		<div class="actions">
-			<div class="wrapper-form">
-				<button on:click={() => signIn('google')} class="w-5/6 px-4 py-3 text-center font-bold">Se connecter avec Google</button>
-			</div>
-			<div class="wrapper-form">
-				<button on:click={() => signIn('discord')}>Sign In with Discord</button>
-			</div>
-			<div class="wrapper-form">
-				<div class="input-wrapper">
-					<label for="password">Password</label>
-					<input bind:value={password} type="password" id="password" name="password" required />
-				</div>
-				<button on:click={() => signIn('credentials', { password })}>
-					Sign In with Credentials
-				</button>
-				<button on:click={() => signOut()}> Sign Out </button>
-			</div>
-		</div>
-	</nav>
-</section> -->
+{#if showResetModal}
+	<ResetPasswordModal onClose={handleResetModalClose} />
+{/if}

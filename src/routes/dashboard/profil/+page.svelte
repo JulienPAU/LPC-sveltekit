@@ -180,6 +180,9 @@
 			<div>
 				<label for="current_password" class="mb-1 block text-lg font-bold text-gray-700">
 					Mot de passe actuel
+					{#if isGoogle}
+						<span class="text-sm text-red-500"> (indisponible pour les comptes Google)</span>
+					{/if}
 				</label>
 				<input
 					id="current_password"

@@ -3,7 +3,16 @@ import { json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 
 export async function GET() {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+        select: {
+            id: true,
+            email: true,
+            username: true,
+            first_name: true,
+            last_name: true,
+            User_Role: true,
+        }
+    });
 
     return json(users);
 }

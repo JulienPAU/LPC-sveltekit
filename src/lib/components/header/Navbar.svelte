@@ -182,7 +182,7 @@
 								</form>
 							</li>
 
-							{#if userRole === 'MODERATOR'}
+							{#if userRole === 'MODERATOR' || userRole === 'ADMIN'}
 								<div>
 									<h3 class="mb-2 mt-5 text-lg">Modérateur</h3>
 								</div>
@@ -197,8 +197,19 @@
 									<h3 class="mb-2 mt-5 text-lg">Admin</h3>
 								</div>
 								<li>
-									<a href="/admin/dashboard/" class=" hover:bg-gray-600"
-										><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>Dashboard</a
+									<a href="/dashboard/admin" class="hover:bg-gray-600"
+										><i class="fa-solid fa-chart-pie" style="color: #eab308;"></i> Dashboard</a
+									>
+								</li>
+								<li>
+									<a href="/dashboard/manage" class="hover:bg-gray-600"
+										><i class="fa-solid fa-newspaper" style="color: #eab308;"></i> Articles</a
+									>
+								</li>
+
+								<li>
+									<a href="/dashboard/admin/manage/users" class="hover:bg-gray-600"
+										><i class="fa-solid fa-user" style="color: #eab308;"></i> Utilisateurs</a
 									>
 								</li>
 							{/if}

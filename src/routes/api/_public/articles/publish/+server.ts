@@ -11,6 +11,7 @@ import { UTApi, UTFile } from 'uploadthing/server';
 export const POST = async ({ request, locals }) => {
     try {
         const session = await locals.auth?.();
+
         if (!session?.user) {
             throw error(401, 'Non autorisé');
         }
@@ -86,10 +87,25 @@ export const POST = async ({ request, locals }) => {
                     status: 'SUBMITTED',
                     article_type: data.type,
                     category: { connect: { id: category.id } },
+
                 }
             });
 
-            // 3. Gérer la montre et ses bracelets si une marque et un modèle sont fournis
+
+
+            const userRole = await tx.user_Role.findFirst({
+                where: {
+                    user_id: session?.user?.id
+                }
+            });
+
+
+            if (userRole?.role === 'READER') {
+                await tx.user_Role.update({
+                    where: { id: userRole.id },
+                    data: { role: 'AUTHOR' }
+                });
+            }
 
 
             return article;

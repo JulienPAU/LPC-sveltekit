@@ -7,8 +7,6 @@
 	export let data;
 	export let { article, user } = data;
 
-	console.log('user:', user);
-
 	const userRole = Array.isArray(user?.User_Role) ? user.User_Role[0]?.role : user?.User_Role;
 
 	async function updateStatus(newStatus: 'PUBLISHED' | 'REFUSED') {
