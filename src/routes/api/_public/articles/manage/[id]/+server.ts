@@ -22,9 +22,14 @@ export const POST = async ({ params, locals, request }) => {
             throw error(404, 'Article non trouvé');
         }
 
+        const isPublishing = status === 'PUBLISHED';
+
+
         await prisma.articles.update({
             where: { id: articleId },
-            data: { status, publish_date: status === 'PUBLISHED' ? new Date() : null }
+            data: {
+                status, publish_date: isPublishing ? new Date() : null
+            }
         });
 
         return new Response(JSON.stringify({ success: true }), { status: 200 });

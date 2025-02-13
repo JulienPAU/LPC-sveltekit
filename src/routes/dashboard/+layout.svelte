@@ -149,7 +149,15 @@
 				</li>
 				<li>
 					<a href="/dashboard/admin/manage/articles" class="text-lg font-bold hover:bg-gray-600"
-						><i class="fa-solid fa-newspaper" style="color: #eab308;"></i> Articles</a
+						><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>Modifier articles</a
+					>
+				</li>
+
+				<li>
+					<a
+						href="/dashboard/admin/manage/articles/status"
+						class="text-lg font-bold hover:bg-gray-600"
+						><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>Status articles</a
 					>
 				</li>
 				<li>

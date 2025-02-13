@@ -119,9 +119,12 @@
 									Array.isArray(item.images) && item.images.length > 0 ? item.images[0] : undefined,
 								author: item.user.username,
 								category: item.article_type,
+								submit_date: '',
+								publish_date: '',
 								id: item.id,
 								isDashboard: false,
 								isModerator: false,
+								isAdmin: false,
 								status: 'PUBLISHED',
 								imgStyle: 'h-[250px]',
 								style:

@@ -12,10 +12,10 @@ export async function load({ fetch }) {
             throw new Error(`API error: ${response.status}`);
         }
 
-        const articles = await response.json();
+        const allArticles = await response.json();
 
 
-        return { articles };
+        return { allArticles };
     } catch (error) {
         console.error("Load error:", error);
         throw error;

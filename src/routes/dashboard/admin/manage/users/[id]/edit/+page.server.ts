@@ -1,21 +1,21 @@
-export async function load({ fetch }) {
+// src/routes/dashboard/admin/manage/users/%5Bid%5D/edit/+page.server.ts
 
 
-    // ALLER RECUPERER LES USERS BY ID
+export async function load({ fetch, params }) {
 
     try {
 
 
-        const response = await fetch(`/api/_private/users`);
+        const response = await fetch(`/api/_private/users/${params.id}`);
 
         if (!response.ok) {
             throw new Error(`API error: ${response.status}`);
         }
 
-        const users = await response.json();
+        const userById = await response.json();
 
 
-        return { users };
+        return { userById };
     } catch (error) {
         console.error("Load error:", error);
         throw error;

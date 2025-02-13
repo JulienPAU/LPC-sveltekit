@@ -1,19 +1,21 @@
+<!-- src/routes/dashboard/admin/manage/users/+page.svelte -->
+
 <script lang="ts">
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 
 	export let data;
 
 	let { users } = data;
-
-	// console.log('users role', users.User_Role[0].role);
 </script>
 
 {#if users}
 	<SectionTitle title="Gestion des utilisateurs" />
-	<div class="mb-10 flex w-full flex-wrap justify-center gap-2">
+	<div class="mb-10 flex w-full flex-wrap justify-center gap-4">
 		{#each users as user}
-			<div class="card my-2 w-5/6 border bg-gray-300 p-2 md:w-2/6 lg:w-1/6">
-				<div>Username : {user.username}</div>
+			<div
+				class="tranform card my-2 flex w-5/6 bg-slate-300 p-4 font-semibold shadow-lg transition duration-500 hover:scale-105 md:w-2/6 lg:w-1/5"
+			>
+				<div>Username : <span class="font-bold">{user.username}</span></div>
 				<div>Prénom : {user.first_name ? user.first_name : 'Non renseigné'}</div>
 				<div>Nom : {user.last_name ? user.last_name : 'Non reseigné'}</div>
 				<div>Email : {user.email}</div>

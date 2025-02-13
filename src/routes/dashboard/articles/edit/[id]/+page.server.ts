@@ -21,4 +21,4 @@ export async function load({ params, fetch }: { params: Params, fetch: (input: R
         console.error("Load error:", error);
         throw error;
     }
-}
+} 

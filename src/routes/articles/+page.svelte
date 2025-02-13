@@ -29,6 +29,7 @@
 					id: article.id,
 					isDashboard: false,
 					isModerator: false,
+					isAdmin: false,
 					status: 'PUBLISHED',
 					imgStyle: 'h-[400px]',
 					style:

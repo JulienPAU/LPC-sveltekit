@@ -36,6 +36,20 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
         }
     }
 
+    if (event.url.pathname.startsWith('/dashboard/manage')) {
+        if (session) {
+            const user = session.user as User;
+
+
+            const isModerator = Array.isArray(user.User_Role)
+                ? user.User_Role.some(role => role.role === 'MODERATOR' || role.role === 'ADMIN')
+                : user.User_Role === 'MODERATOR' || user.User_Role === 'ADMIN';
+            if (!isModerator) {
+                throw redirect(303, '/auth/login');
+            }
+        }
+    }
+
 
     if (event.url.pathname.startsWith('/auth/reset-password')) {
         const urlParams = new URLSearchParams(event.url.search);

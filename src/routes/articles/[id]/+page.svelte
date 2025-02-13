@@ -9,7 +9,7 @@
 
 	const userRole = Array.isArray(user?.User_Role) ? user.User_Role[0]?.role : user?.User_Role;
 
-	async function updateStatus(newStatus: 'PUBLISHED' | 'REFUSED') {
+	async function updateStatus(newStatus: 'PUBLISHED' | 'REFUSED' | 'SUBMITTED') {
 		try {
 			const response = await fetch(`/api/_public/articles/manage/${article.id}`, {
 				method: 'POST',
@@ -25,7 +25,7 @@
 		}
 	}
 
-	// console.log('article id:', article);
+	console.log('article id:', article);
 </script>
 
 {#if article}
@@ -72,21 +72,33 @@
 
 		{#if userRole === 'ADMIN' || (userRole === 'MODERATOR' && article.status === 'SUBMITTED')}
 			<div
-				class="mx-auto mb-20 flex w-full flex-wrap justify-evenly gap-10 rounded-lg bg-gray-100 p-10 lg:w-1/2"
+				class="mx-auto mb-20 flex w-full flex-col flex-wrap items-center justify-center gap-10 rounded-lg bg-gray-100 p-10 lg:w-1/2"
 			>
-				<button
-					class="btn bg-green-400 text-xl font-bold hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
-					on:click={() => updateStatus('PUBLISHED')}
-				>
-					Publier
-				</button>
+				<h3 class="text-center">
+					Status actuel : <span class="font-extralight italic">{article.status.toLowerCase()}</span>
+				</h3>
+				<div class="flex w-full flex-wrap justify-evenly gap-10">
+					<button
+						class="btn bg-green-400 text-xl font-bold hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
+						on:click={() => updateStatus('PUBLISHED')}
+					>
+						Publier
+					</button>
 
-				<button
-					class="btn bg-red-400 text-xl font-bold hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
-					on:click={() => updateStatus('REFUSED')}
-				>
-					Refuser
-				</button>
+					<button
+						class="btn bg-yellow-400 text-xl font-bold hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
+						on:click={() => updateStatus('SUBMITTED')}
+					>
+						Retirer l'article
+					</button>
+
+					<button
+						class="btn bg-red-400 text-xl font-bold hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
+						on:click={() => updateStatus('REFUSED')}
+					>
+						Refuser
+					</button>
+				</div>
 			</div>
 		{/if}
 	</section>

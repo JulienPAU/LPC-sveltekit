@@ -73,7 +73,7 @@
 				isSubmitting = false;
 				invalidate('app:user');
 				alert('User supprimé avec succès');
-				window.location.href = '/';
+				window.location.href = '/dashboard/admin/manage/users';
 			} else {
 				throw new Error("Erreur lors de la suppression de l'utilisateur");
 			}

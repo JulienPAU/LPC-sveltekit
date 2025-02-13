@@ -44,22 +44,23 @@
 				<h3 class="mb-4 text-center">Actions Rapides</h3>
 				<div class="space-y-3">
 					<a
-						href="/dashboard/publish"
+						href="/dashboard/admin/manage/articles"
 						class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
 					>
-						<i class="fa-solid fa-pen-clip text-slate-800"></i> Gérer les Articles
+						<i class="fa-solid fa-newspaper text-slate-800"></i> Modifier articles
+					</a>
+
+					<a
+						href="/dashboard/admin/manage/articles/status"
+						class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
+					>
+						<i class="fa-solid fa-newspaper text-slate-800"></i> Status articles
 					</a>
 					<a
-						href="/dashboard/articles"
+						href="/dashboard/admin/manage/users"
 						class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
 					>
-						<i class="fa-solid fa-newspaper text-slate-800"></i> Gérer les utilisateurs
-					</a>
-					<a
-						href="/dashboard/profil"
-						class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
-					>
-						<i class="fa-solid fa-user text-slate-800"></i> Mon Profil
+						<i class="fa-solid fa-user text-slate-800"></i> Gérer les utilisateurs
 					</a>
 				</div>
 			</div>

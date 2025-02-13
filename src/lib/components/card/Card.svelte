@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { truncateText } from '$lib/utils';
+	import { formatDate, truncateText } from '$lib/utils';
 
 	export let props = {
 		title: '',
@@ -7,10 +7,13 @@
 		imageUrl: '/LPC_FAV_BLT.png',
 		author: 'Auteur inconnu',
 		category: 'Catégorie inconnue',
+		publish_date: '',
+		submit_date: '',
 		id: 0,
 		style: '',
 		isDashboard: false,
 		isModerator: false,
+		isAdmin: false,
 		status: 'PUBLISHED',
 		imgStyle: ''
 	};
@@ -28,8 +31,35 @@
 	<div class="card-body">
 		<h2 class="card-title font-light">{props.title}</h2>
 
-		{#if props.isDashboard || props.isModerator}
+		{#if props.isDashboard || props.isModerator || props.isAdmin}
 			{null}
+
+			{#if props.isModerator}
+				<p class="mb-2 text-sm font-bold leading-3">
+					Soumis le {formatDate(props.submit_date)}
+				</p>
+			{/if}
+
+			{#if props.isAdmin}
+				<p class="mb-3 text-sm leading-3">
+					Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span>
+				</p>
+
+				{#if props.status === 'PUBLISHED'}
+					<p class="mb-2 text-sm font-bold leading-3">
+						Publié le {formatDate(props.publish_date)}
+					</p>
+					<p class="mb-2 text-sm font-bold leading-3">
+						Soumis le {formatDate(props.submit_date)}
+					</p>
+				{:else if props.status === 'SUBMITTED'}
+					<p class="mb-2 text-sm font-bold leading-3">
+						Soumis le {formatDate(props.submit_date)}
+					</p>
+				{:else}
+					<p class="mb-2 text-sm font-bold leading-3">Pas encore publié</p>
+				{/if}
+			{/if}
 		{:else}
 			<p class="mb-5 text-sm leading-3">
 				Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
@@ -38,7 +68,7 @@
 			<div class="mb-5">{truncateText(props.introduction, 140) || 'Contenu indisponible'}</div>
 		{/if}
 
-		{#if props.isDashboard || props.isModerator}
+		{#if props.isDashboard || props.isModerator || props.isAdmin}
 			<div
 				class="absolute right-2 top-2 rounded px-2 py-1 font-semibold
 			{props.status === 'PUBLISHED' ? 'rounded-lg bg-green-500 text-white' : ''}

@@ -60,9 +60,12 @@
 						imageUrl: a.images[0],
 						author: user.username,
 						category: a.article_type,
+						submit_date: '',
+						publish_date: '',
 						id: a.id,
 						isDashboard: true,
 						isModerator: false,
+						isAdmin: false,
 						status: a.status,
 						imgStyle: 'h-[100px]',
 						style:

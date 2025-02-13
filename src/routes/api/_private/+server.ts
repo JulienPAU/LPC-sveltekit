@@ -4,7 +4,6 @@ import type { User } from '$lib/types/user';
 import { error, json } from '@sveltejs/kit';
 
 export const GET = async (event) => {
-    // Récupération de la session utilisateur
     const session = await event.locals.auth();
 
     if (!session) {

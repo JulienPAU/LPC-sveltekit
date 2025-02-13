@@ -1,6 +1,8 @@
 <!-- src/lib/components/form/ArticleForm.svelte -->
 
 <script lang="ts">
+	import QuillEditor from '../QuillEditor.svelte';
+
 	export let isEditing = false;
 	export let article = {
 		title: '',
@@ -110,6 +112,8 @@
 			onStrapsChange(Array.from(selectedStraps));
 		}
 	}
+
+	export const ssr = false;
 </script>
 
 <form
@@ -171,7 +175,7 @@
 					id="titre-article"
 					name="titre-article"
 					type="text"
-					class="input input-bordered input-warning mb-5 w-full"
+					class="input input-warning mb-5 w-full"
 					bind:value={article.title}
 				/>
 			</div>
@@ -180,34 +184,21 @@
 				<label for="introduction" class="mb-1 block text-lg font-bold text-gray-700">
 					Introduction de l'article
 				</label>
-				<textarea
-					id="introduction"
-					name="introduction"
-					class="textarea textarea-warning mb-5 h-32 w-full"
-					bind:value={article.introduction}
-				></textarea>
+				<QuillEditor name="introduction" bind:value={article.introduction} />
 			</div>
 
 			<div>
 				<label for="corps-article" class="mb-1 block text-lg font-bold text-gray-700">
 					Corps de l'article
 				</label>
-				<textarea
-					id="corps-article"
-					name="corps-article"
-					class="textarea textarea-warning mb-5 h-72 w-full"
-					bind:value={article.body}
-				></textarea>
+				<QuillEditor name="corps-article" bind:value={article.body} />
 			</div>
 
 			<div>
-				<label for="end" class="mb-1 block text-lg font-bold text-gray-700">Le mot de la fin</label>
-				<textarea
-					id="end"
-					name="end"
-					class="textarea textarea-warning mb-5 h-32 w-full"
-					bind:value={article.ending}
-				></textarea>
+				<label for="end" class="mb-1 block text-lg font-bold text-gray-700">
+					Le mot de la fin
+				</label>
+				<QuillEditor name="end" bind:value={article.ending} />
 			</div>
 		</div>
 

@@ -1,9 +1,13 @@
+// src/ routes/ api/ _private/ users/ [id]/ edit/ +server.ts
+
 import { json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { updateUserSchema } from '$lib/schemas/user';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import type { UpdateUserData } from '$lib/types/user';
+import { RoleType } from '@prisma/client';
+
 
 export const POST = async ({ params, request }: { params: { id: string }, request: Request }) => {
     try {
@@ -17,6 +21,7 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             username: formData.get('username')?.toString().trim(),
             first_name: formData.get('first_name')?.toString().trim(),
             last_name: formData.get('last_name')?.toString().trim(),
+            role: formData.get('role')?.toString().trim(),
             current_password: formData.get('current_password')?.toString(),
             new_password: formData.get('new_password')?.toString(),
         };
@@ -47,6 +52,7 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             ...(validatedData.last_name && { last_name: validatedData.last_name })
         };
 
+
         if (validatedData.current_password && validatedData.new_password) {
             if (existingUser.authProvider === 'google') {
                 return json({
@@ -73,6 +79,29 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             dataToUpdate.password = hashedPassword;
         }
 
+        if (validatedData.role) {
+            const upperRole = validatedData.role.toUpperCase() as RoleType;
+
+            // Récupérer d'abord l'enregistrement User_Role existant
+            const userRole = await prisma.user_Role.findFirst({
+                where: {
+                    user_id: id
+                }
+            });
+
+            if (userRole) {
+                // Mise à jour du rôle avec l'ID correct
+                await prisma.user_Role.update({
+                    where: {
+                        id: userRole.id  // Utiliser l'ID numérique comme clé unique
+                    },
+                    data: {
+                        role: upperRole
+                    }
+                });
+            }
+        }
+
         if (Object.keys(dataToUpdate).length === 0) {
             return json({ error: 'Aucune donnée à mettre à jour' }, { status: 400 });
         }
@@ -86,7 +115,11 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
                 first_name: true,
                 last_name: true,
                 email: true,
-                User_Role: true,
+                User_Role: {
+                    select: {
+                        role: true
+                    }
+                }
             }
         });
 
