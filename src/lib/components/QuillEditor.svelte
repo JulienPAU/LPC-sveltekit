@@ -4,10 +4,12 @@
 
 	export let value: string = '';
 	export let placeholder: string = 'Écrivez ici...';
-	export let name: string = ''; // Ajout d'une prop name pour l'input
+	export let name: string = '';
+	export let maxLength: number = 500;
 
 	let editorContainer: HTMLDivElement;
 	let quill: any;
+	let remainingCharacters: number = maxLength;
 
 	onMount(async () => {
 		const Quill = (await import('quill')).default;
@@ -24,19 +26,25 @@
 
 		quill.on('text-change', () => {
 			value = quill.root.innerHTML;
+			remainingCharacters = maxLength - quill.getText().length;
 		});
 	});
 
 	$: {
 		if (quill && quill.root.innerHTML !== value) {
 			quill.root.innerHTML = value;
+			remainingCharacters = maxLength - quill.getText().length;
 		}
 	}
 </script>
 
 <div
-	class={`mb-5 flex w-full flex-col border border-warning  ${name === 'corps-article' ? 'h-72' : 'h-32'}`}
+	class={`relative mb-5 flex w-full flex-col border border-warning ${name === 'corps-article' ? 'h-72' : 'h-32'}`}
 >
-	<div bind:this={editorContainer} class={`textarea mb-5 w-full  rounded-none bg-white`}></div>
+	<div bind:this={editorContainer} class={`textarea mb-5 w-full rounded-none bg-white`}></div>
 	<input type="hidden" {name} bind:value />
+	<div class="absolute bottom-2 right-2 text-xs italic text-gray-500">
+		{remainingCharacters + 1} caractères restants
+	</div>
+	<!-- Afficher le compteur dans le conteneur -->
 </div>

@@ -3,7 +3,7 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION, type ArticleUploadResponse } from '$lib/types/article';
-import { articlePublishSchema } from '$lib/schemas/articles';  // Assure-toi que le chemin est correct
+import { articlePublishSchema } from '$lib/schemas/articles';
 
 import type { Article_Type, Category } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';

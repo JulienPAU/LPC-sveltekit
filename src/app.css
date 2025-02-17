@@ -75,6 +75,16 @@ h3 {
 	font-size: small;
 }
 
+.article-link a {
+	color: #007bff; /* Personnaliser la couleur des liens */
+	text-decoration: underline; /* Souligner les liens */
+}
+
+.article-link a:hover {
+	color: #0056b3; /* Changer la couleur au survol */
+	text-decoration: none; /* Optionnel : enlever le soulignement au survol */
+}
+
 /* header,
 footer,
 .menu-compact,

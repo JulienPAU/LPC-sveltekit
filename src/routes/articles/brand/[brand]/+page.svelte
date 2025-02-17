@@ -1,24 +1,38 @@
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
+	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import Skeleton from '$lib/components/skeleton.svelte';
-	let loading = true;
-	export let data;
-	const { articles } = data;
 
-	$: if (data && data.articles) {
-		loading = false;
+	export let data;
+
+	$: brandArticle = data.brandArticle;
+	$: brand = data.brand;
+	$: loading = true;
+
+	$: {
+		if (data && data.brandArticle) {
+			loading = false;
+		}
 	}
 </script>
 
-<!-- <SectionTitle title="Articles" /> -->
+{#if data?.brandArticle?.length === 0}
+	<p
+		class="mx-auto mt-20 w-4/5 rounded-lg bg-gray-200 p-4 text-center text-2xl font-bold italic md:mt-72 md:w-3/5 lg:mt-52 lg:w-1/5"
+	>
+		Aucun article n'a encore été publié pour la marque {brand}
+	</p>
+{:else}
+	<SectionTitle title="Articles concernant la marque {brand}" />
+{/if}
 
 <section class="mb-20 mt-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20">
 	{#if loading}
-		{#each Array(articles.length) as _}
+		{#each Array(brandArticle.length) as _}
 			<Skeleton containerClass="flex-col sm:w-4/5 md:w-96 lg:w-2/6 p-4" imageClass="h-[490px]" />
 		{/each}
 	{:else}
-		{#each articles as article}
+		{#each brandArticle as article}
 			<Card
 				props={{
 					title: article.title,

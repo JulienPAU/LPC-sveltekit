@@ -7,8 +7,7 @@ export async function load({ fetch, locals, depends }) {
 
 
     try {
-        depends('app:user');  // Puisqu'on manipule des articles
-
+        depends('app:user');
 
         const response = await fetch(`/api/_public/dashboard/${session?.user?.id}`);
 

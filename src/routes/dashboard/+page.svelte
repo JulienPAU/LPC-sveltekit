@@ -1,12 +1,7 @@
 <script lang="ts">
 	export let data;
 	const user = data?.user;
-
-	export let stats = {
-		totalArticles: 5,
-		publishedArticles: 2,
-		pendingArticles: 3
-	};
+	const { articlesByUserId } = data;
 </script>
 
 <section class="flex flex-col items-center p-8">
@@ -20,18 +15,36 @@
 		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 			<div class="rounded-xl bg-white p-6 shadow-md">
 				<h3 class="mb-4 text-center">Statistiques Articles</h3>
-				<div class="space-y-8">
+				<div class="space-y-2">
 					<div class="flex justify-between border-b pb-2">
 						<span>Total Articles</span>
-						<span class="font-bold text-yellow-500">{stats.totalArticles}</span>
+						<span class="font-bold text-black"
+							>{articlesByUserId.total.length < 0 ? '0' : articlesByUserId.total}</span
+						>
 					</div>
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles Publiés</span>
-						<span class="font-bold text-green-500">{stats.publishedArticles}</span>
+						<span class="font-bold text-green-500"
+							>{articlesByUserId.countByStatus.PUBLISHED < 0
+								? '0'
+								: articlesByUserId.countByStatus.PUBLISHED}</span
+						>
 					</div>
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles en Attente</span>
-						<span class="font-bold text-red-500">{stats.pendingArticles}</span>
+						<span class="font-bold text-yellow-500"
+							>{articlesByUserId.countByStatus.SUBMITTED < 0
+								? '0'
+								: articlesByUserId.countByStatus.SUBMITTED}</span
+						>
+					</div>
+					<div class="flex justify-between border-b pb-2">
+						<span>Articles Refusés</span>
+						<span class="font-bold text-red-500"
+							>{articlesByUserId.countByStatus.REFUSED < 0
+								? '0'
+								: articlesByUserId.countByStatus.REFUSED}</span
+						>
 					</div>
 				</div>
 			</div>

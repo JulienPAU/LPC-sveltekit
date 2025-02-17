@@ -1,6 +1,15 @@
 <script lang="ts">
 	import { formatDate, truncateText } from '$lib/utils';
 
+	import DOMPurify from 'dompurify';
+	import { onMount } from 'svelte';
+
+	let sanitize = (input: string) => input;
+
+	onMount(() => {
+		sanitize = DOMPurify.sanitize;
+	});
+
 	export let props = {
 		title: '',
 		introduction: '',
@@ -65,7 +74,11 @@
 				Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
 				<span class="italic"> {props.category || 'Catégorie inconnue'}</span>
 			</p>
-			<div class="mb-5">{truncateText(props.introduction, 140) || 'Contenu indisponible'}</div>
+			{#if props.introduction}
+				<div class="mb-5">
+					{@html truncateText(sanitize(props.introduction), 140) || 'Contenu indisponible'}
+				</div>
+			{/if}
 		{/if}
 
 		{#if props.isDashboard || props.isModerator || props.isAdmin}

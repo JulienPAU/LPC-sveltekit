@@ -14,12 +14,23 @@
 		return user.image || user.profile_picture || '/src/lib/assets/user.png';
 	};
 
+	function handleClickOutside(e: MouseEvent) {
+		const details = document.querySelectorAll('details');
+		details.forEach((detail) => {
+			if (!detail.contains(e.target as Node)) {
+				detail.removeAttribute('open');
+			}
+		});
+	}
+
 	const uniqueBrands = [...new Set(watches.map((watch) => watch.brand))];
 
 	const userSession = page.data.session?.user as SessionUser;
 
 	const userRole = userSession?.User_Role;
 </script>
+
+<svelte:window on:click={handleClickOutside} />
 
 <!-- sticky top-5 -->
 <navbar class="  navbar z-50 mx-0 w-auto bg-slate-900 px-0 pt-5 text-white sm:mx-0">
@@ -55,7 +66,7 @@
 						<ul class="drop rounded-lg border border-yellow-500 bg-slate-900 p-2">
 							{#each uniqueBrands as brand}
 								<li class="hover:bg-gray-600">
-									<a href="/{brand.toLowerCase()}" class="text-white hover:bg-gray-600">
+									<a href="/articles/brand/{brand}" class="text-white hover:bg-gray-600">
 										{brand}
 									</a>
 								</li>
@@ -83,10 +94,13 @@
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
 						<summary>Marques</summary>
-						<ul class="drop border border-yellow-500 bg-slate-900 p-2">
+						<ul class="border border-yellow-500 bg-slate-900 p-2">
 							{#each uniqueBrands as brand}
 								<li>
-									<a href="/{brand.toLowerCase()}" class="text-white hover:bg-gray-600">
+									<a
+										href="/articles/brand/{brand.toLowerCase()}"
+										class="text-white hover:bg-gray-600"
+									>
 										{brand}
 									</a>
 								</li>
@@ -94,11 +108,13 @@
 						</ul>
 					</details>
 				</li>
+
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
 						<summary>Divers</summary>
 						<ul class="drop border border-yellow-500 bg-slate-900 p-2">
 							<li><a href="/" class="hover:bg-gray-600">Lexique</a></li>
+							<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
 						</ul>
 					</details>
 				</li>

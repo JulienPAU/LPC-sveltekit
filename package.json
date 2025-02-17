@@ -59,6 +59,7 @@
 		"@uploadthing/svelte": "^7.1.5",
 		"bcrypt": "^5.1.1",
 		"cloudinary": "^2.5.1",
+		"dompurify": "^3.2.4",
 		"jsonwebtoken": "^9.0.2",
 		"nodemailer": "^6.10.0",
 		"quill": "^2.0.3",

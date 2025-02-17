@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Navbar from './Navbar.svelte';
-	import digit from '$lib/assets/digit.png';
 	import DigitalClock from './DigitalClock.svelte';
 	import digi from '$lib/assets/digi.png';
 
