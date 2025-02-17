@@ -17,9 +17,9 @@
 				<li class="my-2 sm:my-0">
 					<a href="/articles" class="text-white">Articles</a>
 				</li>
-				<li><a href="javascript:;" class="text-white">Lexique</a></li>
+				<li><a href="/lexique" class="text-white">Lexique</a></li>
 				<li class="my-2 sm:my-0">
-					<a href="javascript:;" class="text-white">Contact</a>
+					<a href="/" class="text-white">Contact</a>
 				</li>
 				<li>
 					<a href="/dashboard/publish" class="text-yellow-500 hover:text-yellow-400">
@@ -29,7 +29,7 @@
 			</ul>
 			<div class="flex space-x-4 sm:justify-center">
 				<a
-					href="javascript:;"
+					href="/"
 					class="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 hover:bg-yellow-500"
 					aria-label="Icon 2"
 				>

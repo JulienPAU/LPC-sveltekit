@@ -161,6 +161,11 @@
 					>
 				</li>
 				<li>
+					<a href="/dashboard/admin/lexique" class="text-lg font-bold hover:bg-gray-600"
+						><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>Lexique</a
+					>
+				</li>
+				<li>
 					<a href="/dashboard/admin/manage/users" class="text-lg font-bold hover:bg-gray-600"
 						><i class="fa-solid fa-user" style="color: #eab308;"></i> Utilisateurs</a
 					>

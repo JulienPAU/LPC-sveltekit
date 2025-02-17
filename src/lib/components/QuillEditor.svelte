@@ -46,5 +46,4 @@
 	<div class="absolute bottom-2 right-2 text-xs italic text-gray-500">
 		{remainingCharacters + 1} caractères restants
 	</div>
-	<!-- Afficher le compteur dans le conteneur -->
 </div>

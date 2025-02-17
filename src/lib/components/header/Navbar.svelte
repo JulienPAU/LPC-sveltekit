@@ -60,6 +60,8 @@
 			>
 				<li><a href="/" class="hover:bg-gray-600">Accueil</a></li>
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
+				<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
+
 				<li>
 					<details>
 						<summary>Marques</summary>
@@ -77,9 +79,9 @@
 
 				<li>
 					<details>
-						<summary>Divers</summary>
+						<summary>Guide</summary>
 						<ul class=" rounded-lg border border-yellow-500 p-2">
-							<li><a href="/" class="hover:bg-gray-600">Lexique</a></li>
+							<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
 						</ul>
 					</details>
 				</li>
@@ -91,6 +93,8 @@
 			<ul class="menu menu-horizontal bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
 				<li><a href="/" class="border-none hover:bg-gray-600">Accueil</a></li>
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
+				<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
+
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
 						<summary>Marques</summary>
@@ -111,10 +115,9 @@
 
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
-						<summary>Divers</summary>
+						<summary>Guide</summary>
 						<ul class="drop border border-yellow-500 bg-slate-900 p-2">
-							<li><a href="/" class="hover:bg-gray-600">Lexique</a></li>
-							<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
+							<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
 						</ul>
 					</details>
 				</li>
@@ -225,6 +228,11 @@
 								<li>
 									<a href="/dashboard/admin/manage/articles/status" class="hover:bg-gray-600"
 										><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>Status articles</a
+									>
+								</li>
+								<li>
+									<a href="/dashboard/admin/manage/lexique" class="hover:bg-gray-600"
+										><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>Lexique</a
 									>
 								</li>
 
