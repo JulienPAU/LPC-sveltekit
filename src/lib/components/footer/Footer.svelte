@@ -19,7 +19,7 @@
 				</li>
 				<li><a href="/lexique" class="text-white">Lexique</a></li>
 				<li class="my-2 sm:my-0">
-					<a href="/" class="text-white">Contact</a>
+					<a href="/contact" class="text-white">Contact</a>
 				</li>
 				<li>
 					<a href="/dashboard/publish" class="text-yellow-500 hover:text-yellow-400">

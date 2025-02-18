@@ -16,8 +16,8 @@
 		Array.isArray(article.images) ? article.images : []
 	);
 
-	const firstTenArticles = articles.slice(0, 10);
-	const remainingArticles = articles.slice(10);
+	const firstTenArticles = articles.slice(0, 8);
+	const remainingArticles = articles.slice(8, 20);
 
 	$: if (data && data.articles) {
 		loading = false;
@@ -38,7 +38,6 @@
 
 <Band />
 
-<SectionTitle title="Tous les articles" />
 <section class="mb-20 flex w-full flex-wrap justify-center gap-14">
 	{#if loading}
 		{#each Array(remainingArticles.length) as _}
@@ -75,7 +74,7 @@
 <div class="card-actions justify-center">
 	<a href="articles">
 		<button
-			class="btn mb-20 bg-yellow-500 text-lg hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+			class="btn mb-20 bg-yellow-500 text-xl font-bold hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 		>
 			Voir plus
 		</button>

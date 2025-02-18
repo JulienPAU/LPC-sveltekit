@@ -5,6 +5,10 @@ export async function load({ fetch, locals }) {
     try {
 
         const session = await locals.auth();
+
+
+
+
         const user = session?.user;
 
         const response = await fetch(`/api/_public/articles/count/${user?.id}`);

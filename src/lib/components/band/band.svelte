@@ -1,11 +1,7 @@
 <script lang="ts">
-	import { onScroll } from '$lib/utils';
 </script>
 
-<section class=" relative bg-gray-200">
-	<!--avec animation <div use:onScroll class="slide-in-bottom relative mb-20 bg-gray-200"> -->
-
-	<!-- Contenu -->
+<section class=" relative mb-20 bg-gray-200">
 	<div class="lide-in-bottom relative z-10 mx-auto px-4 py-24 text-center sm:px-6 lg:px-8">
 		<h1 class="">Découvrez et partagez des articles sur l'univers des montres.</h1>
 

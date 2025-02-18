@@ -1,9 +1,17 @@
 // src/ routes/ dashboard/ +layout.server.ts
 
+import { error } from '@sveltejs/kit';
+
 export async function load({ fetch, locals, depends }) {
 
     const session = await locals.auth();
 
+
+    if (!session) {
+        throw error(403, {
+            message: 'Non autorisé'
+        });
+    }
 
 
     try {

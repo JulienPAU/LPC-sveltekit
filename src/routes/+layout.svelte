@@ -7,7 +7,13 @@
 
 	let { children, data } = $props();
 
-	let { watches } = data;
+	let { watches, articles } = data;
+
+	// console.log('layout articles', articles);
+
+	// console.log('articles types', articles[0].article_type);
+
+	// console.log('category', articles[0].category.name);
 
 	const isHome = $derived($page.url.pathname === '/');
 

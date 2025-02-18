@@ -108,9 +108,8 @@
 	});
 </script>
 
-<div class="container mx-auto px-4 py-8">
-	<SectionTitle title="Galerie" />
-
+<SectionTitle title="Galerie" />
+<div class="container mx-auto mb-8 px-4">
 	{#if getTotalImages() > 0}
 		{@const images = getVisibleImages()}
 		<div class="grid grid-cols-3 gap-2 lg:grid-cols-7">

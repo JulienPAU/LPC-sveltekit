@@ -4,7 +4,7 @@
 
 	const { allArticlesCount, allUsersCount } = data;
 
-	console.log(allUsersCount);
+	// console.log(allUsersCount);
 </script>
 
 <section class="flex flex-col items-center p-4">

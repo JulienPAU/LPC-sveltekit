@@ -60,6 +60,7 @@
 			>
 				<li><a href="/" class="hover:bg-gray-600">Accueil</a></li>
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
+
 				<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
 
 				<li>
@@ -132,7 +133,7 @@
 
 	<!-- Navbar End -->
 	<div class="navbar-end">
-		<button class="search btn btn-ghost p-0" aria-label="Search">
+		<!-- <button class="search btn btn-ghost p-0" aria-label="Search">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-5 w-5"
@@ -147,7 +148,7 @@
 					d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
 				/>
 			</svg>
-		</button>
+		</button> -->
 		<div class="lg:flex">
 			<ul class="menu menu-horizontal px-5 sm:text-sm md:text-lg lg:text-lg">
 				{#if userSession}
@@ -231,7 +232,7 @@
 									>
 								</li>
 								<li>
-									<a href="/dashboard/admin/manage/lexique" class="hover:bg-gray-600"
+									<a href="/dashboard/admin/lexique" class="hover:bg-gray-600"
 										><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>Lexique</a
 									>
 								</li>

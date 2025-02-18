@@ -1,23 +1,33 @@
-import { json } from '@sveltejs/kit';
+
+
+
+import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
+import type { RequestEvent } from '@sveltejs/kit';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-export async function GET({ params }) {
-    const { brand } = params;
+export async function GET(event: RequestEvent) {
+    const { brand } = event.params;
 
-
-
-
-    if (!brand) {
-        return json({ error: 'Brand is required' }, { status: 400 });
+    if (!brand || brand.trim() === '') {
+        throw error(400, {
+            message: 'Marque requise'
+        });
     }
 
     try {
         const articles = await prisma.articles.findMany({
+            orderBy: {
+                id: 'desc'
+            },
             where: {
                 ArticleWatches: {
                     some: {
                         watch: {
-                            brand: { equals: brand, mode: 'insensitive' }
+                            brand: {
+                                equals: brand,
+                                mode: 'insensitive'
+                            }
                         }
                     }
                 },
@@ -25,7 +35,9 @@ export async function GET({ params }) {
             },
             include: {
                 ArticleWatches: {
-                    include: { watch: true }
+                    include: {
+                        watch: true
+                    }
                 },
                 user: {
                     select: {
@@ -35,12 +47,26 @@ export async function GET({ params }) {
             }
         });
 
-
-
+        if (articles.length === 0) {
+            return json({
+                message: 'Aucun article trouvé pour cette marque',
+                articles: []
+            });
+        }
 
         return json(articles);
-    } catch (error) {
-        console.error('Erreur Prisma:', error);
-        return json({ error: 'Erreur serveur' }, { status: 500 });
+
+    } catch (err) {
+        console.error('Erreur lors de la récupération des articles:', err);
+
+        if (err instanceof PrismaClientKnownRequestError) {
+            throw error(500, {
+                message: "Erreur lors de l'accès à la base de données"
+            });
+        }
+
+        throw error(500, {
+            message: "Erreur lors de la récupération des articles"
+        });
     }
 }

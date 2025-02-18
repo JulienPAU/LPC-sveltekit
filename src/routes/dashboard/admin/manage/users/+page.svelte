@@ -5,7 +5,9 @@
 
 	export let data;
 
-	let { users } = data;
+	let { allUsers } = data;
+
+	const users = allUsers.users;
 </script>
 
 {#if users}

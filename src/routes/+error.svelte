@@ -1,3 +1,5 @@
+<!-- src/routes/+error.svelte -->
+
 <script>
 	import { page } from '$app/state';
 	import Error403 from '$lib/components/error403.svelte';

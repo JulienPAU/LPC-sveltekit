@@ -1,20 +1,39 @@
+
+
+import { error, json } from '@sveltejs/kit';
 import prisma from "$lib/prisma";
-import { json } from '@sveltejs/kit';
-
-
 
 export async function GET() {
-    const articlesImages = await prisma.articles.findMany(
-        {
-            orderBy: { id: 'desc' },
-            select:
-            {
-
-                images: true,
+    try {
+        const articlesImages = await prisma.articles.findMany({
+            orderBy: {
+                id: 'desc'
+            },
+            where: {
+                status: 'PUBLISHED',
+                images: {
+                    isEmpty: false
+                }
+            },
+            select: {
+                images: true
             }
+        });
+
+        if (!articlesImages || articlesImages.length === 0) {
+            return json({
+                message: "Aucune image trouvée",
+                images: []
+            });
         }
-    )
 
+        return json(articlesImages);
 
-    return json(articlesImages)
+    } catch (err) {
+        console.error('Erreur lors de la récupération des images:', err);
+
+        throw error(500, {
+            message: "Erreur lors de la récupération des images"
+        });
+    }
 }

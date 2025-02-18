@@ -35,11 +35,11 @@
 </script>
 
 <div
-	class="mx-auto my-10 flex w-full max-w-sm justify-center overflow-hidden rounded-lg bg-white shadow-lg sm:my-10 lg:my-0 lg:h-screen lg:max-w-full lg:rounded-none dark:bg-gray-800"
+	class="mx-auto my-10 flex w-full max-w-sm justify-center overflow-hidden rounded-lg bg-slate-900 shadow-lg sm:my-10 lg:my-0 lg:h-screen lg:max-w-full lg:rounded-none"
 >
 	<div class="hidden bg-cover lg:block lg:w-1/2" style="background-image: url({Mouvement});"></div>
 
-	<div class="flex w-full flex-col justify-center px-6 py-8 md:px-36 lg:w-1/2 lg:px-60">
+	<div class="flex w-full flex-col justify-center border-y-2 px-6 py-8 md:px-36 lg:w-1/2 lg:px-60">
 		<button
 			on:click={handleGoogleSignin}
 			class="mt-4 flex transform items-center justify-center rounded-lg border text-gray-600 transition-colors duration-300 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"

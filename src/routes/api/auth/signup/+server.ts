@@ -16,7 +16,7 @@ export async function POST({ request }) {
         const newUser = await createUser(email, password, first_name, last_name, username);
 
         return json({
-            user: { id: newUser.id, email: newUser.email, username: newUser.username, role: newUser.role },
+            user: { id: newUser.id, email: newUser.email, username: newUser.username },
         });
     } catch (err) {
         console.error('Erreur lors de la création du compte:', err);

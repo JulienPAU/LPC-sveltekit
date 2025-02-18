@@ -1,26 +1,52 @@
 // src/routes/api/articles/+server.ts
-import { json } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 export async function GET() {
-    const articles = await prisma.articles.findMany({
-        orderBy: {
-            id: 'desc'
-        },
-        include: {
-            user: {
-                select: {
-                    id: true,
-                    username: true,
-                    // email: true,
-                    // first_name: true,
-                    // last_name: true,
-                    // User_Role: true,
+    try {
+        const articles = await prisma.articles.findMany({
+            orderBy: {
+                id: 'desc'
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                    }
                 }
             }
-        }
-    }
-    );
+        });
 
-    return json(articles);
+        if (!articles) {
+            throw error(404, {
+                message: "Aucun article trouvé"
+            });
+        }
+
+        return json(articles);
+
+    } catch (e: unknown) {
+        // Si c'est une erreur Prisma
+        if (e instanceof PrismaClientKnownRequestError) {
+            // Erreurs spécifiques de Prisma
+            switch (e.code) {
+                case 'P2002':
+                    throw error(400, { message: "Conflit de données" });
+                case 'P2025':
+                    throw error(404, { message: "Ressource non trouvée" });
+                default:
+                    throw error(500, { message: "Erreur lors de l'accès à la base de données" });
+            }
+        }
+
+        // Si c'est déjà une erreur SvelteKit, la propager
+        if (e instanceof Error && 'status' in e) throw e;
+
+        // Pour toute autre erreur inattendue
+        throw error(500, {
+            message: "Une erreur inattendue s'est produite"
+        });
+    }
 }

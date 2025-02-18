@@ -11,6 +11,20 @@
 
 	<p class="mb-6 text-lg font-semibold text-gray-900">Prêt à partager ta passion horlogère ?</p>
 
+	{#if articlesByUserId.total >= 10 && user.User_Role[0].role !== 'MODERATOR' && user.User_Role[0].role !== 'ADMIN'}
+		<div class="mb-10 flex flex-col items-center gap-4 rounded-lg bg-slate-900 p-4 text-white">
+			<p>Félicitations, vous avez publié plus de 10 articles</p>
+			<p>
+				Vous pouvez faire une demande pour être modérateur et aider à sélectionner les meilleurs
+				articles
+			</p>
+			<button> Cliquez ici pour faire la demande</button>
+			<p>vous pouvez enlever ce message en cliquant <button>ici</button></p>
+			<p>
+				Faire une demande pour être modérateur par mail : <a href="/contact"> contact</a>
+			</p>
+		</div>
+	{/if}
 	<div class="w-full max-w-4xl rounded-xl bg-gray-200 p-6 shadow-lg">
 		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 			<div class="rounded-xl bg-white p-6 shadow-md">
@@ -19,13 +33,16 @@
 					<div class="flex justify-between border-b pb-2">
 						<span>Total Articles</span>
 						<span class="font-bold text-black"
-							>{articlesByUserId.total.length < 0 ? '0' : articlesByUserId.total}</span
+							>{articlesByUserId.total < 0 || !articlesByUserId.total
+								? '0'
+								: articlesByUserId.total}</span
 						>
 					</div>
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles Publiés</span>
 						<span class="font-bold text-green-500"
-							>{articlesByUserId.countByStatus.PUBLISHED < 0
+							>{articlesByUserId.countByStatus.PUBLISHED < 0 ||
+							!articlesByUserId.countByStatus.PUBLISHED
 								? '0'
 								: articlesByUserId.countByStatus.PUBLISHED}</span
 						>
@@ -33,7 +50,8 @@
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles en Attente</span>
 						<span class="font-bold text-yellow-500"
-							>{articlesByUserId.countByStatus.SUBMITTED < 0
+							>{articlesByUserId.countByStatus.SUBMITTED < 0 ||
+							!articlesByUserId.countByStatus.SUBMITTED
 								? '0'
 								: articlesByUserId.countByStatus.SUBMITTED}</span
 						>
@@ -41,7 +59,8 @@
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles Refusés</span>
 						<span class="font-bold text-red-500"
-							>{articlesByUserId.countByStatus.REFUSED < 0
+							>{articlesByUserId.countByStatus.REFUSED < 0 ||
+							!articlesByUserId.countByStatus.REFUSED
 								? '0'
 								: articlesByUserId.countByStatus.REFUSED}</span
 						>

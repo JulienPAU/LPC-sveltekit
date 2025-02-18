@@ -33,6 +33,12 @@ export const DELETE = async (event) => {
             throw error(404, 'Utilisateur non trouvé');
         }
 
+        await prisma.articles.updateMany({
+            where: { user_id: userId },
+            data: { user_id: undefined },
+        });
+
+
         await prisma.user.delete({
             where: { id: userId }
         });

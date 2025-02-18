@@ -56,14 +56,12 @@
 
 <div class=" font-['digital']">
 	<div class="flex w-full max-w-[300px] flex-col items-center justify-between rounded-md">
-		<div
-			class="mb-1 text-[1rem] font-bold sm:text-xl md:mb-2 md:text-[1.2rem] lg:mb-4 lg:text-[2.3rem]"
-		>
+		<div class="mb-1 text-[1.3rem] font-bold md:mb-2 md:text-[1.2rem] lg:mb-4 lg:text-[2.3rem]">
 			{timeDisplay}
 		</div>
 
 		{#if showDate}
-			<div class="mb-5 text-sm font-bold sm:text-base md:text-sm xl:text-xl">{date}</div>
+			<div class="mb-5 text-xs font-bold sm:text-base md:text-sm xl:text-xl">{date}</div>
 		{/if}
 	</div>
 </div>

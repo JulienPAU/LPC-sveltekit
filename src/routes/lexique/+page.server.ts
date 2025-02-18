@@ -1,21 +1,19 @@
+
+
 export async function load({ fetch }) {
-
-
-
 
     try {
 
 
-        const response = await fetch(`/api/_private/users`);
+        const response = await fetch(`/api/_public/lexical`);
 
         if (!response.ok) {
             throw new Error(`API error: ${response.status}`);
         }
 
-        const allUsers = await response.json();
+        const definitions = await response.json();
 
-
-        return { allUsers };
+        return { definitions };
     } catch (error) {
         console.error("Load error:", error);
         throw error;

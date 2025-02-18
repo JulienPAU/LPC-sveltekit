@@ -1,30 +1,44 @@
-// src\routes\api\_public\article_id\+server.ts
-import { json } from '@sveltejs/kit';
+
+
+import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
+import type { RequestEvent } from '@sveltejs/kit';
 
-export async function GET({ params }: { params: { id: string } }) {
-    const id = params.id;
+export async function GET(event: RequestEvent) {
+    const userId = event.params.id;
 
-    if (!id) {
-        return json({ error: 'Invalid ID format' }, { status: 400 });
+    if (!userId) {
+        throw error(400, {
+            message: "ID utilisateur invalide"
+        });
     }
 
-    const userArticle = await prisma.user.findUnique({
-        where: { id },
-        include: {
-            articles: {
-                orderBy: {
-                    id: 'desc',
+    try {
+        const userArticle = await prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                articles: {
+                    orderBy: {
+                        id: 'desc',
+                    },
                 },
+                User_Role: true,
             },
-            User_Role: true,
+        });
 
-        },
-    });
+        if (!userArticle) {
+            throw error(404, {
+                message: "Utilisateur non trouvé"
+            });
+        }
 
-    if (!userArticle) {
-        return json({ error: 'User not found' }, { status: 404 });
+        return json(userArticle);
+
+    } catch (err) {
+        console.error('Erreur lors de la récupération des articles:', err);
+
+        throw error(500, {
+            message: "Erreur lors de la récupération des articles"
+        });
     }
-
-    return json(userArticle);
 }

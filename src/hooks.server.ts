@@ -1,3 +1,6 @@
+// src/hooks.server.ts
+
+
 import { redirect, type Handle } from '@sveltejs/kit';
 import type { User } from './lib/types/user';
 
@@ -7,19 +10,12 @@ import { sequence } from '@sveltejs/kit/hooks';
 
 import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { isValidResetToken } from '$lib/auth/isValidResetToken';
+// import { error } from '@sveltejs/kit';
 
 async function authorizationHandle({ event, resolve }: { event: RequestEvent, resolve: (event: RequestEvent, opts?: ResolveOptions) => MaybePromise<Response> }) {
     const session = await event.locals.auth();
     // Protect any routes under /authenticated
-    if (event.url.pathname.startsWith('/dashboard')) {
 
-
-        if (!session) {
-            throw redirect(303, '/auth/login');
-        }
-        // console.log("Sessionnnnnn:", session);
-        // console.log("User Role:", session?.user?.User_Role);
-    }
 
     if (event.url.pathname.startsWith('/api/_private') || event.url.pathname.startsWith('/dashboard/admin')) {
         if (session) {
