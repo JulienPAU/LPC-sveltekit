@@ -1,3 +1,5 @@
+<!-- src/routes/articles/%2Bpage.svelte -->
+
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
 	import Filtres from '$lib/components/filtres.svelte';

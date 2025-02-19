@@ -41,6 +41,11 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                     return null;
                 }
 
+                await prisma.user.update({
+                    where: { id: user.id },
+                    data: { lastLogin: new Date() }
+                });
+
                 return {
                     id: user.id.toString(),
                     email: user.email,

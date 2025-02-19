@@ -37,7 +37,9 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             select: {
                 id: true,
                 password: true,
-                authProvider: true
+                authProvider: true,
+                moderatorRequestStatus: true,
+
             }
         });
 
@@ -90,6 +92,25 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             });
 
             if (userRole) {
+
+                if (upperRole === 'MODERATOR' && existingUser.moderatorRequestStatus !== 'APPROVED') {
+                    await prisma.user.update({
+                        where: { id },
+                        data: {
+                            moderatorRequestStatus: 'APPROVED',
+                            moderatorRequestAt: new Date()
+                        }
+                    });
+                } else if (upperRole !== 'MODERATOR') {
+                    // Réinitialisation des champs si le rôle n'est pas MODERATOR
+                    await prisma.user.update({
+                        where: { id },
+                        data: {
+                            moderatorRequestStatus: 'NOT_REQUESTED',
+                            moderatorRequestAt: null
+                        }
+                    });
+                }
                 // Mise à jour du rôle avec l'ID correct
                 await prisma.user_Role.update({
                     where: {
@@ -115,6 +136,8 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
                 first_name: true,
                 last_name: true,
                 email: true,
+                moderatorRequestStatus: true,
+                moderatorRequestAt: true,
                 User_Role: {
                     select: {
                         role: true

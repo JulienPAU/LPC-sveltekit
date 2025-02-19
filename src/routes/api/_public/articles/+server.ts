@@ -1,5 +1,5 @@
 
-
+// src/routes/api/_public/articles/+server.ts
 
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
