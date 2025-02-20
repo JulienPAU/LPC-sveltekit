@@ -13,12 +13,22 @@
 
 	const userRole = Array.isArray(user?.User_Role) ? user.User_Role[0]?.role : user?.User_Role;
 
-	async function updateStatus(newStatus: 'PUBLISHED' | 'REFUSED' | 'SUBMITTED') {
+	let showDropdown = false;
+	let selectedReason = '';
+
+	const refusalReasons = [
+		'Contenu inapproprié',
+		"Manque d'informations",
+		'Non conforme aux règles',
+		'Autres raisons, merci de prendre contact'
+	];
+
+	async function updateStatus(newStatus: 'PUBLISHED' | 'REFUSED' | 'SUBMITTED', reason?: string) {
 		try {
 			const response = await fetch(`/api/_public/articles/manage/${article.id}`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ status: newStatus })
+				body: JSON.stringify({ status: newStatus, reason })
 			});
 
 			if (response.ok) {
@@ -27,6 +37,18 @@
 		} catch (err) {
 			console.error('Erreur lors de la mise à jour:', err);
 		}
+	}
+
+	function handleRefuseClick() {
+		showDropdown = !showDropdown;
+	}
+
+	function submitRefusal() {
+		if (!selectedReason) {
+			alert('Veuillez sélectionner une raison de refus.');
+			return;
+		}
+		updateStatus('REFUSED', selectedReason);
 	}
 
 	onMount(() => {
@@ -103,11 +125,33 @@
 					</button>
 
 					<button
-						class="btn bg-red-400 text-xl font-bold hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-offset-2"
-						on:click={() => updateStatus('REFUSED')}
+						class="btn bg-red-400 text-xl font-bold hover:bg-red-300"
+						on:click={handleRefuseClick}
 					>
 						Refuser
 					</button>
+
+					{#if showDropdown}
+						<div class="mt-4 rounded-lg bg-gray-200 p-4">
+							<label for="reason" class="mb-2 block font-semibold">Sélectionner une raison :</label>
+							<select
+								bind:value={selectedReason}
+								id="reason"
+								class="w-full rounded border border-gray-300 p-2"
+							>
+								<option value="" disabled>Sélectionnez une raison</option>
+								{#each refusalReasons as reason}
+									<option value={reason}>{reason}</option>
+								{/each}
+							</select>
+							<button
+								class="btn mt-4 w-full bg-red-500 font-bold text-white hover:bg-red-400"
+								on:click={submitRefusal}
+							>
+								Confirmer le refus
+							</button>
+						</div>
+					{/if}
 				</div>
 			</div>
 		{/if}

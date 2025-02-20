@@ -7,6 +7,7 @@ import { articlePublishSchema } from '$lib/schemas/articles';
 
 import type { Article_Type, Category } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
+import { submitArticle } from '$lib/email';
 
 export const POST = async ({ request, locals }) => {
     try {
@@ -161,6 +162,15 @@ export const POST = async ({ request, locals }) => {
             });
         } else {
             console.warn('Aucune image valide uploadée. article pas  mis à jour.');
+        }
+
+        try {
+            if (session.user.email) {
+                await submitArticle(session.user.email);
+            }
+        } catch (emailError) {
+            // On log l'erreur mais on ne la propage pas pour ne pas bloquer la réponse
+            console.error('Erreur lors de l\'envoi du mail de confirmation:', emailError);
         }
 
         const response: ArticleUploadResponse = {

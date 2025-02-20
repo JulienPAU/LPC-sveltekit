@@ -14,6 +14,7 @@
 	let firstName = userById.first_name || '';
 	let lastName = userById.last_name || '';
 	let role = userById.User_Role[0].role.toLowerCase() || '';
+	let moderatorRequestStatus = userById.moderatorRequestStatus;
 
 	function resetForm() {
 		// Réinitialisation des variables avec les valeurs de `user`
@@ -21,6 +22,7 @@
 		firstName = userById.first_name || '';
 		lastName = userById.last_name || '';
 		role = userById.User_Role[0].role.toLowerCase() || '';
+		moderatorRequestStatus = userById.moderatorRequestStatus;
 	}
 
 	async function handleSubmit(event: SubmitEvent) {
@@ -30,6 +32,10 @@
 
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
+
+		if (role === 'moderator') {
+			formData.append('moderatorRequestStatus', 'APPROVED');
+		}
 
 		try {
 			const response = await fetch(`/api/_private/users/${userById.id}/edit`, {
@@ -50,7 +56,38 @@
 				alert('Profil mis à jour avec succès');
 				window.location.href = '/dashboard/admin/manage/users';
 			} else {
-				throw new Error('Erreur lors de la mise à jour deu profil');
+				throw new Error('Erreur lors de la mise à jour du profil');
+			}
+		} catch (error) {
+			console.error('Erreur:', error);
+			isSubmitting = false;
+			throw new Error('Erreur lors de la soumission');
+		}
+	}
+	async function handleRejectModerator() {
+		isSubmitting = true;
+
+		const formData = new FormData();
+		formData.append('moderatorRequestStatus', 'REJECTED');
+
+		try {
+			const response = await fetch(`/api/_private/users/${userById.id}/edit`, {
+				method: 'POST',
+				body: formData
+			});
+
+			if (!response.ok) {
+				throw new Error(`Erreur lors du rejet : ${response.statusText}`);
+			}
+
+			const result = await response.json();
+
+			if (result) {
+				isSubmitting = false;
+				alert('Demande de modérateur refusée');
+				window.location.reload();
+			} else {
+				throw new Error('Erreur lors du rejet de la demande');
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
@@ -218,6 +255,18 @@
 				<button type="button" class="btn btn-primary text-xl" on:click={resetForm}>
 					Annuler
 				</button>
+
+				{#if userById.moderatorRequestStatus === 'PENDING'}
+					<button
+						type="button"
+						class="btn bg-[#C41E3A] text-xl text-white hover:bg-[#D22B2B]"
+						on:click={handleRejectModerator}
+						disabled={isSubmitting}
+					>
+						Refuser la demande de modérateur
+					</button>
+				{/if}
+
 				<button type="submit" class="btn btn-warning text-xl"> Enregistrer </button>
 			</div>
 		</div>

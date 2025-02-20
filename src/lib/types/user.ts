@@ -1,11 +1,15 @@
 import type { Articles } from './article';
+import { ModeratorRequest } from '@prisma/client';
+
 
 export type UpdateUserData = {
     username?: string;
     first_name?: string;
     last_name?: string;
-    password?: string;  // password optionnel
+    email?: string;
+    password?: string;
     profile_picture?: string;
+    moderatorRequestStatus?: ModeratorRequest | null;
 };
 
 export type User = {
@@ -26,6 +30,8 @@ export type User = {
     verified: boolean;
     lastLogin?: Date;
 }
+
+
 
 enum RoleType {
     EDITOR = "EDITOR",

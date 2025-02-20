@@ -1,3 +1,4 @@
+import { deletedArticle } from '$lib/email';
 import prisma from '$lib/prisma';
 import { error } from 'console';
 import { UTApi } from 'uploadthing/server';
@@ -42,6 +43,15 @@ export const DELETE = async ({ params, locals }) => {
         await prisma.articles.delete({
             where: { id: articleId }
         });
+
+        try {
+            if (session.user.email) {
+                await deletedArticle(session.user.email);
+            }
+        } catch (emailError) {
+            // On log l'erreur mais on ne la propage pas
+            console.error('Erreur lors de l\'envoi du mail de mise à jour:', emailError);
+        }
 
         return new Response(JSON.stringify({ success: true }), { status: 200 });
     } catch (err) {

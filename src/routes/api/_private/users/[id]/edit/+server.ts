@@ -6,7 +6,8 @@ import { updateUserSchema } from '$lib/schemas/user';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import type { UpdateUserData } from '$lib/types/user';
-import { RoleType } from '@prisma/client';
+import { RoleType, ModeratorRequest } from '@prisma/client';
+import { sendModeratorApprovalEmail, sendModeratorRejectionEmail } from '$lib/email';
 
 
 export const POST = async ({ params, request }: { params: { id: string }, request: Request }) => {
@@ -24,6 +25,7 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             role: formData.get('role')?.toString().trim(),
             current_password: formData.get('current_password')?.toString(),
             new_password: formData.get('new_password')?.toString(),
+            moderatorRequestStatus: formData.get('moderatorRequestStatus')?.toString().trim()
         };
 
         const filteredUpdateData = Object.fromEntries(
@@ -39,6 +41,7 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
                 password: true,
                 authProvider: true,
                 moderatorRequestStatus: true,
+                email: true,
 
             }
         });
@@ -51,9 +54,24 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
         const dataToUpdate: UpdateUserData = {
             ...(validatedData.username && { username: validatedData.username }),
             ...(validatedData.first_name && { first_name: validatedData.first_name }),
-            ...(validatedData.last_name && { last_name: validatedData.last_name })
+            ...(validatedData.last_name && { last_name: validatedData.last_name }),
+
         };
 
+
+        if (validatedData.moderatorRequestStatus) {
+            dataToUpdate.moderatorRequestStatus = validatedData.moderatorRequestStatus;
+
+            // Envoi des emails selon le statut
+            switch (validatedData.moderatorRequestStatus) {
+                case ModeratorRequest.REJECTED:
+                    await sendModeratorRejectionEmail(existingUser.email);
+                    break;
+                case ModeratorRequest.APPROVED:
+                    await sendModeratorApprovalEmail(existingUser.email);
+                    break;
+            }
+        }
 
         if (validatedData.current_password && validatedData.new_password) {
             if (existingUser.authProvider === 'google') {
@@ -101,6 +119,8 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
                             moderatorRequestAt: new Date()
                         }
                     });
+                    await sendModeratorApprovalEmail(existingUser.email);
+
                 } else if (upperRole !== 'MODERATOR') {
                     // Réinitialisation des champs si le rôle n'est pas MODERATOR
                     await prisma.user.update({

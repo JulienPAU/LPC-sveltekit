@@ -95,6 +95,8 @@ export const GET = async (event: RequestEvent) => {
                 authProvider: true,
                 verified: true,
                 lastLogin: true,
+                moderatorRequestAt: true,
+                moderatorRequestStatus: true,
                 User_Role: {
                     select: {
                         role: true

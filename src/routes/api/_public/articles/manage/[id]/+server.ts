@@ -6,6 +6,7 @@ import prisma from '$lib/prisma';
 import type { RequestEvent } from '@sveltejs/kit';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import type { SessionUser } from '$lib/types/user';
+import { sendArticlePublishedEmail, sendArticleRefusedEmail } from '$lib/email';
 
 export const POST = async (event: RequestEvent) => {
     const articleId = parseInt(event.params.id ?? '');
@@ -20,7 +21,7 @@ export const POST = async (event: RequestEvent) => {
 
         // Récupération et validation du status
         const requestData = await event.request.json();
-        const { status } = requestData;
+        const { status, reason } = requestData;
 
         if (!status || !['SUBMITTED', 'PUBLISHED', 'REFUSED'].includes(status)) {
             throw error(400, {
@@ -75,6 +76,24 @@ export const POST = async (event: RequestEvent) => {
                     publish_date: isPublishing ? new Date() : null,
                 }
             });
+
+            try {
+                const authorEmail = existingArticle?.user?.email;
+                if (authorEmail) {
+                    if (status === 'PUBLISHED') {
+                        await sendArticlePublishedEmail(authorEmail);
+                    } else if (status === 'REFUSED') {
+                        await sendArticleRefusedEmail(authorEmail, reason);
+                    }
+                }
+
+                if (authorEmail && status === 'REFUSED') {
+                    await sendArticleRefusedEmail(authorEmail, reason);
+                }
+            } catch (emailError) {
+                console.error('Erreur lors de l\'envoi du mail de notification:', emailError);
+                // On continue malgré l'erreur d'envoi de mail
+            }
 
             return json({
                 message: `Article ${isPublishing ? 'publié' : 'mis à jour'} avec succès`,

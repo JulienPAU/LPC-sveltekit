@@ -87,3 +87,79 @@ export async function sendModeratorRejectionEmail(email: string) {
                <p>Merci de votre compréhension.</p>`
     });
 }
+
+export async function sendModeratorApprovalEmail(email: string) {
+    await transporter.sendMail({
+        from: '"Les Petits Cadrans" <no-reply@lespetitscadrans.com>',
+        to: email,
+        subject: 'Votre demande de modérateur a été approuvée',
+        html: `<p>Bonjour,</p>
+               <p>Nous avons le plaisir de vous informer que votre demande pour devenir modérateur a été approuvée !</p>
+               <p>Vous avez maintenant accès aux fonctionnalités de modération sur notre plateforme.</p>
+               <p>Merci de votre engagement dans notre communauté.</p>
+               <p>L'équipe des Petits Cadrans</p>`
+    });
+}
+
+
+export async function submitArticle(email: string) {
+    await transporter.sendMail({
+        from: '"Les Petits Cadrans" <no-reply@lespetitscadrans.com>',
+        to: email,
+        subject: 'Votre article a bien été soumis',
+        html: `<p>Bonjour,</p>
+               <p>Votre article a bien été soumis, il est maintenant en modération et vous serez avertit de l'évolution de son statut</p>
+               `
+    });
+}
+
+export async function submitUpdatedArticle(email: string) {
+    await transporter.sendMail({
+        from: '"Les Petits Cadrans" <no-reply@lespetitscadrans.com>',
+        to: email,
+        subject: 'Votre article a bien été mis à jour',
+        html: `<p>Bonjour,</p>
+               <p>Votre article a bien été mis à jour, nous vérifions juste que tout soit ok avant de le remettre en ligne :) </p>
+               `
+    });
+}
+
+export async function deletedArticle(email: string) {
+    await transporter.sendMail({
+        from: '"Les Petits Cadrans" <no-reply@lespetitscadrans.com>',
+        to: email,
+        subject: 'Votre article a bien été supprimé',
+        html: `<p>Bonjour,</p>
+               <p>Votre article a bien été supprimé, n'hésitez pas à en proposer un autre, à bientôt. </p>
+               `
+    });
+}
+
+
+
+export async function sendArticlePublishedEmail(email: string) {
+    await transporter.sendMail({
+        from: '"Les Petits Cadrans" <no-reply@lespetitscadrans.com>',
+        to: email,
+        subject: 'Votre article a été publié !',
+        html: `<p>Bonjour,</p>
+               <p>Nous avons le plaisir de vous informer que votre article a été validé et est maintenant publié sur le site !</p>
+               <p>Merci de votre contribution aux Petits Cadrans.</p>`
+    });
+}
+
+export async function sendArticleRefusedEmail(email: string, reason: string) {
+    await transporter.sendMail({
+        from: '"Les Petits Cadrans" <no-reply@lespetitscadrans.com>',
+        to: email,
+        subject: 'Votre article a été refusé',
+        html: `<p>Bonjour,</p>
+               <p>Votre article a été refusé pour la raison suivante :</p>
+               <blockquote style="border-left: 4px solid red; padding-left: 10px;">${reason}</blockquote>
+               <p>Nous vous invitons à le modifier et à le soumettre à nouveau si possible.</p>
+               <p>Merci de votre compréhension.</p>`
+    });
+}
+
+
+

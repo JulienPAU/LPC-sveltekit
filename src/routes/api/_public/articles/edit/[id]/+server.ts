@@ -5,6 +5,7 @@ import { articleUpdateSchema } from '$lib/schemas/articles';
 
 import type { Article_Type, Category } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
+import { submitUpdatedArticle } from '$lib/email.js';
 
 export const POST = async ({ request, locals, params }) => {
     const articleId = parseInt(params.id);
@@ -127,6 +128,15 @@ export const POST = async ({ request, locals, params }) => {
                 water_resistance: data.water_resistance,
                 straps: data.straps || []
             });
+        }
+
+        try {
+            if (session.user.email) {
+                await submitUpdatedArticle(session.user.email);
+            }
+        } catch (emailError) {
+            // On log l'erreur mais on ne la propage pas
+            console.error('Erreur lors de l\'envoi du mail de mise à jour:', emailError);
         }
 
         return json({ success: true, article: updatedArticle });
