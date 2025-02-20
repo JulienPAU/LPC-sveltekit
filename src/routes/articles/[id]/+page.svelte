@@ -6,6 +6,8 @@
 	import DOMPurify from 'dompurify';
 	import { onMount } from 'svelte';
 
+	import LPC_FAV_BLT from '$lib/assets/logos/LPC_FAV_BLT.png';
+
 	let sanitize: (input: string) => string;
 
 	export let data;
@@ -72,7 +74,7 @@
 				</p>
 				<div class="mx-auto mb-6 flex h-[300px] sm:mb-8 lg:mb-10">
 					<img
-						src={article.images.length > 0 ? article.images[0] : '/LPC_FAV_BLT.png'}
+						src={article.images.length > 0 ? article.images[0] : LPC_FAV_BLT}
 						alt="Article illustration"
 						class=" h-full w-full rounded-xl object-cover"
 					/>
@@ -86,7 +88,7 @@
 
 				<div class="mx-auto mb-6 flex h-[300px] sm:mb-8 lg:mb-10">
 					<img
-						src={article.images.length > 0 ? article.images[1] : '/LPC_FAV_BLT.png'}
+						src={article.images.length > 1 ? article.images[1] : '/LPC_FAV_BLT.png'}
 						alt="Article illustration"
 						class=" h-full w-full rounded-xl object-cover"
 					/>

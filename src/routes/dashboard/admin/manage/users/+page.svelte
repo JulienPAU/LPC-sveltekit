@@ -1,6 +1,7 @@
 <!-- src/routes/dashboard/admin/manage/users/+page.svelte -->
 
 <script lang="ts">
+	import Pagination from '$lib/components/Pagination.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import { formatDate } from '$lib/utils.js';
 
@@ -9,12 +10,21 @@
 	let { allUsers } = data;
 
 	const users = allUsers.users;
+
+	let currentPage = 1;
+	const itemsPerPage = 12;
+
+	$: totalPages = Math.ceil(users.length / itemsPerPage);
+
+	$: paginatedUsers = users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 </script>
 
 {#if users}
 	<SectionTitle title="Gestion des utilisateurs" />
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
+
 	<div class="mb-10 flex w-full flex-wrap justify-center gap-4">
-		{#each users as user}
+		{#each paginatedUsers as user}
 			<div
 				class="tranform card my-2 flex w-5/6 bg-slate-300 p-4 font-semibold shadow-lg transition duration-500 hover:scale-105 md:w-2/6 lg:w-1/5"
 			>
@@ -37,6 +47,7 @@
 			</div>
 		{/each}
 	</div>
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 {:else}
 	<div>Aucun utilisateur trouvé</div>
 {/if}

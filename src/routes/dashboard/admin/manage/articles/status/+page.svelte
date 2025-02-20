@@ -1,15 +1,28 @@
 <script>
 	import Card from '$lib/components/card/Card.svelte';
+	import Pagination from '$lib/components/Pagination.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import Skeleton from '$lib/components/skeleton.svelte';
 
 	export let data;
 
 	let { allArticles } = data;
+
+	let currentPage = 1;
+	const itemsPerPage = 12;
+
+	$: totalPages = Math.ceil(allArticles.length / itemsPerPage);
+
+	$: paginatedArticles = allArticles.slice(
+		(currentPage - 1) * itemsPerPage,
+		currentPage * itemsPerPage
+	);
 </script>
 
 <div class=" flex flex-col items-center">
 	<SectionTitle title="Modifier le status des articles" />
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
+
 	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20 xl:gap-20">
 		{#if !allArticles}
 			{#each Array(allArticles.length) as _}
@@ -25,7 +38,7 @@
 				</p>
 			</div>
 		{:else}
-			{#each allArticles as a}
+			{#each paginatedArticles as a}
 				<Card
 					props={{
 						title: a.title,
@@ -47,5 +60,6 @@
 				/>
 			{/each}
 		{/if}
+		<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 	</section>
 </div>

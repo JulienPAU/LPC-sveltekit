@@ -3,6 +3,7 @@
 <script lang="ts">
 	import { invalidate } from '$app/navigation';
 	import Card from '$lib/components/card/Card.svelte';
+	import Pagination from '$lib/components/Pagination.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import Skeleton from '$lib/components/skeleton.svelte';
 
@@ -18,6 +19,16 @@
 		await invalidate('articles');
 	}
 
+	let currentPage = 1;
+	const itemsPerPage = 12;
+
+	$: totalPages = Math.ceil(articles.length / itemsPerPage);
+
+	$: paginatedArticles = articles.slice(
+		(currentPage - 1) * itemsPerPage,
+		currentPage * itemsPerPage
+	);
+
 	// Simuler un délai de chargement
 	// setTimeout(() => {
 	// 	loading = false;
@@ -26,6 +37,8 @@
 
 <div class=" flex flex-col items-center">
 	<SectionTitle title="Voir et modifier mes articles" />
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
+
 	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20 xl:gap-20">
 		{#if !articles}
 			{#each Array(articles.length) as _}
@@ -52,7 +65,7 @@
 				</div>
 			</div>
 		{:else}
-			{#each articles as a}
+			{#each paginatedArticles as a}
 				<Card
 					props={{
 						title: a.title,
@@ -74,5 +87,6 @@
 				/>
 			{/each}
 		{/if}
+		<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 	</section>
 </div>

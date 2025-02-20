@@ -1,15 +1,28 @@
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
+	import Pagination from '$lib/components/Pagination.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import Skeleton from '$lib/components/skeleton.svelte';
 	export let data;
 	const { submittedArticles } = data;
+
+	let currentPage = 1;
+	const itemsPerPage = 12;
+
+	$: totalPages = Math.ceil(submittedArticles.length / itemsPerPage);
+
+	$: paginatedArticles = submittedArticles.slice(
+		(currentPage - 1) * itemsPerPage,
+		currentPage * itemsPerPage
+	);
 
 	// console.log('article soumis', submittedArticles);
 </script>
 
 <div class=" flex flex-col items-center">
 	<SectionTitle title="Gérer les articles" />
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
+
 	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20 xl:gap-20">
 		{#if !submittedArticles}
 			{#each Array(submittedArticles.length) as _}
@@ -25,7 +38,7 @@
 				</p>
 			</div>
 		{:else}
-			{#each submittedArticles as a}
+			{#each paginatedArticles as a}
 				<Card
 					props={{
 						title: a.title,
@@ -47,5 +60,6 @@
 				/>
 			{/each}
 		{/if}
+		<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 	</section>
 </div>

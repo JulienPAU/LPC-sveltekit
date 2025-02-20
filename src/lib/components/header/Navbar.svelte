@@ -25,6 +25,8 @@
 
 	const uniqueBrands = [...new Set(watches.map((watch) => watch.brand))];
 
+	const displayedBrands = uniqueBrands.slice(0, 8);
+
 	const userSession = page.data.session?.user as SessionUser;
 
 	const userRole = userSession?.User_Role;
@@ -67,13 +69,15 @@
 					<details>
 						<summary>Marques</summary>
 						<ul class="drop rounded-lg border border-yellow-500 bg-slate-900 p-2">
-							{#each uniqueBrands as brand}
-								<li class="hover:bg-gray-600">
-									<a href="/articles/brand/{brand}" class="text-white hover:bg-gray-600">
-										{brand}
-									</a>
+							{#each displayedBrands as brand}
+								<li>
+									<a href="/articles/brand/{brand}" class="text-white hover:bg-gray-600">{brand}</a>
 								</li>
 							{/each}
+							<li>
+								<a href="/articles/brand" class="text-white hover:bg-gray-600">Toutes les marques</a
+								>
+							</li>
 						</ul>
 					</details>
 				</li>
@@ -100,16 +104,19 @@
 					<details>
 						<summary>Marques</summary>
 						<ul class="border border-yellow-500 bg-slate-900 p-2">
-							{#each uniqueBrands as brand}
+							{#each displayedBrands as brand}
 								<li>
 									<a
 										href="/articles/brand/{brand.toLowerCase()}"
-										class="text-white hover:bg-gray-600"
+										class="whitespace-nowrap text-white hover:bg-gray-600">{brand}</a
 									>
-										{brand}
-									</a>
 								</li>
 							{/each}
+							<li class="mr-4 inline-block">
+								<a href="/articles/brand" class="whitespace-nowrap text-white hover:bg-gray-600"
+									>Toutes les marques</a
+								>
+							</li>
 						</ul>
 					</details>
 				</li>

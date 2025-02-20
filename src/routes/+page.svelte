@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import { invalidate } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
@@ -16,12 +17,21 @@
 		Array.isArray(article.images) ? article.images : []
 	);
 
-	const firstTenArticles = articles.slice(0, 8);
-	const remainingArticles = articles.slice(8, 20);
+	const firstFiveArticles = articles.slice(0, 5);
+	const remainingArticles = articles.slice(5, 11);
 
 	$: if (data && data.articles) {
 		loading = false;
 	}
+
+	// Sur la page d'accueil, stockez les IDs des articles affichés
+	const viewedArticleIds = firstFiveArticles
+		.concat(remainingArticles)
+		.map((article: any) => article.id);
+
+	onMount(() => {
+		localStorage.setItem('viewedArticleIds', JSON.stringify(viewedArticleIds));
+	});
 
 	// Simuler un délai de chargement
 	// setTimeout(() => {
@@ -34,7 +44,7 @@
 </script>
 
 <SectionTitle title="Derniers articles" />
-<Carousel items={firstTenArticles} type="articles" />
+<Carousel items={firstFiveArticles} type="articles" />
 
 <Band />
 
@@ -72,7 +82,7 @@
 </section>
 
 <div class="card-actions justify-center">
-	<a href="articles">
+	<a href="/articles?from=home">
 		<button
 			class="btn mb-20 bg-yellow-500 text-xl font-bold hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 		>
