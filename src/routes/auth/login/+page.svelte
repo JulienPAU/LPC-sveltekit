@@ -16,23 +16,36 @@
 		const email = formData.get('email') as string;
 		const password = formData.get('password') as string;
 
-		const result = await signIn('credentials', {
-			email,
-			password,
-			redirect: false
-		});
-
-		if (!result?.ok) {
-			toast.error('Email ou mot de passe incorrect', {
-				duration: 5000
+		try {
+			const result = await signIn('credentials', {
+				email,
+				password,
+				redirect: false
 			});
-			error = 'Email ou mot de passe incorrect';
-		} else {
-			goto('/dashboard').then(() => {
-				location.reload(); // Force le rafraîchissement de la page
+
+			const data = await result?.json();
+
+			if (data?.url?.includes('error')) {
+				// C'est ici que l'erreur d'authentification est détectée
+				toast.error('Email ou mot de passe incorrect', {
+					duration: 15000,
+					style: 'transform:none; filter:none; backdrop-filter:none'
+				});
+				error = 'Email ou mot de passe incorrect';
+			} else {
+				// Connexion réussie
+				goto('/dashboard').then(() => {
+					window.location.reload();
+				});
+			}
+		} catch (e) {
+			console.error('Erreur:', e);
+			toast.error('Une erreur est survenue', {
+				duration: 5000
 			});
 		}
 	}
+
 	async function handleGoogleSignin() {
 		try {
 			await signIn('google', {

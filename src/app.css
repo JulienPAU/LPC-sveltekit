@@ -8,6 +8,11 @@
 	src: url('$lib/assets/fonts/digital-7.regular.ttf');
 }
 
+.enter.s-1o4bkL0dXfeH {
+	will-change: auto !important; /* Réinitialise ou annule l'effet de will-change */
+	animation: none !important;
+}
+
 body {
 	margin: 0;
 	padding: 0;

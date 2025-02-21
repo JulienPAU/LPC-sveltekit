@@ -9,7 +9,13 @@ import type { RoleType } from "@prisma/client";
 import type { CustomUser } from "$lib/types/user";
 import type { AuthUser } from "$lib/types/user";
 
-
+class AuthError extends Error {
+    statusCode: number;
+    constructor(message: string, statusCode: number) {
+        super(message);
+        this.statusCode = statusCode;
+    }
+}
 
 export const { handle, signIn, signOut } = SvelteKitAuth({
     providers: [
@@ -30,15 +36,20 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    return null;
+                    throw new AuthError("Missing credentials", 400);
                 }
 
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email as string }
                 });
+                if (!user) {
+                    throw new AuthError("User not found", 404);
+                }
 
-                if (!user || !await bcrypt.compare(credentials?.password as string, user.password)) {
-                    return null;
+                const isValid = await bcrypt.compare(credentials.password as string, user.password);
+
+                if (!isValid) {
+                    throw new AuthError("Invalid password", 401);
                 }
 
                 await prisma.user.update({
@@ -195,4 +206,8 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
     jwt: {
         maxAge: 2 * 60 * 60,  // Expiration du token en secondes (ici 24 heures)
     },
+    pages: {
+        signIn: '/auth/login',
+        error: '/auth/login',
+    }
 });
