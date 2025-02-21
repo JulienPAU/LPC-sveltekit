@@ -56,3 +56,55 @@ export const POST = async ({ request, locals }) => {
     }
 
 }
+
+
+
+export const PUT = async ({ request, locals }) => {
+    try {
+        const session = await locals.auth?.();
+
+        if (!session?.user) {
+            throw error(401, 'Non autorisé');
+        }
+
+        const user = session.user as SessionUser;
+
+        const isAdmin = Array.isArray(user.User_Role)
+            ? user.User_Role.some(role => role.role === 'ADMIN')
+            : user.User_Role === 'ADMIN';
+
+        if (!isAdmin) {
+            throw error(403, {
+                message: 'Accès refusé - Permissions administrateur requises'
+            });
+        }
+
+        const formData = await request.formData();
+
+        const data = {
+            id: formData.get('id')?.toString() || '',
+            title: formData.get('title-def')?.toString().trim() || '',
+            content: formData.get('content-def')?.toString().trim() || '',
+        }
+
+        if (!data.id || !data.title || !data.content) {
+            throw error(400, 'Veuillez remplir tous les champs');
+        }
+
+        const definition = await prisma.lexical.update({
+            where: {
+                id: parseInt(data.id)
+            },
+            data: {
+                title: data.title,
+                content: data.content,
+            },
+        });
+
+        return json(definition);
+
+    } catch (err) {
+        console.error(err);
+        throw error(500, 'Erreur serveur');
+    }
+};

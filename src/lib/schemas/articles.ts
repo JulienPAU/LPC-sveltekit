@@ -1,13 +1,43 @@
 import { z } from 'zod';
 import { Article_Type, Category } from '@prisma/client';
 
+// export const articleUpdateSchema = z.object({
+//     'titre-article': z.string().min(3, "Le titre doit contenir au moins 3 caractères"),
+//     'introduction': z.string().min(10, "L'introduction est trop courte"),
+//     'corps-article': z.string().min(50, "Le corps de l'article est trop court"),
+//     'end': z.string().min(5, "La conclusion est trop courte"),
+//     'type': z.nativeEnum(Article_Type, { errorMap: () => ({ message: "Type d'article invalide" }) }),
+//     'category': z.nativeEnum(Category, { errorMap: () => ({ message: "Catégorie invalide" }) }),
+//     'brand': z.string().optional(),
+//     'model': z.string().optional(),
+//     'movement': z.string().nullable().optional(),
+//     'water_resistance': z.string().nullable().optional(),
+//     'straps': z.array(z.string()).optional()
+// });
+
 export const articleUpdateSchema = z.object({
-    'titre-article': z.string().min(3, "Le titre doit contenir au moins 3 caractères"),
-    'introduction': z.string().min(10, "L'introduction est trop courte"),
-    'corps-article': z.string().min(50, "Le corps de l'article est trop court"),
-    'end': z.string().min(5, "La conclusion est trop courte"),
-    'type': z.nativeEnum(Article_Type, { errorMap: () => ({ message: "Type d'article invalide" }) }),
-    'category': z.nativeEnum(Category, { errorMap: () => ({ message: "Catégorie invalide" }) }),
+    'titre-article': z
+        .string()
+        .min(3, "Le titre doit contenir au moins 3 caractères")
+        .max(100, "Le titre ne peut pas dépasser 100 caractères"),
+    'introduction': z
+        .string()
+        .min(10, "L'introduction est trop courte")
+        .max(300, "L'introduction ne peut pas dépasser 300 caractères"),
+    'corps-article': z
+        .string()
+        .min(50, "Le corps de l'article est trop court")
+        .max(2500, "Le corps de l'article ne peut pas dépasser 2500 caractères"),
+    'end': z
+        .string()
+        .min(5, "La conclusion est trop courte")
+        .max(200, "La conclusion ne peut pas dépasser 200 caractères"),
+    'type': z.nativeEnum(Article_Type, {
+        errorMap: () => ({ message: "Type d'article invalide" })
+    }),
+    'category': z.nativeEnum(Category, {
+        errorMap: () => ({ message: "Catégorie invalide" })
+    }),
     'brand': z.string().optional(),
     'model': z.string().optional(),
     'movement': z.string().nullable().optional(),

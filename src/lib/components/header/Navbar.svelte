@@ -7,11 +7,11 @@
 	export let watches: Array<{ brand: string; model: string }> = [];
 
 	const getValidImageSrc = (user: any) => {
-		if (!user) return '/src/lib/assets/user.png';
+		if (!user) return '/user.png';
 		if (user.image?.includes('googleusercontent.com')) {
-			return user.profile_picture || '/src/lib/assets/user.png';
+			return user.profile_picture || '/user.png';
 		}
-		return user.image || user.profile_picture || '/src/lib/assets/user.png';
+		return user.image || user.profile_picture || '/user.png';
 	};
 
 	function handleClickOutside(e: MouseEvent) {
@@ -167,8 +167,8 @@
 									alt="Avatar"
 									on:error={(event) => {
 										const img = event.target as HTMLImageElement;
-										if (img.src !== '/src/lib/assets/user.png') {
-											img.src = '/src/lib/assets/user.png';
+										if (img.src !== '/user.png') {
+											img.src = '/user.png';
 										}
 									}}
 								/>

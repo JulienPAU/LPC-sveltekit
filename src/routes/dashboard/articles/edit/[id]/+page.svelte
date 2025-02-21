@@ -88,14 +88,23 @@
 				body: formData
 			});
 
-			if (!response.ok) {
-				toast.error(`Erreur lors de la soumission : ${response.statusText}`, {
-					duration: 5000
-				});
-				throw new Error(`Erreur lors de la soumission : ${response.statusText}`);
-			}
-
 			const result: ArticleUploadResponse = await response.json();
+
+			if (!response.ok) {
+				if (result.errors) {
+					console.error('Erreurs de validation reçues:', result.errors);
+
+					// Récupérer les messages d'erreur sans erreur de type
+					const messages = Object.entries(result.errors)
+						.flatMap(([key, value]) => (Array.isArray(value._errors) ? value._errors : []))
+						.join('\n');
+
+					toast.error('Erreur lors de la soumission :\n' + messages);
+				} else {
+					toast.error('Erreur lors de la soumission : ' + result.message || 'Erreur inconnue.');
+				}
+				return;
+			}
 
 			if (result) {
 				isSubmitting = false;
@@ -114,9 +123,6 @@
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
-			toast.error("Erreur lors de la mise à jour de l'article", {
-				duration: 5000
-			});
 			throw new Error('Erreur lors de la soumission');
 		}
 	}

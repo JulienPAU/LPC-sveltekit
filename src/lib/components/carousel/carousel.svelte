@@ -1,7 +1,10 @@
+<!-- src/lib/components/carousel/carousel.svelte -->
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Card from '../card/Card.svelte';
 	import Skeleton from '../skeleton.svelte';
+	import ModalImages from '../ModalImages.svelte';
 
 	let carousel: HTMLDivElement | null = null;
 
@@ -9,6 +12,8 @@
 	export let type: 'images' | 'articles' = 'images';
 
 	let loading = true;
+	let isModalOpen = false;
+	let modalImageSrc = '';
 
 	function scrollCarousel(direction: number) {
 		if (carousel) {
@@ -36,21 +41,12 @@
 	}`;
 
 	function openModal(imageSrc: string) {
-		const modal = document.getElementById('imageModal');
-		const modalImage = document.getElementById('modalImage');
-		if (modalImage) {
-			(modalImage as HTMLImageElement).src = imageSrc;
-		}
-		if (modal) {
-			modal.classList.remove('hidden');
-		}
+		modalImageSrc = imageSrc;
+		isModalOpen = true;
 	}
 
 	function closeModal() {
-		const modal = document.getElementById('imageModal');
-		if (modal) {
-			modal.classList.add('hidden');
-		}
+		isModalOpen = false;
 	}
 
 	onMount(() => {
@@ -154,16 +150,4 @@
 	</button>
 </div>
 
-<div
-	id="imageModal"
-	class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm transition-opacity duration-300"
->
-	<div class="relative flex h-full w-full items-center justify-center p-4">
-		<img
-			id="modalImage"
-			class="max-h-[90vh] max-w-[90vw] rounded-lg object-contain shadow-2xl"
-			alt="Full size"
-		/>
-		<button id="closeModal" class="absolute right-4 top-4 text-6xl text-white">&times;</button>
-	</div>
-</div>
+<ModalImages isOpen={isModalOpen} imageSrc={modalImageSrc} onClose={closeModal} />

@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import { updateUserSchema } from '$lib/schemas/user';
 import bcrypt from 'bcrypt';
-import { z } from 'zod';
 import type { UpdateUserData } from '$lib/types/user';
+import { extractAndValidateFormData } from '$lib/utils';
+import { handleErrorForm } from '$lib/utils';
 
 export const POST = async ({ params, request }: { params: { id: string }, request: Request }) => {
     try {
@@ -12,20 +12,8 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             return json({ error: 'Invalid ID format' }, { status: 400 });
         }
 
-        const formData = await request.formData();
-        const updateData = {
-            username: formData.get('username')?.toString().trim(),
-            first_name: formData.get('first_name')?.toString().trim(),
-            last_name: formData.get('last_name')?.toString().trim(),
-            current_password: formData.get('current_password')?.toString(),
-            new_password: formData.get('new_password')?.toString(),
-        };
+        const validatedData = await extractAndValidateFormData(request);
 
-        const filteredUpdateData = Object.fromEntries(
-            Object.entries(updateData).filter(([, value]) => value !== "" && value !== undefined)
-        );
-
-        const validatedData = updateUserSchema.parse(filteredUpdateData);
 
         const existingUser = await prisma.user.findUnique({
             where: { id },
@@ -96,10 +84,7 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
         }, { status: 200 });
 
     } catch (error) {
-        console.error('Erreur lors de la mise à jour:', error);
-        if (error instanceof z.ZodError) {
-            return json({ error: 'Données invalides', details: error.errors }, { status: 400 });
-        }
-        return json({ error: 'Erreur serveur' }, { status: 500 });
+        return handleErrorForm(error as Error);
+
     }
 }

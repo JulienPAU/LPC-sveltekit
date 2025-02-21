@@ -7,7 +7,7 @@ export async function GET() {
     try {
         const lexical = await prisma.lexical.findMany({
             orderBy: {
-                id: 'desc'
+                title: 'asc'
             },
 
         });

@@ -1,4 +1,5 @@
 import prisma from '$lib/prisma';
+import { handleError, handleResponse } from '$lib/utils';
 import { error } from 'console';
 
 export const DELETE = async (event) => {
@@ -34,14 +35,11 @@ export const DELETE = async (event) => {
         });
 
 
-        return new Response(JSON.stringify({ success: true }), { status: 200 });
+        return handleResponse({ success: true });
 
     } catch (err) {
-        if (err instanceof Error) {
-            throw error(500, err.message);
-        } else {
-            throw error(500, 'Unknown error');
-        }
+        handleError(err);
+
 
     }
 

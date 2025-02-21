@@ -28,7 +28,7 @@
 				</li>
 			</ul>
 			<div class="flex space-x-4 sm:justify-center">
-				<a
+				<!-- <a
 					href="/"
 					class="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 hover:bg-yellow-500"
 					aria-label="Icon 2"
@@ -44,7 +44,7 @@
 							fill="currentColor"
 						/>
 					</svg>
-				</a>
+				</a> -->
 				<a
 					href="https://www.linkedin.com/in/paulus--julien
 

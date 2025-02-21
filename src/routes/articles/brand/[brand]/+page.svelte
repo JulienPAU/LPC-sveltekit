@@ -59,9 +59,9 @@
 <div class="card-actions justify-evenly">
 	<a href="/">
 		<button
-			class="btn mb-20 bg-yellow-500 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+			class="btn mb-20 bg-yellow-500 text-lg font-bold hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 		>
-			Accueil
-		</button></a
-	>
+			Retour à l'accueil
+		</button>
+	</a>
 </div>

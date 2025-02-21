@@ -1,86 +1,42 @@
 <!-- src/ routes/dashboard/admin/lexique/%2Bpage.svelte -->
 
 <script lang="ts">
-	import SectionTitle from '$lib/components/SectionTitle.svelte';
-	import toast from 'svelte-5-french-toast';
+	import Pagination from '$lib/components/Pagination.svelte';
 
-	let formData = {
-		title: '',
-		content: ''
-	};
+	export let data;
 
-	async function handleSubmit(event: SubmitEvent) {
-		event.preventDefault();
-		const form = event.target as HTMLFormElement;
-		let formDataForSubmit = new FormData(form);
-		console.log('formData:', formData);
+	const { allDefinitions } = data;
 
-		try {
-			const response = await fetch('/api/_public/lexical/publish', {
-				method: 'POST',
-				body: formDataForSubmit
-			});
+	let currentPage = 1;
+	const itemsPerPage = allDefinitions.length > 10 ? 50 : allDefinitions.length;
 
-			if (!response.ok) {
-				throw new Error(`Erreur lors de la soumission : ${response.statusText}`);
-			}
+	$: totalPages = Math.ceil(allDefinitions.length / itemsPerPage);
 
-			const result = await response.json();
-
-			if (!result) {
-				toast.error('Erreur lors de la soumission', {
-					duration: 5000
-				});
-				throw new Error('Erreur lors de la soumission');
-			} else {
-				toast.success('Définition créée avec succès.', {
-					duration: 5000
-				});
-				form.reset();
-			}
-		} catch (error) {
-			console.error('Erreur:', error);
-			toast.error('Erreur lors de la soumission', {
-				duration: 5000
-			});
-			throw new Error('Erreur lors de la soumission');
-		}
-	}
+	$: paginateddefinitions = allDefinitions.slice(
+		(currentPage - 1) * itemsPerPage,
+		currentPage * itemsPerPage
+	);
 </script>
 
-<div class="flex flex-col items-center">
-	<SectionTitle title="Lexique" />
-
-	<form
-		on:submit={handleSubmit}
-		class="mx-auto mb-5 flex w-2/4 flex-col items-center justify-center gap-5 rounded-lg bg-gray-300 p-4"
-	>
-		<div class="w-full">
-			<label for="titre-def" class="mb-1 block text-lg font-bold text-gray-700">
-				Titre définition
-			</label>
-			<input
-				id="titre-def"
-				name="title-def"
-				bind:value={formData.title}
-				type="text"
-				class="input input-warning mb-5 w-full"
-			/>
-		</div>
-
-		<div class="w-full">
-			<label for="content-def" class="mb-1 block text-lg font-bold text-gray-700">
-				Contenu définition
-			</label>
-			<textarea
-				id="content-def"
-				name="content-def"
-				bind:value={formData.content}
-				class="textarea textarea-warning mb-5 w-full"
-			>
-			</textarea>
-		</div>
-
-		<button type="submit" class="btn btn-warning text-xl">Enregistrer</button>
-	</form>
+<div class="flex flex-col justify-center gap-2 p-4">
+	<div class="flex justify-center gap-2">
+		<a href="/dashboard/admin/lexique/publish" class="btn btn-neutral"> Publier une définition</a>
+	</div>
+	<div>
+		<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
+	</div>
+	<div class="flex flex-wrap justify-center gap-2 p-4">
+		{#if allDefinitions.length > 0}
+			{#each paginateddefinitions as definition}
+				<a
+					href="/dashboard/admin/lexique/publish?id={definition.id}"
+					class="flex items-center justify-center gap-5 rounded-lg bg-slate-300 p-4 text-black hover:bg-slate-200"
+				>
+					<h3 class="text-lg">{definition.title}</h3>
+				</a>
+			{/each}
+		{:else}
+			<p class="text-center">Aucune définition pour le moment.</p>
+		{/if}
+	</div>
 </div>

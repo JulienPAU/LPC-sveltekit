@@ -1,8 +1,11 @@
+<!-- src/routes/gallery/+page.svelte -->
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import logoC from '$lib/assets/logos/logoC.svg';
 	import Loader from '$lib/components/loader.svelte';
+	import ModalImages from '$lib/components/ModalImages.svelte';
 
 	export let data;
 	let { gallery } = data;
@@ -10,23 +13,16 @@
 	const ITEMS_PER_LOAD = 20;
 	let visibleItems = ITEMS_PER_LOAD;
 	let loading = false;
+	let isModalOpen = false;
+	let modalImageSrc = '';
 
 	function openModal(imageSrc: string) {
-		const modal = document.getElementById('imageModal');
-		const modalImage = document.getElementById('modalImage');
-		if (modalImage) {
-			(modalImage as HTMLImageElement).src = imageSrc;
-		}
-		if (modal) {
-			modal.classList.remove('hidden');
-		}
+		modalImageSrc = imageSrc;
+		isModalOpen = true;
 	}
 
 	function closeModal() {
-		const modal = document.getElementById('imageModal');
-		if (modal) {
-			modal.classList.add('hidden');
-		}
+		isModalOpen = false;
 	}
 
 	function loadMore() {
@@ -159,25 +155,7 @@
 </div>
 
 <!-- Modal -->
-<div
-	id="imageModal"
-	class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm transition-opacity duration-300"
->
-	<div class="relative flex h-full w-full items-center justify-center p-4">
-		<img
-			id="modalImage"
-			class="max-h-[90vh] max-w-[90vw] rounded-lg object-contain shadow-2xl"
-			alt="Full size"
-		/>
-		<button
-			class="absolute right-4 top-4 rounded-full text-6xl text-white"
-			on:click={closeModal}
-			aria-label="Fermer la modale"
-		>
-			&times;
-		</button>
-	</div>
-</div>
+<ModalImages isOpen={isModalOpen} imageSrc={modalImageSrc} onClose={closeModal} />
 
 {#if loading}
 	<Loader />

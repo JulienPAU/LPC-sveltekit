@@ -88,7 +88,10 @@ export const POST = async ({ request, locals, params }) => {
         const parsedData = articleUpdateSchema.safeParse(formDataObject);
 
         if (!parsedData.success) {
-            throw error(400, new Error(`Validation échouée: ${JSON.stringify(parsedData.error.format())}`));
+            return json({
+                success: false,
+                errors: parsedData.error.format()
+            }, { status: 400 });
         }
 
         const data = parsedData.data;

@@ -23,6 +23,8 @@ export interface ArticleUploadResponse {
     articleId?: number;
     imageUrls?: string[];
     error?: string;
+    errors?: { [key: string]: { _errors: string[] } };
+    message?: string;
 }
 
 export const DEFAULT_FILE_VALIDATION = {

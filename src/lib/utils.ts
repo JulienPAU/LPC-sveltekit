@@ -1,3 +1,5 @@
+import { error } from "@sveltejs/kit";
+
 export function truncateText(text: string, maxLength: number): string {
 	if (text.length <= maxLength) return text;
 	return text.slice(0, maxLength) + '...';
@@ -65,3 +67,57 @@ export function togglePasswordVisibility(passwordInputId: string, togglePassword
 }
 
 
+export function handleResponse(successMessage: object) {
+	return new Response(JSON.stringify(successMessage), { status: 200 });
+}
+
+export function handleError(err: unknown) {
+	if (err instanceof Error) {
+		throw error(500, err.message);
+	} else {
+		throw error(500, 'Unknown error');
+	}
+}
+
+
+
+import { updateUserSchema } from '$lib/schemas/user';
+import { z } from 'zod';
+
+export async function extractAndValidateFormData(request: Request) {
+	const formData = await request.formData();
+	const updateData = {
+		username: formData.get('username')?.toString().trim(),
+		first_name: formData.get('first_name')?.toString().trim(),
+		last_name: formData.get('last_name')?.toString().trim(),
+		current_password: formData.get('current_password')?.toString(),
+		new_password: formData.get('new_password')?.toString(),
+		role: formData.get('role')?.toString().trim(),
+		moderatorRequestStatus: formData.get('moderatorRequestStatus')?.toString().trim(),
+	};
+
+	const filteredUpdateData = Object.fromEntries(
+		Object.entries(updateData).filter(([, value]) => value !== "" && value !== undefined)
+	);
+
+	try {
+		return updateUserSchema.parse(filteredUpdateData); // Validation Zod
+	} catch (err) {
+		if (err instanceof z.ZodError) {
+			throw new Error('Données invalides');
+		}
+		throw err; // Rethrow any other error
+	}
+}
+
+
+import { json } from '@sveltejs/kit';
+
+export function handleErrorForm(error: Error) {
+	if (error.message === 'Données invalides') {
+		return json({ error: 'Données invalides' }, { status: 400 });
+	}
+
+	console.error('Erreur serveur:', error);
+	return json({ error: 'Erreur serveur' }, { status: 500 });
+}

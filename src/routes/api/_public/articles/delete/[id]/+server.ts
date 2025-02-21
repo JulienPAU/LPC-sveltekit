@@ -1,5 +1,6 @@
 import { deletedArticle } from '$lib/email';
 import prisma from '$lib/prisma';
+import { handleError, handleResponse } from '$lib/utils';
 import { error } from 'console';
 import { UTApi } from 'uploadthing/server';
 
@@ -53,12 +54,9 @@ export const DELETE = async ({ params, locals }) => {
             console.error('Erreur lors de l\'envoi du mail de mise à jour:', emailError);
         }
 
-        return new Response(JSON.stringify({ success: true }), { status: 200 });
+        return handleResponse({ success: true });
     } catch (err) {
-        if (err instanceof Error) {
-            throw error(500, err.message);
-        } else {
-            throw error(500, 'Unknown error');
-        }
+        handleError(err);
+
     }
 }
