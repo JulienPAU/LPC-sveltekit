@@ -7,8 +7,9 @@ import './types/auth';
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
+		interface Locals {
+			cookieConsent: boolean | null;
+		}		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
 	}

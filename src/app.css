@@ -2,6 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import url('https://fonts.googleapis.com/css2?family=Orelega+One&display=swap');
+
 @font-face {
 	font-family: 'digital';
 	src: url('$lib/assets/fonts/digital-7.regular.ttf');

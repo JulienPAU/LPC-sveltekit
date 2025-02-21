@@ -33,7 +33,9 @@
 		<img
 			src={props.imageUrl || '/LPC_FAV_BLT.png'}
 			alt={props.title || 'Image'}
-			class="{props.imgStyle} w-full max-w-full object-cover"
+			class="{props.imgStyle} w-full max-w-full {!props.imageUrl
+				? 'object-contain'
+				: 'object-cover'}"
 		/>
 	</figure>
 

@@ -5,6 +5,7 @@
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import type { ArticleUploadResponse } from '$lib/types/article.js';
+	import toast from 'svelte-5-french-toast';
 
 	let isSubmitting = false;
 	let selectedFiles: File[] = [];
@@ -32,6 +33,9 @@
 			});
 
 			if (!response.ok) {
+				toast.error(`Erreur lors de la suppression : ${response.statusText}`, {
+					duration: 5000
+				});
 				throw new Error(`Erreur lors de la suppression : ${response.statusText}`);
 			}
 
@@ -42,13 +46,21 @@
 				await invalidate('app:user');
 				invalidate('app:articles'); // Pour les articles du layout
 
-				alert('Article supprimé avec succès');
+				toast.success('Article supprimé avec succès', {
+					duration: 5000
+				});
 			} else {
+				toast.error("Erreur lors de la suppression de l'article", {
+					duration: 5000
+				});
 				throw new Error("Erreur lors de la suppression de l'article");
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
+			toast.error("Erreur lors de la suppression de l'article", {
+				duration: 5000
+			});
 			throw new Error('Erreur lors de la soumission');
 		}
 	}
@@ -77,6 +89,9 @@
 			});
 
 			if (!response.ok) {
+				toast.error(`Erreur lors de la soumission : ${response.statusText}`, {
+					duration: 5000
+				});
 				throw new Error(`Erreur lors de la soumission : ${response.statusText}`);
 			}
 
@@ -87,13 +102,21 @@
 				await invalidate('app:user');
 				invalidate('app:articles'); // Pour les articles du layout
 
-				alert('Article mis à jour avec succès');
+				toast.success('Article mis à jour avec succès', {
+					duration: 5000
+				});
 			} else {
+				toast.error("Erreur lors de la mise à jour de l'article", {
+					duration: 5000
+				});
 				throw new Error("Erreur lors de la mise à jour de l'article");
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
+			toast.error("Erreur lors de la mise à jour de l'article", {
+				duration: 5000
+			});
 			throw new Error('Erreur lors de la soumission');
 		}
 	}

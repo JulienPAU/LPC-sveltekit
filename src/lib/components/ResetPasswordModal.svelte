@@ -1,6 +1,8 @@
 <!-- src/lib/components/ResetPasswordModal.svelte -->
 
 <script lang="ts">
+	import { toast } from 'svelte-5-french-toast';
+
 	export let onClose: () => void;
 
 	let email = '';
@@ -13,11 +15,15 @@
 				body: JSON.stringify({ email })
 			});
 			const data = await res.json();
-			alert(data.message);
+			toast(data.message, {
+				duration: 5000
+			});
 			onClose();
 		} catch (error) {
 			console.error('Erreur lors de la réinitialisation:', error);
-			alert('Une erreur est survenue lors de la demande de réinitialisation.');
+			toast.error('Une erreur est survenue lors de la demande de réinitialisation.', {
+				duration: 5000
+			});
 		}
 	}
 </script>

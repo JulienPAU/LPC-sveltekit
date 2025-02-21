@@ -5,6 +5,7 @@
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import type { ArticleUploadResponse } from '$lib/types/article';
+	import toast from 'svelte-5-french-toast';
 
 	let selectedFiles: File[] = [];
 	let isSubmitting = false;
@@ -29,7 +30,9 @@
 
 		// Utilise selectedFiles pour ajouter les fichiers au formData
 		if (selectedFiles.length === 0) {
-			alert('Minimum une photo requise');
+			toast('Minimum une photo requise', {
+				duration: 5000
+			});
 			isSubmitting = false;
 			return;
 		}
@@ -45,6 +48,9 @@
 			});
 
 			if (!response.ok) {
+				toast.error('Erreur lors de la soumission', {
+					duration: 5000
+				});
 				throw new Error(`Erreur lors de la soumission : ${response.statusText}`);
 			}
 
@@ -55,13 +61,21 @@
 				isSubmitting = false;
 				await invalidate('app:user');
 
-				alert('Article créé avec succès, fichiers téléchargés.');
+				toast.success('Article créé avec succès, fichiers téléchargés.', {
+					duration: 5000
+				});
 			} else {
+				toast.error("ID de l'article manquant dans la réponse.", {
+					duration: 5000
+				});
 				throw new Error("ID de l'article manquant dans la réponse.");
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
+			toast.error('Erreur lors de la soumission', {
+				duration: 5000
+			});
 			throw new Error('Erreur lors de la soumission');
 		}
 	}

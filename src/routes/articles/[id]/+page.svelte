@@ -1,5 +1,7 @@
 <!-- src/routes/articles/[id]/+page.svelte -->
 <script lang="ts">
+	import { toast } from 'svelte-5-french-toast';
+
 	import Carousel from '$lib/components/carousel/carousel.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import { formatDate } from '$lib/utils.js';
@@ -7,6 +9,8 @@
 	import { onMount } from 'svelte';
 
 	import LPC_FAV_BLT from '$lib/assets/logos/LPC_FAV_BLT.png';
+	import logoC from '$lib/assets/logos/logoC.svg';
+	import { goto } from '$app/navigation';
 
 	let sanitize: (input: string) => string;
 
@@ -34,10 +38,16 @@
 			});
 
 			if (response.ok) {
-				window.location.href = '/dashboard/articles';
+				toast.success('Article mis à jour avec succès', {
+					duration: 5000
+				});
+				setTimeout(() => goto('/dashboard/articles'), 1000);
 			}
 		} catch (err) {
 			console.error('Erreur lors de la mise à jour:', err);
+			toast.error("Une erreur est survenue lors de la mise à jour de l'article.", {
+				duration: 5000
+			});
 		}
 	}
 
@@ -47,7 +57,9 @@
 
 	function submitRefusal() {
 		if (!selectedReason) {
-			alert('Veuillez sélectionner une raison de refus.');
+			toast.error('Veuillez sélectionner une raison de refus.', {
+				duration: 5000
+			});
 			return;
 		}
 		updateStatus('REFUSED', selectedReason);
@@ -76,7 +88,9 @@
 					<img
 						src={article.images.length > 0 ? article.images[0] : LPC_FAV_BLT}
 						alt="Article illustration"
-						class=" h-full w-full rounded-xl object-cover"
+						class=" h-full w-full rounded-xl object-cover {article.images === LPC_FAV_BLT
+							? 'object-contain'
+							: 'object-cover'}"
 					/>
 				</div>
 
@@ -87,11 +101,19 @@
 				</p>
 
 				<div class="mx-auto mb-6 flex h-[300px] sm:mb-8 lg:mb-10">
-					<img
-						src={article.images.length > 1 ? article.images[1] : '/LPC_FAV_BLT.png'}
-						alt="Article illustration"
-						class=" h-full w-full rounded-xl object-cover"
-					/>
+					{#if article.images && article.images.length > 1}
+						<img
+							src={article.images[1]}
+							alt="Article illustration"
+							class="h-full w-full rounded-xl object-cover"
+						/>
+					{:else}
+						<img
+							src={logoC}
+							alt="Article illustration"
+							class="h-full w-full rounded-xl bg-slate-900 object-fill p-8"
+						/>
+					{/if}
 				</div>
 				<h3>Conclusion</h3>
 				<p class="mb-6 text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl">

@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { togglePasswordVisibility } from '$lib/utils';
 	import ResetPasswordModal from '$lib/components/ResetPasswordModal.svelte';
+	import toast from 'svelte-5-french-toast';
 
 	let error = '';
 	let showResetModal = false;
@@ -22,6 +23,9 @@
 		});
 
 		if (!result?.ok) {
+			toast.error('Email ou mot de passe incorrect', {
+				duration: 5000
+			});
 			error = 'Email ou mot de passe incorrect';
 		} else {
 			goto('/dashboard').then(() => {
@@ -38,6 +42,9 @@
 		} catch (error) {
 			console.error('Erreur lors de la connexion avec Google:', error);
 			error = 'Erreur lors de la connexion avec Google.';
+			toast.error('Erreur lors de la connexion avec Google.', {
+				duration: 5000
+			});
 		}
 	}
 

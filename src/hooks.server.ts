@@ -10,11 +10,11 @@ import { sequence } from '@sveltejs/kit/hooks';
 
 import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { isValidResetToken } from '$lib/auth/isValidResetToken';
-// import { error } from '@sveltejs/kit';
+
+
 
 async function authorizationHandle({ event, resolve }: { event: RequestEvent, resolve: (event: RequestEvent, opts?: ResolveOptions) => MaybePromise<Response> }) {
     const session = await event.locals.auth();
-    // Protect any routes under /authenticated
 
 
     if (event.url.pathname.startsWith('/api/_private') || event.url.pathname.startsWith('/dashboard/admin')) {
@@ -57,8 +57,16 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
         }
     }
 
+    const cookieConsent = event.cookies.get('cookieConsent')
 
-    return resolve(event);
+
+    // Ajoute l'information de consentement à l'event pour y accéder dans les routes
+    event.locals.cookieConsent = cookieConsent ? JSON.parse(cookieConsent) : null;
+
+    const response = await resolve(event);
+
+
+    return response;
 }
 
 // First handle authentication, then authorization

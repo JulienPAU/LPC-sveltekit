@@ -63,6 +63,7 @@
 		"jsonwebtoken": "^9.0.2",
 		"nodemailer": "^6.10.0",
 		"quill": "^2.0.3",
+		"svelte-5-french-toast": "^2.0.4",
 		"uploadthing": "^7.4.4",
 		"zod": "^3.24.1"
 	}

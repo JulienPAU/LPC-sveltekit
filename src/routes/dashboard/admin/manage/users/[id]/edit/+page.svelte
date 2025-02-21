@@ -1,9 +1,10 @@
 <!-- src/ routes/dashboard/admin/manage/users/%5Bid%5D/edit/+page.svelte -->
 
 <script lang="ts">
-	import { invalidate } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import type { UpdateUserData } from '$lib/types/user.js';
+	import toast from 'svelte-5-french-toast';
 	let isSubmitting = false;
 
 	export let data;
@@ -44,6 +45,9 @@
 			});
 
 			if (!response.ok) {
+				toast.error(`Erreur lors de la soumission : ${response.statusText}`, {
+					duration: 5000
+				});
 				throw new Error(`Erreur lors de la soumission : ${response.statusText}`);
 			}
 
@@ -53,14 +57,22 @@
 				isSubmitting = false;
 				// await invalidate('app:user');
 
-				alert('Profil mis à jour avec succès');
-				window.location.href = '/dashboard/admin/manage/users';
+				toast.success('Profil mis à jour avec succès', {
+					duration: 5000
+				});
+				setTimeout(() => goto('/dashboard/admin/manage/users'), 1000);
 			} else {
+				toast.error('Erreur lors de la mise à jour du profil', {
+					duration: 5000
+				});
 				throw new Error('Erreur lors de la mise à jour du profil');
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
+			toast.error('Erreur lors de la soumission', {
+				duration: 5000
+			});
 			throw new Error('Erreur lors de la soumission');
 		}
 	}
@@ -77,6 +89,9 @@
 			});
 
 			if (!response.ok) {
+				toast.error(`Erreur lors du rejet : ${response.statusText}`, {
+					duration: 5000
+				});
 				throw new Error(`Erreur lors du rejet : ${response.statusText}`);
 			}
 
@@ -84,14 +99,22 @@
 
 			if (result) {
 				isSubmitting = false;
-				alert('Demande de modérateur refusée');
+				toast.error('Demande de modérateur refusée', {
+					duration: 5000
+				});
 				window.location.reload();
 			} else {
+				toast.error('Erreur lors du rejet de la demande', {
+					duration: 5000
+				});
 				throw new Error('Erreur lors du rejet de la demande');
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
+			toast.error('Erreur lors de la soumission', {
+				duration: 5000
+			});
 			throw new Error('Erreur lors de la soumission');
 		}
 	}
@@ -106,6 +129,9 @@
 			});
 
 			if (!response.ok) {
+				toast.error(`Erreur lors de la suppression : ${response.statusText}`, {
+					duration: 5000
+				});
 				throw new Error(`Erreur lors de la suppression : ${response.statusText}`);
 			}
 
@@ -114,15 +140,23 @@
 			if (result) {
 				isSubmitting = false;
 				// invalidate('app:user');
-				alert('User supprimé avec succès');
-				window.location.href = '/';
+				toast.success('User supprimé avec succès', {
+					duration: 5000
+				});
+				setTimeout(() => goto('/dashboard/admin/manage/users'), 1000);
 			} else {
+				toast.error("Erreur lors de la suppression de l'utilisateur", {
+					duration: 5000
+				});
 				throw new Error("Erreur lors de la suppression de l'utilisateur");
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
-			throw new Error('Erreur lors de la soumission');
+			toast.error('Erreur lors de la suppression', {
+				duration: 5000
+			});
+			throw new Error('Erreur lors de la supression');
 		}
 	}
 

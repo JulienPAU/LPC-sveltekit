@@ -170,7 +170,7 @@
 			alt="Full size"
 		/>
 		<button
-			class="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-4xl text-white transition-colors hover:bg-white/20"
+			class="absolute right-4 top-4 rounded-full text-6xl text-white"
 			on:click={closeModal}
 			aria-label="Fermer la modale"
 		>

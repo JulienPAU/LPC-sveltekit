@@ -3,17 +3,16 @@
 	import DigitalClock from '$lib/components/header/DigitalClock.svelte';
 	import digi from '$lib/assets/digi.png';
 	import Band from '$lib/components/band/band.svelte';
+	import { toast } from 'svelte-5-french-toast';
 
 	let name = '';
 	let email = '';
 	let message = '';
 	let isSubmitting = false;
-	let submitStatus: { success: boolean; message: string } | null = null;
 
 	async function handleSubmit(event: Event) {
 		event.preventDefault();
 		isSubmitting = true;
-		submitStatus = null;
 
 		try {
 			const response = await fetch('/api/contact', {
@@ -27,22 +26,22 @@
 			const result = await response.json();
 
 			if (result.success) {
-				submitStatus = {
-					success: true,
-					message: 'Message envoyé avec succès !'
-				};
+				toast.success('Message envoyé avec succès !', {
+					duration: 3000,
+					position: 'top-center'
+				});
 				resetForm();
 			} else {
-				submitStatus = {
-					success: false,
-					message: result.error || 'Une erreur est survenue'
-				};
+				toast.error(result.error || 'Une erreur est survenue', {
+					duration: 5000,
+					position: 'top-center'
+				});
 			}
 		} catch (error) {
-			submitStatus = {
-				success: false,
-				message: "Une erreur est survenue lors de l'envoi"
-			};
+			toast.error("Une erreur est survenue lors de l'envoi", {
+				duration: 5000,
+				position: 'top-center'
+			});
 		} finally {
 			isSubmitting = false;
 		}
@@ -113,14 +112,6 @@
 				</div>
 
 				<div class="flex flex-col gap-5">
-					<!-- ... champs de formulaire inchangés ... -->
-
-					{#if submitStatus}
-						<div class={`alert ${submitStatus.success ? 'alert-success' : 'alert-error'}`}>
-							{submitStatus.message}
-						</div>
-					{/if}
-
 					<div class="flex justify-end">
 						<button type="submit" class="btn btn-warning text-xl" disabled={isSubmitting}>
 							{isSubmitting ? 'Envoi en cours...' : 'Envoyer'}

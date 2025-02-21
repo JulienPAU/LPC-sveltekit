@@ -156,10 +156,14 @@
 
 <div
 	id="imageModal"
-	class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75"
+	class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm transition-opacity duration-300"
 >
-	<div class="relative flex h-full w-full items-center justify-center">
-		<img id="modalImage" class="max-h-full max-w-full" alt="Full size" />
-		<button id="closeModal" class="absolute right-0 top-0 m-4 text-6xl text-white">&times;</button>
+	<div class="relative flex h-full w-full items-center justify-center p-4">
+		<img
+			id="modalImage"
+			class="max-h-[90vh] max-w-[90vw] rounded-lg object-contain shadow-2xl"
+			alt="Full size"
+		/>
+		<button id="closeModal" class="absolute right-4 top-4 text-6xl text-white">&times;</button>
 	</div>
 </div>

@@ -3,6 +3,7 @@
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
 	import { togglePasswordVisibility } from '$lib/utils';
 	import { signIn } from '@auth/sveltekit/client';
+	import { toast } from 'svelte-5-french-toast';
 
 	let errorMessage = '';
 
@@ -15,9 +16,12 @@
 		const result = await response.json();
 
 		if (!response.ok) {
-			errorMessage = result.message || 'Une erreur est survenue.';
+			toast.error(`${result.message} Veuillez réessayer`, {
+				duration: 5000
+			});
 		} else {
-			goto('/auth/login');
+			toast.success('Compte créé avec succès ! Vous pouvez vous connecter.', { duration: 3000 });
+			setTimeout(() => goto('/auth/login'), 1000);
 		}
 	}
 

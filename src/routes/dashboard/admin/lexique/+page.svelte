@@ -2,6 +2,7 @@
 
 <script lang="ts">
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
+	import toast from 'svelte-5-french-toast';
 
 	let formData = {
 		title: '',
@@ -27,13 +28,21 @@
 			const result = await response.json();
 
 			if (!result) {
+				toast.error('Erreur lors de la soumission', {
+					duration: 5000
+				});
 				throw new Error('Erreur lors de la soumission');
 			} else {
-				alert('Définition créée avec succès.');
+				toast.success('Définition créée avec succès.', {
+					duration: 5000
+				});
 				form.reset();
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
+			toast.error('Erreur lors de la soumission', {
+				duration: 5000
+			});
 			throw new Error('Erreur lors de la soumission');
 		}
 	}

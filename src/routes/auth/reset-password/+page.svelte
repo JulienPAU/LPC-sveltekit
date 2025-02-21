@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
 	import { goto } from '$app/navigation';
+	import toast from 'svelte-5-french-toast';
 
 	let token = '';
 	let password = '';
@@ -30,11 +31,13 @@
 			body: JSON.stringify({ token, password })
 		});
 		const data = await res.json();
-		alert(data.message);
+		toast(data.message, {
+			duration: 5000
+		});
 
 		if (data.message === 'Mot de passe mis à jour avec succès') {
 			// Redirection vers la page de connexion après la mise à jour réussie
-			goto('/auth/login'); // Redirige vers la page de login
+			setTimeout(() => goto('/auth/login'), 1000);
 		}
 	}
 </script>

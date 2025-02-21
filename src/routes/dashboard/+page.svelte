@@ -1,6 +1,8 @@
 <!-- src/routes/dashboard/%2Bpage.svelte -->
 
 <script lang="ts">
+	import { toast } from 'svelte-5-french-toast';
+
 	export let data;
 	const user = data?.user;
 	const { articlesByUserId } = data;
@@ -22,13 +24,19 @@
 
 			const result = await response.json();
 			if (result.success) {
-				alert('Votre demande a été envoyée avec succès !');
+				toast.success('Votre demande a été envoyée avec succès ! ', {
+					duration: 5000
+				});
 			} else {
-				alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+				toast.error('Une erreur est survenue. Veuillez réessayer plus tard.', {
+					duration: 5000
+				});
 			}
 		} catch (error) {
 			console.error('Erreur lors de la demande de modérateur:', error);
-			alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+			toast.error('Une erreur est survenue. Veuillez réessayer plus tard.', {
+				duration: 5000
+			});
 		}
 	};
 
@@ -47,14 +55,20 @@
 
 			const result = await response.json();
 			if (result.success) {
-				alert('Votre refus a été enregistré.');
-				location.reload(); // Recharge la page pour mettre à jour l’affichage
+				toast.success('Votre refus a été enregistré.', {
+					duration: 5000
+				});
+				location.reload();
 			} else {
-				alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+				toast.error('Une erreur est survenue. Veuillez réessayer plus tard.', {
+					duration: 5000
+				});
 			}
 		} catch (error) {
 			console.error('Erreur lors du refus:', error);
-			alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+			toast.error('Une erreur est survenue. Veuillez réessayer plus tard.', {
+				duration: 5000
+			});
 		}
 	};
 
@@ -73,14 +87,20 @@
 
 			const result = await response.json();
 			if (result.success) {
-				alert('Merci pour votre compréhension.');
+				toast('Merci pour votre compréhension.', {
+					duration: 5000
+				});
 				location.reload();
 			} else {
-				alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+				toast.error('Une erreur est survenue. Veuillez réessayer plus tard.', {
+					duration: 5000
+				});
 			}
 		} catch (error) {
 			console.error('Erreur lors du refus:', error);
-			alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+			toast.error('Une erreur est survenue. Veuillez réessayer plus tard.', {
+				duration: 5000
+			});
 		}
 	};
 </script>
