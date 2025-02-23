@@ -65,6 +65,7 @@ export async function GET(event: RequestEvent) {
                     last_name: true,
                     User_Role: true,
                     lastLogin: true,
+                    createdAt: true
                 }
             });
 

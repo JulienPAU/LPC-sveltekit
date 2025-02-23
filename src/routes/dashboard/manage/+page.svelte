@@ -16,7 +16,7 @@
 		currentPage * itemsPerPage
 	);
 
-	// console.log('article soumis', submittedArticles);
+	console.log('article soumis', submittedArticles);
 </script>
 
 <div class=" flex flex-col items-center">
@@ -45,7 +45,8 @@
 						introduction: a.introduction,
 						imageUrl: a.images[0],
 						author: '',
-						category: a.article_type,
+						article_type: a.article_type,
+						category: '',
 						submit_date: a.submit_date,
 						publish_date: '',
 						id: a.id,

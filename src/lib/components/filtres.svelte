@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getArticleType, getCategory } from '$lib/utils';
+
 	export let articles: any[];
 	export let onFilterChange: (filteredArticles: any[]) => void;
 
@@ -61,7 +63,7 @@
 			<select bind:value={articleType} class="select select-bordered w-40">
 				<option value="">Type d'article</option>
 				{#each articleTypes as type}
-					<option value={type}>{type}</option>
+					<option value={type}>{getArticleType(type)}</option>
 				{/each}
 			</select>
 
@@ -69,7 +71,7 @@
 			<select bind:value={category} class="select select-bordered w-40">
 				<option value="">Catégorie</option>
 				{#each categories as cat}
-					<option value={cat}>{cat}</option>
+					<option value={cat}>{getCategory(cat)}</option>
 				{/each}
 			</select>
 

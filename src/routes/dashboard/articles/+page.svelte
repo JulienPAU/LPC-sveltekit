@@ -29,6 +29,8 @@
 		currentPage * itemsPerPage
 	);
 
+	console.log('paginatedArticles', paginatedArticles);
+
 	// Simuler un délai de chargement
 	// setTimeout(() => {
 	// 	loading = false;
@@ -72,7 +74,8 @@
 						introduction: a.introduction,
 						imageUrl: a.images[0],
 						author: user.username,
-						category: a.article_type,
+						article_type: a.article_type,
+						category: '',
 						submit_date: '',
 						publish_date: '',
 						id: a.id,

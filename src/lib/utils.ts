@@ -121,3 +121,79 @@ export function handleErrorForm(error: Error) {
 	console.error('Erreur serveur:', error);
 	return json({ error: 'Erreur serveur' }, { status: 500 });
 }
+
+
+
+
+
+export const getRole = (role: string) => {
+	switch (role) {
+		case "EDITOR":
+			return "Éditeur";
+		case "ADMIN":
+			return "Admin";
+		case "MODERATOR":
+			return "Modérateur";
+		case "AUTHOR":
+			return "Auteur";
+		case "READER":
+			return "Lecteur";
+		case "EXPERT":
+			return "Expert";
+		default:
+			return role;
+	}
+};
+
+export const getPublicationStatus = (status: string) => {
+	switch (status) {
+		case "PUBLISHED":
+			return "Publié";
+		case "SUBMITTED":
+			return "Soumis";
+		case "REFUSED":
+			return "Refusé";
+		default:
+			return status;
+	}
+};
+
+// Conversion des types d'articles
+export const getArticleType = (type: string) => {
+	switch (type) {
+		case "GUIDE":
+			return "Guide";
+		case "ARTICLE":
+			return "Article";
+		case "REVIEW":
+			return "Revue";
+		case "TECHNICAL":
+			return "Technique";
+		case "LEXIQUE":
+			return "Lexique";
+		default:
+			return type;
+	}
+};
+
+// Conversion des catégories
+export const getCategory = (category: string) => {
+	switch (category) {
+		case "ANALOG":
+			return "Analogique";
+		case "DIGITAL":
+			return "Digitale";
+		case "CHRONOGRAPH":
+			return "Chronographe";
+		case "SMARTWATCH":
+			return "Montre Connectée";
+		case "OTHER":
+			return "Autre";
+		case "HYBRID":
+			return "Hybride";
+		case "LUXURY":
+			return "Luxe";
+		default:
+			return category;
+	}
+};

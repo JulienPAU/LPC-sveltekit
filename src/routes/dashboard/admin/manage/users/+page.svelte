@@ -3,7 +3,7 @@
 <script lang="ts">
 	import Pagination from '$lib/components/Pagination.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
-	import { formatDate } from '$lib/utils.js';
+	import { formatDate, getRole } from '$lib/utils.js';
 
 	export let data;
 
@@ -33,8 +33,9 @@
 				<div>Prénom : {user.first_name ? user.first_name : 'Non renseigné'}</div>
 				<div>Nom : {user.last_name ? user.last_name : 'Non reseigné'}</div>
 				<div>Email : {user.email}</div>
-				<div>Role : {user.User_Role[0].role.toLowerCase()}</div>
+				<div>Role : {getRole(user.User_Role[0].role)}</div>
 				<div>Last Log : {formatDate(user.lastLogin)}</div>
+				<div>Créé le : {formatDate(user.createdAt)}</div>
 
 				<div class="card-actions justify-end">
 					<a

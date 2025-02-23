@@ -43,7 +43,8 @@ export async function GET(event: RequestEvent) {
                     select: {
                         username: true,
                     }
-                }
+                },
+                category: true
             }
         });
 

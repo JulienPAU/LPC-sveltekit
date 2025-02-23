@@ -114,7 +114,8 @@
 								imageUrl:
 									Array.isArray(item.images) && item.images.length > 0 ? item.images[0] : undefined,
 								author: item.user.username,
-								category: item.article_type,
+								article_type: item.article_type,
+								category: item.category,
 								submit_date: '',
 								publish_date: '',
 								id: item.id,

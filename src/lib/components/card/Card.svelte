@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { formatDate, truncateText } from '$lib/utils';
+	import type { CardProps } from '$lib/types/card';
+	import { formatDate, getArticleType, getCategory, truncateText } from '$lib/utils';
 
 	import DOMPurify from 'dompurify';
 	import { onMount } from 'svelte';
@@ -10,11 +11,12 @@
 		sanitize = DOMPurify.sanitize;
 	});
 
-	export let props = {
+	export let props: CardProps = {
 		title: '',
 		introduction: '',
 		imageUrl: '/LPC_FAV_BLT.png',
 		author: 'Auteur inconnu',
+		article_type: 'Type inconnue',
 		category: 'Catégorie inconnue',
 		publish_date: '',
 		submit_date: '',
@@ -73,8 +75,14 @@
 			{/if}
 		{:else}
 			<p class="mb-5 text-sm leading-3">
+				<span class="italic"> {getArticleType(props.article_type) || 'Type inconnu'}</span>
 				Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
-				<span class="italic"> {props.category || 'Catégorie inconnue'}</span>
+
+				<span class="italic">
+					{props.category && typeof props.category === 'object'
+						? getCategory(props.category.name) || 'Catégorie inconnue'
+						: 'Catégorie inconnue'}
+				</span>
 			</p>
 			{#if props.introduction}
 				<div class="mb-5">

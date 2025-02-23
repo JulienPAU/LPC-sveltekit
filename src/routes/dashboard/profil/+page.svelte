@@ -2,6 +2,7 @@
 	import { goto, invalidate } from '$app/navigation';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import type { UpdateUserData } from '$lib/types/user.js';
+	import { getRole } from '$lib/utils.js';
 	import toast from 'svelte-5-french-toast';
 
 	export let data;
@@ -152,7 +153,7 @@
 						name="role"
 						type="text"
 						class="input input-bordered input-warning w-full"
-						value={userRole.toLowerCase()}
+						value={getRole(userRole)}
 						disabled
 					/>
 				</div>

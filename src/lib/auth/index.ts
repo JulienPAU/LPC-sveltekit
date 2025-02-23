@@ -49,6 +49,7 @@ export async function createUser(email: string, password: string, first_name: st
             first_name,
             last_name,
             username,
+            createdAt: new Date(),
             User_Role: {
                 create: {
                     role: "READER"

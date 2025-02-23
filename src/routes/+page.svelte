@@ -64,7 +64,8 @@
 							? article.images[0]
 							: undefined, // Fallback géré dans Card
 					author: article.user.username,
-					category: article.article_type,
+					article_type: article.article_type,
+					category: article.category,
 					submit_date: '',
 					publish_date: '',
 					id: article.id,

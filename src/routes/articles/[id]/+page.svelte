@@ -4,7 +4,7 @@
 
 	import Carousel from '$lib/components/carousel/carousel.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
-	import { formatDate } from '$lib/utils.js';
+	import { formatDate, getArticleType, getCategory, getPublicationStatus } from '$lib/utils.js';
 	import DOMPurify from 'dompurify';
 	import { onMount } from 'svelte';
 
@@ -68,8 +68,6 @@
 	onMount(() => {
 		sanitize = DOMPurify.sanitize;
 	});
-
-	// console.log('article id:', article);
 </script>
 
 {#if article}
@@ -120,8 +118,8 @@
 					{@html sanitize(article.ending)}
 				</p>
 				<div class="text-sm sm:text-base">
-					Par <strong>{article.user.username}</strong> le {formatDate(article.publish_date)} dans
-					<i>{article.article_type}</i>
+					<i>{getArticleType(article.article_type)}</i> Par <strong>{article.user.username}</strong>
+					le {formatDate(article.publish_date)} dans <i>{getCategory(article.category.name)}</i>
 				</div>
 			{/if}
 		</div>
@@ -131,7 +129,9 @@
 				class="mx-auto mb-20 flex w-full flex-col flex-wrap items-center justify-center gap-10 rounded-lg bg-gray-100 p-10 lg:w-1/2"
 			>
 				<h3 class="text-center">
-					Status actuel : <span class="font-extralight italic">{article.status.toLowerCase()}</span>
+					Status actuel : <span class="font-extralight italic"
+						>{getPublicationStatus(article.status)}</span
+					>
 				</h3>
 				<div class="flex w-full flex-wrap justify-evenly gap-10">
 					<button

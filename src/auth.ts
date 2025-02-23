@@ -96,6 +96,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                             last_name: "",
                             password: "",
                             authProvider: "google",
+                            createdAt: new Date(),
                             User_Role: {
                                 create: {
                                     role: user.role as RoleType
@@ -206,8 +207,5 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
     jwt: {
         maxAge: 2 * 60 * 60,  // Expiration du token en secondes (ici 24 heures)
     },
-    pages: {
-        signIn: '/auth/login',
-        error: '/auth/login',
-    }
+
 });

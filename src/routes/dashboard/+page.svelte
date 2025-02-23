@@ -112,8 +112,6 @@
 
 	<p class="mb-10 text-lg font-semibold text-gray-900">Prêt à partager ta passion horlogère ?</p>
 
-	<!-- && user.User_Role[0].role !== 'ADMIN' a remettre dans la condition du dessous -->
-
 	{#if articlesByUserId.total >= 10 && user.User_Role[0].role !== 'MODERATOR' && user.User_Role[0].role !== 'ADMIN'}
 		{#if user.moderatorRequestStatus === 'NOT_REQUESTED'}
 			<!-- Cas 1 : L’utilisateur n’a pas encore fait de demande -->

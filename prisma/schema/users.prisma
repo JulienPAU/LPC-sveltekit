@@ -20,6 +20,7 @@ model User {
   authProvider String?    // Pour identifier si c'est Google ou email/password
   verified     Boolean    @default(false)
   lastLogin    DateTime?
+  createdAt    DateTime  
 
   moderatorRequestAt      DateTime?
   moderatorRequestStatus  ModeratorRequest?   @default(NOT_REQUESTED) 

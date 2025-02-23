@@ -159,7 +159,7 @@
 						<option value="" disabled selected class="text-black">Choisir un type</option>
 
 						<option value="ARTICLE">Article</option>
-						<option value="REVIEW">Review</option>
+						<option value="REVIEW">Revue</option>
 						<option value="TECHNICAL">Technique</option>
 						<option value="LEXIQUE">Lexique</option>
 						<option value="GUIDE">Guide</option>
