@@ -125,7 +125,7 @@
 								status: 'PUBLISHED',
 								imgStyle: 'h-[250px]',
 								style:
-									'transform card w-full bg-base-100 shadow-xl transition duration-500 hover:scale-105  overflow-hidden '
+									' card w-full bg-base-100 shadow-lg transition-shadow  duration-500  hover:shadow-xl  overflow-hidden '
 							}}
 						/>
 					</div>

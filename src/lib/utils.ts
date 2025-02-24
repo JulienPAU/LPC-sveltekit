@@ -197,3 +197,41 @@ export const getCategory = (category: string) => {
 			return category;
 	}
 };
+
+
+export const getWatchCaseMaterial = (material: string) => {
+	switch (material) {
+		case "STAINLESS_STEEL_316L":
+			return "Acier Inoxydable 316L";
+		case "TITANIUM":
+			return "Titane";
+		case "GOLD":
+			return "Or";
+		case "PLATINUM":
+			return "Platine";
+		case "CERAMIC":
+			return "Céramique";
+		case "CARBON":
+			return "Carbone";
+		case "BRONZE":
+			return "Bronze";
+		case "PLASTIC":
+			return "Plastique/Résine";
+		case "ALUMINUM":
+			return "Aluminium";
+		case "PALLADIUM":
+			return "Palladium";
+		case "TUNGSTEN":
+			return "Tungstène";
+		case "SILVER":
+			return "Argent";
+		case "COPPER":
+			return "Cuivre";
+		case "MAGNESIUM":
+			return "Magnésium";
+		case "OTHER":
+			return "Autre";
+		default:
+			return material;
+	}
+};

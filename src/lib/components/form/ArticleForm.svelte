@@ -22,6 +22,7 @@
 					model: '',
 					movement: null,
 					water_resistance: null,
+					case_material: null,
 					straps: [{ strap: { material: '' } }]
 				}
 			}
@@ -34,10 +35,12 @@
 		model: '',
 		movement: null,
 		water_resistance: null,
+		case_material: null,
 		straps: [{ strap: { material: '' } }]
 	};
 	const straps = watches?.straps?.map((s) => s.strap.material) || [];
 
+	console.log('article', article);
 	export let onSubmit: (event: SubmitEvent) => void;
 	export let onDelete: ((event: MouseEvent) => void) | null = null;
 
@@ -270,6 +273,38 @@
 						<option value="20 Bar">20 Bar</option>
 						<option value="30 Bar">30 Bar</option>
 						<option value="100 Bar">100 Bar</option>
+						<option value="Other">Autre</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+				<div class="w-full">
+					<label for="movement" class="mb-1 block text-lg font-bold text-gray-700"
+						>Matériaux du boitier</label
+					>
+					<select
+						id="case_material"
+						name="case_material"
+						class="select select-warning w-full text-lg"
+						bind:value={watches.case_material}
+					>
+						<option value="" disabled selected class="text-black">Choix des matériaux</option>
+
+						<option value="STAINLESS_STEEL_316L">Acier Inoxydable 316L</option>
+						<option value="TITANIUM">Titane</option>
+						<option value="GOLD">Or</option>
+						<option value="PLATINUM">Platine</option>
+						<option value="CERAMIC">Céramique</option>
+						<option value="CARBON">Carbone</option>
+						<option value="BRONZE">Bronze</option>
+						<option value="PLASTIC">Plastique/Résine</option>
+						<option value="ALUMINUM">Aluminium</option>
+						<option value="PALLADIUM">Palladium</option>
+						<option value="TUNGSTEN">Tungstène</option>
+						<option value="SILVER">Argent</option>
+						<option value="COPPER">Cuivre</option>
+						<option value="MAGNESIUM">Magnésium</option>
 						<option value="Other">Autre</option>
 					</select>
 				</div>

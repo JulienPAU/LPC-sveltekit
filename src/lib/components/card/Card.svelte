@@ -30,15 +30,30 @@
 	};
 </script>
 
-<div class={props.style}>
-	<figure class="max-h-96 overflow-hidden">
+<div class={`group relative overflow-hidden ${props.style}`}>
+	<figure class="group relative max-h-96 overflow-hidden">
 		<img
 			src={props.imageUrl || '/LPC_FAV_BLT.png'}
 			alt={props.title || 'Image'}
-			class="{props.imgStyle} w-full max-w-full {!props.imageUrl
-				? 'object-contain'
-				: 'object-cover'}"
+			class={`${props.imgStyle} w-full max-w-full ${!props.imageUrl ? 'object-contain' : 'object-cover'}`}
 		/>
+		<div
+			class="absolute inset-0 bg-black bg-opacity-20 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+		></div>
+
+		{#if props.isDashboard || props.isModerator || props.isAdmin}
+			<div
+				class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg bg-warning p-2 font-bold opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+			>
+				Modifier
+			</div>
+		{:else}
+			<div
+				class="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg bg-warning p-2 font-bold opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+			>
+				Lire l'article
+			</div>
+		{/if}
 	</figure>
 
 	<div class="card-body">
@@ -94,9 +109,9 @@
 		{#if props.isDashboard || props.isModerator || props.isAdmin}
 			<div
 				class="absolute right-2 top-2 rounded px-2 py-1 font-semibold
-			{props.status === 'PUBLISHED' ? 'rounded-lg bg-green-500 text-white' : ''}
-			{props.status === 'SUBMITTED' ? 'rounded-lg bg-orange-500 text-white' : ''}
-			{props.status === 'REFUSED' ? 'rounded-lg bg-red-500 text-white' : ''}"
+            {props.status === 'PUBLISHED' ? 'rounded-lg bg-green-500 text-white' : ''}
+            {props.status === 'SUBMITTED' ? 'rounded-lg bg-orange-500 text-white' : ''}
+            {props.status === 'REFUSED' ? 'rounded-lg bg-red-500 text-white' : ''}"
 			>
 				{#if props.status === 'PUBLISHED'}
 					✔️ Publié

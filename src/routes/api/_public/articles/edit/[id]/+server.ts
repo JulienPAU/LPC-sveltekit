@@ -3,7 +3,7 @@ import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';
 import { articleUpdateSchema } from '$lib/schemas/articles';
 
-import type { Article_Type, Category } from '@prisma/client';
+import type { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 import { submitUpdatedArticle } from '$lib/email.js';
 
@@ -82,6 +82,7 @@ export const POST = async ({ request, locals, params }) => {
             'model': formData.get('model')?.toString().trim() || '',
             'movement': formData.get('movement')?.toString() || null,
             'water_resistance': formData.get('water_resistance')?.toString() || null,
+            'case_material': formData.get('case_material')?.toString() as WatchCaseMaterial || '',
             'straps': formData.getAll('straps').map(s => s.toString())
         };
 
@@ -129,6 +130,7 @@ export const POST = async ({ request, locals, params }) => {
                 model: data.model,
                 movement: data.movement,
                 water_resistance: data.water_resistance,
+                case_material: data.case_material,
                 straps: data.straps || []
             });
         }
@@ -155,6 +157,7 @@ async function handleWatchAndStraps(articleId: number, watchData: {
     model: string;
     movement?: string | null;
     water_resistance?: string | null;
+    case_material?: string | null;
     straps: string[];
 }) {
     const article = await prisma.articles.findUnique({
@@ -174,13 +177,17 @@ async function handleWatchAndStraps(articleId: number, watchData: {
         },
         update: {
             ...(watchData.movement && { movement: watchData.movement }),
-            ...(watchData.water_resistance && { water_resistance: watchData.water_resistance })
+            ...(watchData.water_resistance && { water_resistance: watchData.water_resistance }),
+            ...(watchData.case_material && { case_material: { set: watchData.case_material as WatchCaseMaterial } })
+
         },
         create: {
             brand: watchData.brand,
             model: watchData.model,
             movement: watchData.movement,
-            water_resistance: watchData.water_resistance
+            water_resistance: watchData.water_resistance,
+            case_material: watchData.case_material as WatchCaseMaterial
+
         }
     });
 

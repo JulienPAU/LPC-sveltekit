@@ -11,6 +11,7 @@
 	import LPC_FAV_BLT from '$lib/assets/logos/LPC_FAV_BLT.png';
 	import logoC from '$lib/assets/logos/logoC.svg';
 	import { goto } from '$app/navigation';
+	import WatchDetails from '$lib/components/WatchDetails.svelte';
 
 	let sanitize: (input: string) => string;
 
@@ -74,7 +75,7 @@
 	<section class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
 		<SectionTitle title={article.title} />
 
-		<div class="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-20">
+		<div class="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-10">
 			{#if sanitize}
 				<h3>Introduction</h3>
 				<p
@@ -118,11 +119,23 @@
 					{@html sanitize(article.ending)}
 				</p>
 				<div class="text-sm sm:text-base">
-					<i>{getArticleType(article.article_type)}</i> Par <strong>{article.user.username}</strong>
-					le {formatDate(article.publish_date)} dans <i>{getCategory(article.category.name)}</i>
+					{#if article?.article_type}
+						<i>{getArticleType(article.article_type)}</i>
+					{/if}
+					{#if article?.user?.username}
+						Par <strong>{article.user.username}</strong>
+					{/if}
+					{#if article?.publish_date}
+						le {formatDate(article.publish_date)}
+					{/if}
+					{#if article?.category?.name}
+						dans <i>{getCategory(article.category.name)}</i>
+					{/if}
 				</div>
 			{/if}
 		</div>
+
+		<WatchDetails {article} />
 
 		{#if userRole === 'ADMIN' || (userRole === 'MODERATOR' && article.status === 'SUBMITTED')}
 			<div
@@ -180,6 +193,7 @@
 			</div>
 		{/if}
 	</section>
+
 	<Carousel items={article.images} type="images" />
 {:else}
 	<p>L'article est introuvable ou une erreur s'est produite.</p>

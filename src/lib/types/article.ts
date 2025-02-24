@@ -1,4 +1,4 @@
-import type { Article_Type, Category } from '@prisma/client';
+import type { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
 import type { User } from './user';
 import type { ArticleWatches } from './watches';
 import type { Categories } from './categories';
@@ -15,6 +15,7 @@ export interface ArticleFormData {
     'model': string;
     'movement': string | null;
     'water_resistance': string | null;
+    'case_material': WatchCaseMaterial;
     'straps': string[];
 }
 

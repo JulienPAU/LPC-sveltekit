@@ -42,6 +42,7 @@ export const articleUpdateSchema = z.object({
     'model': z.string().optional(),
     'movement': z.string().nullable().optional(),
     'water_resistance': z.string().nullable().optional(),
+    'case_material': z.string().optional(),
     'straps': z.array(z.string()).optional()
 });
 
@@ -71,6 +72,7 @@ export const articlePublishSchema = z.object({
     'model': z.string().optional(),
     'movement': z.string().nullable().optional(),
     'water_resistance': z.string().nullable().optional(),
+    'case_material': z.string().optional(),
     'straps': z.array(z.string()).optional(),
     'files': z.array(z.instanceof(File))
         .min(1, "Au moins une image est requise")

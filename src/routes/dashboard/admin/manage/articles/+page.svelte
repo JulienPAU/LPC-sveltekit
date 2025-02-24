@@ -67,7 +67,7 @@
 						status: a.status,
 						imgStyle: 'h-[100px]',
 						style:
-							' tranform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105  md:w-2/5 lg:w-1/6 '
+							'card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl  md:w-2/5 lg:w-1/6 '
 					}}
 				/>
 			{/each}

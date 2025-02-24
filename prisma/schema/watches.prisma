@@ -4,7 +4,7 @@ model Watches {
   model            String
   movement         String?
   water_resistance String?
-  case_material    String?
+  case_material    WatchCaseMaterial?
   category_id      Int?
 
   straps           WatchStraps[]  
@@ -36,4 +36,23 @@ model WatchStraps {
   strap     Straps  @relation(fields: [strap_id], references: [id], onDelete: Cascade)
 
   @@id([watch_id, strap_id]) 
+}
+
+
+enum WatchCaseMaterial {
+  STAINLESS_STEEL_316L
+  TITANIUM
+  GOLD
+  PLATINUM
+  CERAMIC
+  CARBON
+  BRONZE
+  PLASTIC
+  ALUMINUM
+  PALLADIUM
+  TUNGSTEN
+  SILVER
+  COPPER
+  MAGNESIUM
+  OTHER
 }

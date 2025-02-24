@@ -75,7 +75,7 @@
 					status: 'PUBLISHED',
 					imgStyle: 'h-[400px]',
 					style:
-						'xl:w3/5 transform card w-96 bg-base-100 shadow-xl transition duration-500 hover:scale-105 sm:w-4/5 md:w-96 lg:w-2/6'
+						'xl:w3/5 card w-96 bg-base-100 shadow-lg transition-shadow duration-500 hover:shadow-xl sm:w-4/5 md:w-96 lg:w-2/6'
 				}}
 			/>
 		{/each}
