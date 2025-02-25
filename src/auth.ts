@@ -24,7 +24,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
             clientSecret: process.env.GOOGLE_SECRET,
             authorization: {
                 params: {
-                    redirect_uri: `https://les-petits-cadrans-5fkt8vofw-ely-juns-projects.vercel.app/auth/callback/google`
+                    redirect_uri: `https://les-petits-cadrans.vercel.app/auth/callback/google`
                 }
             }
         }),
