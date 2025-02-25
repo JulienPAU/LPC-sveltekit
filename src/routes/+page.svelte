@@ -85,12 +85,12 @@
 <div class="card-actions justify-center">
 	<a href="/articles?from=home">
 		<button
-			class="btn mb-20 bg-yellow-500 text-xl font-bold hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+			class="mb-20 rounded-md bg-yellow-500 px-6 py-3 text-xl font-bold text-black hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 		>
 			Voir plus
 		</button>
 	</a>
 </div>
 
-<SectionTitle title="Galerie" />
+<!-- <SectionTitle title="Galerie" /> -->
 <Carousel items={imageUrls} type="images" />

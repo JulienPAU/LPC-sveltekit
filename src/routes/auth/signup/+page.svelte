@@ -46,7 +46,7 @@
 	<div class="flex w-full flex-col justify-center border-y-2 px-6 py-8 md:px-36 lg:w-1/2 lg:px-60">
 		<button
 			on:click={handleGoogleSignin}
-			class="mt-4 flex transform items-center justify-center rounded-lg border text-gray-600 transition-colors duration-300 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+			class="mt-4 flex transform items-center justify-center rounded-lg border text-gray-600 transition-colors duration-300 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-600"
 		>
 			<div class="px-4 py-2">
 				<svg class="h-6 w-6" viewBox="0 0 40 40">
@@ -73,11 +73,11 @@
 		</button>
 
 		<div class="mt-4 flex items-center justify-between">
-			<span class="w-1/6 border-b lg:w-1/6 dark:border-gray-600"></span>
+			<span class="w-1/6 border-b lg:w-1/6"></span>
 
 			<p class="text-center text-xs uppercase text-gray-500 dark:text-gray-400">ou avec un email</p>
 
-			<span class="w-1/6 border-b lg:w-1/6 dark:border-gray-600"></span>
+			<span class="w-1/6 border-b lg:w-1/6"></span>
 		</div>
 		<form method="post" on:submit|preventDefault={handleSignup}>
 			<div class="flex w-full gap-5">
@@ -89,7 +89,7 @@
 					<input
 						id="last_name"
 						name="last_name"
-						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 						type="text"
 					/>
 				</div>
@@ -102,7 +102,7 @@
 					<input
 						id="first_name"
 						name="first_name"
-						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 						type="text"
 					/>
 				</div>
@@ -116,7 +116,7 @@
 				<input
 					id="username"
 					name="username"
-					class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+					class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 					type="text"
 				/>
 			</div>
@@ -129,7 +129,7 @@
 				<input
 					id="LoggingEmailAddress"
 					name="email"
-					class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+					class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 					type="email"
 				/>
 			</div>
@@ -145,7 +145,7 @@
 				<div class="relative">
 					<input
 						id="password"
-						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 						type="password"
 						name="password"
 					/>
@@ -174,13 +174,13 @@
 			</div>
 		</form>
 		<div class="mt-4 flex items-center justify-between">
-			<span class="w-1/5 border-b md:w-1/4 dark:border-gray-600"></span>
+			<span class="w-1/5 border-b md:w-1/4"></span>
 
 			<a href="login" class="text-xs uppercase text-gray-500 hover:underline dark:text-gray-400"
 				>Se connecter</a
 			>
 
-			<span class="w-1/5 border-b md:w-1/4 dark:border-gray-600"></span>
+			<span class="w-1/5 border-b md:w-1/4"></span>
 		</div>
 	</div>
 </div>

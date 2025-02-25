@@ -10,6 +10,8 @@
 	export let data;
 	let { gallery } = data;
 
+	gallery = Array.isArray(gallery) ? gallery : [];
+
 	const ITEMS_PER_LOAD = 20;
 	let visibleItems = ITEMS_PER_LOAD;
 	let loading = false;

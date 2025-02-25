@@ -15,16 +15,18 @@
 					<a href="javascript:;" class="text-white">Les Petits Cadrans</a>
 				</li> -->
 				<li class="my-2 sm:my-0">
-					<a href="/articles" class="text-white">Articles</a>
+					<a href="/mentions-legales" class="text-white">Mentions légales</a>
 				</li>
-				<li><a href="/lexique" class="text-white">Lexique</a></li>
-				<li class="my-2 sm:my-0">
-					<a href="/contact" class="text-white">Contact</a>
+				<li><a href="/regles-de-publication" class="text-white">Régles de publication</a></li>
+				<li>
+					<a href="/politique-de-confidentialite" class="text-white">Politique de confidentialité</a
+					>
 				</li>
 				<li>
-					<a href="/dashboard/publish" class="text-yellow-500 hover:text-yellow-400">
-						Proposer un article
-					</a>
+					<a href="/auth" class="text-yellow-500 hover:text-yellow-400"> Proposer un article </a>
+				</li>
+				<li>
+					<a href="/contact" class="text-white">Contact</a>
 				</li>
 			</ul>
 			<div class="flex space-x-4 sm:justify-center">

@@ -6,6 +6,10 @@
 	import type { SessionUser } from '$lib/types/user';
 	export let watches: Array<{ brand: string; model: string }> = [];
 
+	function normalizeBrandName(brand: string): string {
+		return brand.charAt(0).toUpperCase() + brand.slice(1).toLowerCase();
+	}
+
 	const getValidImageSrc = (user: any) => {
 		if (!user) return '/user.png';
 		if (user.image?.includes('googleusercontent.com')) {
@@ -24,8 +28,12 @@
 	}
 
 	const validWatches = Array.isArray(watches) ? watches : [];
+	const normalizedWatches = validWatches.map((watch) => ({
+		...watch,
+		brand: normalizeBrandName(watch.brand)
+	}));
 
-	const uniqueBrands = [...new Set(validWatches.map((watch) => watch.brand))];
+	const uniqueBrands = [...new Set(normalizedWatches.map((watch) => watch.brand))];
 
 	const displayedBrands = uniqueBrands.slice(0, 8);
 
@@ -71,15 +79,24 @@
 					<details>
 						<summary>Marques</summary>
 						<ul class="drop rounded-lg border border-yellow-500 bg-slate-900 p-2">
-							{#each displayedBrands as brand}
+							{#if displayedBrands.length === 0}
 								<li>
-									<a href="/articles/brand/{brand}" class="text-white hover:bg-gray-600">{brand}</a>
+									<a href="/" class="text-white hover:bg-gray-600">Aucune marque</a>
 								</li>
-							{/each}
-							<li>
-								<a href="/articles/brand" class="text-white hover:bg-gray-600">Toutes les marques</a
-								>
-							</li>
+							{:else}
+								{#each displayedBrands as brand}
+									<li>
+										<a href="/articles/brand/{brand}" class="text-white hover:bg-gray-600"
+											>{brand}</a
+										>
+									</li>
+								{/each}
+								<li>
+									<a href="/articles/brand" class="text-white hover:bg-gray-600"
+										>Toutes les marques</a
+									>
+								</li>
+							{/if}
 						</ul>
 					</details>
 				</li>
@@ -118,8 +135,10 @@
 									<li>
 										<a
 											href="/articles/brand/{brand.toLowerCase()}"
-											class="whitespace-nowrap text-white hover:bg-gray-600">{brand}</a
+											class="whitespace-nowrap text-white hover:bg-gray-600"
 										>
+											{brand}
+										</a>
 									</li>
 								{/each}
 								<li class="mr-4 inline-block">

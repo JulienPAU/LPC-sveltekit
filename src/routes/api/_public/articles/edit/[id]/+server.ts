@@ -60,7 +60,7 @@ export const POST = async ({ request, locals, params }) => {
                         const utFile = new UTFile([file], customFileName);
                         const result = await utapi.uploadFiles(utFile);
 
-                        return result?.data?.url || undefined;
+                        return result?.data?.ufsUrl || undefined;
                     } catch (err) {
                         console.error(`Erreur lors de l'upload de ${file.name}:`, err);
                         return undefined;
@@ -168,10 +168,13 @@ async function handleWatchAndStraps(articleId: number, watchData: {
         throw new Error(`Article ${articleId} non trouvé`);
     }
 
+    const normalizedBrand = watchData.brand.charAt(0).toUpperCase() + watchData.brand.slice(1).toLowerCase();
+
+
     const watch = await prisma.watches.upsert({
         where: {
             brand_model: {
-                brand: watchData.brand,
+                brand: normalizedBrand,
                 model: watchData.model
             }
         },
@@ -182,7 +185,7 @@ async function handleWatchAndStraps(articleId: number, watchData: {
 
         },
         create: {
-            brand: watchData.brand,
+            brand: normalizedBrand,
             model: watchData.model,
             movement: watchData.movement,
             water_resistance: watchData.water_resistance,

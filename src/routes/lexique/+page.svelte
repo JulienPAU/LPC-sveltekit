@@ -45,6 +45,15 @@
 	<SectionTitle title="Lexique" />
 
 	<!-- Sidebar déplacée sous le titre -->
+	<p class=" mb-5 w-full p-4 text-justify font-semibold lg:mb-10 lg:w-4/5 lg:text-2xl">
+		Bienvenue dans notre lexique horloger, votre guide complet pour découvrir et comprendre le monde
+		fascinant de l'horlogerie. Que vous soyez passionné par les montres ou simplement curieux, ce
+		lexique vous fournira des définitions claires et précises des termes techniques et des concepts
+		essentiels utilisés dans l'industrie horlogère. De "automatique" à "zirconium", explorez les
+		secrets des mécanismes complexes et des matériaux innovants qui font battre le cœur de vos
+		montres préférées. Si vous ne trouvez pas un terme ou si vous souhaitez plus d'informations,
+		n'hésitez pas à nous contacter – nous sommes toujours là pour vous aider !
+	</p>
 	<div
 		class="mb-10 flex w-full flex-row flex-wrap justify-center gap-2 border-y bg-slate-900 p-4 text-white lg:w-1/2 lg:rounded-lg"
 	>
@@ -60,15 +69,7 @@
 			</button>
 		{/each}
 	</div>
-	<p class=" mb-5 w-full p-4 text-justify font-semibold lg:mb-10 lg:w-4/5 lg:text-2xl">
-		Bienvenue dans notre lexique horloger, votre guide complet pour découvrir et comprendre le monde
-		fascinant de l'horlogerie. Que vous soyez passionné par les montres ou simplement curieux, ce
-		lexique vous fournira des définitions claires et précises des termes techniques et des concepts
-		essentiels utilisés dans l'industrie horlogère. De "automatique" à "zirconium", explorez les
-		secrets des mécanismes complexes et des matériaux innovants qui font battre le cœur de vos
-		montres préférées. Si vous ne trouvez pas un terme ou si vous souhaitez plus d'informations,
-		n'hésitez pas à nous contacter – nous sommes toujours là pour vous aider !
-	</p>
+
 	{#if !activeLetter}
 		<div class="flex items-center justify-center">
 			<img src={error_500} alt="lexique" class="w-6/6 lg:w-3/5" />

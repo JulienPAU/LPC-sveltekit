@@ -18,11 +18,12 @@
 	let currentPage = 1;
 	const itemsPerPage = 10;
 
-	$: totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
-	$: paginatedArticles = filteredArticles.slice(
-		(currentPage - 1) * itemsPerPage,
-		currentPage * itemsPerPage
-	);
+	$: totalPages = Array.isArray(filteredArticles)
+		? Math.ceil(filteredArticles.length / itemsPerPage)
+		: 0;
+	$: paginatedArticles = Array.isArray(filteredArticles)
+		? filteredArticles.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+		: [];
 
 	function handleFilterChange(newFilteredArticles: any) {
 		filteredArticles = Array.isArray(newFilteredArticles) ? newFilteredArticles : [];

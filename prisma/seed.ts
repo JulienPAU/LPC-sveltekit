@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function readCSV(filename) {
-	const records = [];
+	const records: Record<string, string>[] = [];
 	const parser = fs.createReadStream(path.join(__dirname, `data/${filename}`)).pipe(
 		parse({
 			columns: true,
@@ -69,6 +69,9 @@ async function main() {
 		}
 
 		// Users
+		if (!process.env.SEED) {
+			throw new Error('SEED environment variable is not defined');
+		}
 		const hashedPassword = await bcrypt.hash(process.env.SEED, 10);
 
 		await prisma.user.create({

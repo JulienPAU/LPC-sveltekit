@@ -4,6 +4,8 @@
 	export let articles: any[] = [];
 	export let onFilterChange: (filteredArticles: any[]) => void;
 
+	articles = Array.isArray(articles) ? articles : [];
+
 	// État des filtres
 	let articleType = '';
 	let category = '';
@@ -11,9 +13,7 @@
 	let sortBy = ''; // Pas de tri sélectionné au départ
 
 	// Extraction des valeurs uniques pour les options de filtrage
-	$: articleTypes = [...new Set((articles ?? []).map((article) => article.article_type))].filter(
-		Boolean
-	);
+	$: articleTypes = [...new Set(articles.map((article) => article.article_type))].filter(Boolean);
 
 	$: categories = [...new Set(articles.map((article) => article.category?.name))].filter(Boolean);
 	$: brands = [

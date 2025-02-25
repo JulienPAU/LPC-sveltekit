@@ -72,15 +72,15 @@
 	}
 </script>
 
-<div class="flex flex-col items-center">
+<div class="flex flex-col items-center p-4">
 	<div class="flex justify-center gap-2">
 		<a href="/dashboard/admin/lexique" class="btn btn-neutral"> Retour au lexique</a>
 	</div>
-	<SectionTitle title="Publier une définitions" />
+	<SectionTitle title="Publier une définition" />
 
 	<form
 		on:submit={handleSubmit}
-		class="mx-auto mb-5 flex w-2/4 flex-col items-center justify-center gap-5 rounded-lg bg-gray-300 p-4"
+		class="mx-auto mb-5 flex w-full flex-col items-center justify-center gap-5 rounded-lg bg-gray-300 p-4 lg:w-2/5"
 	>
 		<div class="w-full">
 			<label for="titre-def" class="mb-1 block text-lg font-bold text-gray-700">
@@ -104,6 +104,8 @@
 				name="content-def"
 				bind:value={formData.content}
 				class="textarea textarea-warning mb-5 w-full"
+				rows="8"
+				cols="50"
 			>
 			</textarea>
 		</div>

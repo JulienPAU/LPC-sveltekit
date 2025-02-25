@@ -29,7 +29,7 @@ export const load: LayoutServerLoad = async ({ fetch, locals, depends }) => {
         const watches = await watchesResponse.json();
         const session = await locals.auth();
 
-        return { articles: articles.articles ?? [], session, watches };
+        return { articles, session, watches };
     } catch (e) {
         // Si l'erreur vient déjà de error(), la propager
         if (e instanceof Error && 'status' in e) throw e;

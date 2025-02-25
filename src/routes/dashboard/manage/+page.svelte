@@ -4,7 +4,9 @@
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import Skeleton from '$lib/components/skeleton.svelte';
 	export let data;
-	const { submittedArticles } = data;
+	let { submittedArticles } = data;
+
+	submittedArticles = Array.isArray(submittedArticles) ? submittedArticles : [];
 
 	let currentPage = 1;
 	const itemsPerPage = 12;

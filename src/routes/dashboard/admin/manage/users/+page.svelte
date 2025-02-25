@@ -22,11 +22,10 @@
 {#if users}
 	<SectionTitle title="Gestion des utilisateurs" />
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
-
-	<div class="mb-10 flex w-full flex-wrap justify-center gap-4">
+	<div class="mb-10 flex w-full flex-wrap justify-center gap-4 p-4">
 		{#each paginatedUsers as user}
 			<div
-				class="tranform card my-2 flex w-5/6 bg-slate-300 p-4 font-semibold shadow-lg transition duration-500 hover:scale-105 md:w-2/6 lg:w-1/5"
+				class="card my-2 flex w-full min-w-[250px] transform bg-slate-300 p-4 font-semibold shadow-lg transition duration-500 hover:scale-105 sm:w-5/6 md:w-1/2 lg:w-1/4 xl:w-1/5"
 			>
 				<div>id : {user.id}</div>
 				<div>Username : <span class="font-bold">{user.username}</span></div>
@@ -48,6 +47,7 @@
 			</div>
 		{/each}
 	</div>
+
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 {:else}
 	<div>Aucun utilisateur trouvé</div>
