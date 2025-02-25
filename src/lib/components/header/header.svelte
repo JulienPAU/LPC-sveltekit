@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Navbar from './Navbar.svelte';
-	import DigitalClock from './DigitalClock.svelte';
+	import DigitalClock from './Digitalclock.svelte';
 	import digi from '$lib/assets/digi.png';
 
 	export let title: String, content: String;

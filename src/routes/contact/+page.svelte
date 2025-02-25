@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
-	import DigitalClock from '$lib/components/header/DigitalClock.svelte';
+	import DigitalClock from '$lib/components/header/Digitalclock.svelte';
 	import digi from '$lib/assets/digi.png';
 	import Band from '$lib/components/band/band.svelte';
 	import { toast } from 'svelte-5-french-toast';
