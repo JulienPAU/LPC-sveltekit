@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendResetEmail(email: string, token: string) {
-    const resetLink = `http://localhost:5173/auth/reset-password?token=${token}`;
+    const resetLink = `https://les-petits-cadrans-5fkt8vofw-ely-juns-projects.vercel.app/auth/reset-password?token=${token}`;
     await transporter.sendMail({
         from: '"Les Petits Cadrans" <no-reply@lespetitscadrans.com>',
         to: email,
@@ -83,7 +83,7 @@ export async function sendModeratorRejectionEmail(email: string) {
         subject: 'Votre demande de modérateur a été refusée',
         html: `<p>Bonjour,</p>
                <p>Après examen de votre demande, nous avons décidé de ne pas vous accorder le statut de modérateur.</p>
-               <p>Si vous pensez qu'il y a une erreur ou souhaitez en discuter, vous pouvez nous contacter via <a href="http://localhost:5173/contact">notre formulaire de contact</a>.</p>
+               <p>Si vous pensez qu'il y a une erreur ou souhaitez en discuter, vous pouvez nous contacter via notre formulaire de contact</a>.</p>
                <p>Merci de votre compréhension.</p>`
     });
 }
