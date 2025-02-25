@@ -11,9 +11,9 @@
 	export let data: PageData;
 
 	let loading = true; // Initialiser à true pour montrer le skeleton
-	const articles = data.articles;
+	const articles = Array.isArray(data.articles) ? data.articles : [];
 
-	const imageUrls = articles.flatMap((article: any) =>
+	const imageUrls = (Array.isArray(articles) ? articles : []).flatMap((article: any) =>
 		Array.isArray(article.images) ? article.images : []
 	);
 

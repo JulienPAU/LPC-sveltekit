@@ -14,7 +14,8 @@ export async function load({ fetch }: { fetch: (input: RequestInfo, init?: Reque
 
         const submittedArticles = await response.json();
 
-        return { submittedArticles };
+
+        return { submittedArticles: submittedArticles.articles ?? [] };
     } catch (error) {
         console.error("Load error:", error);
         throw error;

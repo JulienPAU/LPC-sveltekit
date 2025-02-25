@@ -14,7 +14,7 @@
 
 	let loading = true;
 	let viewedArticleIds: string[] = [];
-	let filteredArticles = articles;
+	let filteredArticles = Array.isArray(articles) ? articles : [];
 	let currentPage = 1;
 	const itemsPerPage = 10;
 
@@ -25,7 +25,7 @@
 	);
 
 	function handleFilterChange(newFilteredArticles: any) {
-		filteredArticles = newFilteredArticles;
+		filteredArticles = Array.isArray(newFilteredArticles) ? newFilteredArticles : [];
 		currentPage = 1;
 	}
 

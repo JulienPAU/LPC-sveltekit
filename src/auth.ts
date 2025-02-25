@@ -77,7 +77,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                     include: { User_Role: true }
                 });
 
-                // console.log("User_Role retrieved:", existingUser?.User_Role);
 
                 if (existingUser && existingUser.User_Role && existingUser.User_Role.length > 0) {
                     user.User_Role = existingUser.User_Role.map(role => role.role).join(', ');  // Ajoute User_Role à user
@@ -132,7 +131,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 
 
 
-                // console.log("User end signin:", user);
             }
             return true;
         },
@@ -177,7 +175,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
             //     console.warn("Aucun utilisateur passé au callback JWT");
             // }
 
-            // console.log("Token final:", token);
             return token;
         },
 
@@ -197,7 +194,6 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                     : token.username as string;
 
             }
-            // console.log("Session auth.ts:", session);
             return session;
         }
 

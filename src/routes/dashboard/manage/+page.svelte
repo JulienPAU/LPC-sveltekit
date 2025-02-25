@@ -15,8 +15,6 @@
 		(currentPage - 1) * itemsPerPage,
 		currentPage * itemsPerPage
 	);
-
-	console.log('article soumis', submittedArticles);
 </script>
 
 <div class=" flex flex-col items-center">
@@ -61,6 +59,6 @@
 				/>
 			{/each}
 		{/if}
-		<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 	</section>
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </div>

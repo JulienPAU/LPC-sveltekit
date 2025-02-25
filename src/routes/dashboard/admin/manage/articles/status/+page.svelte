@@ -61,6 +61,6 @@
 				/>
 			{/each}
 		{/if}
-		<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 	</section>
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </div>

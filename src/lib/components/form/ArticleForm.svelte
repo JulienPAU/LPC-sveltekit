@@ -40,7 +40,6 @@
 	};
 	const straps = watches?.straps?.map((s) => s.strap.material) || [];
 
-	console.log('article', article);
 	export let onSubmit: (event: SubmitEvent) => void;
 	export let onDelete: ((event: MouseEvent) => void) | null = null;
 

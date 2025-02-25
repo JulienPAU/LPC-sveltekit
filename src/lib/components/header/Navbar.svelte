@@ -23,7 +23,9 @@
 		});
 	}
 
-	const uniqueBrands = [...new Set(watches.map((watch) => watch.brand))];
+	const validWatches = Array.isArray(watches) ? watches : [];
+
+	const uniqueBrands = [...new Set(validWatches.map((watch) => watch.brand))];
 
 	const displayedBrands = uniqueBrands.slice(0, 8);
 
@@ -35,15 +37,15 @@
 <svelte:window on:click={handleClickOutside} />
 
 <!-- sticky top-5 -->
-<navbar class="  navbar z-50 mx-0 w-auto bg-slate-900 px-0 pt-5 text-white sm:mx-0">
+<navbar class="  navbar z-50 mx-auto w-auto bg-slate-900 px-0 pt-5 text-white sm:mx-0">
 	<!-- Navbar Start -->
 	<div class="navbar-start">
 		<!-- Mobile menu burger -->
-		<div class="dropdown px-2 lg:hidden">
+		<div class="dropdown px-2 xl:hidden">
 			<div tabindex="0" role="button" class="btn btn-circle btn-ghost border">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					class="h-6 w-6"
+					class="h-10 w-8"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
@@ -64,7 +66,7 @@
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
 
 				<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
-
+				<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
 				<li>
 					<details>
 						<summary>Marques</summary>
@@ -82,45 +84,55 @@
 					</details>
 				</li>
 
-				<li>
+				<!-- <li>
 					<details>
 						<summary>Guide</summary>
 						<ul class=" rounded-lg border border-yellow-500 p-2">
 							<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
 						</ul>
 					</details>
-				</li>
+				</li> -->
 			</button>
 		</div>
 
 		<!-- Desktop links -->
-		<div class="z-10 hidden lg:flex">
+		<div class="z-10 hidden xl:flex">
 			<ul class="menu menu-horizontal bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
 				<li><a href="/" class="border-none hover:bg-gray-600">Accueil</a></li>
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
 				<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
+				<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
 
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
 						<summary>Marques</summary>
 						<ul class="border border-yellow-500 bg-slate-900 p-2">
-							{#each displayedBrands as brand}
+							{#if displayedBrands.length === 0}
 								<li>
-									<a
-										href="/articles/brand/{brand.toLowerCase()}"
-										class="whitespace-nowrap text-white hover:bg-gray-600">{brand}</a
+									<a href="/" class="whitespace-nowrap text-white hover:bg-gray-600"
+										>Aucune marque</a
 									>
 								</li>
-							{/each}
-							<li class="mr-4 inline-block">
-								<a href="/articles/brand" class="whitespace-nowrap text-white hover:bg-gray-600"
-									>Toutes les marques</a
-								>
-							</li>
+							{:else}
+								{#each displayedBrands as brand}
+									<li>
+										<a
+											href="/articles/brand/{brand.toLowerCase()}"
+											class="whitespace-nowrap text-white hover:bg-gray-600">{brand}</a
+										>
+									</li>
+								{/each}
+								<li class="mr-4 inline-block">
+									<a href="/articles/brand" class="whitespace-nowrap text-white hover:bg-gray-600"
+										>Toutes les marques</a
+									>
+								</li>
+							{/if}
 						</ul>
 					</details>
 				</li>
 
+				<!-- 
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
 						<summary>Guide</summary>
@@ -128,7 +140,7 @@
 							<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
 						</ul>
 					</details>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	</div>

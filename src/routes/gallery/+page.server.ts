@@ -11,7 +11,7 @@ export async function load({ fetch }) {
         const gallery = await response.json();
 
 
-        return { gallery };
+        return { gallery: gallery.images ?? [] };
 
     } catch (error) {
         console.error("Load error:", error);

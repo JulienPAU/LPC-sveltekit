@@ -3,8 +3,6 @@
 	const user = data?.user;
 
 	const { allArticlesCount, allUsersCount } = data;
-
-	// console.log(allUsersCount);
 </script>
 
 <section class="flex flex-col items-center p-4">
@@ -55,7 +53,8 @@
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles Publié(s)</span>
 						<span class="font-bold text-green-500"
-							>{allArticlesCount.countByStatus.PUBLISHED < 0
+							>{allArticlesCount.countByStatus.PUBLISHED < 0 ||
+							!allArticlesCount.countByStatus.PUBLISHED
 								? '0'
 								: allArticlesCount.countByStatus.PUBLISHED}</span
 						>
@@ -63,7 +62,8 @@
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles en Attente</span>
 						<span class="font-bold text-yellow-500"
-							>{allArticlesCount.countByStatus.SUBMITTED < 0
+							>{allArticlesCount.countByStatus.SUBMITTED < 0 ||
+							!allArticlesCount.countByStatus.SUBMITTED
 								? '0'
 								: allArticlesCount.countByStatus.SUBMITTED}</span
 						>
@@ -71,7 +71,8 @@
 					<div class="flex justify-between border-b pb-2">
 						<span>Articles Refusé(s)</span>
 						<span class="font-bold text-red-500"
-							>{allArticlesCount.countByStatus.REFUSED < 0
+							>{allArticlesCount.countByStatus.REFUSED < 0 ||
+							!allArticlesCount.countByStatus.REFUSED
 								? '0'
 								: allArticlesCount.countByStatus.REFUSED}</span
 						>
@@ -91,31 +92,41 @@
 					<div class="flex justify-between border-b pb-2">
 						<span>Lecteur(s)</span>
 						<span class="font-bold text-green-500"
-							>{allUsersCount.roles.reader < 0 ? '0' : allUsersCount.roles.reader}</span
+							>{allUsersCount.roles.reader < 0 || !allUsersCount.roles.reader
+								? '0'
+								: allUsersCount.roles.reader}</span
 						>
 					</div>
 					<div class="flex justify-between border-b pb-2">
 						<span>Auteur(s)</span>
 						<span class="font-bold text-green-500"
-							>{allUsersCount.roles.author < 0 ? '0' : allUsersCount.roles.author}</span
+							>{allUsersCount.roles.author < 0 || !allUsersCount.roles.author
+								? '0'
+								: allUsersCount.roles.author}</span
 						>
 					</div>
 					<div class="flex justify-between border-b pb-2">
 						<span>Expert(s)</span>
 						<span class="font-bold text-green-500"
-							>{allUsersCount.roles.expert < 0 ? '0' : allUsersCount.roles.expert}</span
+							>{allUsersCount.roles.expert < 0 || !allUsersCount.roles.expert
+								? '0'
+								: allUsersCount.roles.expert}</span
 						>
 					</div>
 					<div class="flex justify-between border-b pb-2">
 						<span>Modérateur(s)</span>
 						<span class="font-bold text-yellow-500"
-							>{allUsersCount.roles.moderator < 0 ? '0' : allUsersCount.roles.moderator}</span
+							>{allUsersCount.roles.moderator < 0 || !allUsersCount.roles.moderator
+								? '0'
+								: allUsersCount.roles.moderator}</span
 						>
 					</div>
 					<div class="flex justify-between border-b pb-2">
 						<span>Admin</span>
 						<span class="font-bold text-red-500"
-							>{allUsersCount.roles.admin < 0 ? '0' : allUsersCount.roles.admin}</span
+							>{allUsersCount.roles.admin < 0 || !allUsersCount.roles.admin
+								? '0'
+								: allUsersCount.roles.admin}</span
 						>
 					</div>
 				</div>

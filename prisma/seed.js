@@ -32,7 +32,6 @@ async function main() {
 		await prisma.$transaction([
 			prisma.articleWatches.deleteMany(),
 			prisma.articleTags.deleteMany(),
-			prisma.articleStraps.deleteMany(),
 			prisma.favorites.deleteMany(),
 			prisma.comments.deleteMany(),
 			prisma.watchStraps.deleteMany(),

@@ -91,10 +91,8 @@
 		{@render children()}
 	</div>
 	<!-- Barre latérale pour grands écrans -->
-	<div class=" hidden bg-gray-700 lg:flex lg:flex-row">
-		<nav
-			class="menu sticky top-0 h-screen w-80 space-y-2 border-y-2 bg-slate-900 p-4 text-gray-100"
-		>
+	<div class=" hidden border-y-2 bg-slate-900 lg:flex lg:flex-row">
+		<nav class="menu sticky top-0 h-full w-80 space-y-2 p-4 text-gray-100">
 			<div>
 				<h3 class="mb-2 mt-5">{user.username}</h3>
 			</div>

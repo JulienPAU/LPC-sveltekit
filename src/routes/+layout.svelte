@@ -30,13 +30,11 @@
 	<Header title="Bienvenue sur Les Petits Cadrans !" {content} {watches} />
 {:else}
 	<Navbar {watches} />
-	<div class="container mx-auto px-4">
-		{#if !hiddenPages.includes(page.url.pathname)}
-			<div class="container mx-auto px-4">
-				<Breadcrumbs />
-			</div>
-		{/if}
-	</div>
+	{#if !hiddenPages.includes(page.url.pathname)}
+		<div class="container mx-auto px-4">
+			<Breadcrumbs />
+		</div>
+	{/if}
 {/if}
 
 {@render children()}
