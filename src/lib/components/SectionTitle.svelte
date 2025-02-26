@@ -2,4 +2,4 @@
 	export let title = '';
 </script>
 
-<h2 class="m-10 text-center">{title}</h2>
+<h2 class="m-5 text-center lg:m-10">{title}</h2>

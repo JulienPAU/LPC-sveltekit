@@ -14,7 +14,7 @@
 				<!-- <li>
 					<a href="javascript:;" class="text-white">Les Petits Cadrans</a>
 				</li> -->
-				<li class="my-2 sm:my-0">
+				<li class=" sm:my-0">
 					<a href="/mentions-legales" class="text-white">Mentions légales</a>
 				</li>
 				<li><a href="/regles-de-publication" class="text-white">Régles de publication</a></li>

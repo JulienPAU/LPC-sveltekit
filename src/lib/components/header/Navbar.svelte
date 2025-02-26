@@ -70,29 +70,31 @@
 				tabindex="0"
 				class="menu dropdown-content menu-sm z-[1] w-40 gap-5 rounded-lg border border-yellow-500 bg-gray-900 p-2 shadow"
 			>
-				<li><a href="/" class="hover:bg-gray-600">Accueil</a></li>
-				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
+				<li><a href="/" class="text-base hover:bg-gray-600">Accueil</a></li>
+				<li><a href="/articles" class="text-base hover:bg-gray-600">Articles</a></li>
 
-				<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
-				<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
+				<li><a href="/gallery" class="text-base hover:bg-gray-600">Galerie</a></li>
+				<li><a href="/lexique" class="text-base hover:bg-gray-600">Lexique</a></li>
 				<li>
 					<details>
-						<summary>Marques</summary>
+						<summary class="text-base">Marques</summary>
 						<ul class="drop rounded-lg border border-yellow-500 bg-slate-900 p-2">
 							{#if displayedBrands.length === 0}
 								<li>
-									<a href="/" class="text-white hover:bg-gray-600">Aucune marque</a>
+									<a href="/" class="text-base text-white hover:bg-gray-600">Aucune marque</a>
 								</li>
 							{:else}
 								{#each displayedBrands as brand}
 									<li>
-										<a href="/articles/brand/{brand}" class="text-white hover:bg-gray-600"
+										<a href="/articles/brand/{brand}" class="text-base text-white hover:bg-gray-600"
 											>{brand}</a
 										>
 									</li>
 								{/each}
 								<li>
-									<a href="/articles/brand" class="text-white hover:bg-gray-600"
+									<a
+										href="/articles/brand"
+										class="whitespace-nowrap text-base text-white hover:bg-gray-600"
 										>Toutes les marques</a
 									>
 								</li>

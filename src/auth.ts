@@ -26,6 +26,8 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                 params: {
                     redirect_uri: `https://les-petits-cadrans.vercel.app/auth/callback/google`
                 }
+
+
             }
         }),
         Credentials({
@@ -72,6 +74,9 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
     callbacks: {
         async signIn({ user, account }: { user: AuthUser; account?: { provider: string; providerAccountId: string } | null }) {
             if (account?.provider === "google") {
+                const [firstName, ...lastNameParts] = (user.name as string).split(" ");
+                const lastName = lastNameParts.join(" ") || "";
+
                 const existingUser = await prisma.user.findUnique({
                     where: { email: user.email as string },
                     include: { User_Role: true }
@@ -86,13 +91,29 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 
 
                 if (!existingUser) {
+                    let username = firstName;
+                    let usernameExists = true;
+
+                    while (usernameExists) {
+                        const existingUsername = await prisma.user.findUnique({
+                            where: { username }
+                        });
+
+                        if (!existingUsername) {
+                            usernameExists = false;
+                        } else {
+                            const randomSuffix = Math.floor(Math.random() * 900) + 100; // Génère un nombre entre 100 et 999
+                            username = `${firstName}${randomSuffix}`;
+                        }
+                    }
+
                     const newUser = await prisma.user.create({
                         data: {
                             email: user.email as string,
-                            username: user.name as string,
-                            googleId: user.id as string, // Stocke l'ID Google
-                            first_name: "",
-                            last_name: "",
+                            username: username,
+                            googleId: user.id as string,
+                            first_name: firstName,
+                            last_name: lastName,
                             password: "",
                             authProvider: "google",
                             createdAt: new Date(),
@@ -102,9 +123,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                                 }
                             }
                         }
-
                     });
-
                     user.id = newUser.id;
                 } else {
 

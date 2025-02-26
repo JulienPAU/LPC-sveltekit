@@ -2,8 +2,8 @@
 </script>
 
 <section class=" relative mb-20 bg-gray-200">
-	<div class="relative z-10 mx-auto px-4 py-24 text-center sm:px-6 lg:px-8">
-		<h1 class="">Découvrez et partagez des articles sur l'univers des montres.</h1>
+	<div class="relative z-10 px-2 py-24 text-center lg:px-8">
+		<h1>Partagez votre passion en proposant vos propres articles sur vos tocantes favorites !</h1>
 
 		<p class="mt-4 text-2xl font-semibold italic">Créez votre compte dès maintenant pour :</p>
 

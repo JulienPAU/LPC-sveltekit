@@ -67,7 +67,7 @@
 </script>
 
 <div
-	class="mx-auto my-10 flex w-full max-w-sm justify-center overflow-hidden rounded-lg bg-gray-900 shadow-lg sm:my-10 lg:my-0 lg:h-screen lg:max-w-full lg:rounded-none"
+	class="mx-auto my-10 flex w-full max-w-sm justify-center overflow-hidden bg-gray-900 shadow-lg sm:my-10 lg:my-0 lg:h-screen lg:max-w-full lg:rounded-none"
 >
 	<div class="hidden bg-cover lg:block lg:w-1/2" style="background-image: url({Mouvement});"></div>
 

@@ -59,11 +59,11 @@
 	}
 </script>
 
-<div class="mb-8 w-full items-center rounded-lg bg-slate-900 p-4 shadow-sm">
+<div class="mb-8 w-full items-center bg-slate-900 p-4 shadow-sm md:rounded-lg lg:rounded-lg">
 	<div class="flex flex-wrap items-center justify-center gap-4 font-semibold lg:justify-between">
-		<div class="flex flex-wrap gap-4">
+		<div class="flex flex-wrap justify-center gap-4">
 			<!-- Type d'article -->
-			<select bind:value={articleType} class="select select-bordered w-40">
+			<select bind:value={articleType} class="select select-bordered w-36 lg:w-48">
 				<option value="">Type d'article</option>
 				{#each articleTypes as type}
 					<option value={type}>{getArticleType(type)}</option>
@@ -71,7 +71,7 @@
 			</select>
 
 			<!-- Catégorie -->
-			<select bind:value={category} class="select select-bordered w-40">
+			<select bind:value={category} class="select select-bordered w-36 lg:w-48">
 				<option value="">Catégorie</option>
 				{#each categories as cat}
 					<option value={cat}>{getCategory(cat)}</option>
@@ -79,7 +79,7 @@
 			</select>
 
 			<!-- Marque -->
-			<select bind:value={brand} class="select select-bordered w-40">
+			<select bind:value={brand} class="select select-bordered w-36 lg:w-48">
 				<option value="">Marque</option>
 				{#each brands as b}
 					<option value={b}>{b}</option>
@@ -87,7 +87,7 @@
 			</select>
 
 			<!-- Tri par date -->
-			<select bind:value={sortBy} class="select select-bordered w-40">
+			<select bind:value={sortBy} class="select select-bordered w-36 lg:w-48">
 				<option value="" disabled selected>Tri par défaut </option>
 				<option value="newest">Plus récent</option>
 				<option value="oldest">Plus ancien</option>

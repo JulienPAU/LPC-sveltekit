@@ -62,12 +62,12 @@
 
 <SectionTitle title="Articles" />
 
-<section class="container mx-auto px-4">
+<section class="container mx-auto">
 	<Filtres {articles} onFilterChange={handleFilterChange} />
 
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
-	<div class="mb-20 mt-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20">
+	<div class="mb-20 mt-20 flex w-full flex-wrap justify-center gap-10 px-4 lg:gap-20">
 		{#if loading}
 			{#each Array(itemsPerPage) as _}
 				<Skeleton containerClass="flex-col sm:w-4/5 md:w-96 lg:w-2/6 p-4" imageClass="h-[490px]" />
@@ -89,7 +89,7 @@
 						submit_date: '',
 						isAdmin: false,
 						status: 'PUBLISHED',
-						imgStyle: 'h-[400px]',
+						imgStyle: 'h-[250px] lg:h-[400px]',
 						style:
 							'xl:w3/5  card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl sm:w-4/5 md:w-96 lg:w-2/6'
 					}}

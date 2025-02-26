@@ -84,6 +84,8 @@ export type CustomUser = {
 export type AuthUser = {
     id?: string
     name?: string | null
+    given_name?: string | null
+    family_name?: string | null
     email?: string | null
     image?: string | null
     role?: string | null

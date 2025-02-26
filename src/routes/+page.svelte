@@ -48,7 +48,7 @@
 
 <Band />
 
-<section class="mb-20 flex w-full flex-wrap justify-center gap-14">
+<section class="mb-20 flex w-full flex-wrap justify-center gap-14 px-4">
 	{#if loading}
 		{#each Array(remainingArticles.length) as _}
 			<Skeleton containerClass="flex-col sm:w-4/5 md:w-96 lg:w-2/6 p-4" imageClass="h-[490px]" />
@@ -73,7 +73,7 @@
 					isModerator: false,
 					isAdmin: false,
 					status: 'PUBLISHED',
-					imgStyle: 'h-[400px]',
+					imgStyle: 'h-[250px] lg:h-[400px]',
 					style:
 						'xl:w3/5 card w-96 bg-base-100 shadow-lg transition-shadow duration-500 hover:shadow-xl sm:w-4/5 md:w-96 lg:w-2/6'
 				}}

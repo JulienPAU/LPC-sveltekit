@@ -63,25 +63,25 @@
 			{null}
 
 			{#if props.isModerator}
-				<p class="mb-2 text-sm font-bold leading-3">
+				<p class=" text-sm font-bold leading-3">
 					Soumis le {formatDate(props.submit_date)}
 				</p>
 			{/if}
 
 			{#if props.isAdmin}
-				<p class="mb-3 text-sm leading-3">
+				<p class=" text-sm leading-3">
 					Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span>
 				</p>
 
 				{#if props.status === 'PUBLISHED'}
-					<p class="mb-2 text-sm font-bold leading-3">
+					<p class=" text-sm font-bold leading-3">
 						Publié le {formatDate(props.publish_date)}
 					</p>
-					<p class="mb-2 text-sm font-bold leading-3">
+					<p class=" text-sm font-bold leading-3">
 						Soumis le {formatDate(props.submit_date)}
 					</p>
 				{:else if props.status === 'SUBMITTED'}
-					<p class="mb-2 text-sm font-bold leading-3">
+					<p class=" text-sm font-bold leading-3">
 						Soumis le {formatDate(props.submit_date)}
 					</p>
 				{:else}
