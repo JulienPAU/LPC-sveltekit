@@ -42,7 +42,12 @@ export const articleUpdateSchema = z.object({
     'model': z.string().optional(),
     'movement': z.string().nullable().optional(),
     'water_resistance': z.string().nullable().optional(),
-    'case_material': z.string().optional(),
+    'case_material': z.string().optional().nullable(),
+    'case_size': z.string().optional().nullable(),
+    'lug_width': z.string().optional().nullable(),
+    'thickness': z.string().optional().nullable(),
+    'lug_to_lug': z.string().optional().nullable(),
+    'glass': z.string().optional().nullable(),
     'straps': z.array(z.string()).optional()
 });
 
@@ -73,6 +78,11 @@ export const articlePublishSchema = z.object({
     'movement': z.string().nullable().optional(),
     'water_resistance': z.string().nullable().optional(),
     'case_material': z.string().optional(),
+    'case_size': z.string().optional().nullable(),
+    'lug_width': z.string().optional().nullable(),
+    'thickness': z.string().optional().nullable(),
+    'lug_to_lug': z.string().optional().nullable(),
+    'glass': z.string().optional().nullable(),
     'straps': z.array(z.string()).optional(),
     'files': z.array(z.instanceof(File))
         .min(1, "Au moins une image est requise")

@@ -29,6 +29,14 @@
 			.join(', ');
 	};
 
+	// Fonction pour formater les valeurs ou afficher N/A si elles sont vides
+	const formatValue = (value: any) => {
+		if (value === null || value === undefined || value === '') {
+			return 'N/A';
+		}
+		return value;
+	};
+
 	// Vérifier si on a des données à afficher
 	$: hasAnyData =
 		watchData &&
@@ -37,6 +45,11 @@
 			watchData.movement ||
 			watchData.water_resistance ||
 			watchData.case_material ||
+			watchData.case_size ||
+			watchData.thickness ||
+			watchData.glass ||
+			watchData.lug_width ||
+			watchData.lug_to_lug ||
 			(watchData.straps && watchData.straps.length > 0));
 
 	onMount(() => {
@@ -71,7 +84,7 @@
 								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
 							></div>
 							<div class="relative">
-								<h4 class="text-md font-medium text-white">Marque</h4>
+								<h4 class="text-md font-sans font-semibold text-white">Marque</h4>
 								<p class="mt-2 pl-4 text-xl font-bold text-white">{watchData.brand}</p>
 							</div>
 						</div>
@@ -92,7 +105,7 @@
 								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
 							></div>
 							<div class="relative">
-								<h4 class="text-md font-medium text-white">Modèle</h4>
+								<h4 class="text-md font-sans font-semibold text-white">Modèle</h4>
 								<p class="mt-2 pl-4 text-xl font-bold text-white">{watchData.model}</p>
 							</div>
 						</div>
@@ -113,7 +126,7 @@
 								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
 							></div>
 							<div class="relative">
-								<h4 class="text-md font-medium text-white">Mouvement</h4>
+								<h4 class="text-md font-sans font-semibold text-white">Mouvement</h4>
 								<p class="mt-2 pl-4 text-xl font-bold text-white">
 									{formatMovement(watchData.movement)}
 								</p>
@@ -122,7 +135,7 @@
 					</div>
 				{/if}
 
-				{#if watchData?.water_resistance}
+				{#if watchData?.water_resistance !== undefined}
 					<div
 						class="transform-gpu transition-all duration-300"
 						role="presentation"
@@ -136,14 +149,16 @@
 								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
 							></div>
 							<div class="relative">
-								<h4 class="text-md font-medium text-white">Étanchéité</h4>
-								<p class="mt-2 pl-4 text-xl font-bold text-white">{watchData.water_resistance}</p>
+								<h4 class="text-md font-sans font-semibold text-white">Étanchéité</h4>
+								<p class="mt-2 pl-4 text-xl font-bold text-white">
+									{formatValue(watchData.water_resistance)}
+								</p>
 							</div>
 						</div>
 					</div>
 				{/if}
 
-				{#if watchData?.case_material}
+				{#if watchData?.case_material !== undefined}
 					<div
 						class="transform-gpu transition-all duration-300"
 						role="presentation"
@@ -157,9 +172,123 @@
 								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
 							></div>
 							<div class="relative">
-								<h4 class="text-md font-medium text-white">Matériaux du boitier</h4>
+								<h4 class="text-md font-sans font-semibold text-white">Matériaux du boitier</h4>
 								<p class="mt-2 pl-4 text-xl font-bold text-white">
-									{getWatchCaseMaterial(watchData.case_material)}
+									{watchData.case_material ? getWatchCaseMaterial(watchData.case_material) : 'N/A'}
+								</p>
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				<!-- Nouvelles propriétés ajoutées -->
+				{#if watchData?.case_size !== undefined}
+					<div
+						class="transform-gpu transition-all duration-300"
+						role="presentation"
+						class:translate-y-[-5px]={hoveredSpec === 'case_size'}
+						on:mouseenter={() => (hoveredSpec = 'case_size')}
+						on:mouseleave={() => (hoveredSpec = null)}
+						style="opacity: {mounted ? 1 : 0}; transform: translateY({mounted ? 0 : '20px'});"
+					>
+						<div class="group relative overflow-hidden rounded-lg bg-white/10 p-6 backdrop-blur-lg">
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
+							></div>
+							<div class="relative">
+								<h4 class="text-md font-sans font-semibold text-white">Diamètre du boitier</h4>
+								<p class="mt-2 pl-4 text-xl font-bold text-white">
+									{formatValue(watchData.case_size)}
+								</p>
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				{#if watchData?.thickness !== undefined}
+					<div
+						class="transform-gpu transition-all duration-300"
+						role="presentation"
+						class:translate-y-[-5px]={hoveredSpec === 'thickness'}
+						on:mouseenter={() => (hoveredSpec = 'thickness')}
+						on:mouseleave={() => (hoveredSpec = null)}
+						style="opacity: {mounted ? 1 : 0}; transform: translateY({mounted ? 0 : '20px'});"
+					>
+						<div class="group relative overflow-hidden rounded-lg bg-white/10 p-6 backdrop-blur-lg">
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
+							></div>
+							<div class="relative">
+								<h4 class="text-md font-sans font-semibold text-white">Épaisseur</h4>
+								<p class="mt-2 pl-4 text-xl font-bold text-white">
+									{formatValue(watchData.thickness)}
+								</p>
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				{#if watchData?.glass !== undefined}
+					<div
+						class="transform-gpu transition-all duration-300"
+						role="presentation"
+						class:translate-y-[-5px]={hoveredSpec === 'glass'}
+						on:mouseenter={() => (hoveredSpec = 'glass')}
+						on:mouseleave={() => (hoveredSpec = null)}
+						style="opacity: {mounted ? 1 : 0}; transform: translateY({mounted ? 0 : '20px'});"
+					>
+						<div class="group relative overflow-hidden rounded-lg bg-white/10 p-6 backdrop-blur-lg">
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
+							></div>
+							<div class="relative">
+								<h4 class="text-md font-sans font-semibold text-white">Verre</h4>
+								<p class="mt-2 pl-4 text-xl font-bold text-white">{formatValue(watchData.glass)}</p>
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				{#if watchData?.lug_width !== undefined}
+					<div
+						class="transform-gpu transition-all duration-300"
+						role="presentation"
+						class:translate-y-[-5px]={hoveredSpec === 'lug_width'}
+						on:mouseenter={() => (hoveredSpec = 'lug_width')}
+						on:mouseleave={() => (hoveredSpec = null)}
+						style="opacity: {mounted ? 1 : 0}; transform: translateY({mounted ? 0 : '20px'});"
+					>
+						<div class="group relative overflow-hidden rounded-lg bg-white/10 p-6 backdrop-blur-lg">
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
+							></div>
+							<div class="relative">
+								<h4 class="text-md font-sans font-semibold text-white">Largeur d'entrecorne</h4>
+								<p class="mt-2 pl-4 text-xl font-bold text-white">
+									{formatValue(watchData.lug_width)}
+								</p>
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				{#if watchData?.lug_to_lug !== undefined}
+					<div
+						class="transform-gpu transition-all duration-300"
+						role="presentation"
+						class:translate-y-[-5px]={hoveredSpec === 'lug_to_lug'}
+						on:mouseenter={() => (hoveredSpec = 'lug_to_lug')}
+						on:mouseleave={() => (hoveredSpec = null)}
+						style="opacity: {mounted ? 1 : 0}; transform: translateY({mounted ? 0 : '20px'});"
+					>
+						<div class="group relative overflow-hidden rounded-lg bg-white/10 p-6 backdrop-blur-lg">
+							<div
+								class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
+							></div>
+							<div class="relative">
+								<h4 class="text-md font-sans font-semibold text-white">Lug to lug</h4>
+								<p class="mt-2 pl-4 text-xl font-bold text-white">
+									{formatValue(watchData.lug_to_lug)}
 								</p>
 							</div>
 						</div>
@@ -183,7 +312,7 @@
 									class="absolute inset-0 bg-gradient-to-br from-transparent to-white/5 opacity-0 transition-opacity group-hover:opacity-100"
 								></div>
 								<div class="relative">
-									<h4 class="text-md font-medium text-white">Types de bracelet</h4>
+									<h4 class="text-md font-sans font-semibold text-white">Types de bracelet</h4>
 									<p class="mt-2 pl-4 text-xl font-bold text-white">
 										{formatStraps(watchData.straps)}
 									</p>

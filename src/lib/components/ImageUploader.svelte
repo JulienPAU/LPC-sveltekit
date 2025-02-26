@@ -66,6 +66,12 @@
 		Minimum {minFiles} photo, maximum {maxFiles} photos, 2 Mo max par photos.
 	</p>
 	<p class=" italic">Formats acceptés : JPEG / PNG / WEBP</p>
+	<a
+		href="https://imagecompressor.11zon.com/fr/compress-webp/"
+		aria-label="lien compression fichier"
+		class="italic text-black"
+		target="_blank">Compresssion de fichiers en ligne</a
+	>
 	{#if errorMessage}
 		<div class="mt-2 text-red-500">{errorMessage}</div>
 	{/if}

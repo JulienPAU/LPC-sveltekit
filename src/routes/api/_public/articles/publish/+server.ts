@@ -57,6 +57,11 @@ export const POST = async ({ request, locals }) => {
             'model': formData.get('model')?.toString().trim() || '',
             'movement': formData.get('movement')?.toString() || null,
             'water_resistance': formData.get('water_resistance')?.toString() || null,
+            'case_size': formData.get('case_size')?.toString().trim() || null,
+            'lug_width': formData.get('lug_width')?.toString().trim() || null,
+            'thickness': formData.get('thickness')?.toString().trim() || null,
+            'lug_to_lug': formData.get('lug_to_lug')?.toString().trim() || null,
+            'glass': formData.get('glass')?.toString().trim() || null,
             'straps': formData.getAll('straps').map(s => s.toString())
         });
 
@@ -119,9 +124,14 @@ export const POST = async ({ request, locals }) => {
                 brand: data.brand,
                 model: data.model,
                 movement: data.movement,
-                water_resistance: data.water_resistance,
-                case_material: data.case_material,
-                straps: data.straps ?? []
+                water_resistance: data.water_resistance || null,
+                case_material: data.case_material || null,
+                case_size: data.case_size || null,
+                lug_width: data.lug_width || null,
+                thickness: data.thickness || null,
+                lug_to_lug: data.lug_to_lug || null,
+                glass: data.glass || null,
+                straps: data.straps || []
             });
         }
 
@@ -183,10 +193,19 @@ export const POST = async ({ request, locals }) => {
         };
 
         return json(response);
-
     } catch (err) {
         console.error('Erreur création article:', err);
-        throw error(500, 'Erreur lors de la création article');
+
+        // Vérifier plus explicitement si c'est une erreur de validation
+        if (err && typeof err === 'object' && 'status' in err && err.status === 400) {
+            throw err; // Propager l'erreur de validation telle quelle
+        } else if (err instanceof Error) {
+            // Pour les autres erreurs, conserver au moins le message
+            throw error(500, err.message || 'Erreur interne du serveur');
+        } else {
+            // Fallback pour tout autre type d'erreur
+            throw error(500, 'Erreur lors de la création article');
+        }
     }
 };
 
@@ -198,6 +217,11 @@ async function handleWatchAndStraps(articleId: number, watchData: {
     movement?: string | null;
     water_resistance?: string | null;
     case_material?: string | null;
+    case_size?: string | null;
+    lug_width?: string | null;
+    thickness?: string | null;
+    lug_to_lug?: string | null;
+    glass?: string | null;
     straps: string[];
 }) {
     const article = await prisma.articles.findUnique({
@@ -223,7 +247,12 @@ async function handleWatchAndStraps(articleId: number, watchData: {
             // Mettre à jour seulement si les champs sont fournis
             ...(watchData.movement && { movement: watchData.movement }),
             ...(watchData.water_resistance && { water_resistance: watchData.water_resistance }),
-            ...(watchData.case_material && { case_material: { set: watchData.case_material as WatchCaseMaterial } })
+            ...(watchData.case_material && { case_material: { set: watchData.case_material as WatchCaseMaterial } }),
+            ...(watchData.case_size && { case_size: watchData.case_size }),
+            ...(watchData.lug_width && { lug_width: watchData.lug_width }),
+            ...(watchData.thickness && { thickness: watchData.thickness }),
+            ...(watchData.lug_to_lug && { lug_to_lug: watchData.lug_to_lug }),
+            ...(watchData.glass && { glass: watchData.glass })
 
 
         },
@@ -231,8 +260,13 @@ async function handleWatchAndStraps(articleId: number, watchData: {
             brand: normalizedBrand,
             model: watchData.model,
             movement: watchData.movement,
-            water_resistance: watchData.water_resistance,
-            case_material: watchData.case_material as WatchCaseMaterial
+            water_resistance: watchData.water_resistance || null,
+            case_material: watchData.case_material as WatchCaseMaterial || null,
+            case_size: watchData.case_size || null,
+            lug_width: watchData.lug_width || null,
+            thickness: watchData.thickness || null,
+            lug_to_lug: watchData.lug_to_lug || null,
+            glass: watchData.glass || null
 
 
         }

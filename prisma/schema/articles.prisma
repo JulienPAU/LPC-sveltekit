@@ -44,4 +44,6 @@ enum Article_Type {
   REVIEW
   TECHNICAL
   LEXIQUE
+  NEWS
+  OTHER
 }

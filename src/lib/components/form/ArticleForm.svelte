@@ -22,6 +22,11 @@
 					model: '',
 					movement: null,
 					water_resistance: null,
+					case_size: '',
+					lug_width: '',
+					thickness: '',
+					lug_to_lug: '',
+					glass: '',
 					case_material: null,
 					straps: [{ strap: { material: '' } }]
 				}
@@ -36,6 +41,11 @@
 		movement: null,
 		water_resistance: null,
 		case_material: null,
+		case_size: '',
+		lug_width: '',
+		thickness: '',
+		lug_to_lug: '',
+		glass: '',
 		straps: [{ strap: { material: '' } }]
 	};
 	const straps = watches?.straps?.map((s) => s.strap.material) || [];
@@ -124,51 +134,6 @@
 >
 	<div class="flex w-full flex-wrap gap-10 md:flex-nowrap">
 		<div class="w-full rounded-xl bg-gray-200 p-8">
-			<div class="mb-5 flex flex-col gap-5 md:flex-row">
-				<div class="w-full">
-					<label for="category" class="mb-1 block text-lg font-bold text-gray-700">
-						Catégorie de l'article</label
-					>
-
-					<select
-						id="category"
-						name="category"
-						class="select select-warning w-full text-lg"
-						bind:value={selectedCategory}
-					>
-						<option disabled selected>Choisir une catégorie</option>
-
-						<option value="LUXURY">Montres de luxe</option>
-						<option value="SMARTWATCH">Montres connectées</option>
-						<option value="DIGITAL">Montres digitales</option>
-						<option value="ANALOG">Montres analogiques</option>
-						<option value="HYBRID">Montres hybrides</option>
-						<option value="CHRONOGRAPH">Montres chronographe</option>
-						<option value="OTHER">Autre catégorie</option>
-					</select>
-				</div>
-
-				<div class="w-full">
-					<label for="type" class="mb-1 block text-lg font-bold text-gray-700"
-						>Type de l'article</label
-					>
-					<select
-						id="type"
-						name="type"
-						class="select select-warning w-full text-lg"
-						bind:value={article.article_type}
-					>
-						<option value="" disabled selected class="text-black">Choisir un type</option>
-
-						<option value="ARTICLE">Article</option>
-						<option value="REVIEW">Revue</option>
-						<option value="TECHNICAL">Technique</option>
-						<option value="LEXIQUE">Lexique</option>
-						<option value="GUIDE">Guide</option>
-					</select>
-				</div>
-			</div>
-
 			<div class="w-full">
 				<label for="titre-article" class="mb-1 block text-lg font-bold text-gray-700">
 					Titre de l'article
@@ -178,6 +143,7 @@
 					name="titre-article"
 					type="text"
 					class="input input-warning mb-5 w-full"
+					required={!isEditing}
 					bind:value={article.title}
 				/>
 			</div>
@@ -202,6 +168,54 @@
 				</label>
 				<QuillEditor name="end" bind:value={article.ending} maxLength={200} />
 			</div>
+
+			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+				<div class="w-full">
+					<label for="category" class="mb-1 block text-lg font-bold text-gray-700">
+						Catégorie
+					</label>
+
+					<select
+						id="category"
+						name="category"
+						class="select select-warning w-full text-lg"
+						required={!isEditing}
+						bind:value={selectedCategory}
+					>
+						<option disabled selected>Choisir une catégorie</option>
+
+						<option value="ANALOG">Analogique</option>
+						<option value="CHRONOGRAPH">Chronographe</option>
+						<option value="SMARTWATCH">Connectée</option>
+						<option value="DIGITAL">Digitale</option>
+						<option value="HYBRID">Hybride</option>
+						<option value="LUXURY">Luxe</option>
+
+						<option value="OTHER">Autre catégorie</option>
+					</select>
+				</div>
+
+				<div class="w-full">
+					<label for="type" class="mb-1 block text-lg font-bold text-gray-700">Type </label>
+					<select
+						id="type"
+						name="type"
+						class="select select-warning w-full text-lg"
+						required={!isEditing}
+						bind:value={article.article_type}
+					>
+						<option value="" disabled selected class="text-black">Choisir un type</option>
+
+						<option value="ARTICLE">Article</option>
+						<option value="GUIDE">Guide</option>
+						<option value="LEXIQUE">Lexique</option>
+						<option value="NEWS">Actualité</option>
+						<option value="REVIEW">Revue</option>
+						<option value="TECHNICAL">Technique</option>
+						<option value="OTHER">Autre</option>
+					</select>
+				</div>
+			</div>
 		</div>
 
 		<div class=" w-full rounded-xl bg-gray-200 p-8">
@@ -214,7 +228,8 @@
 						id="brand"
 						name="brand"
 						type="text"
-						class="input input-bordered input-warning mb-5 w-full"
+						class="input input-bordered input-warning w-full"
+						required={!isEditing}
 						bind:value={watches.brand}
 					/>
 				</div>
@@ -226,7 +241,8 @@
 						id="model"
 						name="model"
 						type="text"
-						class="input input-bordered input-warning mb-5 w-full"
+						class="input input-bordered input-warning w-full"
+						required={!isEditing}
 						bind:value={watches.model}
 					/>
 				</div>
@@ -239,6 +255,7 @@
 						id="movement"
 						name="movement"
 						class="select select-warning w-full text-lg"
+						required={!isEditing}
 						bind:value={watches.movement}
 					>
 						<option value="" disabled selected class="text-black">Choix du mouvement</option>
@@ -276,8 +293,71 @@
 					</select>
 				</div>
 			</div>
+			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+				<div class="w-full">
+					<label for="lug_width" class="mb-1 block text-lg font-bold text-gray-700">
+						Entrecorne
+					</label>
+					<input
+						id="lug_width"
+						name="lug_width"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={watches.lug_width}
+					/>
+				</div>
+				<div class="w-full">
+					<label for="thickness" class="mb-1 block text-lg font-bold text-gray-700">
+						Epaisseur
+					</label>
+					<input
+						id="thickness"
+						name="thickness"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={watches.thickness}
+					/>
+				</div>
+			</div>
 
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+				<div class="w-full">
+					<label for="lug_to_lug" class="mb-1 block text-lg font-bold text-gray-700">
+						Lug to lug
+					</label>
+					<input
+						id="lug_to_lug"
+						name="lug_to_lug"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={watches.lug_to_lug}
+					/>
+				</div>
+				<div class="w-full">
+					<label for="glass" class="mb-1 block text-lg font-bold text-gray-700"> Verre </label>
+					<input
+						id="glass"
+						name="glass"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={watches.glass}
+					/>
+				</div>
+			</div>
+
+			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+				<div class="w-full">
+					<label for="case_size" class="mb-1 block text-lg font-bold text-gray-700">
+						Taille boitier
+					</label>
+					<input
+						id="case_size"
+						name="case_size"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={watches.case_size}
+					/>
+				</div>
 				<div class="w-full">
 					<label for="movement" class="mb-1 block text-lg font-bold text-gray-700"
 						>Matériaux du boitier</label
@@ -311,7 +391,7 @@
 
 			<div class="w-full">
 				<label for="straps" class="mb-1 block text-lg font-bold text-gray-700">
-					Type de bracelet
+					Type(s) de bracelet
 				</label>
 
 				<div

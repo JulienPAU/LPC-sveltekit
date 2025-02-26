@@ -135,8 +135,6 @@
 			{/if}
 		</div>
 
-		<WatchDetails {article} />
-
 		{#if userRole === 'ADMIN' || (userRole === 'MODERATOR' && article.status === 'SUBMITTED')}
 			<div
 				class="mx-auto mb-20 flex w-full flex-col flex-wrap items-center justify-center gap-10 rounded-lg bg-gray-100 p-10 lg:w-1/2"
@@ -195,6 +193,10 @@
 	</section>
 
 	<Carousel items={article.images} type="images" />
+
+	<div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+		<WatchDetails {article} />
+	</div>
 {:else}
 	<p>L'article est introuvable ou une erreur s'est produite.</p>
 {/if}

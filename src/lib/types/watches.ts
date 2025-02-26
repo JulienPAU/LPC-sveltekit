@@ -8,6 +8,11 @@ export type Watches = {
     model: string;
     movement?: string;
     water_resistance?: string;
+    case_size?: string;
+    lug_width?: string;
+    thickness?: string;
+    lug_to_lug?: string;
+    glass?: string;
     case_material?: string;
     category_id?: number;
     straps: WatchStraps[];

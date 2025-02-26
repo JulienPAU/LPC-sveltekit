@@ -4,7 +4,13 @@ model Watches {
   model            String
   movement         String?
   water_resistance String?
+  case_size        String?
+  lug_width        String?
+  thickness        String?
+  lug_to_lug       String?
+  glass            String?
   case_material    WatchCaseMaterial?
+
   category_id      Int?
 
   straps           WatchStraps[]  

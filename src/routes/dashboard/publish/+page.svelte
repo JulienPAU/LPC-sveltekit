@@ -48,10 +48,14 @@
 			});
 
 			if (!response.ok) {
-				toast.error('Erreur lors de la soumission', {
+				const errorData = await response.json();
+				const errorMessage = errorData.message || 'Erreur lors de la soumission';
+
+				toast.error(errorMessage, {
 					duration: 5000
 				});
-				throw new Error(`Erreur lors de la soumission : ${response.statusText}`);
+				isSubmitting = false;
+				return;
 			}
 
 			const result: ArticleUploadResponse = await response.json();
@@ -68,15 +72,18 @@
 				toast.error("ID de l'article manquant dans la réponse.", {
 					duration: 5000
 				});
-				throw new Error("ID de l'article manquant dans la réponse.");
+				isSubmitting = false;
+				return;
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
-			toast.error('Erreur lors de la soumission', {
+
+			// Ici on utilise le message de l'erreur si disponible
+			const errorMessage = (error as Error).message || 'Erreur lors de la soumission';
+			toast.error(errorMessage, {
 				duration: 5000
 			});
-			throw new Error('Erreur lors de la soumission');
 		}
 	}
 </script>
