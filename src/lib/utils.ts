@@ -235,3 +235,17 @@ export const getWatchCaseMaterial = (material: string) => {
 			return material;
 	}
 };
+
+
+export function generateSlug(title: string): string {
+	return title
+		.toLowerCase()
+		.replace(/[^\w\s-]/g, '') // Supprimer les caractères spéciaux
+		.replace(/\s+/g, '-')     // Remplacer les espaces par des tirets
+		.replace(/--+/g, '-')     // Éviter les tirets multiples
+		.trim();                  // Supprimer les espaces au début et à la fin
+}
+
+export function generateArticleUrl(id: number, title: string): string {
+	return `/articles/${id}-${generateSlug(title)}`;
+}

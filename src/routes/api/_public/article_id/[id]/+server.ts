@@ -6,7 +6,10 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 export async function GET({ params }: { params: { id: string } }) {
     try {
-        const id = parseInt(params.id);
+
+        const idPart = params.id.split('-')[0];
+
+        const id = parseInt(idPart);
 
         // Validation de l'ID
         if (isNaN(id) || id <= 0) {

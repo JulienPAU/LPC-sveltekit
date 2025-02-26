@@ -1,6 +1,12 @@
 <script lang="ts">
 	import type { CardProps } from '$lib/types/card';
-	import { formatDate, getArticleType, getCategory, truncateText } from '$lib/utils';
+	import {
+		formatDate,
+		generateArticleUrl,
+		getArticleType,
+		getCategory,
+		truncateText
+	} from '$lib/utils';
 
 	import DOMPurify from 'dompurify';
 	import { onMount } from 'svelte';
@@ -125,7 +131,9 @@
 
 		<div class="card-actions justify-end">
 			<a
-				href={props.isDashboard ? `/dashboard/articles/edit/${props.id}` : `/articles/${props.id}`}
+				href={props.isDashboard
+					? `/dashboard/articles/edit/${props.id}`
+					: generateArticleUrl(props.id, props.title)}
 				class="before:content[''] before:absolute before:inset-0"
 				aria-label="Lire l'article"
 			>
