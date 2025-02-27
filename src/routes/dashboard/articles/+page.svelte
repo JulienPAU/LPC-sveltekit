@@ -81,13 +81,12 @@
 						isModerator: false,
 						isAdmin: false,
 						status: a.status,
-						imgStyle: 'h-[100px]',
+						imgStyle: 'h-[150px]',
 						style:
-							'card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl  md:w-2/5 lg:w-1/6 '
+							'card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl  md:w-2/5 lg:w-2/6 '
 					}}
 				/>
 			{/each}
 		{/if}
 	</section>
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </div>

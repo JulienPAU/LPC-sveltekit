@@ -19,11 +19,11 @@
 	);
 </script>
 
-<div class=" flex flex-col items-center">
+<div class="flex flex-col items-center">
 	<SectionTitle title="Gérer les articles" />
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
-	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20 xl:gap-20">
+	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 px-4 lg:gap-20 xl:gap-20">
 		{#if !submittedArticles}
 			{#each Array(submittedArticles.length) as _}
 				<Skeleton
@@ -54,13 +54,12 @@
 						isModerator: true,
 						isAdmin: false,
 						status: a.status,
-						imgStyle: 'h-[100px]',
+						imgStyle: 'h-[150px]',
 						style:
-							'card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl  md:w-2/5 lg:w-1/6 '
+							'card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl  md:w-2/5 lg:w-2/6 '
 					}}
 				/>
 			{/each}
 		{/if}
 	</section>
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </div>

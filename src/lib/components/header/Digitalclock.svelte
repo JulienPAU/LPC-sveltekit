@@ -61,7 +61,7 @@
 		</div>
 
 		{#if showDate}
-			<div class="mb-5 text-xs font-bold sm:text-base md:text-sm xl:text-xl">{date}</div>
+			<div class="mb-5 text-xs font-bold sm:text-[0.75rem] md:text-sm xl:text-xl">{date}</div>
 		{/if}
 	</div>
 </div>

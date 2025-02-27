@@ -1,9 +1,11 @@
 import type { User } from '$lib/types/user';
 
-export async function load({ params, fetch, locals }) {
+export async function load({ params, fetch, locals, depends }) {
     const session = await locals.auth();
     const user = session?.user as User | undefined; // Sécurisation du typage
     const userRole = user?.User_Role?.[0]?.role ?? null; // Sécurisation + valeur par défaut
+
+    depends("app:article");
 
     try {
         const response = await fetch(`/api/_public/article_id/${params.id}`);

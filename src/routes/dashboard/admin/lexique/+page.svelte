@@ -40,6 +40,4 @@
 			<p class="text-center">Aucune définition pour le moment.</p>
 		{/if}
 	</div>
-
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </div>

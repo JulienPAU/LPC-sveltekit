@@ -97,7 +97,6 @@
 			{/each}
 		{/if}
 	</div>
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
 	<div class="card-actions justify-evenly">
 		<a href="/">

@@ -55,11 +55,11 @@
 
 			if (result) {
 				isSubmitting = false;
-				// await invalidate('app:user');
 
 				toast.success('Profil mis à jour avec succès', {
 					duration: 5000
 				});
+				invalidate('app:user');
 				setTimeout(() => goto('/dashboard/admin/manage/users'), 1000);
 			} else {
 				toast.error('Erreur lors de la mise à jour du profil', {

@@ -41,10 +41,6 @@
 
 <ScrollToTop />
 
-<div class="container mx-auto px-4">
-	<Breadcrumbs />
-</div>
-
 <Footer />
 
 <Toaster />

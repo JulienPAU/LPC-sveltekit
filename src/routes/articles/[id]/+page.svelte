@@ -10,8 +10,9 @@
 
 	import LPC_FAV_BLT from '$lib/assets/logos/LPC_FAV_BLT.png';
 	import logoC from '$lib/assets/logos/logoC.svg';
-	import { goto } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import WatchDetails from '$lib/components/WatchDetails.svelte';
+	import { appendFile } from 'fs';
 
 	let sanitize: (input: string) => string;
 
@@ -42,7 +43,8 @@
 				toast.success('Article mis à jour avec succès', {
 					duration: 5000
 				});
-				setTimeout(() => goto('/dashboard/articles'), 1000);
+				invalidate('app:article');
+				setTimeout(() => goto('/dashboard/manage'), 1000);
 			}
 		} catch (err) {
 			console.error('Erreur lors de la mise à jour:', err);

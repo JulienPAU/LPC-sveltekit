@@ -70,7 +70,8 @@
 		href="https://imagecompressor.11zon.com/fr/compress-webp/"
 		aria-label="lien compression fichier"
 		class="italic text-black"
-		target="_blank">Compresssion de fichiers en ligne</a
+		target="_blank"
+		><i class="fa-regular fa-square-caret-right p-2"></i>Compression de fichiers en ligne</a
 	>
 	{#if errorMessage}
 		<div class="mt-2 text-red-500">{errorMessage}</div>

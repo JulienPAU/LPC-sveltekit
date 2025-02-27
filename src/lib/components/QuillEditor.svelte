@@ -26,14 +26,14 @@
 
 		quill.on('text-change', () => {
 			value = quill.root.innerHTML;
-			remainingCharacters = maxLength - quill.getText().length;
+			remainingCharacters = maxLength - quill.root.innerHTML.length;
 		});
 	});
 
 	$: {
 		if (quill && quill.root.innerHTML !== value) {
 			quill.root.innerHTML = value;
-			remainingCharacters = maxLength - quill.getText().length;
+			remainingCharacters = maxLength - quill.root.innerHTML.length;
 		}
 	}
 </script>
@@ -44,6 +44,6 @@
 	<div bind:this={editorContainer} class={`textarea mb-5 w-full rounded-none bg-white`}></div>
 	<input type="hidden" {name} bind:value />
 	<div class="absolute bottom-2 right-2 text-xs italic text-gray-500">
-		{remainingCharacters + 1} caractères restants
+		{remainingCharacters} caractères restants
 	</div>
 </div>

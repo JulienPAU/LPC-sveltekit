@@ -3,18 +3,15 @@
 </script>
 
 <footer class="w-full bg-gray-900">
-	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+	<div class="mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="flex flex-col items-center justify-between gap-8 py-16 lg:flex-row">
 			<a href="/" class="flex justify-center" aria-label="Lien vers l'accueil">
 				<img class="h-14 w-40" alt="Les petits cadrans logo" src={LPC_FAV_WLT} />
 			</a>
 			<ul
-				class="items-center justify-center gap-14 text-center text-lg transition-all duration-500 sm:flex lg:gap-10 xl:gap-14"
+				class="flex flex-col items-center justify-center text-center text-lg transition-all duration-500 md:flex-col lg:flex-row lg:gap-10 xl:gap-14"
 			>
-				<!-- <li>
-					<a href="javascript:;" class="text-white">Les Petits Cadrans</a>
-				</li> -->
-				<li class=" sm:my-0">
+				<li class=" ">
 					<a href="/mentions-legales" class="text-white">Mentions légales</a>
 				</li>
 				<li><a href="/regles-de-publication" class="text-white">Régles de publication</a></li>

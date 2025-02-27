@@ -47,8 +47,6 @@
 			</div>
 		{/each}
 	</div>
-
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 {:else}
 	<div>Aucun utilisateur trouvé</div>
 {/if}

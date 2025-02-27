@@ -62,7 +62,7 @@
 		{/if}
 	</figure>
 
-	<div class="card-body">
+	<div class="card-body pb-0">
 		<h2 class="card-title font-light">{props.title}</h2>
 
 		{#if props.isDashboard || props.isModerator || props.isAdmin}
