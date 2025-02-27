@@ -39,7 +39,7 @@
 	<SectionTitle title="Voir et modifier mes articles" />
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
-	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 lg:gap-20 xl:gap-20">
+	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 px-4 lg:gap-20 xl:gap-20">
 		{#if !articles}
 			{#each Array(articles.length) as _}
 				<Skeleton
