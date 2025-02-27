@@ -1,6 +1,6 @@
 <!-- routes/articles/publish/+page.svelte -->
 <script lang="ts">
-	import { invalidate } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import ArticleForm from '$lib/components/form/ArticleForm.svelte';
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
@@ -68,6 +68,7 @@
 				toast.success('Article créé avec succès, fichiers téléchargés.', {
 					duration: 5000
 				});
+				goto(`/dashboard/articles`);
 			} else {
 				toast.error("ID de l'article manquant dans la réponse.", {
 					duration: 5000

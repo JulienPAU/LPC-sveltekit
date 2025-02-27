@@ -464,7 +464,7 @@
 								disabled={isSubmitting}
 								on:click={onDelete}
 							>
-								Oui, supprimer
+								{isSubmitting ? 'En cours de suppression...' : 'Oui, supprimer'}
 							</button>
 							<button type="button" class="btn btn-primary text-xl" on:click={cancelDelete}>
 								Annuler
@@ -476,6 +476,7 @@
 						type="button"
 						class=" btn bg-[#C41E3A] text-xl text-white hover:bg-[#D22B2B]"
 						on:click={askDelete}
+						disabled={isSubmitting}
 					>
 						Supprimer
 					</button>

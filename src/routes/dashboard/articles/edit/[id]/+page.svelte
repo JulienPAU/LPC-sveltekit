@@ -1,6 +1,6 @@
 <!-- routes/articles/[id]/edit/+page.svelte -->
 <script lang="ts">
-	import { invalidate } from '$app/navigation';
+	import { goto, invalidate } from '$app/navigation';
 	import ArticleForm from '$lib/components/form/ArticleForm.svelte';
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
@@ -33,27 +33,29 @@
 			});
 
 			if (!response.ok) {
+				isSubmitting = false;
 				toast.error(`Erreur lors de la suppression : ${response.statusText}`, {
 					duration: 5000
 				});
-				throw new Error(`Erreur lors de la suppression : ${response.statusText}`);
+				return;
 			}
 
 			const result: ArticleUploadResponse = await response.json();
 
-			if (result) {
-				isSubmitting = false;
+			try {
 				await invalidate('app:user');
-				invalidate('app:articles'); // Pour les articles du layout
-
+				invalidate('app:articles');
 				toast.success('Article supprimé avec succès', {
 					duration: 5000
 				});
-			} else {
-				toast.error("Erreur lors de la suppression de l'article", {
-					duration: 5000
-				});
-				throw new Error("Erreur lors de la suppression de l'article");
+				// Mettons un petit délai avant la redirection
+				setTimeout(() => {
+					isSubmitting = false;
+					goto('/dashboard/articles');
+				}, 500);
+			} catch (navError) {
+				console.error('Erreur de navigation:', navError);
+				isSubmitting = false;
 			}
 		} catch (error) {
 			console.error('Erreur:', error);
@@ -109,7 +111,8 @@
 			if (result) {
 				isSubmitting = false;
 				await invalidate('app:user');
-				invalidate('app:articles'); // Pour les articles du layout
+				invalidate('app:articles');
+				goto('/dashboard/articles');
 
 				toast.success('Article mis à jour avec succès', {
 					duration: 5000
@@ -135,6 +138,7 @@
 		{article}
 		onSubmit={handleSubmit}
 		onDelete={handleDelete}
+		{isSubmitting}
 		onStrapsChange={handleStrapsChange}
 	>
 		<ImageUploader

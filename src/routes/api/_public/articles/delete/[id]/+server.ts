@@ -18,8 +18,9 @@ export const DELETE = async ({ params, locals }) => {
         // Récupérer l'article existant et ses images
         const existingArticle = await prisma.articles.findUnique({
             where: { id: articleId },
-            select: { images: true }
+            select: { images: true, user: { select: { email: true } } }
         });
+
 
         if (!existingArticle) {
             throw error(404, 'Article non trouvé');
@@ -46,8 +47,8 @@ export const DELETE = async ({ params, locals }) => {
         });
 
         try {
-            if (session.user.email) {
-                await deletedArticle(session.user.email);
+            if (existingArticle?.user?.email) {
+                await deletedArticle(existingArticle.user.email);
             }
         } catch (emailError) {
             // On log l'erreur mais on ne la propage pas
