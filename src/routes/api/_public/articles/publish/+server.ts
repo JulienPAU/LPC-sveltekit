@@ -61,6 +61,8 @@ export const POST = async ({ request, locals }) => {
             'lug_width': formData.get('lug_width')?.toString().trim() || null,
             'thickness': formData.get('thickness')?.toString().trim() || null,
             'lug_to_lug': formData.get('lug_to_lug')?.toString().trim() || null,
+            'price': formData.get('price')?.toString().trim() || null,
+
             'glass': formData.get('glass')?.toString().trim() || null,
             'straps': formData.getAll('straps').map(s => s.toString())
         });
@@ -130,6 +132,7 @@ export const POST = async ({ request, locals }) => {
                 lug_width: data.lug_width || null,
                 thickness: data.thickness || null,
                 lug_to_lug: data.lug_to_lug || null,
+                price: data.price || null,
                 glass: data.glass || null,
                 straps: data.straps || []
             });
@@ -221,6 +224,7 @@ async function handleWatchAndStraps(articleId: number, watchData: {
     lug_width?: string | null;
     thickness?: string | null;
     lug_to_lug?: string | null;
+    price?: string | null;
     glass?: string | null;
     straps: string[];
 }) {
@@ -252,6 +256,8 @@ async function handleWatchAndStraps(articleId: number, watchData: {
             ...(watchData.lug_width && { lug_width: watchData.lug_width }),
             ...(watchData.thickness && { thickness: watchData.thickness }),
             ...(watchData.lug_to_lug && { lug_to_lug: watchData.lug_to_lug }),
+            ...(watchData.price && { lug_to_lug: watchData.price }),
+
             ...(watchData.glass && { glass: watchData.glass })
 
 
@@ -266,6 +272,7 @@ async function handleWatchAndStraps(articleId: number, watchData: {
             lug_width: watchData.lug_width || null,
             thickness: watchData.thickness || null,
             lug_to_lug: watchData.lug_to_lug || null,
+            price: watchData.price || null,
             glass: watchData.glass || null
 
 

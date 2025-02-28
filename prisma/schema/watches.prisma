@@ -10,6 +10,7 @@ model Watches {
   lug_to_lug       String?
   glass            String?
   case_material    WatchCaseMaterial?
+  price            String?
 
   category_id      Int?
 

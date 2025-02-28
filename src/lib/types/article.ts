@@ -16,6 +16,7 @@ export interface ArticleFormData {
     'movement': string | null;
     'water_resistance': string | null;
     'case_material': WatchCaseMaterial;
+    'price': string | null;
     'straps': string[];
 }
 

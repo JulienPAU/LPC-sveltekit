@@ -1,7 +1,6 @@
 <!-- src/lib/components/WatchDetails.svelte -->
 <script lang="ts">
 	import { getWatchCaseMaterial } from '$lib/utils';
-	import { onMount } from 'svelte';
 
 	export let article: any;
 
@@ -53,6 +52,7 @@
 			watchData.glass ||
 			watchData.lug_width ||
 			watchData.lug_to_lug ||
+			watchData.price ||
 			(watchData.straps && watchData.straps.length > 0));
 </script>
 
@@ -124,14 +124,14 @@
 						{#if watchData?.case_size !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
 								<span class="text-sm font-semibold">Diamètre du boitier</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.case_size)}</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.case_size)} mm</span>
 							</div>
 						{/if}
 
 						{#if watchData?.thickness !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
 								<span class="text-sm font-semibold">Épaisseur</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.thickness)}</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.thickness)} mm</span>
 							</div>
 						{/if}
 
@@ -145,14 +145,14 @@
 						{#if watchData?.lug_width !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
 								<span class="text-sm font-semibold">Largeur d'entrecorne</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_width)}</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_width)} mm</span>
 							</div>
 						{/if}
 
 						{#if watchData?.lug_to_lug !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
 								<span class="text-sm font-semibold">Lug to lug</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_to_lug)}</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_to_lug)} mm</span>
 							</div>
 						{/if}
 
@@ -160,6 +160,12 @@
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
 								<span class="text-sm font-semibold">Types de bracelet</span>
 								<span class="pl-2 text-lg font-bold">{formatStraps(watchData.straps)}</span>
+							</div>
+						{/if}
+						{#if watchData?.price !== undefined}
+							<div class="flex flex-col rounded-lg bg-white/10 p-3">
+								<span class="text-sm font-semibold">Prix en €</span>
+								<span class="pl-2 text-lg font-bold">{watchData.price}</span>
 							</div>
 						{/if}
 					</div>

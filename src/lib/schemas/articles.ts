@@ -48,6 +48,7 @@ export const articleUpdateSchema = z.object({
     'thickness': z.string().optional().nullable(),
     'lug_to_lug': z.string().optional().nullable(),
     'glass': z.string().optional().nullable(),
+    'price': z.string().optional().nullable(),
     'straps': z.array(z.string()).optional()
 });
 
@@ -83,6 +84,8 @@ export const articlePublishSchema = z.object({
     'thickness': z.string().optional().nullable(),
     'lug_to_lug': z.string().optional().nullable(),
     'glass': z.string().optional().nullable(),
+    'price': z.string().optional().nullable(),
+
     'straps': z.array(z.string()).optional(),
     'files': z.array(z.instanceof(File))
         .min(1, "Au moins une image est requise")

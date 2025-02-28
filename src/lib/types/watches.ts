@@ -13,6 +13,7 @@ export type Watches = {
     thickness?: string;
     lug_to_lug?: string;
     glass?: string;
+    price?: string;
     case_material?: string;
     category_id?: number;
     straps: WatchStraps[];

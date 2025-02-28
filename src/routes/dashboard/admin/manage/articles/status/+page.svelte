@@ -9,7 +9,7 @@
 	let { allArticles } = data;
 
 	let currentPage = 1;
-	const itemsPerPage = 12;
+	const itemsPerPage = 6;
 
 	$: totalPages = Math.ceil(allArticles.length / itemsPerPage);
 
@@ -56,7 +56,7 @@
 						status: a.status,
 						imgStyle: 'h-[150px]',
 						style:
-							'card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl  md:w-2/5 lg:w-2/5 '
+							'card w-96 bg-base-100  shadow-lg transition-shadow  duration-500  hover:shadow-xl  md:w-2/5 lg:w-2/6 '
 					}}
 				/>
 			{/each}

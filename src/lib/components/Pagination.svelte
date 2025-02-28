@@ -43,14 +43,16 @@
 </script>
 
 <div class="my-10 flex justify-center space-x-1">
-	<!-- Bouton précédent -->
-	<button
-		on:click={() => changePage(currentPage - 1)}
-		disabled={currentPage === 1}
-		class="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50"
-	>
-		Précédent
-	</button>
+	<!-- Bouton précédent (caché si une seule page) -->
+	{#if totalPages > 1}
+		<button
+			on:click={() => changePage(currentPage - 1)}
+			disabled={currentPage === 1}
+			class="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50"
+		>
+			Précédent
+		</button>
+	{/if}
 
 	<!-- Pages -->
 	{#each paginationButtons as page}
@@ -60,7 +62,7 @@
 			<button
 				on:click={() => typeof page === 'number' && changePage(page)}
 				class="ml-2 min-w-9 rounded-md border px-3 py-2 text-sm shadow-sm transition-all
-					{page === currentPage
+                    {page === currentPage
 					? 'border-transparent bg-slate-800 text-white shadow-md hover:bg-slate-700'
 					: 'border-slate-300 text-slate-600 hover:bg-slate-800 hover:text-white'}"
 			>
@@ -69,12 +71,14 @@
 		{/if}
 	{/each}
 
-	<!-- Bouton suivant -->
-	<button
-		on:click={() => changePage(currentPage + 1)}
-		disabled={currentPage === totalPages}
-		class="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50"
-	>
-		Suivant
-	</button>
+	<!-- Bouton suivant (caché si une seule page) -->
+	{#if totalPages > 1}
+		<button
+			on:click={() => changePage(currentPage + 1)}
+			disabled={currentPage === totalPages}
+			class="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50"
+		>
+			Suivant
+		</button>
+	{/if}
 </div>

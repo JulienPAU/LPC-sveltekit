@@ -27,6 +27,7 @@
 					thickness: '',
 					lug_to_lug: '',
 					glass: '',
+					price: '',
 					case_material: null,
 					straps: [{ strap: { material: '' } }]
 				}
@@ -46,6 +47,7 @@
 		thickness: '',
 		lug_to_lug: '',
 		glass: '',
+		price: '',
 		straps: [{ strap: { material: '' } }]
 	};
 	const straps = watches?.straps?.map((s) => s.strap.material) || [];
@@ -221,9 +223,7 @@
 		<div class=" w-full rounded-xl bg-gray-200 p-8">
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
-					<label for="brand" class="mb-1 block text-lg font-bold text-gray-700">
-						Marque de la montre
-					</label>
+					<label for="brand" class="mb-1 block text-lg font-bold text-gray-700"> Marque </label>
 					<input
 						id="brand"
 						name="brand"
@@ -234,9 +234,7 @@
 					/>
 				</div>
 				<div class="w-full">
-					<label for="model" class="mb-1 block text-lg font-bold text-gray-700">
-						Modèle de la montre
-					</label>
+					<label for="model" class="mb-1 block text-lg font-bold text-gray-700"> Modèle </label>
 					<input
 						id="model"
 						name="model"
@@ -307,6 +305,18 @@
 					/>
 				</div>
 				<div class="w-full">
+					<label for="lug_to_lug" class="mb-1 block text-lg font-bold text-gray-700">
+						Lug to lug
+					</label>
+					<input
+						id="lug_to_lug"
+						name="lug_to_lug"
+						type="text"
+						class="input input-bordered input-warning w-full"
+						bind:value={watches.lug_to_lug}
+					/>
+				</div>
+				<div class="w-full">
 					<label for="thickness" class="mb-1 block text-lg font-bold text-gray-700">
 						Epaisseur
 					</label>
@@ -322,15 +332,13 @@
 
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
-					<label for="lug_to_lug" class="mb-1 block text-lg font-bold text-gray-700">
-						Lug to lug
-					</label>
+					<label for="price" class="mb-1 block text-lg font-bold text-gray-700"> Prix </label>
 					<input
-						id="lug_to_lug"
-						name="lug_to_lug"
+						id="price"
+						name="price"
 						type="text"
 						class="input input-bordered input-warning w-full"
-						bind:value={watches.lug_to_lug}
+						bind:value={watches.price}
 					/>
 				</div>
 				<div class="w-full">
