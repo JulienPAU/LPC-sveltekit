@@ -136,41 +136,6 @@
 >
 	<div class="flex w-full flex-wrap gap-10 md:flex-nowrap">
 		<div class="w-full rounded-xl bg-gray-200 p-8">
-			<div class="w-full">
-				<label for="titre-article" class="mb-1 block text-lg font-bold text-gray-700">
-					Titre de l'article
-				</label>
-				<input
-					id="titre-article"
-					name="titre-article"
-					type="text"
-					class="input input-warning mb-5 w-full"
-					required={!isEditing}
-					bind:value={article.title}
-				/>
-			</div>
-
-			<div>
-				<label for="introduction" class="mb-1 block text-lg font-bold text-gray-700">
-					Introduction de l'article
-				</label>
-				<QuillEditor name="introduction" bind:value={article.introduction} maxLength={350} />
-			</div>
-
-			<div>
-				<label for="corps-article" class="mb-1 block text-lg font-bold text-gray-700">
-					Corps de l'article
-				</label>
-				<QuillEditor name="corps-article" bind:value={article.body} maxLength={3000} />
-			</div>
-
-			<div>
-				<label for="end" class="mb-1 block text-lg font-bold text-gray-700">
-					Le mot de la fin
-				</label>
-				<QuillEditor name="end" bind:value={article.ending} maxLength={350} />
-			</div>
-
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
 					<label for="category" class="mb-1 block text-lg font-bold text-gray-700">
@@ -217,6 +182,40 @@
 						<option value="OTHER">Autre</option>
 					</select>
 				</div>
+			</div>
+			<div class="w-full">
+				<label for="titre-article" class="mb-1 block text-lg font-bold text-gray-700">
+					Titre de l'article
+				</label>
+				<input
+					id="titre-article"
+					name="titre-article"
+					type="text"
+					class="input input-warning mb-5 w-full"
+					required={!isEditing}
+					bind:value={article.title}
+				/>
+			</div>
+
+			<div>
+				<label for="introduction" class="mb-1 block text-lg font-bold text-gray-700">
+					Introduction de l'article
+				</label>
+				<QuillEditor name="introduction" bind:value={article.introduction} maxLength={350} />
+			</div>
+
+			<div>
+				<label for="corps-article" class="mb-1 block text-lg font-bold text-gray-700">
+					Corps de l'article
+				</label>
+				<QuillEditor name="corps-article" bind:value={article.body} maxLength={3000} />
+			</div>
+
+			<div>
+				<label for="end" class="mb-1 block text-lg font-bold text-gray-700">
+					Le mot de la fin
+				</label>
+				<QuillEditor name="end" bind:value={article.ending} maxLength={350} />
 			</div>
 		</div>
 
@@ -306,7 +305,7 @@
 				</div>
 				<div class="w-full">
 					<label for="lug_to_lug" class="mb-1 block text-lg font-bold text-gray-700">
-						Lug to lug
+						Lug to lug (en mm)
 					</label>
 					<input
 						id="lug_to_lug"
@@ -318,7 +317,7 @@
 				</div>
 				<div class="w-full">
 					<label for="thickness" class="mb-1 block text-lg font-bold text-gray-700">
-						Epaisseur
+						Epaisseur (en mm)
 					</label>
 					<input
 						id="thickness"
@@ -356,7 +355,7 @@
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
 					<label for="case_size" class="mb-1 block text-lg font-bold text-gray-700">
-						Taille boitier
+						Taille boitier (en mm)
 					</label>
 					<input
 						id="case_size"
@@ -367,7 +366,7 @@
 					/>
 				</div>
 				<div class="w-full">
-					<label for="movement" class="mb-1 block text-lg font-bold text-gray-700"
+					<label for="case_material" class="mb-1 block text-lg font-bold text-gray-700"
 						>Matériaux du boitier</label
 					>
 					<select
@@ -404,11 +403,11 @@
 
 				<div
 					id="straps"
-					class="mb-5 flex w-full flex-wrap justify-normal gap-2 lg:justify-between lg:gap-4"
+					class="mb-5 grid w-full grid-cols-1 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4"
 				>
 					{#each ['Acier', 'Cuir', 'Tissu', 'Nato', 'Métal', 'Nylon', 'Or', 'Titane', 'Céramique', 'Silicone', 'Résine', 'Plastique', 'Caoutchouc', 'Composite', 'Autre'] as strap}
 						<label
-							class="flex cursor-pointer items-center gap-2 rounded-lg border border-yellow-400 bg-warning px-3 py-1"
+							class="flex h-full cursor-pointer items-center gap-2 rounded-lg border border-yellow-400 bg-warning px-3 py-2"
 						>
 							<input
 								type="checkbox"
@@ -419,7 +418,9 @@
 								class="form-checkbox h-5 w-5 text-slate-500"
 								disabled={!article.ArticleWatches?.[0]?.watch}
 							/>
-							<span class="text-lg text-gray-900">{strap}</span>
+							<span class="overflow-hidden truncate text-lg text-gray-900">
+								{strap}
+							</span>
 						</label>
 					{/each}
 				</div>

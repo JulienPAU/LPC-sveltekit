@@ -39,7 +39,7 @@
 </script>
 
 <div
-	class={`relative mb-5 flex w-full flex-col border border-warning ${name === 'corps-article' ? 'h-72' : 'h-32'}`}
+	class={`relative mb-5 flex w-full flex-col border border-warning ${name === 'corps-article' ? 'h-80' : 'h-52'}`}
 >
 	<div bind:this={editorContainer} class={`textarea mb-5 w-full rounded-none bg-white`}></div>
 	<input type="hidden" {name} bind:value />

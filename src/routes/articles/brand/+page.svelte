@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
+	import { onMount } from 'svelte';
 	export let data;
 	const { articles } = data;
 
@@ -46,6 +47,15 @@
 		return normalizeChar(a).localeCompare(normalizeChar(b), 'fr');
 	});
 
+	// Initialiser activeLetter avec 'A' ou la première lettre disponible
+	onMount(() => {
+		if (sortedLetters.includes('A')) {
+			activeLetter = 'A';
+		} else if (sortedLetters.length > 0) {
+			activeLetter = sortedLetters[0];
+		}
+	});
+
 	const selectLetter = (letter: string) => {
 		activeLetter = activeLetter === letter ? null : letter;
 		activeBrandIndex = null;
@@ -56,9 +66,13 @@
 	};
 </script>
 
+<!-- Le reste du code reste inchangé -->
 <!-- Affichage des lettres -->
 <div class="flex flex-col items-center">
 	<SectionTitle title="Toutes les Marques" />
+	<p class=" mb-5 w-full p-4 text-center font-semibold lg:mb-10 lg:w-4/5 lg:text-2xl">
+		Retrouvez toutes les marques de montres présentes dans les articles du site.
+	</p>
 
 	<div
 		class="mb-10 flex w-full flex-row flex-wrap justify-center gap-2 border-y bg-slate-900 p-4 text-white lg:w-1/2 lg:rounded-lg"
@@ -75,9 +89,6 @@
 			</button>
 		{/each}
 	</div>
-	<p class=" mb-5 w-full p-4 text-center font-semibold lg:mb-10 lg:w-4/5 lg:text-2xl">
-		Retrouvez toutes les marques de montres présentes dans les articles du site.
-	</p>
 </div>
 
 <!-- Affichage des marques et articles -->

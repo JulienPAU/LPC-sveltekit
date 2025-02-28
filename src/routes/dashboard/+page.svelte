@@ -197,24 +197,24 @@
 				<div class="space-y-3">
 					<a
 						href="/dashboard/publish"
-						class="] btn flex w-full flex-nowrap items-center justify-center gap-2 bg-warning text-lg text-black hover:bg-yellow-400 hover:text-black"
+						class=" btn flex w-full flex-nowrap items-center justify-center gap-2 bg-warning text-lg text-black hover:bg-yellow-400 hover:text-black"
 					>
 						<i class="fa-solid fa-pen-clip text-base text-slate-800"></i>
-						<span>Proposer un Article</span>
+						<span class="text-base font-bold lg:text-xl">Proposer un Article</span>
 					</a>
 					<a
 						href="/dashboard/articles"
 						class="btn flex w-full flex-nowrap items-center justify-center gap-2 bg-warning text-lg text-black hover:bg-yellow-400 hover:text-black"
 					>
 						<i class="fa-solid fa-newspaper text-base text-slate-800"></i>
-						<span>Gérer mes Articles</span>
+						<span class="text-base font-bold lg:text-xl">Gérer mes Articles</span>
 					</a>
 					<a
 						href="/dashboard/profil"
 						class="btn flex w-full flex-nowrap items-center justify-center gap-2 bg-warning text-lg text-black hover:bg-yellow-400 hover:text-black"
 					>
 						<i class="fa-solid fa-user text-base text-slate-800"></i>
-						<span>Mon Profil</span>
+						<span class="text-base font-bold lg:text-xl">Mon Profil</span>
 					</a>
 				</div>
 			</div>

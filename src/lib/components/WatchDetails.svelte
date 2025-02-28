@@ -123,15 +123,15 @@
 
 						{#if watchData?.case_size !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
-								<span class="text-sm font-semibold">Diamètre du boitier</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.case_size)} mm</span>
+								<span class="text-sm font-semibold">Diamètre du boitier (en mm)</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.case_size)} </span>
 							</div>
 						{/if}
 
 						{#if watchData?.thickness !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
-								<span class="text-sm font-semibold">Épaisseur</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.thickness)} mm</span>
+								<span class="text-sm font-semibold">Épaisseur (en mm)</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.thickness)} </span>
 							</div>
 						{/if}
 
@@ -144,15 +144,15 @@
 
 						{#if watchData?.lug_width !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
-								<span class="text-sm font-semibold">Largeur d'entrecorne</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_width)} mm</span>
+								<span class="text-sm font-semibold">Largeur d'entrecorne (en mm)</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_width)} </span>
 							</div>
 						{/if}
 
 						{#if watchData?.lug_to_lug !== undefined}
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
-								<span class="text-sm font-semibold">Lug to lug</span>
-								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_to_lug)} mm</span>
+								<span class="text-sm font-semibold">Lug to lug (en mm)</span>
+								<span class="pl-2 text-lg font-bold">{formatValue(watchData.lug_to_lug)} </span>
 							</div>
 						{/if}
 

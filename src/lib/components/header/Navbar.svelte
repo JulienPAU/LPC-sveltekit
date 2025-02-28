@@ -233,7 +233,7 @@
 							</li>
 							<li>
 								<a href="/dashboard/publish" class="hover:bg-gray-600"
-									><i class="fa-solid fa-pen-clip" style="color: #eab308;"></i> Proposer un article</a
+									><i class="fa-solid fa-pen-clip" style="color: #eab308;"></i> Proposer article</a
 								>
 							</li>
 							<li>

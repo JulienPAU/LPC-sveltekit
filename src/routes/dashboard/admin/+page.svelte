@@ -10,7 +10,9 @@
 		Bienvenue <span class="border-b-4 border-b-yellow-500">{user?.username}</span>
 	</h2>
 
-	<p class="mb-6 text-lg font-semibold text-gray-900">Prêt à partager votre passion horlogère ?</p>
+	<p class="mb-6 text-base font-semibold text-gray-900 md:text-lg lg:text-xl">
+		Prêt à partager votre passion horlogère ?
+	</p>
 
 	<div
 		class=" flex w-full max-w-5xl flex-col items-center gap-5 rounded-xl bg-gray-200 p-6 shadow-lg"
@@ -22,20 +24,24 @@
 					href="/dashboard/admin/manage/articles"
 					class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
 				>
-					<i class="fa-solid fa-newspaper text-slate-800"></i> Modifier articles
+					<i class="fa-solid fa-newspaper text-slate-800"></i>
+					<span class="text-base font-bold lg:text-xl">Modifier articles</span>
 				</a>
 
 				<a
 					href="/dashboard/admin/manage/articles/status"
 					class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
 				>
-					<i class="fa-solid fa-newspaper text-slate-800"></i> Status articles
+					<i class="fa-solid fa-newspaper text-slate-800"></i>
+					<span class="text-base font-bold lg:text-xl"> Status articles</span>
 				</a>
 				<a
 					href="/dashboard/admin/manage/users"
 					class="btn btn-warning w-full text-lg hover:bg-yellow-400 hover:text-black"
 				>
-					<i class="fa-solid fa-user text-slate-800"></i> Gérer utilisateurs
+					<i class="fa-solid fa-user text-slate-800"></i>
+
+					<span class="text-base font-bold lg:text-xl">Gérer utilisateurs</span>
 				</a>
 			</div>
 		</div>
