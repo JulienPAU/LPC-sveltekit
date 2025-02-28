@@ -73,7 +73,7 @@
 				<li><a href="/" class="text-base hover:bg-gray-600">Accueil</a></li>
 				<li><a href="/articles" class="text-base hover:bg-gray-600">Articles</a></li>
 
-				<li><a href="/gallery" class="text-base hover:bg-gray-600">Galerie</a></li>
+				<li><a href="/galerie" class="text-base hover:bg-gray-600">Galerie</a></li>
 				<li><a href="/lexique" class="text-base hover:bg-gray-600">Lexique</a></li>
 				<li>
 					<details>
@@ -116,10 +116,18 @@
 
 		<!-- Desktop links -->
 		<div class="z-10 hidden xl:flex">
-			<ul class="menu menu-horizontal bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg">
-				<li><a href="/" class="border-none hover:bg-gray-600">Accueil</a></li>
+			<ul
+				class="menu menu-horizontal items-center bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg"
+			>
+				<li>
+					<a
+						href="/"
+						class=" border-none text-white hover:bg-gray-600 hover:text-yellow-400"
+						aria-label="Accueil"><i class="fa-solid fa-house"></i></a
+					>
+				</li>
 				<li><a href="/articles" class="hover:bg-gray-600">Articles</a></li>
-				<li><a href="/gallery" class="hover:bg-gray-600">Galerie</a></li>
+				<li><a href="/galerie" class="hover:bg-gray-600">Galerie</a></li>
 				<li><a href="/lexique" class="hover:bg-gray-600">Lexique</a></li>
 
 				<li class="rounded-lg hover:bg-gray-600">
@@ -286,11 +294,20 @@
 						</ul>
 					</div>
 				{:else}
-					<li>
+					<li class="xl:hidden">
 						<a
 							href="/auth/login"
-							class="btn bg-warning text-sm font-bold text-black hover:bg-yellow-400 hover:text-black lg:text-lg"
-							>Login</a
+							aria-label="Se connecter"
+							class=" bg-warning p-0 text-lg font-bold text-black hover:bg-yellow-400 hover:text-black"
+							><i class="fa-solid fa-right-to-bracket p-2.5" style="color: #000000;"></i></a
+						>
+					</li>
+					<!-- Version desktop avec texte -->
+					<li class="hidden xl:block">
+						<a
+							href="/auth/login"
+							class="btn bg-warning text-lg font-bold text-black hover:bg-yellow-400 hover:text-black"
+							>Se connecter</a
 						>
 					</li>
 				{/if}

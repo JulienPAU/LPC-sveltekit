@@ -55,17 +55,18 @@
 </script>
 
 <section class="mb-10 flex flex-col items-center lg:mb-20 lg:px-0">
-	<SectionTitle title="Contactez-nous" />
-	<p class="mb-5 text-2xl font-bold italic underline">Il est l'heure</p>
-	<p class="mb-10 w-full px-5 text-justify text-xl font-semibold md:w-2/4 lg:w-2/4">
-		Vous souhaitez nous contacter pour partager une idée, proposer un sujet, enrichir le lexique ou
-		toute autre suggestion ? Nous sommes à l’écoute ! Utilisez le formulaire ci-dessous et faisons
-		évoluer Les Petits Cadrans ensemble.
+	<SectionTitle title="Il est l'heure de nous contacter !" />
+	<p class="mb-10 w-full px-5 text-justify text-lg font-semibold md:w-2/4 lg:w-3/4 lg:text-2xl">
+		Vous souhaitez nous partager une idée, proposer un sujet, enrichir le lexique ou toute autre
+		suggestion ? Nous sommes à l’écoute ! Utilisez le formulaire ci-dessous et faisons évoluer Les
+		Petits Cadrans ensemble.
 	</p>
 
-	<div class="flex w-full flex-wrap items-center justify-center bg-slate-900 px-5 py-8">
-		<div class="flex items-center justify-center md:w-2/6">
-			<img src={digi} alt="Casio" class="my-8 h-[250px] w-auto md:h-[290px] lg:h-[450px]" />
+	<div
+		class="flex w-full flex-col-reverse flex-wrap-reverse items-center justify-center bg-slate-900 px-8 py-20 md:flex-col-reverse lg:flex-row-reverse"
+	>
+		<div class="my-10 flex items-center justify-center md:w-2/6">
+			<img src={digi} alt="Casio" class="mb-4 h-[250px] w-auto md:h-[290px] lg:h-[450px]" />
 			<div class="absolute flex items-center justify-center">
 				<DigitalClock />
 			</div>
@@ -73,7 +74,7 @@
 
 		<form
 			on:submit={handleSubmit}
-			class="mx-auto w-full max-w-4xl items-center rounded-xl border-2 border-gray-300 bg-slate-900 p-10"
+			class="mx-auto w-full max-w-4xl items-center rounded-xl border-2 border-gray-300 bg-slate-900 p-5 lg:p-10"
 		>
 			<div class="flex flex-col gap-5">
 				<div class="w-full">

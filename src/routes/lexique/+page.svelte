@@ -1,11 +1,10 @@
 <script lang="ts">
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
-	import error_500 from '$lib/assets/error_500.png';
 
 	export let data;
 	const { definitions } = data;
 
-	let activeLetter: string | null = null;
+	let activeLetter: string | null = 'A'; // Initialiser avec "A" par défaut
 	let activeWordIndex: number | null = null;
 
 	// Fonction pour normaliser les caractères (enlever les accents)
@@ -30,6 +29,11 @@
 	const sortedLetters = Object.keys(groupedDefinitions).sort((a, b) => {
 		return normalizeChar(a).localeCompare(normalizeChar(b), 'fr');
 	});
+
+	// Si 'A' n'existe pas dans les lettres, on prend la première lettre disponible
+	if (!groupedDefinitions['A'] && sortedLetters.length > 0) {
+		activeLetter = sortedLetters[0];
+	}
 
 	const selectLetter = (letter: string) => {
 		activeLetter = activeLetter === letter ? null : letter;
@@ -69,17 +73,11 @@
 			</button>
 		{/each}
 	</div>
-
-	{#if !activeLetter}
-		<div class="flex items-center justify-center">
-			<img src={error_500} alt="lexique" class="w-6/6 lg:w-3/5" />
-		</div>
-	{/if}
 </div>
 <!-- Content -->
 <div class="w-full p-4">
 	<div class="p-5 lg:p-10">
-		{#if activeLetter}
+		{#if activeLetter && groupedDefinitions[activeLetter]}
 			<h2 class="text-3xl font-bold">{activeLetter}</h2>
 			<div class="">
 				{#each groupedDefinitions[activeLetter] as { word, explanation }, index}

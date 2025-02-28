@@ -25,18 +25,35 @@
 		isPlaceholder: boolean;
 		isLarge: boolean;
 	}[] = [];
-	let preloadingComplete = false; // Pour suivre si le préchargement est terminé
+	let preloadingComplete = false;
 
 	let currentPage = 1;
 	const itemsPerPage = 15;
+
+	// Cache pour les résultats coûteux
+	let totalImagesCache: number | null = null;
+	let cachedImages = new Map();
 
 	$: totalPages = Math.ceil(getTotalImages() / itemsPerPage);
 	$: startIndex = (currentPage - 1) * itemsPerPage;
 	$: endIndex = startIndex + itemsPerPage;
 
 	function openModal(imageSrc: string) {
-		modalImageSrc = imageSrc;
-		isModalOpen = true;
+		// Précharger l'image avant d'ouvrir la modale
+		const img = new Image();
+		img.onload = () => {
+			modalImageSrc = imageSrc;
+			isModalOpen = true;
+		};
+		img.src = imageSrc;
+
+		// Fallback si l'image met trop de temps à charger
+		setTimeout(() => {
+			if (!isModalOpen && modalImageSrc !== imageSrc) {
+				modalImageSrc = imageSrc;
+				isModalOpen = true;
+			}
+		}, 300);
 	}
 
 	function closeModal() {
@@ -44,13 +61,22 @@
 	}
 
 	function getTotalImages(): number {
-		return gallery.reduce(
+		if (totalImagesCache !== null) return totalImagesCache;
+
+		totalImagesCache = gallery.reduce(
 			(total: number, item: { images?: string[] }) => total + (item.images?.length || 0),
 			0
 		);
+
+		return totalImagesCache ?? 0;
 	}
 
 	function getVisibleImages() {
+		const cacheKey = `${currentPage}-${isMobile}`;
+		if (cachedImages.has(cacheKey)) {
+			return cachedImages.get(cacheKey);
+		}
+
 		const images = [];
 		let count = 0;
 		let groupCount = 0;
@@ -93,20 +119,23 @@
 			});
 		}
 
+		cachedImages.set(cacheKey, images);
 		return images;
 	}
 
 	// Fonction pour gérer le changement de page
 	function handlePageChange(page: number) {
-		imagesLoaded = 0; // Réinitialiser le compteur d'images chargées
+		imagesLoaded = 0;
 		loading = true;
-		preloadingComplete = false; // Réinitialiser le statut de préchargement
+		preloadingComplete = false;
 		currentPage = page;
 
 		// Petit délai pour s'assurer que l'UI se met à jour avant de commencer le préchargement
 		setTimeout(() => {
 			// Précalculer les images pour définir totalImagesToLoad
-			currentVisibleImages = getVisibleImages().filter((img) => !img.isPlaceholder);
+			currentVisibleImages = getVisibleImages().filter(
+				(img: { isPlaceholder: boolean }) => !img.isPlaceholder
+			);
 			totalImagesToLoad = currentVisibleImages.length;
 
 			// Si aucune image à charger, on arrête le loading
@@ -124,16 +153,27 @@
 				console.warn('Timeout de chargement atteint - Affichage forcé de la galerie');
 				loading = false;
 			}
-		}, 5000);
+		}, 3000); // Réduit à 3 secondes pour une meilleure réactivité
 	}
 
 	// Fonction pour suivre le chargement des images
 	function handleImageLoad() {
 		imagesLoaded++;
-		console.log(`Image chargée: ${imagesLoaded}/${totalImagesToLoad}`);
+		// Supprimé le log de débogage pour améliorer les performances
 		if (imagesLoaded >= totalImagesToLoad && totalImagesToLoad > 0) {
 			loading = false;
 		}
+	}
+
+	// Throttle pour limiter les appels lors du redimensionnement
+	function throttle(fn: Function, delay: number) {
+		let lastCall = 0;
+		return function (...args: any[]) {
+			const now = new Date().getTime();
+			if (now - lastCall < delay) return;
+			lastCall = now;
+			return fn(...args);
+		};
 	}
 
 	// Fonction pour vérifier si l'appareil est mobile
@@ -145,10 +185,13 @@
 
 	onMount(() => {
 		checkMobile();
-		window.addEventListener('resize', checkMobile);
+		const throttledCheck = throttle(checkMobile, 200);
+		window.addEventListener('resize', throttledCheck);
 
 		// Initialiser les images visibles pour la première page
-		currentVisibleImages = getVisibleImages().filter((img) => !img.isPlaceholder);
+		currentVisibleImages = getVisibleImages().filter(
+			(img: { isPlaceholder: boolean }) => !img.isPlaceholder
+		);
 		totalImagesToLoad = currentVisibleImages.length;
 		preloadingComplete = true;
 
@@ -160,13 +203,12 @@
 		// Timeout de sécurité pour le chargement initial
 		setTimeout(() => {
 			if (loading) {
-				console.warn('Timeout de chargement initial atteint - Affichage forcé de la galerie');
 				loading = false;
 			}
-		}, 5000);
+		}, 3000); // Réduit à 3 secondes
 
 		return () => {
-			window.removeEventListener('resize', checkMobile);
+			window.removeEventListener('resize', throttledCheck);
 		};
 	});
 </script>
@@ -178,46 +220,53 @@
 <div class="container mx-auto mb-8 px-4">
 	{#if loading}
 		<Loader />
-	{:else if getTotalImages() > 0}
-		{@const images = getVisibleImages()}
-		<div class="grid grid-cols-2 gap-2 lg:grid-cols-7">
-			{#each images as { src, isPlaceholder, isLarge }}
-				<div
-					class="relative overflow-hidden rounded-lg {isLarge
-						? isMobile
-							? ''
-							: 'col-span-2 row-span-2'
-						: ''}"
-				>
-					{#if !isPlaceholder}
-						<button
-							on:click={() => openModal(src)}
-							class="h-full w-full"
-							aria-label="Cliquez pour agrandir l'image"
-						>
-							<img
-								{src}
-								alt="gallery"
-								loading="lazy"
-								class="h-full w-full object-cover {isLarge ? 'aspect-square' : 'aspect-video'}"
-								on:load={handleImageLoad}
-								style="opacity: 1; transition: opacity 0.3s ease-in-out;"
-							/>
-						</button>
-					{:else}
-						<div class="flex h-full w-full items-center justify-center bg-slate-900 p-4">
-							<img {src} alt="logo" class="object-contain" />
-						</div>
-					{/if}
-				</div>
-			{/each}
-		</div>
 	{:else}
-		<div class="flex justify-center">
-			<div class="w-1/3 rounded-lg bg-slate-900 p-8 shadow-lg">
-				<img src={logoC} alt="logo" class="mx-auto object-contain" />
+		{@const hasImages = getTotalImages() > 0}
+		{#if hasImages}
+			{@const images = getVisibleImages()}
+			<div class="grid grid-cols-2 gap-2 lg:grid-cols-7">
+				{#each images as { src, isPlaceholder, isLarge }}
+					<div
+						class="relative overflow-hidden rounded-lg {isLarge
+							? isMobile
+								? ''
+								: 'col-span-2 row-span-2'
+							: ''}"
+					>
+						{#if !isPlaceholder}
+							<button
+								on:click={() => openModal(src)}
+								class="h-full w-full"
+								aria-label="Cliquez pour agrandir l'image"
+							>
+								<img
+									{src}
+									alt="galerie"
+									loading="lazy"
+									width="400"
+									height="300"
+									fetchpriority={isLarge ? 'high' : 'auto'}
+									decoding="async"
+									class="h-full w-full object-cover {isLarge ? 'aspect-square' : 'aspect-video'}"
+									on:load={handleImageLoad}
+									style="opacity: 1; transition: opacity 0.3s ease-in-out; will-change: opacity;"
+								/>
+							</button>
+						{:else}
+							<div class="flex h-full w-full items-center justify-center bg-slate-900 p-4">
+								<img {src} alt="logo" class="object-contain" />
+							</div>
+						{/if}
+					</div>
+				{/each}
 			</div>
-		</div>
+		{:else}
+			<div class="flex justify-center">
+				<div class="w-1/3 rounded-lg bg-slate-900 p-8 shadow-lg">
+					<img src={logoC} alt="logo" class="mx-auto object-contain" />
+				</div>
+			</div>
+		{/if}
 	{/if}
 </div>
 

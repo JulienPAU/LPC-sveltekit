@@ -12,7 +12,6 @@
 	import logoC from '$lib/assets/logos/logoC.svg';
 	import { goto, invalidate } from '$app/navigation';
 	import WatchDetails from '$lib/components/WatchDetails.svelte';
-	import { appendFile } from 'fs';
 
 	let sanitize: (input: string) => string;
 
@@ -196,7 +195,7 @@
 
 	<Carousel items={article.images} type="images" />
 
-	<div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+	<div class="mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8">
 		<WatchDetails {article} />
 	</div>
 {:else}

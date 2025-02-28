@@ -24,8 +24,8 @@
 			</p>
 		</div>
 
-		<div class="flex items-center justify-center md:order-last md:w-2/6">
-			<img src={digi} alt="Casio" class="mb-8 h-[250px] w-auto md:h-[290px] lg:h-[450px]" />
+		<div class="mb-8 flex items-center justify-center md:order-last md:w-2/6">
+			<img src={digi} alt="Casio" class="mb-4 h-[250px] w-auto md:h-[290px] lg:h-[450px]" />
 			<div class="absolute flex items-center justify-center">
 				<DigitalClock />
 			</div>
