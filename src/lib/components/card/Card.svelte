@@ -62,9 +62,14 @@
 		{/if}
 	</figure>
 
-	<div class="card-body pb-0">
-		<h2 class="card-title font-light">{props.title}</h2>
-
+	<div class="card-body px-4 pb-0">
+		<h2
+			class="card-title overflow-hidden hyphens-auto font-light"
+			lang="fr"
+			style="hyphens: auto; word-break: break-word;"
+		>
+			{props.title}
+		</h2>
 		{#if props.isDashboard || props.isModerator || props.isAdmin}
 			{null}
 

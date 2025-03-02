@@ -72,7 +72,7 @@
 <svelte:window on:click={handleClickOutside} />
 
 <navbar
-	class="navbar sticky top-0 z-50 mx-auto w-full bg-slate-900 px-0 pt-5 text-white transition-all duration-300 sm:mx-0 {navbarClass}"
+	class="navbar sticky top-0 z-50 mx-auto w-full bg-slate-900 px-0 py-2 text-white transition-all duration-300 sm:mx-0 lg:pb-4 lg:pt-5 {navbarClass}"
 >
 	<!-- Navbar Start -->
 	<div class="navbar-start">
@@ -204,7 +204,7 @@
 
 	<!-- Navbar Center -->
 	<div class="navbar-center">
-		<a href="/"><img alt="logo" src={logoC} class="mb-3 h-16 object-contain md:h-20 lg:h-24" /></a>
+		<a href="/"><img alt="logo" src={logoC} class=" h-16 object-contain md:h-20 lg:h-24" /></a>
 	</div>
 
 	<!-- Navbar End -->
