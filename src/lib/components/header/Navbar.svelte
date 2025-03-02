@@ -244,7 +244,7 @@
 							</div>
 						</button>
 						<ul
-							class=" menu dropdown-content z-[1] w-52 rounded-box border border-yellow-500 bg-gray-900 p-2 shadow"
+							class=" menu dropdown-content z-[1] w-52 rounded-box border border-yellow-500 bg-gray-900 p-2 shadow {menuBgClass}"
 						>
 							<div>
 								<h3 class=" mb-2 text-lg font-normal">{userSession.username}</h3>
