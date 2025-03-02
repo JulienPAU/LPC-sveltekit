@@ -16,6 +16,20 @@ export default {
 				'custom': '3.375rem', // Taille personnalisée en rem (équivalent à 38px si base 16px)
 				'digit': '5rem', // Taille personnalisée en rem (équivalent à 24px si base 16px)
 			},
+			width: {
+				'responsive': '100%',
+				'hover': '100%',
+				'focus': '100%',
+				'landscape': '100%',
+				'portrait': '100%',
+			},
+			height: {
+				'responsive': '100%',
+				'hover': '100%',
+				'focus': '100%',
+				'landscape': '100%',
+				'portrait': '100%',
+			},
 		}
 	},
 

@@ -37,7 +37,7 @@
 			: items.slice(0, 10);
 
 	$: carouselClasses = `carousel mx-0 flex w-full snap-x overflow-x-auto px-4 flex   md:mx-2 lg:mx-3 ${
-		type === 'images' ? 'gap-2   ' : 'gap-6 py-10'
+		type === 'images' ? 'gap-2   ' : 'gap-6 pb-10'
 	}`;
 
 	function openModal(imageSrc: string) {
@@ -125,7 +125,7 @@
 								status: 'PUBLISHED',
 								imgStyle: 'h-[250px]',
 								style:
-									' card w-full bg-base-100 shadow-lg transition-shadow  duration-500  hover:shadow-xl  overflow-hidden '
+									' card w-full bg-base-100 shadow-lg transition-shadow   duration-500  hover:shadow-xl  overflow-hidden '
 							}}
 						/>
 					</div>

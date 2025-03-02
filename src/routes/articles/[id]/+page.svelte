@@ -78,9 +78,8 @@
 
 		<div class="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-10">
 			{#if sanitize}
-				<h3>Introduction</h3>
 				<p
-					class="mb-6 text-base font-semibold leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
+					class="mb-6 text-justify text-base font-semibold leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>
 					{@html sanitize(article.introduction)}
 				</p>
@@ -95,7 +94,7 @@
 				</div>
 
 				<p
-					class="article-link mb-6 whitespace-pre-line text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
+					class="article-link mb-6 whitespace-pre-line text-justify text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>
 					{@html sanitize(article.body)}
 				</p>
@@ -116,7 +115,9 @@
 					{/if}
 				</div>
 				<h3>Conclusion</h3>
-				<p class="mb-6 text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl">
+				<p
+					class="mb-6 text-justify text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
+				>
 					{@html sanitize(article.ending)}
 				</p>
 				<div class="text-sm sm:text-base">
@@ -195,7 +196,7 @@
 
 	<Carousel items={article.images} type="images" />
 
-	<div class="mx-auto max-w-screen-lg px-4 sm:px-6 lg:px-8">
+	<div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
 		<WatchDetails {article} />
 	</div>
 {:else}

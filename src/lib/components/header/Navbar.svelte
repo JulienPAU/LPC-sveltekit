@@ -4,7 +4,34 @@
 	import logoC from '$lib/assets/logos/logoC.svg';
 	import { page } from '$app/state';
 	import type { SessionUser } from '$lib/types/user';
+	import { onMount } from 'svelte';
 	export let watches: Array<{ brand: string; model: string }> = [];
+
+	let scrolled = false;
+	let navbarClass = '';
+	let menuBgClass = '';
+
+	function handleScroll() {
+		if (window.scrollY > 10) {
+			scrolled = true;
+			navbarClass = 'bg-opacity-80 shadow-md ';
+			menuBgClass = 'bg-opacity-80 ';
+		} else {
+			scrolled = false;
+			navbarClass = 'bg-opacity-100';
+			menuBgClass = 'bg-opacity-100';
+		}
+	}
+
+	onMount(() => {
+		// Ajout de l'écouteur d'événement scroll
+		window.addEventListener('scroll', handleScroll);
+
+		// Nettoyage à la destruction du composant
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	});
 
 	function normalizeBrandName(brand: string): string {
 		return brand.charAt(0).toUpperCase() + brand.slice(1).toLowerCase();
@@ -44,8 +71,9 @@
 
 <svelte:window on:click={handleClickOutside} />
 
-<!-- sticky top-5 -->
-<navbar class="  navbar z-50 mx-auto w-auto bg-slate-900 px-0 pt-5 text-white sm:mx-0">
+<navbar
+	class="navbar sticky top-0 z-50 mx-auto w-full bg-slate-900 px-0 pt-5 text-white transition-all duration-300 sm:mx-0 {navbarClass}"
+>
 	<!-- Navbar Start -->
 	<div class="navbar-start">
 		<!-- Mobile menu burger -->
@@ -68,7 +96,7 @@
 			</div>
 			<button
 				tabindex="0"
-				class="menu dropdown-content menu-sm z-[1] w-40 gap-5 rounded-lg border border-yellow-500 bg-gray-900 p-2 shadow"
+				class="bakdrop-blur-none menu dropdown-content menu-sm z-[1] w-40 gap-5 rounded-lg border border-yellow-500 bg-gray-900 bg-opacity-100 p-2 shadow {menuBgClass}"
 			>
 				<li><a href="/" class="text-base hover:bg-gray-600">Accueil</a></li>
 				<li><a href="/articles" class="text-base hover:bg-gray-600">Articles</a></li>
@@ -78,7 +106,7 @@
 				<li>
 					<details>
 						<summary class="text-base">Marques</summary>
-						<ul class="drop rounded-lg border border-yellow-500 bg-slate-900 p-2">
+						<ul class="drop rounded-lg border border-yellow-500 bg-slate-900 p-2 {menuBgClass}">
 							{#if displayedBrands.length === 0}
 								<li>
 									<a href="/" class="text-base text-white hover:bg-gray-600">Aucune marque</a>
@@ -117,7 +145,7 @@
 		<!-- Desktop links -->
 		<div class="z-10 hidden xl:flex">
 			<ul
-				class="menu menu-horizontal items-center bg-gray-900 p-0 px-1 sm:text-sm md:text-lg lg:text-lg"
+				class="menu menu-horizontal items-center p-0 px-1 transition-all duration-300 {menuBgClass} sm:text-sm md:text-lg lg:text-lg"
 			>
 				<li>
 					<a
@@ -315,3 +343,9 @@
 		</div>
 	</div>
 </navbar>
+
+<style>
+	.navbar {
+		transition: all 0.3s ease-in-out;
+	}
+</style>

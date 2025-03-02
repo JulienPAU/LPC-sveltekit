@@ -3,7 +3,7 @@
 
 <section class=" relative mb-20 bg-gray-200">
 	<div class="relative z-10 px-2 py-24 text-center lg:px-8">
-		<h1>Partagez votre passion en proposant vos propres articles sur vos tocantes favorites !</h1>
+		<h1>Partagez votre passion en proposant vos propres articles sur vos tocantes favorites!</h1>
 
 		<h2 class="py-4">Créez votre compte dès maintenant pour :</h2>
 

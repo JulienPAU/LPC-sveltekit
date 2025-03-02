@@ -4,7 +4,7 @@
 	export let data;
 	const { definitions } = data;
 
-	let activeLetter: string | null = 'A'; // Initialiser avec "A" par défaut
+	let activeLetter: string | null = 'A';
 	let activeWordIndex: number | null = null;
 
 	// Fonction pour normaliser les caractères (enlever les accents)
@@ -53,10 +53,9 @@
 		Bienvenue dans notre lexique horloger, votre guide complet pour découvrir et comprendre le monde
 		fascinant de l'horlogerie. Que vous soyez passionné par les montres ou simplement curieux, ce
 		lexique vous fournira des définitions claires et précises des termes techniques et des concepts
-		essentiels utilisés dans l'industrie horlogère. De "automatique" à "zirconium", explorez les
-		secrets des mécanismes complexes et des matériaux innovants qui font battre le cœur de vos
-		montres préférées. Si vous ne trouvez pas un terme ou si vous souhaitez plus d'informations,
-		n'hésitez pas à nous contacter – nous sommes toujours là pour vous aider !
+		essentiels utilisés dans l'industrie horlogère. Si vous ne trouvez pas un terme ou si vous
+		souhaitez plus d'informations, n'hésitez pas à nous contacter – nous sommes toujours là pour
+		vous aider !
 	</p>
 	<div
 		class="mb-10 flex w-full flex-row flex-wrap justify-center gap-2 border-y bg-slate-900 p-4 text-white lg:w-1/2 lg:rounded-lg"
@@ -87,6 +86,22 @@
 							on:click={() => toggleWordPanel(index)}
 						>
 							<span>{word}</span>
+
+							<svg
+								class="h-6 w-6 transition-transform duration-200 {activeWordIndex === index
+									? 'rotate-180'
+									: ''}"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M19 9l-7 7-7-7"
+								/>
+							</svg>
 						</button>
 						{#if activeWordIndex === index}
 							<p class="mt-2 break-words p-4 text-lg font-semibold text-white">

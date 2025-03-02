@@ -7,8 +7,8 @@
 	export let watches: Array<{ brand: string; model: string }> = [];
 </script>
 
+<Navbar {watches} />
 <header class="perspective-500 min-h-fit transform bg-slate-900">
-	<Navbar {watches} />
 	<div class=" flex flex-col items-center justify-center md:flex-row">
 		<div
 			class="mx-5 mt-5 flex flex-col items-center justify-center text-lg text-white md:order-first md:w-1/2"
