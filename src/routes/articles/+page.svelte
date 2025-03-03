@@ -67,7 +67,7 @@
 
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
-	<div class="mb-20 flex w-full flex-wrap justify-center gap-10 px-4 lg:gap-20">
+	<div class="mb-20 flex w-full flex-wrap justify-center gap-14 px-4">
 		{#if loading}
 			{#each Array(itemsPerPage) as _}
 				<Skeleton containerClass="flex-col sm:w-4/5 md:w-96 lg:w-2/6 p-4" imageClass="h-[490px]" />

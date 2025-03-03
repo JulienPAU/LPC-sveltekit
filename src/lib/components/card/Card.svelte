@@ -62,7 +62,7 @@
 		{/if}
 	</figure>
 
-	<div class="card-body px-4 pb-0">
+	<div class="card-body p-5">
 		<h2
 			class="card-title overflow-hidden hyphens-auto font-light"
 			lang="fr"
@@ -100,7 +100,7 @@
 				{/if}
 			{/if}
 		{:else}
-			<p class="mb-5 text-sm leading-3">
+			<p class="mb-3 text-sm leading-3">
 				<span class="italic"> {getArticleType(props.article_type) || 'Type inconnu'}</span>
 				Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
 
@@ -111,8 +111,8 @@
 				</span>
 			</p>
 			{#if props.introduction}
-				<div class="mb-5">
-					{@html truncateText(sanitize(props.introduction), 140) || 'Contenu indisponible'}
+				<div class="">
+					{@html truncateText(sanitize(props.introduction), 150) || 'Contenu indisponible'}
 				</div>
 			{/if}
 		{/if}

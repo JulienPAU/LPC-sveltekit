@@ -54,11 +54,10 @@
 		fascinant de l'horlogerie. Que vous soyez passionné par les montres ou simplement curieux, ce
 		lexique vous fournira des définitions claires et précises des termes techniques et des concepts
 		essentiels utilisés dans l'industrie horlogère. Si vous ne trouvez pas un terme ou si vous
-		souhaitez plus d'informations, n'hésitez pas à nous contacter – nous sommes toujours là pour
-		vous aider !
+		souhaitez plus d'informations, n'hésitez pas à nous contacter !
 	</p>
 	<div
-		class="mb-10 flex w-full flex-row flex-wrap justify-center gap-2 border-y bg-slate-900 p-4 text-white lg:w-1/2 lg:rounded-lg"
+		class="mb-10 flex w-full flex-row flex-wrap justify-center gap-2 border-y bg-slate-900 p-4 text-white lg:w-2/3 lg:rounded-lg"
 	>
 		{#each sortedLetters as letter}
 			<button

@@ -41,8 +41,15 @@
 </script>
 
 <div
-	class="mx-auto my-4 flex w-full max-w-sm flex-col justify-center overflow-hidden rounded-lg bg-slate-900 shadow-lg sm:my-6 md:my-8 lg:my-0 lg:h-screen lg:max-w-full lg:flex-row lg:rounded-none"
+	class="mx-auto my-4 flex w-full max-w-sm flex-col justify-center overflow-hidden bg-slate-900 shadow-lg sm:my-6 md:my-8 lg:my-0 lg:h-screen lg:max-w-full lg:flex-row"
 >
+	<div class="block bg-slate-900 p-4 text-center text-white lg:hidden">
+		<h2 class="mb-3">Rejoignez la communauté !</h2>
+		<p class="break-words text-justify text-lg font-semibold opacity-90">
+			Partagez vos connaissances et découvrez un univers fascinant dédié aux montres. Publiez vos
+			articles, proposez des idées, et laissez-vous emporter par la passion horlogère.
+		</p>
+	</div>
 	<div
 		class="hidden items-center justify-center bg-cover text-center text-white lg:flex lg:w-1/2"
 		style="background-image: url({Mouvement});"

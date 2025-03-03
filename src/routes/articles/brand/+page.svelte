@@ -75,7 +75,7 @@
 	</p>
 
 	<div
-		class="mb-10 flex w-full flex-row flex-wrap justify-center gap-2 border-y bg-slate-900 p-4 text-white lg:w-1/2 lg:rounded-lg"
+		class="mb-10 flex w-full flex-row flex-wrap justify-center gap-2 border-y bg-slate-900 p-4 text-white lg:w-2/3 lg:rounded-lg"
 	>
 		{#each sortedLetters as letter}
 			<button
