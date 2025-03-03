@@ -1,0 +1,39 @@
+name: Neon Database Backup
+
+on:
+  schedule:
+    # Exécution tous les lundis à 3h du matin
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+jobs:
+  create-neon-backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create Neon Database Backup Branch
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
+        run: |
+          # Création d'un nom de branche avec la date
+          BACKUP_NAME="backup-$(date +%Y-%m-%d)"
+
+          # Appel API pour créer une nouvelle branche
+          curl -X POST "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $NEON_API_KEY" \
+            -d "{\"branch\": {\"name\": \"$BACKUP_NAME\", \"parent_id\": \"main\"}}"
+
+          echo "Sauvegarde Neon créée: $BACKUP_NAME"
+
+      - name: Notify backup status
+        if: always()
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "Sauvegarde Neon réussie ✅"
+          else
+            echo "Échec de la sauvegarde Neon ❌"
+          fi
