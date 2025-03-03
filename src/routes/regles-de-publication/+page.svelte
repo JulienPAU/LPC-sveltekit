@@ -1,11 +1,14 @@
-<div class="items-center text-center">
-	<h1>Règles de Publication</h1>
+<div class="flex items-center justify-center text-center">
+	<h1 class="py-10">Règles de Publication</h1>
 </div>
 
-<div class="mx-auto max-w-4xl rounded-lg bg-white p-8 shadow-lg">
-	<section class="mb-8">
+<div
+	class="mx-auto mb-10 max-w-[100%] rounded-lg bg-white px-6 sm:max-w-[90%] md:px-10 lg:max-w-5xl lg:px-12"
+	lang="fr"
+>
+	<section class="mb-6 sm:mb-8">
 		<h2>Préambule</h2>
-		<p>
+		<p class="overflow-wrap-anywhere hyphens-auto break-words text-justify">
 			Notre site est une plateforme dédiée au partage de connaissances et d'informations sur les
 			montres. Nous souhaitons maintenir un environnement respectueux, informatif et de qualité pour
 			tous nos utilisateurs. Les présentes règles de publication définissent les conditions à
@@ -13,7 +16,7 @@
 		</p>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>1. Processus de publication</h2>
 		<ol class="list-inside list-decimal">
 			<li>
@@ -30,7 +33,7 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>2. Contenu autorisé</h2>
 		<ol class="list-inside list-decimal">
 			<li>
@@ -39,7 +42,7 @@
 			</li>
 			<li>
 				Les contenus autorisés incluent, sans s'y limiter :
-				<ul class="list-inside list-disc pl-6">
+				<ul class="list-inside list-disc pl-4 sm:pl-6">
 					<li>Présentations et critiques de montres</li>
 					<li>Analyses techniques</li>
 					<li>Actualités du monde de l'horlogerie</li>
@@ -51,12 +54,12 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>3. Contenu prohibé</h2>
 		<ol class="list-inside list-decimal">
 			<li>
 				Les contenus suivants sont strictement interdits :
-				<ul class="list-inside list-disc pl-6">
+				<ul class="list-inside list-disc pl-4 sm:pl-6">
 					<li>Contenu à caractère pornographique, obscène ou indécent</li>
 					<li>Propos diffamatoires, injurieux ou incitant à la haine</li>
 					<li>
@@ -73,12 +76,12 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>4. Qualité éditoriale</h2>
 		<ol class="list-inside list-decimal">
 			<li>
 				Les articles doivent respecter un minimum de qualité éditoriale :
-				<ul class="list-inside list-disc pl-6">
+				<ul class="list-inside list-disc pl-4 sm:pl-6">
 					<li>Être rédigés dans un français correct</li>
 					<li>Ne pas contenir de fautes d'orthographe ou de grammaire excessives</li>
 					<li>Présenter une structure claire et cohérente</li>
@@ -93,7 +96,7 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>5. Droits d'auteur et propriété intellectuelle</h2>
 		<ol class="list-inside list-decimal">
 			<li>
@@ -112,7 +115,7 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>6. Transparence et conflits d'intérêt</h2>
 		<ol class="list-inside list-decimal">
 			<li>
@@ -125,7 +128,7 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>7. Modification des articles publiés</h2>
 		<ol class="list-inside list-decimal">
 			<li>
@@ -139,12 +142,12 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>8. Sanctions en cas de non-respect</h2>
 		<ol class="list-inside list-decimal">
 			<li>
 				Le non-respect des présentes règles peut entraîner :
-				<ul class="list-inside list-disc pl-6">
+				<ul class="list-inside list-disc pl-4 sm:pl-6">
 					<li>Le refus de publication de l'article</li>
 					<li>La suppression d'un article déjà publié</li>
 					<li>La suspension temporaire du compte de l'utilisateur</li>
@@ -154,7 +157,7 @@
 		</ol>
 	</section>
 
-	<section class="mb-8">
+	<section class="mb-6 sm:mb-8">
 		<h2>9. Modification des règles</h2>
 		<ol class="list-inside list-decimal">
 			<li>
@@ -168,7 +171,22 @@
 		</ol>
 	</section>
 
-	<footer class="text-sm text-gray-600">
+	<footer class="mt-4 text-center text-sm text-gray-600">
 		<p>Date de dernière mise à jour : 1 mars 2025</p>
 	</footer>
 </div>
+
+<style>
+	h2 {
+		font-size: 1.4rem;
+		overflow-wrap: anywhere;
+		hyphens: auto;
+		word-break: break-word;
+	}
+
+	@media (min-width: 640px) {
+		h2 {
+			font-size: 2rem;
+		}
+	}
+</style>

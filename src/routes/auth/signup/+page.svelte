@@ -1,3 +1,5 @@
+<!-- src/ routes/auth/signup/+page.svelte -->
+
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Mouvement from '$lib/assets/watches/Mouvement.png';
@@ -39,17 +41,19 @@
 </script>
 
 <div
-	class="mx-auto my-10 flex w-full max-w-sm justify-center overflow-hidden rounded-lg bg-slate-900 shadow-lg sm:my-10 lg:my-0 lg:h-screen lg:max-w-full lg:rounded-none"
+	class="mx-auto my-4 flex w-full max-w-sm flex-col justify-center overflow-hidden rounded-lg bg-slate-900 shadow-lg sm:my-6 md:my-8 lg:my-0 lg:h-screen lg:max-w-full lg:flex-row lg:rounded-none"
 >
 	<div class="hidden bg-cover lg:block lg:w-1/2" style="background-image: url({Mouvement});"></div>
 
-	<div class="flex w-full flex-col justify-center border-y-2 px-6 py-8 md:px-36 lg:w-1/2 lg:px-60">
+	<div
+		class="flex w-full flex-col justify-center border-y-2 px-4 py-6 sm:px-6 md:px-12 lg:w-1/2 lg:px-16 xl:px-24 2xl:px-52"
+	>
 		<button
 			on:click={handleGoogleSignin}
 			class="mt-4 flex transform items-center justify-center rounded-lg border text-gray-600 transition-colors duration-300 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-600"
 		>
-			<div class="px-4 py-2">
-				<svg class="h-6 w-6" viewBox="0 0 40 40">
+			<div class="px-3 py-2 sm:px-4">
+				<svg class="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 40 40">
 					<path
 						d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
 						fill="#FFC107"
@@ -69,7 +73,10 @@
 				</svg>
 			</div>
 
-			<span class="logs-btn w-5/6 px-4 py-3 text-center font-bold">S'inscrire avec Google</span>
+			<span
+				class="logs-btn w-5/6 px-2 py-2 text-center text-sm font-bold sm:px-4 sm:py-3 sm:text-base"
+				>S'inscrire avec Google</span
+			>
 		</button>
 
 		<div class="mt-4 flex items-center justify-between">
@@ -79,65 +86,65 @@
 
 			<span class="w-1/6 border-b lg:w-1/6"></span>
 		</div>
-		<form method="post" on:submit|preventDefault={handleSignup}>
-			<div class="flex w-full gap-5">
-				<div class="mt-4 w-full">
+		<form method="post" on:submit|preventDefault={handleSignup} class="w-full">
+			<div class="flex w-full flex-col gap-2 sm:flex-row sm:gap-4">
+				<div class="mt-3 w-full sm:mt-4">
 					<label
-						class="mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200"
+						class="mb-1 block text-sm font-medium text-gray-600 sm:mb-2 dark:text-gray-200"
 						for="last_name">Nom</label
 					>
 					<input
 						id="last_name"
 						name="last_name"
-						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+						class="block w-full rounded-lg border bg-white px-3 py-2 text-sm text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 sm:px-4 sm:py-2 sm:text-base dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 						type="text"
 					/>
 				</div>
 
-				<div class="mt-4 w-full">
+				<div class="mt-3 w-full sm:mt-4">
 					<label
-						class="mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200"
+						class="mb-1 block text-sm font-medium text-gray-600 sm:mb-2 dark:text-gray-200"
 						for="first_name">Prénom</label
 					>
 					<input
 						id="first_name"
 						name="first_name"
-						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+						class="block w-full rounded-lg border bg-white px-3 py-2 text-sm text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 sm:px-4 sm:py-2 sm:text-base dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 						type="text"
 					/>
 				</div>
 			</div>
 
-			<div class="mt-4">
+			<div class="mt-3 sm:mt-4">
 				<label
-					class="mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200"
+					class="mb-1 block text-sm font-medium text-gray-600 sm:mb-2 dark:text-gray-200"
 					for="username">Nom d'utilisateur</label
 				>
 				<input
 					id="username"
 					name="username"
-					class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+					class="block w-full rounded-lg border bg-white px-3 py-2 text-sm text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 sm:px-4 sm:py-2 sm:text-base dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 					type="text"
 				/>
 			</div>
 
-			<div class="mt-4">
+			<div class="mt-3 sm:mt-4">
 				<label
-					class="mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200"
+					class="mb-1 block text-sm font-medium text-gray-600 sm:mb-2 dark:text-gray-200"
 					for="LoggingEmailAddress">Adresse email</label
 				>
 				<input
 					id="LoggingEmailAddress"
 					name="email"
-					class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+					class="block w-full rounded-lg border bg-white px-3 py-2 text-sm text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 sm:px-4 sm:py-2 sm:text-base dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 					type="email"
 				/>
 			</div>
 
-			<div class="mt-4">
+			<div class="mt-3 sm:mt-4">
 				<div class="flex justify-between">
 					<label
-						class="mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200"
+						class="mb-1 block text-sm font-medium text-gray-600 sm:mb-2 dark:text-gray-200"
 						for="loggingPassword">Mot de passe</label
 					>
 				</div>
@@ -145,7 +152,7 @@
 				<div class="relative">
 					<input
 						id="password"
-						class="block w-full rounded-lg border bg-white px-4 py-2 text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
+						class="block w-full rounded-lg border bg-white px-3 py-2 text-sm text-gray-700 focus:border-yellow-500 focus:outline-none focus:ring focus:ring-yellow-500 focus:ring-opacity-40 sm:px-4 sm:py-2 sm:text-base dark:bg-gray-800 dark:text-gray-300 dark:focus:border-yellow-500"
 						type="password"
 						name="password"
 					/>
@@ -162,21 +169,23 @@
 			</div>
 
 			{#if errorMessage}
-				<div class="mt-4 text-red-600">{errorMessage}</div>
+				<div class="mt-3 text-sm text-red-600 sm:mt-4 sm:text-base">{errorMessage}</div>
 			{/if}
 
-			<div class="mt-6">
+			<div class="mt-4 sm:mt-6">
 				<button
-					class="w-full transform rounded-lg bg-gray-700 px-6 py-3 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+					class="w-full transform rounded-lg bg-gray-700 px-4 py-2 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50 sm:px-6 sm:py-3 sm:text-base"
 				>
 					S'inscrire
 				</button>
 			</div>
 		</form>
-		<div class="mt-4 flex items-center justify-between">
+		<div class="mt-3 flex items-center justify-between sm:mt-4">
 			<span class="w-1/5 border-b md:w-1/4"></span>
 
-			<a href="login" class="text-xs uppercase text-gray-500 hover:underline dark:text-gray-400"
+			<a
+				href="login"
+				class="text-xs uppercase text-gray-500 hover:underline sm:text-sm dark:text-gray-400"
 				>Se connecter</a
 			>
 

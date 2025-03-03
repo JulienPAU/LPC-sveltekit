@@ -19,15 +19,10 @@
 	const isHome = $derived(page.url.pathname === '/');
 
 	const hiddenPages = ['/auth', '/dashboard'];
-
-	const content = `Passionné(e) par l'univers des montres, qu'elles soient classiques, modernes ou uniques ? Ce
-				site est fait pour vous ! Découvrez des articles dédiés aux garde-temps qui marquent les
-				heures et les esprits, et partagez votre passion en proposant vos propres articles. Ici,
-				chaque cadran raconte une histoire, et la vôtre mérite d'être entendue.`;
 </script>
 
 {#if isHome}
-	<Header title="Bienvenue sur Les Petits Cadrans !" {content} {watches} />
+	<Header {watches} />
 {:else}
 	<Navbar {watches} />
 	{#if !hiddenPages.includes(page.url.pathname)}

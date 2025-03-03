@@ -145,7 +145,7 @@
 		<!-- Desktop links -->
 		<div class="z-10 hidden xl:flex">
 			<ul
-				class="menu menu-horizontal items-center p-0 px-1 transition-all duration-300 {menuBgClass} sm:text-sm md:text-lg lg:text-lg"
+				class="menu menu-horizontal items-center p-0 px-1 transition-all duration-300 {menuBgClass} font-orelega sm:text-sm md:text-lg lg:text-lg"
 			>
 				<li>
 					<a
@@ -161,7 +161,7 @@
 				<li class="rounded-lg hover:bg-gray-600">
 					<details>
 						<summary>Marques</summary>
-						<ul class="border border-yellow-500 bg-slate-900 p-2">
+						<ul class="border border-yellow-500 bg-slate-900 p-2 {menuBgClass}">
 							{#if displayedBrands.length === 0}
 								<li>
 									<a href="/" class="whitespace-nowrap text-white hover:bg-gray-600"
@@ -334,7 +334,7 @@
 					<li class="hidden xl:block">
 						<a
 							href="/auth/login"
-							class="btn bg-warning text-lg font-bold text-black hover:bg-yellow-400 hover:text-black"
+							class="btn border-none bg-warning text-lg font-bold text-black hover:bg-yellow-400 hover:text-black"
 							>Se connecter</a
 						>
 					</li>

@@ -105,16 +105,17 @@
 	};
 </script>
 
-<section class="flex flex-col items-center p-8">
+<section class="flex flex-col items-center p-4">
 	<h2 class="mb-10">
 		Bienvenue <span class="border-b-4 border-b-yellow-500">{user?.username}</span>
 	</h2>
 
-	<p class="mb-10 text-lg font-semibold text-gray-900">Prêt à partager ta passion horlogère ?</p>
+	<p class="mb-6 text-base font-semibold text-gray-900 md:text-lg lg:text-xl">
+		Prêt à partager ta passion horlogère ?
+	</p>
 
 	{#if articlesByUserId.total >= 10 && user.User_Role[0].role !== 'MODERATOR' && user.User_Role[0].role !== 'ADMIN'}
 		{#if user.moderatorRequestStatus === 'NOT_REQUESTED'}
-			<!-- Cas 1 : L’utilisateur n’a pas encore fait de demande -->
 			<div class="mb-10 flex flex-col items-center gap-4 rounded-lg bg-slate-900 p-8 text-white">
 				<p class="text-2xl font-bold">Félicitations, vous avez publié plus de 10 articles !</p>
 				<p>Vous pouvez faire une demande pour être modérateur.</p>
@@ -127,7 +128,6 @@
 				</button>
 			</div>
 		{:else if user.moderatorRequestStatus === 'PENDING'}
-			<!-- Cas 2 : Demande en attente -->
 			<div class="mb-10 flex flex-col items-center gap-4 rounded-lg bg-blue-900 p-4 text-white">
 				<p class="text-2xl font-bold">Votre demande est en attente</p>
 				<p class="font-semibold">
@@ -136,7 +136,6 @@
 				</p>
 			</div>
 		{:else if user.moderatorRequestStatus === 'REJECTED'}
-			<!-- Cas 3 : Demande refusée par l'admin -->
 			<div class="mb-10 flex flex-col items-center gap-4 rounded-lg bg-red-900 p-4 text-white">
 				<p class="text-2xl font-bold">Votre demande a été refusée</p>
 				<p>Vous ne remplissez pas encore les critères pour devenir modérateur.</p>
@@ -149,7 +148,7 @@
 		{/if}
 	{/if}
 
-	<div class="w-full max-w-4xl rounded-xl bg-gray-200 p-6 shadow-lg">
+	<div class="w-full max-w-5xl rounded-xl bg-gray-200 p-6 shadow-lg">
 		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 			<div class="rounded-xl bg-white p-6 shadow-md">
 				<h3 class="mb-4 text-center">Statistiques Articles</h3>
@@ -231,7 +230,7 @@
 		{/if}
 	{/if}
 
-	<div class="mt-10 w-full max-w-4xl rounded-xl bg-white p-6 shadow-lg">
+	<div class="mt-10 w-full max-w-5xl rounded-xl bg-white p-6 shadow-lg">
 		<h3 class="mb-4">📌 Comment fonctionne Les Petits Cadrans ?</h3>
 		<p class="text-gray-600">
 			Les Petits Cadrans est une plateforme dédiée aux passionnés d'horlogerie. Vous pouvez proposer
