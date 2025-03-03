@@ -22,29 +22,41 @@ jobs:
           BACKUP_NAME="backup-$(date +%Y-%m-%d)"
 
           # 1. Récupérer la liste des branches de sauvegarde
+          echo "Récupération des branches existantes..."
           BRANCHES=$(curl -s -X GET "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches" \
             -H "Accept: application/json" \
             -H "Authorization: Bearer $NEON_API_KEY")
 
-          # 2. Filtrer pour ne garder que les branches de sauvegarde et les trier par date
-          BACKUP_BRANCHES=$(echo $BRANCHES | jq -r '.branches[] | select(.name | startswith("backup-")) | {name: .name, id: .id, created_at: .created_at}' | jq -s 'sort_by(.created_at)')
-
-          # 3. Supprimer les anciennes branches si nécessaire
-          COUNT=$(echo $BACKUP_BRANCHES | jq '. | length')
-          if [ $COUNT -ge $MAX_BACKUPS ]; then
-            # Nombre de branches à supprimer
-            TO_DELETE=$((COUNT - MAX_BACKUPS + 1))
+          # Vérifier si la réponse est valide
+          if echo "$BRANCHES" | jq -e . >/dev/null 2>&1; then
+            echo "Format JSON valide, traitement des branches..."
             
-            echo "Suppression de $TO_DELETE anciennes branches de sauvegarde"
+            # 2. Filtrer pour ne garder que les branches de sauvegarde et les trier par date
+            BACKUP_BRANCHES=$(echo $BRANCHES | jq -r '.branches[] | select(.name | startswith("backup-")) | {name: .name, id: .id, created_at: .created_at}' | jq -s 'sort_by(.created_at)')
             
-            for i in $(seq 0 $((TO_DELETE - 1))); do
-              BRANCH_ID=$(echo $BACKUP_BRANCHES | jq -r ".[$i].id")
-              BRANCH_NAME=$(echo $BACKUP_BRANCHES | jq -r ".[$i].name")
+            # 3. Supprimer les anciennes branches si nécessaire
+            COUNT=$(echo $BACKUP_BRANCHES | jq -e '. | length')
+            
+            if [ $? -eq 0 ] && [ $COUNT -ge $MAX_BACKUPS ]; then
+              # Nombre de branches à supprimer
+              TO_DELETE=$((COUNT - MAX_BACKUPS + 1))
               
-              echo "Suppression de la branche $BRANCH_NAME (ID: $BRANCH_ID)"
-              curl -X DELETE "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches/$BRANCH_ID" \
-                -H "Authorization: Bearer $NEON_API_KEY"
-            done
+              echo "Suppression de $TO_DELETE anciennes branches de sauvegarde"
+              
+              for i in $(seq 0 $((TO_DELETE - 1))); do
+                BRANCH_ID=$(echo $BACKUP_BRANCHES | jq -r ".[$i].id")
+                BRANCH_NAME=$(echo $BACKUP_BRANCHES | jq -r ".[$i].name")
+                
+                echo "Suppression de la branche $BRANCH_NAME (ID: $BRANCH_ID)"
+                curl -X DELETE "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches/$BRANCH_ID" \
+                  -H "Authorization: Bearer $NEON_API_KEY"
+              done
+            else
+              echo "Pas assez de branches à supprimer ou erreur dans le calcul"
+            fi
+          else
+            echo "Erreur lors de la récupération des branches, format JSON invalide"
+            echo "Réponse reçue: ${BRANCHES:0:100}..."
           fi
 
           # 4. Créer une nouvelle branche de sauvegarde
@@ -62,5 +74,3 @@ jobs:
           if [ ${{ job.status }} == 'success' ]; then
             echo "Sauvegarde Neon réussie ✅"
           else
-            echo "Échec de la sauvegarde Neon ❌"
-          fi
