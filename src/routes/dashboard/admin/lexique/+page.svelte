@@ -25,7 +25,6 @@
 
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
-	<!-- Liste des définitions alignées -->
 	<div class="flex w-full flex-wrap justify-between gap-2">
 		{#if allDefinitions.length > 0}
 			{#each paginateddefinitions as definition}

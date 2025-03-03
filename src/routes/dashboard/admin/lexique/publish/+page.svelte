@@ -12,14 +12,13 @@
 
 	let isEditing = false;
 	let definitionId: string | null = null;
+	let showDeleteConfirm = false;
 
 	onMount(async () => {
-		// Récupérer l'ID de la définition depuis l'URL si présent
 		const id = $page.url.searchParams.get('id');
 		if (id) {
 			isEditing = true;
 			definitionId = id;
-			// Charger les données de la définition
 			try {
 				const response = await fetch(`/api/_public/lexical/${id}`);
 				if (response.ok) {
@@ -70,6 +69,30 @@
 			toast.error('Erreur lors de la soumission');
 		}
 	}
+
+	async function handleDelete() {
+		if (!definitionId) return;
+
+		try {
+			const response = await fetch(`/api/_public/lexical/${definitionId}/delete`, {
+				method: 'DELETE'
+			});
+
+			if (!response.ok) {
+				throw new Error(`Erreur lors de la suppression : ${response.statusText}`);
+			}
+
+			toast.success('Définition supprimée avec succès');
+			window.location.href = '/dashboard/admin/lexique';
+		} catch (error) {
+			console.error('Erreur:', error);
+			toast.error('Erreur lors de la suppression');
+		}
+	}
+
+	function toggleDeleteConfirm() {
+		showDeleteConfirm = !showDeleteConfirm;
+	}
 </script>
 
 <div class="flex flex-col items-center p-4">
@@ -110,6 +133,26 @@
 			</textarea>
 		</div>
 
-		<button type="submit" class="btn btn-warning text-xl">Enregistrer</button>
+		<div class=" flex w-full items-center justify-between gap-2">
+			<button type="submit" class="btn btn-warning text-xl">Enregistrer</button>
+
+			{#if isEditing}
+				{#if !showDeleteConfirm}
+					<button type="button" class="btn btn-error text-lg" on:click={toggleDeleteConfirm}>
+						Supprimer
+					</button>
+				{:else}
+					<div class="flex flex-col items-center justify-center gap-2 lg:flex-row">
+						<span class="font-bold text-red-500">Confirmer la suppression ?</span>
+						<div>
+							<button type="button" class="btn btn-error" on:click={handleDelete}> Oui </button>
+							<button type="button" class="btn btn-neutral" on:click={toggleDeleteConfirm}>
+								Non
+							</button>
+						</div>
+					</div>
+				{/if}
+			{/if}
+		</div>
 	</form>
 </div>

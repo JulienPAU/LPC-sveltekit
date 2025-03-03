@@ -237,7 +237,13 @@
 			vos articles et explorer ceux des autres contributeurs.
 		</p>
 		<p class="mt-4 text-gray-600">
-			🔹 Commencez par rédiger et partager un article sur votre passion.
+			🔹 Commencez par rédiger et partager un article sur votre passion. <a
+				href="/regles-de-publication"
+				aria-label="lien régles de publication"
+				class="text-sm text-black underline"
+			>
+				Consultez les régles de publication.</a
+			>
 			<br />
 			🔹 Consultez les articles populaires et découvrez de nouvelles perspectives horlogères.
 		</p>
