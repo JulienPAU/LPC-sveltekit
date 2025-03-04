@@ -1,6 +1,8 @@
 <!-- src/lib/components/form/ArticleForm.svelte -->
 
 <script lang="ts">
+	import { articleTypeOptions } from '$lib/articleTypes';
+	import { categoryOptions } from '$lib/categories';
 	import QuillEditor from '../QuillEditor.svelte';
 
 	export let isEditing = false;
@@ -151,14 +153,9 @@
 					>
 						<option disabled selected>Choisir une catégorie</option>
 
-						<option value="ANALOG">Analogique</option>
-						<option value="CHRONOGRAPH">Chronographe</option>
-						<option value="SMARTWATCH">Connectée</option>
-						<option value="DIGITAL">Digitale</option>
-						<option value="HYBRID">Hybride</option>
-						<option value="LUXURY">Luxe</option>
-
-						<option value="OTHER">Autre catégorie</option>
+						{#each categoryOptions as { key, label }}
+							<option value={key}>{label}</option>
+						{/each}
 					</select>
 				</div>
 
@@ -173,13 +170,9 @@
 					>
 						<option value="" disabled selected class="text-black">Choisir un type</option>
 
-						<option value="ARTICLE">Article</option>
-						<option value="GUIDE">Guide</option>
-						<option value="LEXIQUE">Lexique</option>
-						<option value="NEWS">Actualité</option>
-						<option value="REVIEW">Revue</option>
-						<option value="TECHNICAL">Technique</option>
-						<option value="OTHER">Autre</option>
+						{#each articleTypeOptions as { key, label }}
+							<option value={key}>{label}</option>
+						{/each}
 					</select>
 				</div>
 			</div>

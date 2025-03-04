@@ -1,3 +1,5 @@
+<!-- src/ routes/ articles/ +page. svelte -->
+
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
 	import Filtres from '$lib/components/filtres.svelte';
@@ -33,14 +35,21 @@
 	function resetArticles() {
 		if (!browser) return;
 
+		if (
+			page.url.searchParams.has('type') ||
+			page.url.searchParams.has('category') ||
+			page.url.searchParams.has('brand') ||
+			page.url.searchParams.has('sort')
+		) {
+			return;
+		}
+
 		const cameFromHome = page.url.searchParams.get('from') === 'home';
 
 		if (!cameFromHome) {
-			// Si on vient de la navbar, on affiche tous les articles
 			localStorage.removeItem('viewedArticleIds');
 			filteredArticles = data.articles;
 		} else {
-			// Si on vient de l'accueil, on filtre les articles déjà vus
 			viewedArticleIds = JSON.parse(localStorage.getItem('viewedArticleIds') || '[]');
 			filteredArticles = articles.filter(
 				(article: { id: string }) => !viewedArticleIds.includes(article.id)
@@ -48,14 +57,58 @@
 		}
 	}
 
-	// Utiliser afterNavigate pour réagir aux changements de navigation
-	afterNavigate(() => {
-		if (browser) resetArticles();
+	afterNavigate(({ from, to }) => {
+		if (!browser) return;
+
+		// Si la navigation vient d'un changement de filtre, ne pas réinitialiser
+		const toHasFilterParams =
+			to?.url.searchParams.has('type') ||
+			to?.url.searchParams.has('category') ||
+			to?.url.searchParams.has('brand') ||
+			to?.url.searchParams.has('sort');
+
+		if (!toHasFilterParams) {
+			resetArticles();
+		}
 	});
 
 	onMount(() => {
 		if (!browser) return;
-		resetArticles();
+
+		// Filtrer les articles selon ces paramètres
+		const typeParam = page.url.searchParams.get('type');
+		const categoryParam = page.url.searchParams.get('category');
+		const brandParam = page.url.searchParams.get('brand');
+		const sortParam = page.url.searchParams.get('sort');
+
+		if (typeParam || categoryParam || brandParam || sortParam) {
+			let filtered = [...articles];
+
+			if (typeParam) filtered = filtered.filter((article) => article.article_type === typeParam);
+			if (categoryParam)
+				filtered = filtered.filter((article) => article.category?.name === categoryParam);
+
+			if (brandParam) {
+				filtered = filtered.filter((article) =>
+					article.ArticleWatches.some(
+						(aw: { watch?: { brand?: string } }) => aw.watch?.brand === brandParam
+					)
+				);
+			}
+
+			if (sortParam) {
+				filtered = filtered.sort((a, b) => {
+					if (sortParam === 'newest') return b.id - a.id;
+					if (sortParam === 'oldest') return a.id - b.id;
+					return b.id - a.id;
+				});
+			}
+
+			filteredArticles = filtered;
+		} else {
+			resetArticles();
+		}
+
 		loading = false;
 	});
 </script>
@@ -63,8 +116,14 @@
 <SectionTitle title="Articles" />
 
 <section class="mx-auto flex flex-col items-center justify-center">
-	<Filtres {articles} onFilterChange={handleFilterChange} />
-
+	<Filtres
+		{articles}
+		onFilterChange={handleFilterChange}
+		initialType={page.url.searchParams.get('type') || ''}
+		initialCategory={page.url.searchParams.get('category') || ''}
+		initialBrand={page.url.searchParams.get('brand') || ''}
+		initialSort={page.url.searchParams.get('sort') || ''}
+	/>
 	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
 	<div class="mb-20 flex w-full flex-wrap justify-center gap-14 px-4">

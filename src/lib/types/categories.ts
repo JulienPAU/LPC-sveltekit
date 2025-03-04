@@ -5,12 +5,22 @@ import type { Watches } from './watches';
 // Enum pour les catégories
 export enum Category {
     ANALOG = "ANALOG",
+    AUTOMATIC = "AUTOMATIC",
     DIGITAL = "DIGITAL",
     CHRONOGRAPH = "CHRONOGRAPH",
     SMARTWATCH = "SMARTWATCH",
-    OTHER = "OTHER",
     HYBRID = "HYBRID",
     LUXURY = "LUXURY",
+    DIVER = "DIVER",
+    PILOT = "PILOT",
+    POCKET = "POCKET",
+    DRESS = "DRESS",
+    FIELD = "FIELD",
+    TOURBILLON = "TOURBILLON",
+    MECHANICAL = "MECHANICAL",
+    SOLAR = "SOLAR",
+    SKELETON = "SKELETON",
+    OTHER = "OTHER",
 }
 
 // Type pour le modèle Categories

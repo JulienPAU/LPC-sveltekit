@@ -1,7 +1,7 @@
 
 id,name,type
-1,Montres de luxe,LUXURY
-2,Montres connectées,SMARTWATCH
-3,Montres digitales,DIGITAL
-4,Montres analogiques,ANALOG
-5,Montres hybrides,HYBRID
+1,Luxe,LUXURY
+2,Connectées,SMARTWATCH
+3,Digitales,DIGITAL
+4,Analogiques,ANALOG
+5,Hybrides,HYBRID

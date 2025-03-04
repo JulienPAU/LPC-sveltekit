@@ -52,6 +52,12 @@ export enum ArticleType {
     REVIEW = "REVIEW",
     TECHNICAL = "TECHNICAL",
     LEXIQUE = "LEXIQUE",
+    NEWS = "NEWS",
+    OTHER = "OTHER",
+    VINTAGE = "VINTAGE",
+    SPONSORED = "SPONSORED",
+    INTERVIEW = "INTERVIEW",
+    COMPARISON = "COMPARISON",
 }
 
 // Interface pour le modèle Articles

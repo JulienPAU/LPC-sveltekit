@@ -3,7 +3,7 @@ import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';
 import { articleUpdateSchema } from '$lib/schemas/articles';
 
-import type { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
+import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 import { submitUpdatedArticle } from '$lib/email.js';
 
@@ -69,6 +69,21 @@ export const POST = async ({ request, locals, params }) => {
             );
 
             uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
+        }
+
+        const categoryValue = formData.get('category')?.toString();
+        if (categoryValue && !Object.values(Category).includes(categoryValue as Category)) {
+            throw error(400, `Catégorie invalide: ${categoryValue}`);
+        }
+
+        const typeValue = formData.get('type')?.toString();
+        if (typeValue && !Object.values(Article_Type).includes(typeValue as Article_Type)) {
+            throw error(400, `Type d'article invalide: ${typeValue}`);
+        }
+
+        const caseMaterialValue = formData.get('case_material')?.toString();
+        if (caseMaterialValue && !Object.values(WatchCaseMaterial).includes(caseMaterialValue as WatchCaseMaterial)) {
+            throw error(400, `Matériau de boîtier invalide: ${caseMaterialValue}`);
         }
 
         const formDataObject = {

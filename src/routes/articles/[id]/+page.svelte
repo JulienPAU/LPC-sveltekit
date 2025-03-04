@@ -122,7 +122,12 @@
 				</p>
 				<div class="text-sm sm:text-base">
 					{#if article?.article_type}
-						<i>{getArticleType(article.article_type)}</i>
+						<a
+							href="/articles?type={article.article_type}"
+							class="font-normal italic text-black hover:text-black hover:underline"
+						>
+							{getArticleType(article.article_type)}
+						</a>
 					{/if}
 					{#if article?.user?.username}
 						Par <strong>{article.user.username}</strong>
@@ -131,7 +136,12 @@
 						le {formatDate(article.publish_date)}
 					{/if}
 					{#if article?.category?.name}
-						dans <i>{getCategory(article.category.name)}</i>
+						dans <a
+							href="/articles?category={article.category?.name}"
+							class="font-normal italic text-black hover:text-black hover:underline"
+						>
+							{getCategory(article.category?.name)}
+						</a>
 					{/if}
 				</div>
 			{/if}

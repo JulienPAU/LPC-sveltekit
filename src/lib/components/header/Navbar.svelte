@@ -24,10 +24,8 @@
 	}
 
 	onMount(() => {
-		// Ajout de l'écouteur d'événement scroll
 		window.addEventListener('scroll', handleScroll);
 
-		// Nettoyage à la destruction du composant
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};

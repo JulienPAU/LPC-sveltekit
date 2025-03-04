@@ -171,32 +171,66 @@ export const getArticleType = (type: string) => {
 			return "Technique";
 		case "LEXIQUE":
 			return "Lexique";
+		case "NEWS":
+			return "Actualités";
+		case "VINTAGE":
+			return "Vintage";
+		case "SPONSORED":
+			return "Sponsorisé";
+		case "INTERVIEW":
+			return "Interview";
+		case "COMPARISON":
+			return "Comparatif";
+		case "OTHER":
+			return "Autre";
 		default:
 			return type;
 	}
 };
+
 
 // Conversion des catégories
 export const getCategory = (category: string) => {
 	switch (category) {
 		case "ANALOG":
 			return "Analogique";
+		case "AUTOMATIC":
+			return "Automatique";
 		case "DIGITAL":
 			return "Digitale";
 		case "CHRONOGRAPH":
 			return "Chronographe";
 		case "SMARTWATCH":
 			return "Montre Connectée";
-		case "OTHER":
-			return "Autre";
 		case "HYBRID":
 			return "Hybride";
 		case "LUXURY":
 			return "Luxe";
+		case "DIVER":
+			return "Plongée";
+		case "PILOT":
+			return "Aviation";
+		case "POCKET":
+			return "Gousset";
+		case "DRESS":
+			return "Habillée";
+		case "FIELD":
+			return "Militaire / Tout-terrain";
+		case "TOURBILLON":
+			return "Tourbillon";
+		case "MECHANICAL":
+			return "Mécanique";
+		case "SOLAR":
+			return "Solaire";
+		case "SKELETON":
+			return "Squelette";
+		case "OTHER":
+			return "Autre";
 		default:
 			return category;
 	}
 };
+
 
 
 export const getWatchCaseMaterial = (material: string) => {

@@ -5,7 +5,7 @@ import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION, type ArticleUploadResponse } from '$lib/types/article';
 import { articlePublishSchema } from '$lib/schemas/articles';
 
-import type { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
+import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
 import { UTApi, UTFile } from 'uploadthing/server';
 import { submitArticle } from '$lib/email';
 
@@ -41,6 +41,22 @@ export const POST = async ({ request, locals }) => {
             if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
                 throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
             }
+        }
+
+        const categoryValue = formData.get('category')?.toString();
+
+        if (categoryValue && !Object.values(Category).includes(categoryValue as Category)) {
+            throw error(400, `Catégorie invalide: ${categoryValue}`);
+        }
+
+        const typeValue = formData.get('type')?.toString();
+        if (typeValue && !Object.values(Article_Type).includes(typeValue as Article_Type)) {
+            throw error(400, `Type d'article invalide: ${typeValue}`);
+        }
+
+        const caseMaterialValue = formData.get('case_material')?.toString();
+        if (caseMaterialValue && !Object.values(WatchCaseMaterial).includes(caseMaterialValue as WatchCaseMaterial)) {
+            throw error(400, `Matériau de boîtier invalide: ${caseMaterialValue}`);
         }
 
         const parsedData = articlePublishSchema.safeParse({
@@ -256,7 +272,7 @@ async function handleWatchAndStraps(articleId: number, watchData: {
             ...(watchData.lug_width && { lug_width: watchData.lug_width }),
             ...(watchData.thickness && { thickness: watchData.thickness }),
             ...(watchData.lug_to_lug && { lug_to_lug: watchData.lug_to_lug }),
-            ...(watchData.price && { lug_to_lug: watchData.price }),
+            ...(watchData.price && { price: watchData.price }),
 
             ...(watchData.glass && { glass: watchData.glass })
 

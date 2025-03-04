@@ -46,4 +46,8 @@ enum Article_Type {
   LEXIQUE
   NEWS
   OTHER
+  VINTAGE
+  SPONSORED
+  INTERVIEW
+  COMPARISON
 }

@@ -1,0 +1,18 @@
+export const categoryOptions = [
+    { key: "ANALOG", label: "Analogique" },
+    { key: "AUTOMATIC", label: "Automatique" },
+    { key: "PILOT", label: "Aviation" },
+    { key: "CHRONOGRAPH", label: "Chronographe" },
+    { key: "SMARTWATCH", label: "Connectée" },
+    { key: "DIGITAL", label: "Digitale" },
+    { key: "DRESS", label: "Habillée" },
+    { key: "HYBRID", label: "Hybride" },
+    { key: "LUXURY", label: "Luxe" },
+    { key: "DIVER", label: "Plongée" },
+    { key: "MECHANICAL", label: "Mécanique" },
+    { key: "FIELD", label: "Militaire / Tout-terrain" },
+    { key: "TOURBILLON", label: "Tourbillon" },
+    { key: "SOLAR", label: "Solaire" },
+    { key: "SKELETON", label: "Squelette" },
+    { key: "OTHER", label: "Autre" }
+];
