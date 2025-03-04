@@ -17,20 +17,20 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
     const session = await event.locals.auth();
 
 
-    // if (event.url.pathname.startsWith('/api/_private') || event.url.pathname.startsWith('/dashboard/admin')) {
-    //     if (session) {
-    //         const user = session.user as User;
+    if (event.url.pathname.startsWith('/api/_private') || event.url.pathname.startsWith('/dashboard/admin')) {
+        if (session) {
+            const user = session.user as User;
 
 
-    //         const isAdmin = Array.isArray(user.User_Role)
-    //             ? user.User_Role.some(role => role.role === 'ADMIN')  // Si c'est un tableau, chercher "ADMIN"
-    //             : user.User_Role === 'ADMIN';  // Sinon, comparer directement
+            const isAdmin = Array.isArray(user.User_Role)
+                ? user.User_Role.some(role => role.role === 'ADMIN')  // Si c'est un tableau, chercher "ADMIN"
+                : user.User_Role === 'ADMIN';  // Sinon, comparer directement
 
-    //         if (!isAdmin) {
-    //             throw redirect(303, '/auth/login');
-    //         }
-    //     }
-    // }
+            if (!isAdmin) {
+                throw redirect(303, '/auth/login');
+            }
+        }
+    }
 
     if (event.url.pathname.startsWith('/dashboard/manage')) {
         if (session) {

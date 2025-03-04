@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/state';
+	import type { SessionUser } from '$lib/types/user';
+	const userSession = page.data.session?.user as SessionUser;
 </script>
 
 <section class=" relative mb-20 bg-gray-200">
@@ -9,7 +12,7 @@
 
 		<div class="mt-8 flex justify-center space-x-4">
 			<a
-				href="/auth"
+				href={userSession ? '/dashboard/publish' : '/auth'}
 				class="f rounded-md bg-yellow-500 px-6 py-4 font-orelega text-2xl text-black hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
 			>
 				Proposer un article

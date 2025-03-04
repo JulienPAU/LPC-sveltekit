@@ -138,14 +138,24 @@
 
 			{#if isEditing}
 				{#if !showDeleteConfirm}
-					<button type="button" class="btn btn-error text-lg" on:click={toggleDeleteConfirm}>
+					<button
+						type="button"
+						class="btn bg-[#C41E3A] text-lg text-white hover:bg-[#D22B2B]"
+						on:click={toggleDeleteConfirm}
+					>
 						Supprimer
 					</button>
 				{:else}
 					<div class="flex flex-col items-center justify-center gap-2 lg:flex-row">
-						<span class="font-bold text-red-500">Confirmer la suppression ?</span>
+						<span class="font-bold text-[#C41E3A]">Confirmer la suppression ?</span>
 						<div>
-							<button type="button" class="btn btn-error" on:click={handleDelete}> Oui </button>
+							<button
+								type="button"
+								class="btn bg-[#C41E3A] text-white hover:bg-[#D22B2B]"
+								on:click={handleDelete}
+							>
+								Oui
+							</button>
 							<button type="button" class="btn btn-neutral" on:click={toggleDeleteConfirm}>
 								Non
 							</button>

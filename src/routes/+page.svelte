@@ -43,6 +43,21 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Les Petits Cadrans | Passion horlogère et montres de collection</title>
+	<meta
+		name="description"
+		content="Découvrez Les Petits Cadrans, site dédié aux montres de collection, actualités horlogères et conseils d'experts pour les passionnés d'horlogerie."
+	/>
+	<meta property="og:title" content="Les Petits Cadrans | Passion horlogère" />
+	<meta
+		property="og:description"
+		content="Site spécialisé dans les montres de collection et l'horlogerie de luxe."
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://lespetitscadrans.com/" />
+</svelte:head>
+
 <SectionTitle title="Derniers articles" />
 <Carousel items={firstFiveArticles} type="articles" />
 

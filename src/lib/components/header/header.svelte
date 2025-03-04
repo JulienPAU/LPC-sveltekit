@@ -3,7 +3,12 @@
 	import DigitalClock from './Digitalclock.svelte';
 	import digi from '$lib/assets/digi.png';
 
+	import { page } from '$app/state';
+	import type { SessionUser } from '$lib/types/user';
+
 	export let watches: Array<{ brand: string; model: string }> = [];
+
+	const userSession = page.data.session?.user as SessionUser;
 </script>
 
 <Navbar {watches} />
@@ -22,8 +27,8 @@
 				dont on ne trouve que peu d'informations ?
 			</p>
 			<a
-				href="/auth"
-				class=" my-8 rounded-md bg-yellow-500 px-2 py-4 text-lg font-bold text-black hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 lg:px-6 lg:text-xl"
+				href={userSession ? '/dashboard/publish' : '/auth'}
+				class="my-8 rounded-md bg-yellow-500 px-2 py-4 text-lg font-bold text-black hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 lg:px-6 lg:text-xl"
 			>
 				C'est ici qu'il faut en parler !
 			</a>

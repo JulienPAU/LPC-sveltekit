@@ -18,6 +18,10 @@
 	export let data;
 	export let { article, user } = data;
 
+	const metaDescription = article.introduction
+		? article.introduction.substring(0, 157) + '...'
+		: 'Découvrez cet article sur ' + article.title + ' sur Les Petits Cadrans';
+
 	const userRole = Array.isArray(user?.User_Role) ? user.User_Role[0]?.role : user?.User_Role;
 
 	let showDropdown = false;
@@ -72,8 +76,34 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{article.title} | Les Petits Cadrans</title>
+	<meta name="description" content={metaDescription} />
+	<meta name="author" content={article.user?.username || 'Les Petits Cadrans'} />
+	<meta
+		name="keywords"
+		content="montres, horlogerie, {article.category?.name || ''}, {article.title}"
+	/>
+	<meta property="og:title" content="{article.title} | Les Petits Cadrans" />
+	<meta property="og:description" content={metaDescription} />
+	<meta
+		property="og:image"
+		content={article.images && article.images.length
+			? article.images[0]
+			: '/default-article-image.jpg'}
+	/>
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="https://lespetitscadrans.com/articles/{article.id}" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="author" content={article.user?.username || 'Les Petits Cadrans'} />
+	<meta
+		name="keywords"
+		content="montres, horlogerie, {article.category?.name || ''}, {article.title}"
+	/>
+</svelte:head>
+
 {#if article}
-	<section class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+	<article class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
 		<SectionTitle title={article.title} />
 
 		<div class="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-10">
@@ -202,7 +232,7 @@
 				</div>
 			</div>
 		{/if}
-	</section>
+	</article>
 
 	<Carousel items={article.images} type="images" />
 

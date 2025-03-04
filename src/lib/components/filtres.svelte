@@ -171,7 +171,7 @@
 
 		<button
 			on:click={clearFilters}
-			class="btn bg-yellow-500 text-lg font-bold hover:bg-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+			class="btn border-none bg-yellow-500 text-lg font-bold hover:bg-yellow-400"
 		>
 			Réinitialiser
 		</button>
