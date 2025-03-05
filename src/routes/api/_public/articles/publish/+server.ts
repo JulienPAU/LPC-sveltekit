@@ -1,10 +1,12 @@
-// src / routes / api / _public / articles / publish / %2Bserver.ts
+// src/ api/ articles/ publish/ +server.ts
+
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { DEFAULT_FILE_VALIDATION, type ArticleUploadResponse } from '$lib/types/article';
 import { articlePublishSchema } from '$lib/schemas/articles';
 
 import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
+import { UTApi, UTFile } from 'uploadthing/server';
 import { submitArticle } from '$lib/email';
 
 export const POST = async ({ request, locals }) => {
@@ -16,17 +18,29 @@ export const POST = async ({ request, locals }) => {
         }
 
         const formData = await request.formData();
-        // Au lieu des fichiers, on récupère les URLs des images déjà téléchargées
-        const uploadedImageUrls = JSON.parse(formData.get('uploadedImages')?.toString() || '[]');
+
+
+        const files = formData.getAll('files') as File[];
 
 
 
-        if (uploadedImageUrls.length < DEFAULT_FILE_VALIDATION.minFileCount) {
-            throw error(400, `Minimum ${DEFAULT_FILE_VALIDATION.minFileCount} images requis`);
+        if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
+            throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);
         }
 
-        if (uploadedImageUrls.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
-            throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} images autorisés`);
+        if (files.length < DEFAULT_FILE_VALIDATION.minFileCount) {
+            throw error(400, `Minimum ${DEFAULT_FILE_VALIDATION.minFileCount} fichiers requis`);
+        }
+
+        // Validation de chaque fichier
+        for (const file of files) {
+            if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
+                throw error(400, `Type de fichier non supporté : ${file.name}`);
+            }
+
+            if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
+                throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
+            }
         }
 
         const categoryValue = formData.get('category')?.toString();
@@ -70,6 +84,7 @@ export const POST = async ({ request, locals }) => {
         });
 
         if (!parsedData.success) {
+            // Si la validation échoue, renvoie une erreur avec les messages d'erreur
             throw error(400, `Données invalides : ${parsedData.error.errors.map(e => e.message).join(', ')}`);
         }
 
@@ -77,6 +92,7 @@ export const POST = async ({ request, locals }) => {
 
 
         const result = await prisma.$transaction(async (tx) => {
+            // 1. Trouver la catégorie
             const category = await tx.categories.findFirst({
                 where: { type: data.category as Category },
             });
@@ -97,7 +113,6 @@ export const POST = async ({ request, locals }) => {
                     status: 'SUBMITTED',
                     article_type: data.type,
                     category: { connect: { id: category.id } },
-                    images: uploadedImageUrls,
 
                 }
             });
@@ -141,14 +156,52 @@ export const POST = async ({ request, locals }) => {
 
 
 
+        // Upload des fichiers sur Uploadthing
+        const uploadResults = await Promise.all(
+            files.map(async (file) => {
+                try {
+                    // Créer un UTFile avec le nom du fichier et le customId
+                    const utFile = new UTFile([file], `article_${result.id}_${session.user?.id}_${file.name}`);
 
 
+                    const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN, });
+                    const fileResult = await utapi.uploadFiles(utFile);
+
+                    if (!result || !fileResult.data) {
+                        console.error('Échec de l upload pour:', file.name);
+                        return undefined;
+                    }
+
+                    return fileResult.data.ufsUrl;
+                } catch (err) {
+                    console.error(`Erreur lors de l'upload de ${file.name}:`, err);
+                    return undefined;
+                }
+            })
+        );
+
+        const uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
+
+        if (uploadedImageUrls.length > 0) {
+            const updatedArticle = await prisma.articles.update({
+                where: { id: result.id },
+                data: { images: uploadedImageUrls }
+            });
+            return json({
+                success: true,
+                articleId: updatedArticle.id,
+                imageUrls: uploadedImageUrls
+            });
+        } else {
+            console.warn('Aucune image valide uploadée. article pas  mis à jour.');
+        }
 
         try {
             if (session.user.email) {
                 await submitArticle(session.user.email);
             }
         } catch (emailError) {
+            // On log l'erreur mais on ne la propage pas pour ne pas bloquer la réponse
             console.error('Erreur lors de l\'envoi du mail de confirmation:', emailError);
         }
 

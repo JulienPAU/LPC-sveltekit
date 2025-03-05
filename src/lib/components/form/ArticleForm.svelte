@@ -425,20 +425,10 @@
 						Modifier les photos de l'article
 					</label>
 					<slot name="imageUploader" />
-					{#if article.images && article.images.length > 0}
-						<div class="mt-4">
-							<label class="flex items-center space-x-2 text-sm">
-								<input type="checkbox" name="deleteOldImages" class="form-checkbox" on:change />
-								<span>Remplacer les images existantes ({article.images.length})</span>
-							</label>
-						</div>
-					{/if}
 				</div>
 				<div class="mb-20">
-					<label for="img" class="mb-1 block text-lg font-bold text-gray-700"
-						>Photos existantes</label
-					>
-					<div class="flex flex-wrap gap-1">
+					<label for="img" class="mb-1 block text-lg font-bold text-gray-700">Photos</label>
+					<div class=" flex flex-wrap gap-1">
 						{#each article.images as image}
 							<img
 								src={image}
@@ -451,7 +441,7 @@
 			{:else if onFilesSelected}
 				<div class="mb-20 w-full">
 					<label for="upload-files" class="mb-1 block text-lg font-bold text-gray-700">
-						Télécharger des photos
+						Télécharger des fichiers
 					</label>
 					<slot name="imageUploader" />
 				</div>

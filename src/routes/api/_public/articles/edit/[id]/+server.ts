@@ -1,11 +1,10 @@
-// src / routes / api / _public / articles / edit / [id] / +server.ts
-
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
+import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';
 import { articleUpdateSchema } from '$lib/schemas/articles';
 
 import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
-import { UTApi, } from 'uploadthing/server';
+import { UTApi, UTFile } from 'uploadthing/server';
 import { submitUpdatedArticle } from '$lib/email.js';
 
 export const POST = async ({ request, locals, params }) => {
@@ -18,9 +17,8 @@ export const POST = async ({ request, locals, params }) => {
         }
 
         const formData = await request.formData();
-
-        const uploadedImageUrls = JSON.parse(formData.get('uploadedImages')?.toString() || '[]');
-        const deleteOldImages = formData.get('deleteOldImages') === 'true';
+        const files = formData.getAll('files') as File[];
+        const hasNewFiles = files.length > 0;
 
         // Récupérer l'article existant et ses images
         const existingArticle = await prisma.articles.findUnique({
@@ -28,24 +26,50 @@ export const POST = async ({ request, locals, params }) => {
             select: { images: true }
         });
 
-        let finalImageUrls = uploadedImageUrls;
+        let uploadedImageUrls: string[] = existingArticle?.images || [];
 
-        if (!deleteOldImages && existingArticle?.images) {
-            finalImageUrls = [...existingArticle.images, ...uploadedImageUrls];
-        }
-
-        // Si on doit supprimer les anciennes images
-        if (deleteOldImages && existingArticle?.images && existingArticle.images.length > 0) {
-            try {
-                const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
-                const fileKeys = existingArticle.images.map(url => url.split('/').pop()!);
-                await utapi.deleteFiles(fileKeys);
-            } catch (err) {
-                console.error('Erreur lors de la suppression des anciennes images:', err);
+        if (hasNewFiles) {
+            if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
+                throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);
             }
+
+            for (const file of files) {
+                if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
+                    throw error(400, `Type de fichier non supporté : ${file.name}`);
+                }
+                if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
+                    throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
+                }
+            }
+
+            const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
+
+            if (existingArticle?.images && existingArticle.images.length > 0) {
+                try {
+                    const fileKeys = existingArticle.images.map(url => url.split('/').pop()!);
+                    await utapi.deleteFiles(fileKeys);
+                } catch (err) {
+                    console.error('Erreur lors de la suppression des anciennes images:', err);
+                }
+            }
+
+            const uploadResults = await Promise.all(
+                files.map(async (file) => {
+                    try {
+                        const customFileName = `article_${params.id}_${session.user?.id}_${file.name}`;
+                        const utFile = new UTFile([file], customFileName);
+                        const result = await utapi.uploadFiles(utFile);
+
+                        return result?.data?.ufsUrl || undefined;
+                    } catch (err) {
+                        console.error(`Erreur lors de l'upload de ${file.name}:`, err);
+                        return undefined;
+                    }
+                })
+            );
+
+            uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
         }
-
-
 
         const categoryValue = formData.get('category')?.toString();
         if (categoryValue && !Object.values(Category).includes(categoryValue as Category)) {
@@ -113,7 +137,7 @@ export const POST = async ({ request, locals, params }) => {
                     submit_date: new Date(),
                     status: 'SUBMITTED',
                     article_type: data.type,
-                    images: finalImageUrls,
+                    images: uploadedImageUrls,
                     category: { connect: { id: category.id } }
                 }
             });

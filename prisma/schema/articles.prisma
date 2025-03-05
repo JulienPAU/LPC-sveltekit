@@ -36,7 +36,6 @@ enum Status {
   PUBLISHED
   SUBMITTED
   REFUSED
-  DRAFT
 }
 
 enum Article_Type {
