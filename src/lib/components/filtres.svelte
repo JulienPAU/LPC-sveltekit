@@ -94,7 +94,6 @@
 				if (sortBy === 'oldest') {
 					return a.id - b.id;
 				}
-				// Tri par ID décroissant par défaut
 				return b.id - a.id;
 			});
 

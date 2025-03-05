@@ -7,7 +7,6 @@
 		href: string;
 	};
 
-	// Liste des chemins où le breadcrumb ne doit pas s'afficher
 	const hiddenPrefixes = ['/auth', '/dashboard'];
 
 	let segments: Segment[] = [];
@@ -44,7 +43,7 @@
 </script>
 
 {#if segments.length > 1}
-	<nav aria-label="Fil d'Ariane" class="my-4 hidden md:flex">
+	<nav aria-label="Fil d'Ariane" class="mt-4 hidden md:flex">
 		<ol class="flex overflow-hidden rounded-lg border border-gray-200 text-black">
 			{#each segments as segment, index}
 				<li class="relative flex items-center">

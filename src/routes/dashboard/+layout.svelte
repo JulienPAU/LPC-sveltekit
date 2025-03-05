@@ -120,7 +120,7 @@
 				<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
 					<button
 						type="submit"
-						class="deco w-full text-left text-lg font-bold group-hover:text-[#D22B2B]"
+						class=" w-full text-left text-lg font-bold tracking-widest group-hover:text-[#D22B2B]"
 						><i class="fa-solid fa-right-from-bracket" style="color: #D22B2B;"></i> Déconnexion
 					</button>
 				</form>

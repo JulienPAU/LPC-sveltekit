@@ -271,7 +271,7 @@
 							<li>
 								<form method="POST" action="/auth/signout" class="group w-full hover:bg-gray-600">
 									<button type="submit" class="deco w-full text-left group-hover:text-[#D22B2B]">
-										<i class="fa-solid fa-right-from-bracket" style="color:#D22B2B;"></i> Déconnexion
+										<i class="fa-solid fa-right-from-bracket mr-1" style="color:#D22B2B;"></i> Déconnexion
 									</button>
 								</form>
 							</li>
