@@ -33,7 +33,7 @@ export const DEFAULT_FILE_VALIDATION = {
     maxFileSize: 2 * 1024 * 1024,
     maxFileCount: 6,
     minFileCount: 1,
-    acceptedTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'],
+    acceptedTypes: ['image/jpeg', 'image/png', 'image/webp']
 };
 
 
