@@ -425,14 +425,6 @@
 						Modifier les photos de l'article
 					</label>
 					<slot name="imageUploader" />
-					{#if article.images && article.images.length > 0}
-						<div class="mt-4">
-							<label class="flex items-center space-x-2 text-sm">
-								<input type="checkbox" name="deleteOldImages" class="form-checkbox" on:change />
-								<span>Remplacer les images existantes ({article.images.length})</span>
-							</label>
-						</div>
-					{/if}
 				</div>
 				<div class="mb-20">
 					<label for="img" class="mb-1 block text-lg font-bold text-gray-700"
