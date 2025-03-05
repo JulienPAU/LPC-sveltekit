@@ -212,7 +212,7 @@
 			maxFiles={6}
 			minFiles={0}
 			maxFileSize={2 * 1024 * 1024}
-			acceptedTypes="image/jpeg,image/png, image/webp, image/jpg"
+			acceptedTypes="image/jpeg,image/png, image/webp"
 			onFilesSelected={handleFilesSelected}
 		/>
 	</ArticleForm>
