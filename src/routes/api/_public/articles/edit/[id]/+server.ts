@@ -20,7 +20,7 @@ export const POST = async ({ request, locals, params }) => {
         const formData = await request.formData();
 
         const uploadedImageUrls = JSON.parse(formData.get('uploadedImages')?.toString() || '[]');
-        const deleteOldImages = formData.get('deleteOldImages') === 'true';
+        const shouldDeleteOldImages = uploadedImageUrls.length > 0;
 
         // Récupérer l'article existant et ses images
         const existingArticle = await prisma.articles.findUnique({
@@ -30,12 +30,13 @@ export const POST = async ({ request, locals, params }) => {
 
         let finalImageUrls = uploadedImageUrls;
 
-        if (!deleteOldImages && existingArticle?.images) {
-            finalImageUrls = [...existingArticle.images, ...uploadedImageUrls];
+        if (!shouldDeleteOldImages && existingArticle?.images) {
+            finalImageUrls = existingArticle.images;
         }
 
-        // Si on doit supprimer les anciennes images
-        if (deleteOldImages && existingArticle?.images && existingArticle.images.length > 0) {
+        // Si de nouvelles images sont uploadées, supprimer les anciennes
+
+        if (shouldDeleteOldImages && existingArticle?.images && existingArticle.images.length > 0) {
             try {
                 const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
                 const fileKeys = existingArticle.images.map(url => url.split('/').pop()!);
