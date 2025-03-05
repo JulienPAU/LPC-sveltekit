@@ -1,6 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import { submitArticle } from '$lib/email';
+import { UTApi } from 'uploadthing/server';
+import { submitUpdatedArticle } from '$lib/email';
 
 export const POST = async ({ request, locals, params }) => {
     try {
@@ -26,11 +27,27 @@ export const POST = async ({ request, locals, params }) => {
             where: {
                 id: articleId,
                 user_id: session.user.id
-            }
+            },
+            select: { id: true, images: true }
         });
 
         if (!article) {
             throw error(404, 'Article non trouvé ou non autorisé');
+        }
+
+        // Si des images existaient déjà, les supprimer d'UploadThing
+        if (article.images && article.images.length > 0) {
+            try {
+                const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
+                const fileKeys = article.images.map(url => {
+                    const parts = url.split('/');
+                    return parts[parts.length - 1];
+                });
+                await utapi.deleteFiles(fileKeys);
+            } catch (deleteError) {
+                console.error('Erreur lors de la suppression des anciennes images:', deleteError);
+                // Continuer malgré l'erreur
+            }
         }
 
         // Mettre à jour l'article avec les URLs des images
@@ -42,7 +59,8 @@ export const POST = async ({ request, locals, params }) => {
         // Envoyer l'email de confirmation
         try {
             if (session.user.email) {
-                await submitArticle(session.user.email);
+                // Utiliser submitUpdatedArticle si c'est une édition
+                await submitUpdatedArticle(session.user.email);
             }
         } catch (emailError) {
             console.error('Erreur lors de l\'envoi du mail de confirmation:', emailError);

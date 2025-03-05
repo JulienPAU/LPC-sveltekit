@@ -1,3 +1,5 @@
+// src / routes / api / _public / article_id / %5Bid%5D / upload - image / %2Bserver.ts
+
 import { error, json } from '@sveltejs/kit';
 import { UTApi, UTFile } from 'uploadthing/server';
 import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';

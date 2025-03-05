@@ -71,7 +71,7 @@
 				noScroll: true
 			});
 
-			console.log('URL mise à jour:', url.toString());
+			// console.log('URL mise à jour:', url.toString());
 		}
 	}
 

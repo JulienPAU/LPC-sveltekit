@@ -1,4 +1,3 @@
-<!-- routes/articles/[id]/edit/+page.svelte -->
 <script lang="ts">
 	import { goto, invalidate } from '$app/navigation';
 	import ArticleForm from '$lib/components/form/ArticleForm.svelte';
@@ -9,6 +8,8 @@
 
 	let isSubmitting = false;
 	let selectedFiles: File[] = [];
+	let uploadProgress = 0;
+	let currentFileIndex = 0;
 
 	export let data;
 	export let { article } = data;
@@ -70,6 +71,7 @@
 	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
 		isSubmitting = true;
+		uploadProgress = 0;
 
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
@@ -79,60 +81,105 @@
 			formData.append('straps', strap);
 		});
 
-		// Ajoute les fichiers à FormData
-		selectedFiles.forEach((file) => {
-			formData.append('files', file);
-		});
+		const hasNewImages = selectedFiles.length > 0;
 
 		try {
-			const response = await fetch(`/api/_public/articles/edit/${article.id}`, {
+			// ÉTAPE 1: Mettre à jour l'article sans les images
+			const updateResponse = await fetch(`/api/_public/articles/edit/${article.id}`, {
 				method: 'POST',
 				body: formData
 			});
 
-			const result: ArticleUploadResponse = await response.json();
-
-			if (!response.ok) {
-				if (result.errors) {
-					console.error('Erreurs de validation reçues:', result.errors);
-
-					// Récupérer les messages d'erreur sans erreur de type
-					const messages = Object.entries(result.errors)
-						.flatMap(([key, value]) => (Array.isArray(value._errors) ? value._errors : []))
+			if (!updateResponse.ok) {
+				const errorData = await updateResponse.json();
+				if (errorData.errors) {
+					const messages = Object.entries(errorData.errors)
+						.flatMap(([key, value]) => {
+							if (
+								typeof value === 'object' &&
+								value !== null &&
+								'_errors' in value &&
+								Array.isArray((value as any)._errors)
+							) {
+								return (value as any)._errors;
+							}
+							return [];
+						})
 						.join('\n');
-
 					toast.error('Erreur lors de la soumission :\n' + messages);
 				} else {
-					toast.error('Erreur lors de la soumission : ' + result.message || 'Erreur inconnue.');
+					toast.error('Erreur lors de la soumission : ' + (errorData.message || 'Erreur inconnue'));
 				}
+				isSubmitting = false;
 				return;
 			}
 
-			if (result) {
-				isSubmitting = false;
-				await invalidate('app:user');
-				invalidate('app:articles');
-				goto('/dashboard/articles');
+			// ÉTAPE 2: Si des nouvelles images sont sélectionnées, les télécharger
+			if (hasNewImages) {
+				const uploadedUrls = [];
+				currentFileIndex = 0;
 
-				toast.success('Article mis à jour avec succès', {
-					duration: 5000
-				});
-			} else {
-				toast.error("Erreur lors de la mise à jour de l'article", {
-					duration: 5000
-				});
-				throw new Error("Erreur lors de la mise à jour de l'article");
+				for (const file of selectedFiles) {
+					currentFileIndex++;
+					uploadProgress = Math.round((currentFileIndex / selectedFiles.length) * 100);
+
+					const imageFormData = new FormData();
+					imageFormData.append('file', file);
+
+					const uploadResponse = await fetch(`/api/_public/article_id/${article.id}/upload-image`, {
+						method: 'POST',
+						body: imageFormData
+					});
+
+					if (!uploadResponse.ok) {
+						console.error(`Échec du téléchargement pour ${file.name}`);
+						continue;
+					}
+
+					const uploadResult = await uploadResponse.json();
+					if (uploadResult.imageUrl) {
+						uploadedUrls.push(uploadResult.imageUrl);
+					}
+				}
+
+				// ÉTAPE 3: Finaliser l'article avec les URLs des images
+				if (uploadedUrls.length > 0) {
+					await fetch(`/api/_public/article_id/${article.id}/finalize`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ imageUrls: uploadedUrls })
+					});
+				}
 			}
+
+			isSubmitting = false;
+			await invalidate('app:user');
+			await invalidate('app:articles');
+
+			toast.success('Article mis à jour avec succès', { duration: 5000 });
+			goto('/dashboard/articles');
 		} catch (error) {
 			console.error('Erreur:', error);
 			isSubmitting = false;
-			throw new Error('Erreur lors de la soumission');
+			toast.error("Erreur lors de la mise à jour de l'article", { duration: 5000 });
 		}
 	}
 </script>
 
 <section class="flex flex-col items-center justify-evenly px-5 pb-5">
 	<SectionTitle title="Modifier l'article" />
+
+	{#if isSubmitting && uploadProgress > 0}
+		<div class="mb-4 w-full max-w-md">
+			<div class="mb-1 h-2.5 rounded-full bg-gray-200">
+				<div class="h-2.5 rounded-full bg-blue-600" style="width: {uploadProgress}%"></div>
+			</div>
+			<p class="text-center text-sm">
+				Téléchargement des images: {currentFileIndex}/{selectedFiles.length}
+			</p>
+		</div>
+	{/if}
+
 	<ArticleForm
 		isEditing={true}
 		{article}

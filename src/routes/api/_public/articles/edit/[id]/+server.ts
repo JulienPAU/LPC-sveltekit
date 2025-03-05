@@ -1,11 +1,9 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';
 import { articleUpdateSchema } from '$lib/schemas/articles';
 
 import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
-import { UTApi, UTFile } from 'uploadthing/server';
-import { submitUpdatedArticle } from '$lib/email.js';
+
 
 export const POST = async ({ request, locals, params }) => {
     const articleId = parseInt(params.id);
@@ -17,58 +15,20 @@ export const POST = async ({ request, locals, params }) => {
         }
 
         const formData = await request.formData();
-        const files = formData.getAll('files') as File[];
-        const hasNewFiles = files.length > 0;
 
-        // Récupérer l'article existant et ses images
+        // Récupérer l'article existant
         const existingArticle = await prisma.articles.findUnique({
             where: { id: articleId },
-            select: { images: true }
+            select: { images: true, user_id: true }
         });
 
-        let uploadedImageUrls: string[] = existingArticle?.images || [];
+        if (!existingArticle) {
+            throw error(404, 'Article non trouvé');
+        }
 
-        if (hasNewFiles) {
-            if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
-                throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);
-            }
-
-            for (const file of files) {
-                if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
-                    throw error(400, `Type de fichier non supporté : ${file.name}`);
-                }
-                if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
-                    throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
-                }
-            }
-
-            const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
-
-            if (existingArticle?.images && existingArticle.images.length > 0) {
-                try {
-                    const fileKeys = existingArticle.images.map(url => url.split('/').pop()!);
-                    await utapi.deleteFiles(fileKeys);
-                } catch (err) {
-                    console.error('Erreur lors de la suppression des anciennes images:', err);
-                }
-            }
-
-            const uploadResults = await Promise.all(
-                files.map(async (file) => {
-                    try {
-                        const customFileName = `article_${params.id}_${session.user?.id}_${file.name}`;
-                        const utFile = new UTFile([file], customFileName);
-                        const result = await utapi.uploadFiles(utFile);
-
-                        return result?.data?.ufsUrl || undefined;
-                    } catch (err) {
-                        console.error(`Erreur lors de l'upload de ${file.name}:`, err);
-                        return undefined;
-                    }
-                })
-            );
-
-            uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
+        // Vérifier que l'utilisateur est bien le propriétaire
+        if (existingArticle.user_id !== session.user.id) {
+            throw error(403, 'Vous n\'êtes pas autorisé à modifier cet article');
         }
 
         const categoryValue = formData.get('category')?.toString();
@@ -127,6 +87,7 @@ export const POST = async ({ request, locals, params }) => {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
             }
 
+            // Mise à jour de l'article sans toucher aux images
             const article = await tx.articles.update({
                 where: { id: articleId },
                 data: {
@@ -137,8 +98,8 @@ export const POST = async ({ request, locals, params }) => {
                     submit_date: new Date(),
                     status: 'SUBMITTED',
                     article_type: data.type,
-                    images: uploadedImageUrls,
                     category: { connect: { id: category.id } }
+                    // Ne pas toucher aux images ici
                 }
             });
 
@@ -162,28 +123,16 @@ export const POST = async ({ request, locals, params }) => {
             });
         }
 
-        try {
-            if (session.user.email) {
-                await submitUpdatedArticle(session.user.email);
-            }
-        } catch (emailError) {
-            // On log l'erreur mais on ne la propage pas
-            console.error('Erreur lors de l\'envoi du mail de mise à jour:', emailError);
-        }
-
         return json({ success: true, article: updatedArticle });
 
     } catch (err) {
         console.error('Erreur modification article:', err);
 
-        // Vérifier plus explicitement si c'est une erreur de validation
         if (err && typeof err === 'object' && 'status' in err && err.status === 400) {
-            throw err; // Propager l'erreur de validation telle quelle
+            throw err;
         } else if (err instanceof Error) {
-            // Pour les autres erreurs, conserver au moins le message
             throw error(500, err.message || 'Erreur interne du serveur');
         } else {
-            // Fallback pour tout autre type d'erreur
             throw error(500, 'Erreur lors de la modification de l\'article');
         }
     }
