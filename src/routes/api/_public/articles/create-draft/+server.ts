@@ -1,36 +1,19 @@
-// src / routes / api / _public / articles / publish / %2Bserver.ts
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import { DEFAULT_FILE_VALIDATION, type ArticleUploadResponse } from '$lib/types/article';
 import { articlePublishSchema } from '$lib/schemas/articles';
-
 import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
-import { submitArticle } from '$lib/email';
 
 export const POST = async ({ request, locals }) => {
     try {
         const session = await locals.auth?.();
-
         if (!session?.user) {
             throw error(401, 'Non autorisé');
         }
 
         const formData = await request.formData();
-        // Au lieu des fichiers, on récupère les URLs des images déjà téléchargées
-        const uploadedImageUrls = JSON.parse(formData.get('uploadedImages')?.toString() || '[]');
 
-
-
-        if (uploadedImageUrls.length < DEFAULT_FILE_VALIDATION.minFileCount) {
-            throw error(400, `Minimum ${DEFAULT_FILE_VALIDATION.minFileCount} images requis`);
-        }
-
-        if (uploadedImageUrls.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
-            throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} images autorisés`);
-        }
-
+        // Validation des données (comme dans votre route publish)
         const categoryValue = formData.get('category')?.toString();
-
         if (categoryValue && !Object.values(Category).includes(categoryValue as Category)) {
             throw error(400, `Catégorie invalide: ${categoryValue}`);
         }
@@ -52,8 +35,6 @@ export const POST = async ({ request, locals }) => {
             'end': formData.get('end')?.toString().trim() || '',
             'type': formData.get('type')?.toString() as Article_Type || 'ARTICLE',
             'category': formData.get('category')?.toString() as Category,
-
-
             'case_material': formData.get('case_material')?.toString() as WatchCaseMaterial || "",
             'brand': formData.get('brand')?.toString().trim() || '',
             'model': formData.get('model')?.toString().trim() || '',
@@ -64,7 +45,6 @@ export const POST = async ({ request, locals }) => {
             'thickness': formData.get('thickness')?.toString().trim() || null,
             'lug_to_lug': formData.get('lug_to_lug')?.toString().trim() || null,
             'price': formData.get('price')?.toString().trim() || null,
-
             'glass': formData.get('glass')?.toString().trim() || null,
             'straps': formData.getAll('straps').map(s => s.toString())
         });
@@ -75,7 +55,7 @@ export const POST = async ({ request, locals }) => {
 
         const data = parsedData.data;
 
-
+        // Création de l'article
         const result = await prisma.$transaction(async (tx) => {
             const category = await tx.categories.findFirst({
                 where: { type: data.category as Category },
@@ -85,7 +65,6 @@ export const POST = async ({ request, locals }) => {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
             }
 
-            // 2. Créer l'article
             const article = await tx.articles.create({
                 data: {
                     user: { connect: { id: session?.user?.id } },
@@ -94,35 +73,19 @@ export const POST = async ({ request, locals }) => {
                     body: data['corps-article'],
                     ending: data.end,
                     submit_date: new Date(),
-                    status: 'SUBMITTED',
+                    status: 'DRAFT',
                     article_type: data.type,
                     category: { connect: { id: category.id } },
-                    images: uploadedImageUrls,
-
+                    images: [],
                 }
             });
-
-
-
-            const userRole = await tx.user_Role.findFirst({
-                where: {
-                    user_id: session?.user?.id
-                }
-            });
-
-
-            if (userRole?.role === 'READER') {
-                await tx.user_Role.update({
-                    where: { id: userRole.id },
-                    data: { role: 'AUTHOR' }
-                });
-            }
-
 
             return article;
         });
 
+        // Gérer les montres et bracelets
         if (data.brand && data.model && result) {
+            // Utilisez votre fonction existante
             await handleWatchAndStraps(result.id, {
                 brand: data.brand,
                 model: data.model,
@@ -139,42 +102,22 @@ export const POST = async ({ request, locals }) => {
             });
         }
 
-
-
-
-
-
-        try {
-            if (session.user.email) {
-                await submitArticle(session.user.email);
-            }
-        } catch (emailError) {
-            console.error('Erreur lors de l\'envoi du mail de confirmation:', emailError);
-        }
-
-        const response: ArticleUploadResponse = {
+        return json({
             success: true,
-            articleId: result.id,
-            imageUrls: uploadedImageUrls
-        };
-
-        return json(response);
+            articleId: result.id
+        });
     } catch (err) {
         console.error('Erreur création article:', err);
-
-        // Vérifier plus explicitement si c'est une erreur de validation
-        if (err && typeof err === 'object' && 'status' in err && err.status === 400) {
-            throw err; // Propager l'erreur de validation telle quelle
+        // Gestion d'erreurs
+        if (err && typeof err === 'object' && 'status' in err) {
+            throw err;
         } else if (err instanceof Error) {
-            // Pour les autres erreurs, conserver au moins le message
             throw error(500, err.message || 'Erreur interne du serveur');
         } else {
-            // Fallback pour tout autre type d'erreur
             throw error(500, 'Erreur lors de la création article');
         }
     }
 };
-
 
 
 async function handleWatchAndStraps(articleId: number, watchData: {

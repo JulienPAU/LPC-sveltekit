@@ -23,15 +23,15 @@ export const articleUpdateSchema = z.object({
     'introduction': z
         .string()
         .min(10, "L'introduction est trop courte")
-        .max(300, "L'introduction ne peut pas dépasser 300 caractères"),
+        .max(350, "L'introduction ne peut pas dépasser 350 caractères"),
     'corps-article': z
         .string()
         .min(50, "Le corps de l'article est trop court")
-        .max(2500, "Le corps de l'article ne peut pas dépasser 2500 caractères"),
+        .max(3000, "Le corps de l'article ne peut pas dépasser 3000 caractères"),
     'end': z
         .string()
         .min(5, "La conclusion est trop courte")
-        .max(200, "La conclusion ne peut pas dépasser 200 caractères"),
+        .max(350, "La conclusion ne peut pas dépasser 350 caractères"),
     'type': z.nativeEnum(Article_Type, {
         errorMap: () => ({ message: "Type d'article invalide" })
     }),

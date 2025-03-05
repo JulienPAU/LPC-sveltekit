@@ -5,6 +5,7 @@
 	export let acceptedTypes = DEFAULT_FILE_VALIDATION.acceptedTypes.join(',');
 	export let maxFileSize = DEFAULT_FILE_VALIDATION.maxFileSize;
 	export let minFiles = DEFAULT_FILE_VALIDATION.minFileCount;
+	export let existingImagesCount = 0; // Nouvelle prop pour tenir compte des images existantes
 
 	let files: File[] = [];
 	export let onFilesSelected = (files: File[]) => {};
@@ -17,12 +18,14 @@
 			errorMessage = '';
 			files = [];
 
+			// Vérification du nombre maximum de fichiers, en tenant compte des images existantes
 			if (input.files.length > maxFiles) {
 				errorMessage = `Maximum ${maxFiles} fichiers autorisés`;
 				input.value = ''; // Reset l'input
 				onFilesSelected([]);
 				return;
 			}
+
 			const selectedFiles = Array.from(input.files).filter((file) => {
 				if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
 					errorMessage = `Type de fichier non supporté : ${file.name}`;
@@ -30,7 +33,7 @@
 				}
 
 				if (file.size > maxFileSize) {
-					errorMessage = `${file.name} dépasse 2 MO`;
+					errorMessage = `${file.name} dépasse ${(maxFileSize / (1024 * 1024)).toFixed(0)} MO`;
 					return false;
 				}
 				return true;
@@ -42,15 +45,24 @@
 				return;
 			}
 
-			if (selectedFiles.length < minFiles) {
+			// Pour l'édition, on vérifie uniquement le minFiles si aucune image existante n'est conservée
+			if (selectedFiles.length < minFiles && existingImagesCount === 0) {
 				errorMessage = `Minimum ${minFiles} fichiers requis`;
 				input.value = '';
 				onFilesSelected([]);
 				return;
 			}
+
 			files = selectedFiles;
 			onFilesSelected(files);
 		}
+	}
+
+	function clearFiles() {
+		files = [];
+		onFilesSelected([]);
+		const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+		if (input) input.value = '';
 	}
 </script>
 
@@ -63,9 +75,12 @@
 		on:change={handleFileSelect}
 	/>
 	<p class="my-1 italic">
-		Minimum {minFiles} photo, maximum {maxFiles} photos, 2 Mo max par photos.
+		{#if minFiles > 0}
+			Minimum {minFiles} photo,
+		{/if}
+		maximum {maxFiles} photos, {(maxFileSize / (1024 * 1024)).toFixed(0)} Mo max par photo.
 	</p>
-	<p class=" italic">Formats acceptés : JPEG / PNG / WEBP</p>
+	<p class="italic">Formats acceptés : JPEG / PNG / WEBP</p>
 	<a
 		href="https://imagecompressor.11zon.com/fr/compress-webp/"
 		aria-label="lien compression fichier"
@@ -78,9 +93,11 @@
 	{/if}
 	{#if files.length > 0}
 		<div class="preview mt-4">
-			<label for="file-input" class="mb-1 block text-lg font-bold text-gray-700">
-				Vos photos :
-			</label>
+			<div class="flex items-center justify-between">
+				<label for="file-input" class="mb-1 block text-lg font-bold text-gray-700">
+					Vos photos sélectionnées:
+				</label>
+			</div>
 			<ul class="list-disc pl-5">
 				{#each files as file}
 					<li>{file.name} ({(file.size / (1024 * 1024)).toFixed(2)} Mo)</li>
