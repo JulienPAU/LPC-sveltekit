@@ -78,7 +78,8 @@
 		{#if minFiles > 0}
 			Minimum {minFiles} photo,
 		{/if}
-		maximum {maxFiles} photos, {(maxFileSize / (1024 * 1024)).toFixed(0)} Mo max par photo.
+		Max {maxFiles} photos, {(maxFileSize / (1024 * 1024)).toFixed(0)} Mo max par photo, 4.5 Mo max au
+		total.
 	</p>
 	<p class="italic">Formats acceptés : JPEG / PNG / WEBP</p>
 	<a
