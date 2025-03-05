@@ -9,7 +9,7 @@
 	let isSubmitting = false;
 	let selectedFiles: File[] = [];
 	let uploadProgress = 0;
-	// let deleteOldImages = false;
+	let deleteOldImages = false;
 
 	export let data;
 	export let { article } = data;
@@ -23,13 +23,13 @@
 	function handleFilesSelected(files: File[]) {
 		selectedFiles = files;
 		// Si l'utilisateur a sélectionné de nouvelles images, on présume qu'il veut remplacer les anciennes
-		// deleteOldImages = files.length > 0;
+		deleteOldImages = files.length > 0;
 	}
 
-	// function handleDeleteOldImagesChange(event: Event) {
-	// 	const target = event.target as HTMLInputElement;
-	// 	deleteOldImages = target.checked;
-	// }
+	function handleDeleteOldImagesChange(event: Event) {
+		const target = event.target as HTMLInputElement;
+		deleteOldImages = target.checked;
+	}
 
 	async function handleDelete(event: MouseEvent) {
 		// La fonction de suppression reste inchangée
@@ -131,7 +131,7 @@
 
 			// Ajouter les URLs des images téléchargées
 			formData.append('uploadedImages', JSON.stringify(imageUrls));
-			// formData.append('deleteOldImages', deleteOldImages.toString());
+			formData.append('deleteOldImages', deleteOldImages.toString());
 
 			uploadProgress = 70;
 			const response = await fetch(`/api/_public/articles/edit/${article.id}`, {
@@ -199,6 +199,20 @@
 <section class="flex flex-col items-center justify-evenly px-5 pb-5">
 	<SectionTitle title="Modifier l'article" />
 
+	{#if article.images && article.images.length > 0}
+		<div class="mb-4 w-full max-w-md">
+			<label class="flex items-center space-x-2 text-sm">
+				<input
+					type="checkbox"
+					checked={deleteOldImages}
+					on:change={handleDeleteOldImagesChange}
+					class="form-checkbox"
+				/>
+				<span>Remplacer les images existantes ({article.images.length})</span>
+			</label>
+		</div>
+	{/if}
+
 	<ArticleForm
 		isEditing={true}
 		{article}
@@ -213,6 +227,7 @@
 			minFiles={0}
 			maxFileSize={2 * 1024 * 1024}
 			acceptedTypes="image/jpeg,image/png, image/webp"
+			existingImagesCount={deleteOldImages ? 0 : article.images.length}
 			onFilesSelected={handleFilesSelected}
 		/>
 	</ArticleForm>
