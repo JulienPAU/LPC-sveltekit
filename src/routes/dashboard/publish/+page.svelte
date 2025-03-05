@@ -75,7 +75,7 @@
 				imageFormData.append('files', file);
 			});
 
-			const imageUploadResponse = await fetch('/api/_public/articles/upload-images-edit', {
+			const imageUploadResponse = await fetch('/api/_public/articles/upload-images-publish', {
 				method: 'POST',
 				body: imageFormData
 			});
