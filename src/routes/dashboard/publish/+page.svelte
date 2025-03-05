@@ -10,6 +10,7 @@
 	let articleId: number | null = null;
 	let uploadProgress = 0;
 	let currentFileIndex = 0;
+	let processingStep = ''; // Pour afficher l'étape actuelle
 
 	let selectedStraps: string[] = [];
 
@@ -25,6 +26,7 @@
 		event.preventDefault();
 		isSubmitting = true;
 		uploadProgress = 0;
+		processingStep = "Création de l'article...";
 
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
@@ -62,12 +64,14 @@
 			}
 
 			// ÉTAPE 2: Télécharger les images une par une
+			processingStep = 'Téléchargement des images...';
 			const uploadedUrls = [];
 			currentFileIndex = 0;
 
 			for (const file of selectedFiles) {
 				currentFileIndex++;
 				uploadProgress = Math.round((currentFileIndex / selectedFiles.length) * 100);
+				processingStep = `Téléchargement de l'image ${currentFileIndex}/${selectedFiles.length}: ${file.name}`;
 
 				const imageFormData = new FormData();
 				imageFormData.append('file', file);
@@ -89,6 +93,7 @@
 			}
 
 			// ÉTAPE 3: Finaliser l'article avec les URLs des images
+			processingStep = "Finalisation de l'article...";
 			await fetch(`/api/_public/article_id/${articleId}/finalize`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -110,16 +115,7 @@
 
 <section class="flex flex-col items-center justify-evenly px-5 pb-5">
 	<SectionTitle title="Proposer un article" />
-	{#if isSubmitting && uploadProgress > 0}
-		<div class="mb-4 w-full max-w-md">
-			<div class="mb-1 h-2.5 rounded-full bg-gray-200">
-				<div class="h-2.5 rounded-full bg-blue-600" style="width: {uploadProgress}%"></div>
-			</div>
-			<p class="text-center text-sm">
-				Téléchargement des images: {currentFileIndex}/{selectedFiles.length}
-			</p>
-		</div>
-	{/if}
+
 	<ArticleForm
 		{isSubmitting}
 		onSubmit={handleSubmit}
@@ -135,4 +131,51 @@
 			onFilesSelected={handleFilesSelected}
 		/>
 	</ArticleForm>
+
+	{#if isSubmitting}
+		<div class="mb-6 w-full max-w-md rounded-lg bg-white p-5 shadow-md">
+			<h3 class="mb-2 text-lg font-medium text-gray-800">Traitement en cours...</h3>
+			<p class="mb-3 text-sm text-gray-600">{processingStep}</p>
+
+			{#if uploadProgress > 0}
+				<div class="mb-2">
+					<div class="mb-1 flex justify-between text-xs text-gray-600">
+						<span>{currentFileIndex} sur {selectedFiles.length}</span>
+						<span>{uploadProgress}%</span>
+					</div>
+					<div class="h-2 overflow-hidden rounded-full bg-gray-200">
+						<div
+							class="h-2 rounded-full bg-blue-600 transition-all duration-300"
+							style="width: {uploadProgress}%"
+						></div>
+					</div>
+				</div>
+				<p class="text-xs italic text-gray-500">
+					{#if currentFileIndex < selectedFiles.length}
+						Veuillez patienter pendant le téléchargement...
+					{:else}
+						Traitement final en cours...
+					{/if}
+				</p>
+			{:else}
+				<div class="flex items-center justify-center">
+					<svg
+						class="h-5 w-5 animate-spin text-blue-600"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+					>
+						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+						></circle>
+						<path
+							class="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						></path>
+					</svg>
+					<span class="ml-2">Initialisation du processus...</span>
+				</div>
+			{/if}
+		</div>
+	{/if}
 </section>
