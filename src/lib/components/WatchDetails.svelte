@@ -166,7 +166,7 @@
 							<div class="flex flex-col rounded-lg bg-white/10 p-3">
 								<span class="text-sm font-semibold">Prix en €</span>
 								<span class="pl-2 text-lg font-bold"
-									>{watchData.price ? watchData.price : 'N/A'}</span
+									>{watchData.price ? watchData.prix : 'N/A'}</span
 								>
 							</div>
 						{/if}
