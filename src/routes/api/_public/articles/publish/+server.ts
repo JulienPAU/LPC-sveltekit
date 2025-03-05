@@ -2,12 +2,11 @@
 
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
-import { DEFAULT_FILE_VALIDATION, type ArticleUploadResponse } from '$lib/types/article';
 import { articlePublishSchema } from '$lib/schemas/articles';
 
 import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
-import { UTApi, UTFile } from 'uploadthing/server';
-import { submitArticle } from '$lib/email';
+
+
 
 export const POST = async ({ request, locals }) => {
     try {
@@ -19,32 +18,10 @@ export const POST = async ({ request, locals }) => {
 
         const formData = await request.formData();
 
-
-        const files = formData.getAll('files') as File[];
-
-
-
-        if (files.length > DEFAULT_FILE_VALIDATION.maxFileCount) {
-            throw error(400, `Maximum ${DEFAULT_FILE_VALIDATION.maxFileCount} fichiers autorisés`);
-        }
-
-        if (files.length < DEFAULT_FILE_VALIDATION.minFileCount) {
-            throw error(400, `Minimum ${DEFAULT_FILE_VALIDATION.minFileCount} fichiers requis`);
-        }
-
-        // Validation de chaque fichier
-        for (const file of files) {
-            if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
-                throw error(400, `Type de fichier non supporté : ${file.name}`);
-            }
-
-            if (file.size > DEFAULT_FILE_VALIDATION.maxFileSize) {
-                throw error(400, `${file.name} dépasse la taille maximale de ${DEFAULT_FILE_VALIDATION.maxFileSize / (1024 * 1024)}MB`);
-            }
-        }
+        // Nous ne traitons plus les fichiers ici
+        // On vérifie juste les autres données
 
         const categoryValue = formData.get('category')?.toString();
-
         if (categoryValue && !Object.values(Category).includes(categoryValue as Category)) {
             throw error(400, `Catégorie invalide: ${categoryValue}`);
         }
@@ -66,8 +43,6 @@ export const POST = async ({ request, locals }) => {
             'end': formData.get('end')?.toString().trim() || '',
             'type': formData.get('type')?.toString() as Article_Type || 'ARTICLE',
             'category': formData.get('category')?.toString() as Category,
-
-
             'case_material': formData.get('case_material')?.toString() as WatchCaseMaterial || "",
             'brand': formData.get('brand')?.toString().trim() || '',
             'model': formData.get('model')?.toString().trim() || '',
@@ -78,18 +53,15 @@ export const POST = async ({ request, locals }) => {
             'thickness': formData.get('thickness')?.toString().trim() || null,
             'lug_to_lug': formData.get('lug_to_lug')?.toString().trim() || null,
             'price': formData.get('price')?.toString().trim() || null,
-
             'glass': formData.get('glass')?.toString().trim() || null,
             'straps': formData.getAll('straps').map(s => s.toString())
         });
 
         if (!parsedData.success) {
-            // Si la validation échoue, renvoie une erreur avec les messages d'erreur
             throw error(400, `Données invalides : ${parsedData.error.errors.map(e => e.message).join(', ')}`);
         }
 
         const data = parsedData.data;
-
 
         const result = await prisma.$transaction(async (tx) => {
             // 1. Trouver la catégorie
@@ -101,7 +73,7 @@ export const POST = async ({ request, locals }) => {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
             }
 
-            // 2. Créer l'article
+            // 2. Créer l'article (sans images)
             const article = await tx.articles.create({
                 data: {
                     user: { connect: { id: session?.user?.id } },
@@ -113,18 +85,13 @@ export const POST = async ({ request, locals }) => {
                     status: 'SUBMITTED',
                     article_type: data.type,
                     category: { connect: { id: category.id } },
-
+                    images: [] // Initialiser avec un tableau vide
                 }
             });
-
-
 
             const userRole = await tx.user_Role.findFirst({
-                where: {
-                    user_id: session?.user?.id
-                }
+                where: { user_id: session?.user?.id }
             });
-
 
             if (userRole?.role === 'READER') {
                 await tx.user_Role.update({
@@ -132,7 +99,6 @@ export const POST = async ({ request, locals }) => {
                     data: { role: 'AUTHOR' }
                 });
             }
-
 
             return article;
         });
@@ -154,79 +120,23 @@ export const POST = async ({ request, locals }) => {
             });
         }
 
-
-
-        // Upload des fichiers sur Uploadthing
-        const uploadResults = await Promise.all(
-            files.map(async (file) => {
-                try {
-                    // Créer un UTFile avec le nom du fichier et le customId
-                    const utFile = new UTFile([file], `article_${result.id}_${session.user?.id}_${file.name}`);
-
-
-                    const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN, });
-                    const fileResult = await utapi.uploadFiles(utFile);
-
-                    if (!result || !fileResult.data) {
-                        console.error('Échec de l upload pour:', file.name);
-                        return undefined;
-                    }
-
-                    return fileResult.data.ufsUrl;
-                } catch (err) {
-                    console.error(`Erreur lors de l'upload de ${file.name}:`, err);
-                    return undefined;
-                }
-            })
-        );
-
-        const uploadedImageUrls = uploadResults.filter((url): url is string => Boolean(url));
-
-        if (uploadedImageUrls.length > 0) {
-            const updatedArticle = await prisma.articles.update({
-                where: { id: result.id },
-                data: { images: uploadedImageUrls }
-            });
-            return json({
-                success: true,
-                articleId: updatedArticle.id,
-                imageUrls: uploadedImageUrls
-            });
-        } else {
-            console.warn('Aucune image valide uploadée. article pas  mis à jour.');
-        }
-
-        try {
-            if (session.user.email) {
-                await submitArticle(session.user.email);
-            }
-        } catch (emailError) {
-            // On log l'erreur mais on ne la propage pas pour ne pas bloquer la réponse
-            console.error('Erreur lors de l\'envoi du mail de confirmation:', emailError);
-        }
-
-        const response: ArticleUploadResponse = {
+        return json({
             success: true,
-            articleId: result.id,
-            imageUrls: uploadedImageUrls
-        };
-
-        return json(response);
+            articleId: result.id
+        });
     } catch (err) {
         console.error('Erreur création article:', err);
 
-        // Vérifier plus explicitement si c'est une erreur de validation
         if (err && typeof err === 'object' && 'status' in err && err.status === 400) {
-            throw err; // Propager l'erreur de validation telle quelle
+            throw err;
         } else if (err instanceof Error) {
-            // Pour les autres erreurs, conserver au moins le message
             throw error(500, err.message || 'Erreur interne du serveur');
         } else {
-            // Fallback pour tout autre type d'erreur
             throw error(500, 'Erreur lors de la création article');
         }
     }
 };
+
 
 
 
