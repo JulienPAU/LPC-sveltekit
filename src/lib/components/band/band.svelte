@@ -13,7 +13,7 @@
 		<div class="mt-8 flex justify-center space-x-4">
 			<a
 				href={userSession ? '/dashboard/publish' : '/auth'}
-				class="f rounded-md bg-yellow-500 px-6 py-4 font-orelega text-2xl text-black hover:bg-yellow-400 hover:text-black focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+				class="f rounded-md bg-yellow-500 px-6 py-4 font-orelega text-2xl text-black hover:bg-yellow-400 hover:text-black"
 			>
 				Proposer un article
 			</a>

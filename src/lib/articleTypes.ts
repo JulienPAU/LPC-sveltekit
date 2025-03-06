@@ -9,5 +9,7 @@ export const articleTypeOptions = [
     { key: "SPONSORED", label: "Sponsorisé" },
     { key: "INTERVIEW", label: "Interview" },
     { key: "COMPARISON", label: "Comparatif" },
+    { key: "TUTORIAL", label: "Tutoriel" },
+    { key: "MODDING", label: "Modding" },
     { key: "OTHER", label: "Autre" }
 ];

@@ -2,6 +2,7 @@
 
 <script lang="ts">
 	import { Toaster } from 'svelte-5-french-toast';
+	import { navigating } from '$app/stores';
 
 	import Footer from '$lib/components/footer/Footer.svelte';
 	import '../app.css';
@@ -19,7 +20,26 @@
 	const isHome = $derived(page.url.pathname === '/');
 
 	const hiddenPages = ['/auth', '/dashboard'];
+
+	$effect(() => {
+		if (typeof document !== 'undefined') {
+			if ($navigating) {
+				document.body.classList.add('loading-cursor');
+			} else {
+				document.body.classList.remove('loading-cursor');
+			}
+		}
+	});
 </script>
+
+<svelte:head>
+	<style>
+		.loading-cursor,
+		.loading-cursor * {
+			cursor: wait !important;
+		}
+	</style>
+</svelte:head>
 
 {#if isHome}
 	<Header {watches} />

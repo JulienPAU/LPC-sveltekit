@@ -181,6 +181,10 @@ export const getArticleType = (type: string) => {
 			return "Interview";
 		case "COMPARISON":
 			return "Comparatif";
+		case "TUTORIAL":
+			return "Tutoriel";
+		case "MODDING":
+			return "Modding";
 		case "OTHER":
 			return "Autre";
 		default:

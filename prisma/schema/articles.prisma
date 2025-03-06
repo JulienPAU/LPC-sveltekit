@@ -36,6 +36,7 @@ enum Status {
   PUBLISHED
   SUBMITTED
   REFUSED
+  DRAFT
 }
 
 enum Article_Type {
@@ -50,4 +51,6 @@ enum Article_Type {
   SPONSORED
   INTERVIEW
   COMPARISON
+  TUTORIAL
+  MODDING
 }
