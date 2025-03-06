@@ -18,13 +18,10 @@ model Account {
 
 model Session {
   id        String   @id @default(uuid())
-  userId    String
- 
-  expiresAt DateTime
   createdAt DateTime @default(now())
-
-
-   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

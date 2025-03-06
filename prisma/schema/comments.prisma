@@ -5,5 +5,5 @@ model Comments {
   content      String
   comment_date DateTime
   article      Articles @relation(fields: [article_id], references: [id], onDelete: Cascade)
-  user       User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }

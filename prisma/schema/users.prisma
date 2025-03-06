@@ -1,29 +1,25 @@
 model User {
-  id                String                 @id @default(cuid())
-  googleId          String?                @unique // Champ dédié pour l'ID Google
-
-  name              String?
-  last_name         String
-  first_name        String
-  email             String              @unique
-  password          String
-  username          String?             @unique
-  profile_picture           String?
-  
-  accounts          Account[]
-  articles          Articles[]
-  comments          Comments[]
-  favorites         Favorites[]
-  sessions          Session[]
-  User_Role         User_Role[]
-
-  authProvider String?    // Pour identifier si c'est Google ou email/password
-  verified     Boolean    @default(false)
-  lastLogin    DateTime?
-  createdAt    DateTime  
-
-  moderatorRequestAt      DateTime?
-  moderatorRequestStatus  ModeratorRequest?   @default(NOT_REQUESTED) 
+  id                     String            @id @default(cuid())
+  last_name              String
+  first_name             String
+  email                  String            @unique
+  password               String
+  username               String?           @unique
+  authProvider           String?
+  lastLogin              DateTime?
+  verified               Boolean           @default(false)
+  profile_picture        String?
+  googleId               String?           @unique
+  name                   String?
+  moderatorRequestAt     DateTime?
+  moderatorRequestStatus ModeratorRequest? @default(NOT_REQUESTED)
+  createdAt              DateTime
+  accounts               Account[]
+  articles               Articles[]
+  comments               Comments[]
+  favorites              Favorites[]
+  sessions               Session[]
+  User_Role              User_Role[]
 }
 
 model User_Role {

@@ -1,22 +1,20 @@
 model Watches {
-  id               Int              @id @default(autoincrement())
+  id               Int                @id @default(autoincrement())
   brand            String
   model            String
   movement         String?
   water_resistance String?
+  category_id      Int?
+  case_material    WatchCaseMaterial?
   case_size        String?
+  glass            String?
+  lug_to_lug       String?
   lug_width        String?
   thickness        String?
-  lug_to_lug       String?
-  glass            String?
-  case_material    WatchCaseMaterial?
   price            String?
-
-  category_id      Int?
-
-  straps           WatchStraps[]  
-  category         Categories?  @relation(fields: [category_id], references: [id])
   articles         ArticleWatches[]
+  straps           WatchStraps[]
+  category         Categories?        @relation(fields: [category_id], references: [id])
 
   @@unique([brand, model])
 }
@@ -24,27 +22,26 @@ model Watches {
 model ArticleWatches {
   article_id Int
   watch_id   Int
-  article    Articles @relation(fields: [article_id], references: [id],  onDelete: Cascade)
-  watch      Watches  @relation(fields: [watch_id], references: [id],  onDelete: Cascade)
+  article    Articles @relation(fields: [article_id], references: [id], onDelete: Cascade)
+  watch      Watches  @relation(fields: [watch_id], references: [id], onDelete: Cascade)
 
   @@id([article_id, watch_id])
 }
 
 model Straps {
-  id          Int      @id @default(autoincrement())
-  material    String   
-  watches     WatchStraps[]
+  id       Int           @id @default(autoincrement())
+  material String
+  watches  WatchStraps[]
 }
 
 model WatchStraps {
-  watch_id  Int
-  strap_id  Int
-  watch     Watches @relation(fields: [watch_id], references: [id], onDelete: Cascade)
-  strap     Straps  @relation(fields: [strap_id], references: [id], onDelete: Cascade)
+  watch_id Int
+  strap_id Int
+  strap    Straps  @relation(fields: [strap_id], references: [id], onDelete: Cascade)
+  watch    Watches @relation(fields: [watch_id], references: [id], onDelete: Cascade)
 
-  @@id([watch_id, strap_id]) 
+  @@id([watch_id, strap_id])
 }
-
 
 enum WatchCaseMaterial {
   STAINLESS_STEEL_316L

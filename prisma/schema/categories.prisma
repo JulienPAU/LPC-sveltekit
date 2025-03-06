@@ -1,19 +1,20 @@
 model Categories {
-  id                Int                 @id @default(autoincrement())
-  type              Category
-  name              String
-  Articles          Articles[]
-  watches           Watches[]
+  id       Int        @id @default(autoincrement())
+  type     Category
+  name     String
+  Articles Articles[]
+  watches  Watches[]
 }
 
 enum Category {
   ANALOG
-  AUTOMATIC
   DIGITAL
   CHRONOGRAPH
   SMARTWATCH
+  OTHER
   HYBRID
   LUXURY
+  AUTOMATIC
   DIVER
   PILOT
   POCKET
@@ -23,5 +24,4 @@ enum Category {
   MECHANICAL
   SOLAR
   SKELETON
-  OTHER
 }
