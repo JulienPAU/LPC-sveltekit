@@ -63,7 +63,7 @@
 		on:change={handleFileSelect}
 	/>
 	<p class="my-1 italic">
-		Minimum {minFiles} photo, maximum {maxFiles} photos, 2 Mo max par photos, 4 Mo max au total.
+		Minimum {minFiles} photo, maximum {maxFiles} photos, 2 Mo max par photos.
 	</p>
 	<p class=" italic">Formats acceptés : JPEG / PNG / WEBP</p>
 	<a
