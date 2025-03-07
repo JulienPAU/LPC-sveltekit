@@ -26,7 +26,9 @@
 
 	$effect(() => {
 		if (typeof document !== 'undefined') {
-			if (navigating) {
+			// Vérifier si une navigation est réellement en cours
+			// en examinant la propriété 'to' ou une autre propriété qui indique une navigation active
+			if (navigating && navigating.to) {
 				document.body.classList.add('loading-cursor');
 			} else {
 				document.body.classList.remove('loading-cursor');
