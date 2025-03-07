@@ -1,8 +1,9 @@
 <!-- src/routes/%2Blayout.svelte -->
 
 <script lang="ts">
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { Toaster } from 'svelte-5-french-toast';
-	import { navigating } from '$app/stores';
+	import { navigating } from '$app/state';
 
 	import Footer from '$lib/components/footer/Footer.svelte';
 	import '../app.css';
@@ -21,9 +22,11 @@
 
 	const hiddenPages = ['/auth', '/dashboard'];
 
+	injectAnalytics();
+
 	$effect(() => {
 		if (typeof document !== 'undefined') {
-			if ($navigating) {
+			if (navigating) {
 				document.body.classList.add('loading-cursor');
 			} else {
 				document.body.classList.remove('loading-cursor');
