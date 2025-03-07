@@ -141,7 +141,7 @@
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
 					<label for="category" class="mb-1 block text-lg font-bold text-gray-700">
-						Catégorie
+						Catégorie <span class="text-red-500">*</span>
 					</label>
 
 					<select
@@ -160,7 +160,9 @@
 				</div>
 
 				<div class="w-full">
-					<label for="type" class="mb-1 block text-lg font-bold text-gray-700">Type </label>
+					<label for="type" class="mb-1 block text-lg font-bold text-gray-700"
+						>Type <span class="text-red-500">*</span>
+					</label>
 					<select
 						id="type"
 						name="type"
@@ -178,7 +180,7 @@
 			</div>
 			<div class="w-full">
 				<label for="titre-article" class="mb-1 block text-lg font-bold text-gray-700">
-					Titre de l'article
+					Titre de l'article <span class="text-red-500">*</span>
 				</label>
 				<input
 					id="titre-article"
@@ -192,30 +194,36 @@
 
 			<div>
 				<label for="introduction" class="mb-1 block text-lg font-bold text-gray-700">
-					Introduction de l'article
+					Introduction de l'article <span class="text-red-500">*</span>
 				</label>
 				<QuillEditor name="introduction" bind:value={article.introduction} maxLength={350} />
 			</div>
 
 			<div>
 				<label for="corps-article" class="mb-1 block text-lg font-bold text-gray-700">
-					Corps de l'article
+					Corps de l'article <span class="text-red-500">*</span>
 				</label>
 				<QuillEditor name="corps-article" bind:value={article.body} maxLength={3000} />
 			</div>
 
 			<div>
 				<label for="end" class="mb-1 block text-lg font-bold text-gray-700">
-					Le mot de la fin
+					Le mot de la fin <span class="text-red-500">*</span>
 				</label>
 				<QuillEditor name="end" bind:value={article.ending} maxLength={350} />
+			</div>
+
+			<div class=" text-sm">
+				<span class="text-red-500">*</span> Champs obligatoires
 			</div>
 		</div>
 
 		<div class=" w-full rounded-xl bg-gray-200 p-8">
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
-					<label for="brand" class="mb-1 block text-lg font-bold text-gray-700"> Marque </label>
+					<label for="brand" class="mb-1 block text-lg font-bold text-gray-700">
+						Marque <span class="text-red-500">*</span>
+					</label>
 					<input
 						id="brand"
 						name="brand"
@@ -226,7 +234,9 @@
 					/>
 				</div>
 				<div class="w-full">
-					<label for="model" class="mb-1 block text-lg font-bold text-gray-700"> Modèle </label>
+					<label for="model" class="mb-1 block text-lg font-bold text-gray-700">
+						Modèle <span class="text-red-500">*</span>
+					</label>
 					<input
 						id="model"
 						name="model"
@@ -240,7 +250,9 @@
 
 			<div class="mb-5 flex flex-col gap-5 md:flex-row">
 				<div class="w-full">
-					<label for="movement" class="mb-1 block text-lg font-bold text-gray-700">Mouvement</label>
+					<label for="movement" class="mb-1 block text-lg font-bold text-gray-700"
+						>Mouvement <span class="text-red-500">*</span></label
+					>
 					<select
 						id="movement"
 						name="movement"
@@ -441,7 +453,7 @@
 			{:else if onFilesSelected}
 				<div class="mb-20 w-full">
 					<label for="upload-files" class="mb-1 block text-lg font-bold text-gray-700">
-						Télécharger des fichiers
+						Télécharger des fichiers <span class="text-red-500">*</span>
 					</label>
 					<slot name="imageUploader" />
 				</div>

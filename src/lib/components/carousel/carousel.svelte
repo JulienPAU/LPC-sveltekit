@@ -37,7 +37,7 @@
 			: items.slice(0, 10);
 
 	$: carouselClasses = `carousel mx-0 flex w-full snap-x overflow-x-auto px-4 flex   md:mx-2 lg:mx-3 ${
-		type === 'images' ? 'gap-2   ' : 'gap-6 pb-10'
+		type === 'images' ? 'gap-2 mb-4   ' : 'gap-6 pb-8 lg:pb-10'
 	}`;
 
 	function openModal(imageSrc: string) {
@@ -66,7 +66,8 @@
 	// }, 10000); // Délai de 2 secondes pour montrer le skeleton
 </script>
 
-<div class="relative mb-10 flex items-center justify-center px-4">
+<div class="relative mb-6 flex items-center justify-center px-4">
+	<!-- Boutons de navigation pour desktop -->
 	<button
 		aria-label="boutton précédent"
 		class="btn-circle ml-2 hidden bg-gray-300 hover:bg-gray-200 md:block"
@@ -84,6 +85,7 @@
 	</button>
 
 	<div bind:this={carousel} class={carouselClasses}>
+		<!-- Le contenu existant du carousel reste inchangé -->
 		{#if loading}
 			{#each Array(items.length) as _}
 				<Skeleton
@@ -106,7 +108,7 @@
 						></button>
 					</div>
 				{:else}
-					<div class="carousel-item w-[350px] flex-shrink-0 snap-center lg:w-[420px]">
+					<div class="carousel-item relative w-[350px] flex-shrink-0 snap-center lg:w-[420px]">
 						<Card
 							props={{
 								title: item.title,
@@ -125,7 +127,7 @@
 								status: 'PUBLISHED',
 								imgStyle: 'h-[250px]',
 								style:
-									' card w-full bg-base-100 shadow-lg transition-shadow   duration-500  hover:shadow-xl  overflow-hidden '
+									' card w-full bg-base-100 shadow-lg transition-shadow duration-500 hover:shadow-xl overflow-hidden '
 							}}
 						/>
 					</div>
@@ -133,6 +135,54 @@
 			{/each}
 		{/if}
 	</div>
+
+	<!-- Boutons de navigation pour mobile superposés aux cartes (uniquement pour les articles) -->
+	{#if type === 'articles'}
+		<div
+			class="pointer-events-none absolute bottom-6 left-0 right-0 flex h-full items-center justify-between px-2 md:hidden"
+		>
+			<button
+				aria-label="boutton précédent"
+				class="btn-circle btn-sm pointer-events-auto bg-white shadow-md hover:bg-opacity-90"
+				on:click={() => scrollCarousel(-1)}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					class="mx-auto h-4 w-4"
+				>
+					<path
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M15 19l-7-7 7-7"
+					/>
+				</svg>
+			</button>
+			<button
+				aria-label="boutton suivant"
+				class="b btn-circle btn-sm pointer-events-auto bg-white shadow-md hover:bg-opacity-90"
+				on:click={() => scrollCarousel(1)}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					class="mx-auto h-4 w-4"
+				>
+					<path
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M9 5l7 7-7 7"
+					/>
+				</svg>
+			</button>
+		</div>
+	{/if}
 
 	<button
 		aria-label="boutton suivant"
