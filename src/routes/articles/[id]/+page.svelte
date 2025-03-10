@@ -47,6 +47,8 @@
 					duration: 5000
 				});
 				invalidate('app:article');
+				invalidate('app:articles');
+
 				setTimeout(() => goto('/dashboard/manage'), 1000);
 			}
 		} catch (err) {
