@@ -17,4 +17,5 @@ export interface CardProps {
     isAdmin: boolean;
     status: string;
     imgStyle: string;
+    carouselClasses: boolean
 }

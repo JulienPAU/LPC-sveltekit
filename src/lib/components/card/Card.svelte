@@ -7,6 +7,7 @@
 		getCategory,
 		truncateText
 	} from '$lib/utils';
+	import { OAuthProfileParseError } from '@auth/core/errors';
 
 	import DOMPurify from 'dompurify';
 	import { onMount } from 'svelte';
@@ -32,7 +33,8 @@
 		isModerator: false,
 		isAdmin: false,
 		status: 'PUBLISHED',
-		imgStyle: ''
+		imgStyle: '',
+		carouselClasses: false
 	};
 </script>
 
@@ -62,7 +64,7 @@
 		{/if}
 	</figure>
 
-	<div class="card-body p-5">
+	<div class="{props.carouselClasses ? 'card-body px-4  py-5 lg:px-5' : 'card-body p-5'}   ">
 		<h2
 			class="card-title overflow-hidden hyphens-auto font-light"
 			lang="fr"
@@ -112,7 +114,7 @@
 			</p>
 			{#if props.introduction}
 				<div class="">
-					{@html truncateText(sanitize(props.introduction), 150) || 'Contenu indisponible'}
+					{@html truncateText(sanitize(props.introduction), 140) || 'Contenu indisponible'}
 				</div>
 			{/if}
 		{/if}

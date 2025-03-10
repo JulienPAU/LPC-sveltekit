@@ -126,6 +126,7 @@
 								isAdmin: false,
 								status: 'PUBLISHED',
 								imgStyle: 'h-[250px]',
+								carouselClasses: true,
 								style:
 									' card w-full bg-base-100 shadow-lg transition-shadow duration-500 hover:shadow-xl overflow-hidden '
 							}}
