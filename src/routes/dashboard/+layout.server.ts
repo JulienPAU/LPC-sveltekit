@@ -17,13 +17,14 @@ export async function load({ fetch, locals, depends }) {
     try {
         depends('app:user');
 
-        const response = await fetch(`/api/_public/dashboard/${session?.user?.id}`);
+        const userId = await fetch(`/api/_public/dashboard/${session?.user?.id}`);
 
-        if (!response.ok) {
-            throw new Error(`API error: ${response.status}`);
+        if (!userId.ok) {
+            throw new Error(`API error: ${userId.status}`);
         }
 
-        const user = await response.json();
+
+        const user = await userId.json();
 
 
         return { user };

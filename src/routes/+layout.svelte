@@ -16,7 +16,7 @@
 
 	let { children, data } = $props();
 
-	let { watches } = data;
+	let { watches, ariclesSubmitted } = data;
 
 	const isHome = $derived(page.url.pathname === '/');
 
@@ -47,7 +47,7 @@
 </svelte:head>
 
 {#if isHome}
-	<Header {watches} />
+	<Header {watches} {ariclesSubmitted} />
 {:else}
 	<Navbar {watches} />
 	{#if !hiddenPages.includes(page.url.pathname)}

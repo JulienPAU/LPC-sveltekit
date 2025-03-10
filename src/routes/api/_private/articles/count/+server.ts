@@ -25,7 +25,6 @@ export async function GET({ locals }: RequestEvent) {
             });
         }
 
-        // Récupération des comptages
         try {
             const counts = await prisma.articles.groupBy({
                 by: ['status'],
@@ -34,7 +33,6 @@ export async function GET({ locals }: RequestEvent) {
                 },
             });
 
-            // Vérification des résultats
             if (!counts || !Array.isArray(counts)) {
                 throw error(500, {
                     message: "Format de données invalide"

@@ -6,10 +6,17 @@ export const load: LayoutServerLoad = async ({ fetch, locals, depends }) => {
     depends("app:articles");
 
     try {
-        const [articlesResponse, watchesResponse] = await Promise.all([
+        const [articlesResponse, watchesResponse, countSubmitted] = await Promise.all([
             fetch('/api/_public/articles'),
-            fetch('/api/_public/watches')
+            fetch('/api/_public/watches'),
+            fetch(`/api/_public/articles/count`)
         ]);
+
+        if (!countSubmitted.ok) {
+            throw new Error(`API error: ${countSubmitted.status}`);
+        }
+
+
 
         // Gestion des erreurs pour articles
         if (!articlesResponse.ok) {
@@ -25,11 +32,12 @@ export const load: LayoutServerLoad = async ({ fetch, locals, depends }) => {
             });
         }
 
+        const ariclesSubmitted = await countSubmitted.json();
         const articles = await articlesResponse.json();
         const watches = await watchesResponse.json();
         const session = await locals.auth();
 
-        return { articles, session, watches };
+        return { articles, session, watches, ariclesSubmitted };
     } catch (e) {
         // Si l'erreur vient déjà de error(), la propager
         if (e instanceof Error && 'status' in e) throw e;

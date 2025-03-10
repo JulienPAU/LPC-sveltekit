@@ -6,6 +6,7 @@
 	import type { SessionUser } from '$lib/types/user';
 	import { onMount } from 'svelte';
 	export let watches: Array<{ brand: string; model: string }> = [];
+	export let ariclesSubmitted: { total: number } = { total: 0 };
 
 	let scrolled = false;
 	let navbarClass = '';
@@ -242,7 +243,7 @@
 							</div>
 						</button>
 						<ul
-							class=" menu dropdown-content z-[1] w-52 rounded-box border border-yellow-500 bg-gray-900 p-2 shadow {menuBgClass}"
+							class=" menu dropdown-content z-[1] w-60 rounded-box border border-yellow-500 bg-gray-900 p-2 shadow {menuBgClass}"
 						>
 							<div>
 								<h3 class=" mb-2 text-lg font-normal">{userSession.username}</h3>
@@ -282,7 +283,26 @@
 								</div>
 								<li>
 									<a href="/dashboard/manage" class=" hover:bg-gray-600"
-										><i class="fa-solid fa-newspaper" style="color: #eab308;"></i> Gérer les articles</a
+										><i class="fa-solid fa-newspaper" style="color: #eab308;"></i>
+										<span class="flex items-center whitespace-nowrap">
+											<span>Gérer les articles</span>
+											{#if ariclesSubmitted.total === 0}
+												<i
+													class="fa-solid fa-circle mb-3 ml-1 text-[0.5rem]"
+													style="color: #22c55e;"
+												></i>
+											{:else if ariclesSubmitted.total < 10}
+												<i
+													class="fa-solid fa-circle mb-3 ml-1 text-[0.5rem]"
+													style="color: #f97316;"
+												></i>
+											{:else}
+												<i
+													class="fa-solid fa-circle mb-3 ml-1 text-[0.5rem]"
+													style="color: #ef4444;"
+												></i>
+											{/if}
+										</span></a
 									>
 								</li>
 							{/if}

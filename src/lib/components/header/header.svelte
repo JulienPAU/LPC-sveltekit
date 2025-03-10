@@ -7,11 +7,12 @@
 	import type { SessionUser } from '$lib/types/user';
 
 	export let watches: Array<{ brand: string; model: string }> = [];
+	export let ariclesSubmitted: { total: number } = { total: 0 };
 
 	const userSession = page.data.session?.user as SessionUser;
 </script>
 
-<Navbar {watches} />
+<Navbar {watches} {ariclesSubmitted} />
 <header class="perspective-500 min-h-fit transform bg-slate-900">
 	<div class="flex flex-col items-center justify-center md:flex-row">
 		<div
