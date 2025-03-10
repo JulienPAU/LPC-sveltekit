@@ -53,6 +53,7 @@
 						isDashboard: false,
 						isModerator: false,
 						isAdmin: true,
+						carouselClasses: false,
 						status: a.status,
 						imgStyle: 'h-[150px]',
 						style:

@@ -147,6 +147,7 @@
 						publish_date: '',
 						submit_date: '',
 						isAdmin: false,
+						carouselClasses: false,
 						status: 'PUBLISHED',
 						imgStyle: 'h-[250px] lg:h-[400px]',
 						style:
