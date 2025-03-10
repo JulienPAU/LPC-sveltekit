@@ -1,20 +1,11 @@
 import { json, error } from "@sveltejs/kit";
 import prisma from "$lib/prisma";
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import type { RequestEvent } from '@sveltejs/kit';
 
-export async function GET({ locals }: RequestEvent) {
+export async function GET() {
     try {
-        const session = await locals.auth();
 
-        if (!session) {
-            throw error(401, { message: "Non authentifié" });
-        }
 
-        const user = session.user;
-        if (!user) {
-            throw error(403, { message: "Session utilisateur invalide" });
-        }
 
         try {
             const submittedCount = await prisma.articles.count({
