@@ -117,6 +117,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                             password: "",
                             authProvider: "google",
                             createdAt: new Date(),
+                            lastLogin: new Date(),
                             User_Role: {
                                 create: {
                                     role: user.role as RoleType

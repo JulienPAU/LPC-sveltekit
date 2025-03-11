@@ -14,5 +14,7 @@ export const categoryOptions = [
     { key: "TOURBILLON", label: "Tourbillon" },
     { key: "SOLAR", label: "Solaire" },
     { key: "SKELETON", label: "Squelette" },
+    { key: "POCKET", label: "Gousset" },
+    { key: "STRAPS", label: "Bracelet seul" },
     { key: "OTHER", label: "Autre" }
 ];

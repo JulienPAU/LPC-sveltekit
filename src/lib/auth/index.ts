@@ -50,6 +50,7 @@ export async function createUser(email: string, password: string, first_name: st
             last_name,
             username,
             createdAt: new Date(),
+            lastLogin: new Date(),
             authProvider: "credentials",
             User_Role: {
                 create: {

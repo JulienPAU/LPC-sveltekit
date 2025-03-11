@@ -92,7 +92,6 @@
 				}
 			}
 
-			// ÉTAPE 3: Finaliser l'article avec les URLs des images
 			processingStep = "Finalisation de l'article...";
 			await fetch(`/api/_public/article_id/${articleId}/finalize`, {
 				method: 'POST',

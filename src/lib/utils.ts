@@ -216,6 +216,8 @@ export const getCategory = (category: string) => {
 			return "Aviation";
 		case "POCKET":
 			return "Gousset";
+		case 'STRAPS':
+			return 'Bracelet seul';
 		case "DRESS":
 			return "Habillée";
 		case "FIELD":

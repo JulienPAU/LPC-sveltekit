@@ -129,6 +129,33 @@
 		}
 	}
 
+	const categoriesWithoutWatchRequirement = ['STRAPS'];
+	const articleTypesWithoutWatchRequirement = [
+		'TUTORIAL',
+		'GUIDE',
+		'LEXIQUE',
+		'INTERVIEW',
+		'OTHER'
+	];
+
+	$: watchFieldsRequired =
+		!categoriesWithoutWatchRequirement.includes(selectedCategory) &&
+		!articleTypesWithoutWatchRequirement.includes(article.article_type) &&
+		!isEditing;
+
+	$: {
+		// Si c'est une catégorie ou un type qui ne nécessite pas d'info montre
+		if (
+			categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+			articleTypesWithoutWatchRequirement.includes(article.article_type)
+		) {
+			// Assigner des valeurs par défaut
+			watches.brand = watches.brand || 'N/A';
+			watches.model = watches.model || 'N/A';
+			watches.movement = watches.movement || null;
+		}
+	}
+
 	export const ssr = false;
 </script>
 
@@ -218,46 +245,57 @@
 			</div>
 		</div>
 
-		<div class=" w-full rounded-xl bg-gray-200 p-8">
-			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+		<div class="w-full rounded-xl bg-gray-200 p-8">
+			<div
+				class="mb-5 flex flex-col gap-5 md:flex-row"
+				class:opacity-50={categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+					articleTypesWithoutWatchRequirement.includes(article.article_type)}
+			>
 				<div class="w-full">
 					<label for="brand" class="mb-1 block text-lg font-bold text-gray-700">
-						Marque <span class="text-red-500">*</span>
+						Marque <span class="text-red-500">{watchFieldsRequired ? '*' : ''}</span>
 					</label>
 					<input
 						id="brand"
 						name="brand"
 						type="text"
 						class="input input-bordered input-warning w-full"
-						required={!isEditing}
+						required={watchFieldsRequired}
+						disabled={!watchFieldsRequired}
 						bind:value={watches.brand}
 					/>
 				</div>
 				<div class="w-full">
 					<label for="model" class="mb-1 block text-lg font-bold text-gray-700">
-						Modèle <span class="text-red-500">*</span>
+						Modèle <span class="text-red-500">{watchFieldsRequired ? '*' : ''}</span>
 					</label>
 					<input
 						id="model"
 						name="model"
 						type="text"
 						class="input input-bordered input-warning w-full"
-						required={!isEditing}
+						required={watchFieldsRequired}
+						disabled={!watchFieldsRequired}
 						bind:value={watches.model}
 					/>
 				</div>
 			</div>
 
-			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+			<div
+				class="mb-5 flex flex-col gap-5 md:flex-row"
+				class:opacity-50={categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+					articleTypesWithoutWatchRequirement.includes(article.article_type)}
+			>
 				<div class="w-full">
 					<label for="movement" class="mb-1 block text-lg font-bold text-gray-700"
-						>Mouvement <span class="text-red-500">*</span></label
+						>Mouvement <span class="text-red-500">{watchFieldsRequired ? '*' : ''}</span></label
 					>
 					<select
 						id="movement"
 						name="movement"
 						class="select select-warning w-full text-lg"
-						required={!isEditing}
+						required={watchFieldsRequired}
+						disabled={!watchFieldsRequired}
 						bind:value={watches.movement}
 					>
 						<option value="" disabled selected class="text-black">Choix du mouvement</option>
@@ -272,7 +310,11 @@
 						<option value="Other">Autre</option>
 					</select>
 				</div>
-				<div class="w-full">
+				<div
+					class="w-full"
+					class:opacity-50={categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+						articleTypesWithoutWatchRequirement.includes(article.article_type)}
+				>
 					<label for="water_resistance" class="mb-1 block text-lg font-bold text-gray-700"
 						>Etanchéité</label
 					>
@@ -280,6 +322,7 @@
 						id="water_resistance"
 						name="water_resistance"
 						class="select select-warning w-full text-lg"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.water_resistance}
 					>
 						<option value="" disabled selected class="text-black">Choix de l'étanchéité</option>
@@ -295,7 +338,11 @@
 					</select>
 				</div>
 			</div>
-			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+			<div
+				class="mb-5 flex flex-col gap-5 md:flex-row"
+				class:opacity-50={categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+					articleTypesWithoutWatchRequirement.includes(article.article_type)}
+			>
 				<div class="w-full">
 					<label for="lug_width" class="mb-1 block text-lg font-bold text-gray-700">
 						Entrecorne
@@ -305,6 +352,7 @@
 						name="lug_width"
 						type="text"
 						class="input input-bordered input-warning w-full"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.lug_width}
 					/>
 				</div>
@@ -317,6 +365,7 @@
 						name="lug_to_lug"
 						type="text"
 						class="input input-bordered input-warning w-full"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.lug_to_lug}
 					/>
 				</div>
@@ -329,12 +378,17 @@
 						name="thickness"
 						type="text"
 						class="input input-bordered input-warning w-full"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.thickness}
 					/>
 				</div>
 			</div>
 
-			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+			<div
+				class="mb-5 flex flex-col gap-5 md:flex-row"
+				class:opacity-50={categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+					articleTypesWithoutWatchRequirement.includes(article.article_type)}
+			>
 				<div class="w-full">
 					<label for="price" class="mb-1 block text-lg font-bold text-gray-700"> Prix </label>
 					<input
@@ -342,6 +396,7 @@
 						name="price"
 						type="text"
 						class="input input-bordered input-warning w-full"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.price}
 					/>
 				</div>
@@ -352,12 +407,17 @@
 						name="glass"
 						type="text"
 						class="input input-bordered input-warning w-full"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.glass}
 					/>
 				</div>
 			</div>
 
-			<div class="mb-5 flex flex-col gap-5 md:flex-row">
+			<div
+				class="mb-5 flex flex-col gap-5 md:flex-row"
+				class:opacity-50={categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+					articleTypesWithoutWatchRequirement.includes(article.article_type)}
+			>
 				<div class="w-full">
 					<label for="case_size" class="mb-1 block text-lg font-bold text-gray-700">
 						Taille boitier (en mm)
@@ -367,10 +427,15 @@
 						name="case_size"
 						type="text"
 						class="input input-bordered input-warning w-full"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.case_size}
 					/>
 				</div>
-				<div class="w-full">
+				<div
+					class="w-full"
+					class:opacity-50={categoriesWithoutWatchRequirement.includes(selectedCategory) ||
+						articleTypesWithoutWatchRequirement.includes(article.article_type)}
+				>
 					<label for="case_material" class="mb-1 block text-lg font-bold text-gray-700"
 						>Matériaux du boitier</label
 					>
@@ -378,6 +443,7 @@
 						id="case_material"
 						name="case_material"
 						class="select select-warning w-full text-lg"
+						disabled={!watchFieldsRequired}
 						bind:value={watches.case_material}
 					>
 						<option value="" disabled selected class="text-black">Choix des matériaux</option>

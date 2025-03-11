@@ -14,6 +14,7 @@ export enum Category {
     DIVER = "DIVER",
     PILOT = "PILOT",
     POCKET = "POCKET",
+    STRAPS = "STRAPS",
     DRESS = "DRESS",
     FIELD = "FIELD",
     TOURBILLON = "TOURBILLON",

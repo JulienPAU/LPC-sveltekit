@@ -18,8 +18,7 @@ export const POST = async ({ request, locals }) => {
 
         const formData = await request.formData();
 
-        // Nous ne traitons plus les fichiers ici
-        // On vérifie juste les autres données
+
 
         const categoryValue = formData.get('category')?.toString();
         if (categoryValue && !Object.values(Category).includes(categoryValue as Category)) {
@@ -64,7 +63,6 @@ export const POST = async ({ request, locals }) => {
         const data = parsedData.data;
 
         const result = await prisma.$transaction(async (tx) => {
-            // 1. Trouver la catégorie
             const category = await tx.categories.findFirst({
                 where: { type: data.category as Category },
             });
@@ -73,7 +71,6 @@ export const POST = async ({ request, locals }) => {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
             }
 
-            // 2. Créer l'article (sans images)
             const article = await tx.articles.create({
                 data: {
                     user: { connect: { id: session?.user?.id } },
@@ -85,7 +82,7 @@ export const POST = async ({ request, locals }) => {
                     status: 'SUBMITTED',
                     article_type: data.type,
                     category: { connect: { id: category.id } },
-                    images: [] // Initialiser avec un tableau vide
+                    images: []
                 }
             });
 
@@ -207,7 +204,6 @@ async function handleWatchAndStraps(articleId: number, watchData: {
 
     // Gérer les bracelets
     if (watchData.straps && watchData.straps.length > 0) {
-        // Récupérer tous les bracelets déjà en BDD
         const existingStraps = await prisma.straps.findMany({
             where: { material: { in: watchData.straps } },
             select: { id: true, material: true }

@@ -24,4 +24,5 @@ enum Category {
   MECHANICAL
   SOLAR
   SKELETON
+  STRAPS
 }
