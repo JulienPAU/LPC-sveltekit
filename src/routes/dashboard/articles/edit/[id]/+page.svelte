@@ -47,12 +47,14 @@
 
 			try {
 				await invalidate('app:user');
-				invalidate('app:articles');
+				await invalidate('app:articles');
+				await invalidate('app:ariclesSubmitted');
+
 				toast.success('Article supprimé avec succès', {
 					duration: 5000
 				});
 				processingStep = 'Redirection vers le tableau de bord...';
-				// Mettons un petit délai avant la redirection
+
 				setTimeout(() => {
 					isSubmitting = false;
 					goto('/dashboard/articles');
@@ -163,6 +165,7 @@
 			isSubmitting = false;
 			await invalidate('app:user');
 			await invalidate('app:articles');
+			await invalidate('app:ariclesSubmitted');
 
 			toast.success('Article mis à jour avec succès', { duration: 5000 });
 			goto('/dashboard/articles');

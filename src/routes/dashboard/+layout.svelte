@@ -2,10 +2,12 @@
 
 <script lang="ts">
 	import '../../app.css';
+	import { page } from '$app/state';
 
 	let { children, data } = $props();
 
-	const { user, ariclesSubmitted } = data;
+	const { user } = data;
+	const ariclesSubmitted = $derived(page.data.ariclesSubmitted);
 </script>
 
 <div class="flex flex-col">

@@ -109,7 +109,14 @@
 			resetArticles();
 		}
 
-		loading = false;
+		if (document.readyState === 'complete') {
+			loading = false;
+		} else {
+			// Sinon, attendre que tout soit chargé
+			window.addEventListener('load', () => {
+				loading = false;
+			});
+		}
 	});
 </script>
 

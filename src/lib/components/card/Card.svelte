@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { CardProps } from '$lib/types/card';
+
 	import {
 		formatDate,
 		generateArticleUrl,
@@ -7,7 +8,6 @@
 		getCategory,
 		truncateText
 	} from '$lib/utils';
-	import { OAuthProfileParseError } from '@auth/core/errors';
 
 	import DOMPurify from 'dompurify';
 	import { onMount } from 'svelte';

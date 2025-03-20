@@ -101,6 +101,7 @@
 
 			isSubmitting = false;
 			await invalidate('app:user');
+			await invalidate('app:ariclesSubmitted');
 			toast.success('Article créé avec succès, fichiers téléchargés.', { duration: 5000 });
 			goto(`/dashboard/articles`);
 		} catch (error) {

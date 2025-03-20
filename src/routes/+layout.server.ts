@@ -4,6 +4,7 @@ import { error } from '@sveltejs/kit';  // Import de l'utilitaire error de Svelt
 
 export const load: LayoutServerLoad = async ({ fetch, locals, depends }) => {
     depends("app:articles");
+    depends("app:ariclesSubmitted");
 
     try {
         const [articlesResponse, watchesResponse, countSubmitted] = await Promise.all([

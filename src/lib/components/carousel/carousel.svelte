@@ -54,16 +54,15 @@
 		if (closeModalButton) {
 			closeModalButton.addEventListener('click', closeModal);
 		}
+
+		if (document.readyState === 'complete') {
+			loading = false;
+		} else {
+			window.addEventListener('load', () => {
+				loading = false;
+			});
+		}
 	});
-
-	$: if (items && items.length > 0) {
-		loading = false;
-	}
-
-	// Simuler un délai de chargement
-	// setTimeout(() => {
-	// 	loading = false;
-	// }, 10000); // Délai de 2 secondes pour montrer le skeleton
 </script>
 
 <div class="relative mb-6 flex items-center justify-center px-4">

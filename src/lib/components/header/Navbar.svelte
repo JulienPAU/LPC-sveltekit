@@ -5,12 +5,16 @@
 	import { page } from '$app/state';
 	import type { SessionUser } from '$lib/types/user';
 	import { onMount } from 'svelte';
-	export let watches: Array<{ brand: string; model: string }> = [];
-	export let ariclesSubmitted: { total: number } = { total: 0 };
+	let { watches = [], ariclesSubmitted = { total: 0 } } = $props();
 
-	let scrolled = false;
-	let navbarClass = '';
-	let menuBgClass = '';
+	$effect(() => {
+		if (page.data.ariclesSubmitted) {
+			ariclesSubmitted = page.data.ariclesSubmitted;
+		}
+	});
+	let scrolled = $state(false);
+	let navbarClass = $state('');
+	let menuBgClass = $state('');
 
 	function handleScroll() {
 		if (window.scrollY > 10) {

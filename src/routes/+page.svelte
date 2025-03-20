@@ -10,7 +10,7 @@
 
 	export let data: PageData;
 
-	let loading = true; // Initialiser à true pour montrer le skeleton
+	let loading = true;
 	const articles = Array.isArray(data.articles) ? data.articles : [];
 
 	const imageUrls = (Array.isArray(articles) ? articles : []).flatMap((article: any) =>
@@ -20,10 +20,6 @@
 	const firstFiveArticles = articles.slice(0, 5);
 	const remainingArticles = articles.slice(5, 11);
 
-	$: if (data && data.articles) {
-		loading = false;
-	}
-
 	// Sur la page d'accueil, stockez les IDs des articles affichés
 	const viewedArticleIds = firstFiveArticles
 		.concat(remainingArticles)
@@ -31,12 +27,15 @@
 
 	onMount(() => {
 		localStorage.setItem('viewedArticleIds', JSON.stringify(viewedArticleIds));
-	});
 
-	// Simuler un délai de chargement
-	// setTimeout(() => {
-	// 	loading = false;
-	// }, 10000); // Délai de 2 secondes pour montrer le skeleton
+		if (document.readyState === 'complete') {
+			loading = false;
+		} else {
+			window.addEventListener('load', () => {
+				loading = false;
+			});
+		}
+	});
 
 	async function refreshData() {
 		await invalidate('articles');
@@ -77,7 +76,7 @@
 					imageUrl:
 						Array.isArray(article.images) && article.images.length > 0
 							? article.images[0]
-							: undefined, // Fallback géré dans Card
+							: undefined,
 					author: article.user.username,
 					article_type: article.article_type,
 					category: article.category,
