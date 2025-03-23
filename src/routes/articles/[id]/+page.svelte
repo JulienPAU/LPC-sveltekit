@@ -43,7 +43,7 @@
 			});
 
 			if (response.ok) {
-				toast.success('Article mis à jour avec succès', {
+				toast.success("Statut de l'article mis à jour avec succès", {
 					duration: 5000
 				});
 				invalidate('app:article');

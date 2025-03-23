@@ -344,7 +344,7 @@
 			>
 				<div class="w-full">
 					<label for="lug_width" class="mb-1 block text-lg font-bold text-gray-700">
-						Entrecorne
+						Entrecorne (en mm)
 					</label>
 					<input
 						id="lug_width"
