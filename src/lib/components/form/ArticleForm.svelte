@@ -307,7 +307,7 @@
 						<option value="ANADIGIT">Analogue-Digital</option>
 						<option value="KINETIC">Kinetic</option>
 						<option value="Solar">Solaire</option>
-						<option value="Other">Autre</option>
+						<option value="OTHER">Autre</option>
 					</select>
 				</div>
 				<div
@@ -334,7 +334,7 @@
 						<option value="20 Bar">20 Bar</option>
 						<option value="30 Bar">30 Bar</option>
 						<option value="100 Bar">100 Bar</option>
-						<option value="Other">Autre</option>
+						<option value="OTHER">Autre</option>
 					</select>
 				</div>
 			</div>
@@ -462,7 +462,7 @@
 						<option value="SILVER">Argent</option>
 						<option value="COPPER">Cuivre</option>
 						<option value="MAGNESIUM">Magnésium</option>
-						<option value="Other">Autre</option>
+						<option value="OTHER">Autre</option>
 					</select>
 				</div>
 			</div>
