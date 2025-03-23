@@ -140,8 +140,7 @@
 
 	$: watchFieldsRequired =
 		!categoriesWithoutWatchRequirement.includes(selectedCategory) &&
-		!articleTypesWithoutWatchRequirement.includes(article.article_type) &&
-		!isEditing;
+		!articleTypesWithoutWatchRequirement.includes(article.article_type);
 
 	$: {
 		// Si c'est une catégorie ou un type qui ne nécessite pas d'info montre
