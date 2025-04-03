@@ -111,7 +111,7 @@
 		<div class="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-10">
 			{#if sanitize}
 				<p
-					class="mb-6 text-justify text-base font-semibold leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
+					class="article-link mb-6 text-justify text-base font-semibold leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>
 					{@html sanitize(article.introduction)}
 				</p>
@@ -148,7 +148,7 @@
 				</div>
 				<h3>Conclusion</h3>
 				<p
-					class="mb-6 text-justify text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
+					class="article-link mb-6 text-justify text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>
 					{@html sanitize(article.ending)}
 				</p>
