@@ -17,6 +17,6 @@ export const categoryOptions = [
     { key: "SOLAR", label: "Solaire" },
     { key: "SKELETON", label: "Squelette" },
     { key: "POCKET", label: "Gousset" },
-    { key: "STRAPS", label: "Bracelet seul" },
+    { key: "STRAPS", label: "Bracelets" },
     { key: "OTHER", label: "Autre" }
 ];

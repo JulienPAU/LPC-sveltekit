@@ -26,8 +26,14 @@ export const POST = async ({ request, locals, params }) => {
             throw error(404, 'Article non trouvé');
         }
 
-        // Vérifier que l'utilisateur est bien le propriétaire
-        if (existingArticle.user_id !== session.user.id) {
+        const userRoles = await prisma.user_Role.findMany({
+            where: { user_id: session.user.id },
+            select: { role: true }
+        });
+
+        const isAdmin = userRoles.some(userRole => userRole.role === 'ADMIN');
+
+        if (existingArticle.user_id !== session.user.id && !isAdmin) {
             throw error(403, 'Vous n\'êtes pas autorisé à modifier cet article');
         }
 
