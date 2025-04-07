@@ -48,20 +48,21 @@
 		<button
 			on:click={() => changePage(currentPage - 1)}
 			disabled={currentPage === 1}
-			class="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50"
+			class="rounded-md border border-slate-300 px-2 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50 sm:px-3"
 		>
-			Précédent
+			<span class="hidden sm:inline">Précédent</span>
+			<span class="sm:hidden">&lt;</span>
 		</button>
 	{/if}
 
 	<!-- Pages -->
 	{#each paginationButtons as page}
 		{#if page === '...'}
-			<span class="px-3 text-slate-600">...</span>
+			<span class="px-2 text-slate-600">...</span>
 		{:else}
 			<button
 				on:click={() => typeof page === 'number' && changePage(page)}
-				class="ml-2 min-w-9 rounded-md border px-3 py-2 text-sm shadow-sm transition-all
+				class="ml-1 min-w-8 rounded-md border px-2 py-2 text-sm shadow-sm transition-all sm:ml-2 sm:min-w-9 sm:px-3
                     {page === currentPage
 					? 'border-transparent bg-slate-800 text-white shadow-md hover:bg-slate-700'
 					: 'border-slate-300 text-slate-600 hover:bg-slate-800 hover:text-white'}"
@@ -76,9 +77,10 @@
 		<button
 			on:click={() => changePage(currentPage + 1)}
 			disabled={currentPage === totalPages}
-			class="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50"
+			class="rounded-md border border-slate-300 px-2 py-2 text-sm text-slate-600 shadow-sm transition-all hover:bg-slate-800 hover:text-white hover:shadow-lg disabled:opacity-50 sm:px-3"
 		>
-			Suivant
+			<span class="hidden sm:inline">Suivant</span>
+			<span class="sm:hidden">&gt;</span>
 		</button>
 	{/if}
 </div>

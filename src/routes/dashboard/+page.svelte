@@ -114,10 +114,10 @@
 		Prêt à partager ta passion horlogère ?
 	</p>
 
-	{#if articlesByUserId.total >= 10 && user.User_Role[0].role !== 'MODERATOR' && user.User_Role[0].role !== 'ADMIN'}
+	{#if articlesByUserId.total >= 15 && user.User_Role[0].role !== 'MODERATOR' && user.User_Role[0].role !== 'ADMIN'}
 		{#if user.moderatorRequestStatus === 'NOT_REQUESTED'}
 			<div class="mb-10 flex flex-col items-center gap-4 rounded-lg bg-slate-900 p-8 text-white">
-				<p class="text-2xl font-bold">Félicitations, vous avez publié plus de 10 articles !</p>
+				<p class="text-2xl font-bold">Félicitations, vous avez publié plus de 15 articles !</p>
 				<p>Vous pouvez faire une demande pour être modérateur.</p>
 				<button class="btn btn-warning text-lg font-bold" on:click={sendModeratorRequest}>
 					Cliquez ici pour faire la demande

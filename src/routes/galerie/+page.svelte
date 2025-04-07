@@ -166,7 +166,7 @@
 	}
 
 	// Throttle pour limiter les appels lors du redimensionnement
-	function throttle(fn: Function, delay: number) {
+	function throttle(fn: (...args: any[]) => void, delay: number) {
 		let lastCall = 0;
 		return function (...args: any[]) {
 			const now = new Date().getTime();
@@ -179,7 +179,19 @@
 	// Fonction pour vérifier si l'appareil est mobile
 	function checkMobile() {
 		if (browser) {
+			const wasMobile = isMobile;
 			isMobile = window.innerWidth < 1024;
+
+			// Si on change de mode (mobile -> desktop ou desktop -> mobile), on vide le cache
+			if (wasMobile !== isMobile) {
+				cachedImages.clear();
+				// Forcer la mise à jour des images visibles
+				setTimeout(() => {
+					currentVisibleImages = getVisibleImages().filter(
+						(img: { isPlaceholder: boolean }) => !img.isPlaceholder
+					);
+				}, 10);
+			}
 		}
 	}
 

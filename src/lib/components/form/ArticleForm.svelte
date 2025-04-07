@@ -450,6 +450,7 @@
 						<option value="STAINLESS_STEEL_316L">Acier Inoxydable 316L</option>
 						<option value="TITANIUM">Titane</option>
 						<option value="GOLD">Or</option>
+						<option value="GOLD_PLATED">Plaqué Or</option>
 						<option value="PLATINUM">Platine</option>
 						<option value="CERAMIC">Céramique</option>
 						<option value="CARBON">Carbone</option>

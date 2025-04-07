@@ -251,6 +251,12 @@ export const getWatchCaseMaterial = (material: string) => {
 			return "Titane";
 		case "GOLD":
 			return "Or";
+		case 'GOLD_PLATED':
+			return "Plaqué Or";
+		case "ROSE_GOLD":
+			return "Or Rose";
+		case "WHITE_GOLD":
+			return "Or Blanc";
 		case "PLATINUM":
 			return "Platine";
 		case "CERAMIC":

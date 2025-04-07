@@ -1,5 +1,7 @@
 <script>
 	import LPC_FAV_WLT from '$lib/assets/logos/LPC_FAV_WLT.svg';
+
+	const currentYear = new Date().getFullYear();
 </script>
 
 <footer class="w-full bg-gray-900">
@@ -69,7 +71,7 @@
 		<div class="border-t border-gray-700 py-7">
 			<div class="flex items-center justify-center">
 				<span class="text-gray-400"
-					>©<a href="/">Les Petits Cadrans </a> 2024, All rights reserved.</span
+					>©<a href="/">Les Petits Cadrans </a> {currentYear}, All rights reserved.</span
 				>
 			</div>
 		</div>
