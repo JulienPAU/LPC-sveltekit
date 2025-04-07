@@ -5,6 +5,8 @@ import type { Watches } from './watches';
 // Enum pour les catégories
 export enum Category {
     ANALOG = "ANALOG",
+    ANALOG_DIGITAL = "ANALOG_DIGITAL",
+    QUARTZ = "QUARTZ",
     AUTOMATIC = "AUTOMATIC",
     DIGITAL = "DIGITAL",
     CHRONOGRAPH = "CHRONOGRAPH",

@@ -1,5 +1,7 @@
 export const categoryOptions = [
     { key: "ANALOG", label: "Analogique" },
+    { key: "ANALOG_DIGITAL", label: "Analogique / Digitale" },
+    { key: "QUARTZ", label: "Quartz" },
     { key: "AUTOMATIC", label: "Automatique" },
     { key: "PILOT", label: "Aviation" },
     { key: "CHRONOGRAPH", label: "Chronographe" },

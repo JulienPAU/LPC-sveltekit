@@ -198,6 +198,10 @@ export const getCategory = (category: string) => {
 	switch (category) {
 		case "ANALOG":
 			return "Analogique";
+		case "ANALOG_DIGITAL":
+			return "Ana-Digitale";
+		case "QUARTZ":
+			return "Quartz";
 		case "AUTOMATIC":
 			return "Automatique";
 		case "DIGITAL":
@@ -217,7 +221,7 @@ export const getCategory = (category: string) => {
 		case "POCKET":
 			return "Gousset";
 		case 'STRAPS':
-			return 'Bracelet seul';
+			return "Bracelets";
 		case "DRESS":
 			return "Habillée";
 		case "FIELD":

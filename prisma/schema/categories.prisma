@@ -8,6 +8,7 @@ model Categories {
 
 enum Category {
   ANALOG
+  ANALOG_DIGITAL
   DIGITAL
   CHRONOGRAPH
   SMARTWATCH
@@ -22,6 +23,7 @@ enum Category {
   FIELD
   TOURBILLON
   MECHANICAL
+  QUARTZ
   SOLAR
   SKELETON
   STRAPS
