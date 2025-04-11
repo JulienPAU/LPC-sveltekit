@@ -1,38 +1,122 @@
-# sv
+# LPC-SvelteKit
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Application web moderne construite avec SvelteKit 2.0 et TypeScript.
 
-## Creating a project
+## 🚀 Technologies
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Frontend**: SvelteKit 2.0, TailwindCSS, DaisyUI
+- **Backend**: SvelteKit Server, Prisma ORM
+- **Auth**: Auth.js (anciennement NextAuth)
+- **Base de données**: PostgreSQL (via Prisma)
+- **Éditeur**: EditorJS
+- **Upload**: UploadThing
+- **Validation**: Zod
+- **Notifications**: French Toast
+
+## 📦 Installation
 
 ```bash
-# create a new project in the current directory
-npx sv create
+# Cloner le repo
+git clone
+cd lpc-sveltekit
 
-# create a new project in my-app
-npx sv create my-app
+# Installer les dépendances
+npm install
+
+# Configuration de la base de données
+# Créez un fichier .env avec vos variables d'environnement
 ```
 
-## Developing
+## 🔧 Variables d'Environnement
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Créez un fichier `.env` à la racine du projet:
+
+````env
+DATABASE_URL="votre-url-postgresql"
+JWT_SECRET_Key
+AUTH_SECRET
+GOOGLE_ID
+GOOGLE_SECRET
+UPLOADTHING_TOKEN
+NODEMAILER_USER
+NODEMAILER_PASS
+
+
+## 🏃‍♂️ Développement
 
 ```bash
+# Lancer en mode développement
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+# Vérification des types
+npm run check
 
-## Building
+# Linting et formatage
+npm run lint
+npm run format
 
-To create a production version of your app:
+# Build pour production
+npm run build
+````
+
+## 🌱 Base de données
 
 ```bash
-npm run build
+# Générer le client Prisma et appliquer les migrations
+npm run postinstall
+
+# Seed la base de données
+npm run seed
 ```
 
-You can preview the production build with `npm run preview`.
+## 📝 Scripts Disponibles
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- `dev`: Lance le serveur de développement
+- `build`: Build pour production
+- `preview`: Preview de la build
+- `check`: Vérifie les types TypeScript
+- `format`: Formate le code avec Prettier
+- `lint`: Vérifie le style du code
+- `seed`: Seed la base de données
+- `postinstall`: Génère le client Prisma et applique les migrations
+
+## 🛠️ Stack Technique Détaillée
+
+### Frontend
+
+- SvelteKit 2.0
+- TailwindCSS avec plugins forms et typography
+- DaisyUI pour les composants UI
+- EditorJS pour l'édition de contenu riche
+
+### Backend
+
+- SvelteKit Server
+- Prisma ORM
+- Auth.js pour l'authentification
+- Nodemailer pour les emails
+- Bcrypt pour le hashing
+- JWT pour les tokens
+
+### Outils de Développement
+
+- TypeScript
+- ESLint
+- Prettier
+- Vite
+- JSCPD pour la détection de code dupliqué
+
+## 📈 Analytics
+
+Intégration de Vercel Analytics pour le suivi des performances.
+
+## 🔒 Sécurité
+
+- Authentification via Auth.js
+- Hashing des mots de passe avec Bcrypt
+- Validation des données avec Zod
+- Sanitization HTML avec DOMPurify
+
+## 🚀 Déploiement
+
+Le projet est configuré pour un déploiement sur Vercel avec l'adaptateur `@sveltejs/adapter-vercel`.
