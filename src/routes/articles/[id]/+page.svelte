@@ -19,8 +19,8 @@
 	export let { article, user } = data;
 
 	const metaDescription = article.introduction
-		? article.introduction.substring(0, 157) + '...'
-		: 'Découvrez cet article sur ' + article.title + ' sur Les Petits Cadrans';
+		? `${article.introduction.substring(0, 157)}...`
+		: `Découvrez cet article sur ${article.title} sur Les Petits Cadrans`;
 
 	const userRole = Array.isArray(user?.User_Role) ? user.User_Role[0]?.role : user?.User_Role;
 
@@ -102,14 +102,43 @@
 		name="keywords"
 		content="montres, horlogerie, {article.category?.name || ''}, {article.title}"
 	/>
+
+	<!-- Structured Data for Article -->
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Article",
+			"headline": "{article.title}",
+			"description": "{metaDescription}",
+			"image": "{article.images && article.images.length ? article.images[0] : '/default-article-image.jpg'}",
+			"datePublished": "{article.publish_date}",
+			"author": {
+				"@type": "Person",
+				"name": "{article.user?.username || 'Les Petits Cadrans'}"
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": "Les Petits Cadrans",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://lespetitscadrans.com/favicon.svg"
+				}
+			},
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "https://lespetitscadrans.com/articles/{article.id}"
+			}
+		}
+	</script>
 </svelte:head>
 
 {#if article}
 	<article class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-		<SectionTitle title={article.title} />
+		<SectionTitle title={article.title} level={1} />
 
 		<div class="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-10 lg:pb-10">
 			{#if sanitize}
+				<h2 class="mb-4">Introduction</h2>
 				<p
 					class="article-link mb-6 text-justify text-base font-semibold leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>
@@ -125,6 +154,7 @@
 					/>
 				</div>
 
+				<h2 class="mb-4">Corps de l'article</h2>
 				<p
 					class="article-link mb-6 whitespace-pre-line text-justify text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>
@@ -146,7 +176,7 @@
 						/>
 					{/if}
 				</div>
-				<h3>Conclusion</h3>
+				<h2 class="mb-4">Conclusion</h2>
 				<p
 					class="article-link mb-6 text-justify text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>

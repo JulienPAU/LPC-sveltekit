@@ -4,6 +4,8 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+		<link rel="canonical" href="https://lespetitscadrans.com%sveltekit.url%" />
 		<script src="https://kit.fontawesome.com/2018e2ad13.js" crossorigin="anonymous"></script>
 		<title>Les Petits Cadrans</title>
 
@@ -11,17 +13,27 @@
 			name="description"
 			content="Les Petits Cadrans - Découvrez et partagez des articles sur l'horlogerie."
 		/>
-		<meta name="keywords" content="montres, horlogerie, cadrans, articles, passionnés" />
-		<meta name="robots" content="index, follow" />
+		<meta
+			name="keywords"
+			content="montres, horlogerie, cadrans, articles, passionnés, luxe, collection, vintage"
+		/>
+		<meta name="robots" content="index, follow, max-image-preview:large" />
 		<meta name="author" content="Les Petits Cadrans" />
+		<meta name="theme-color" content="#0f172a" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://lespetitscadrans.com%sveltekit.url%" />
 		<meta property="og:title" content="Les Petits Cadrans" />
 		<meta
 			property="og:description"
 			content="Découvrez et partagez des articles sur l'horlogerie."
 		/>
 		<meta property="og:image" content="%sveltekit.assets%/preview-image.jpg" />
-		<meta property="og:url" content="https://lespetitscadrans.com" />
-		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Les Petits Cadrans" />
+		<meta property="og:locale" content="fr_FR" />
+
+		<!-- Twitter -->
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content="Les Petits Cadrans" />
 		<meta
@@ -29,6 +41,22 @@
 			content="Découvrez et partagez des articles sur l'horlogerie."
 		/>
 		<meta name="twitter:image" content="%sveltekit.assets%/preview-image.jpg" />
+
+		<!-- Structured Data -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"name": "Les Petits Cadrans",
+				"url": "https://lespetitscadrans.com",
+				"description": "Site communautaire dédié à l'horlogerie et aux montres de collection",
+				"potentialAction": {
+					"@type": "SearchAction",
+					"target": "https://lespetitscadrans.com/articles?search={search_term_string}",
+					"query-input": "required name=search_term_string"
+				}
+			}
+		</script>
 
 		%sveltekit.head%
 	</head>

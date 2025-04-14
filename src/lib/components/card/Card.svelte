@@ -65,13 +65,13 @@
 	</figure>
 
 	<div class="{props.carouselClasses ? 'card-body px-4  py-5 lg:px-5' : 'card-body p-5'}   ">
-		<h2
+		<h3
 			class="card-title overflow-hidden hyphens-auto font-light"
 			lang="fr"
 			style="hyphens: auto; word-break: break-word;"
 		>
 			{props.title}
-		</h2>
+		</h3>
 		{#if props.isDashboard || props.isModerator || props.isAdmin}
 			{null}
 
