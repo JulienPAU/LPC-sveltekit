@@ -154,7 +154,6 @@
 					/>
 				</div>
 
-				<h2 class="mb-4">Corps de l'article</h2>
 				<p
 					class="article-link mb-6 whitespace-pre-line text-justify text-base leading-relaxed sm:mb-8 sm:text-lg lg:mb-10 lg:text-xl"
 				>
