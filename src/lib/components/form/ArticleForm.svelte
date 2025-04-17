@@ -129,7 +129,7 @@
 		}
 	}
 
-	const categoriesWithoutWatchRequirement = ['STRAPS'];
+	const categoriesWithoutWatchRequirement = ['STRAPS', 'OTHER'];
 	const articleTypesWithoutWatchRequirement = [
 		'TUTORIAL',
 		'GUIDE',
