@@ -229,7 +229,7 @@
 				<label for="corps-article" class="mb-1 block text-lg font-bold text-gray-700">
 					Corps de l'article <span class="text-red-500">*</span>
 				</label>
-				<QuillEditor name="corps-article" bind:value={article.body} maxLength={3000} />
+				<QuillEditor name="corps-article" bind:value={article.body} maxLength={5000} />
 			</div>
 
 			<div>

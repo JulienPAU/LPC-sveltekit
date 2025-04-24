@@ -30,7 +30,6 @@
 	let currentPage = 1;
 	const itemsPerPage = 15;
 
-	// Cache pour les résultats coûteux
 	let totalImagesCache: number | null = null;
 	let cachedImages = new Map();
 
@@ -39,7 +38,6 @@
 	$: endIndex = startIndex + itemsPerPage;
 
 	function openModal(imageSrc: string) {
-		// Précharger l'image avant d'ouvrir la modale
 		const img = new Image();
 		img.onload = () => {
 			modalImageSrc = imageSrc;
@@ -47,7 +45,6 @@
 		};
 		img.src = imageSrc;
 
-		// Fallback si l'image met trop de temps à charger
 		setTimeout(() => {
 			if (!isModalOpen && modalImageSrc !== imageSrc) {
 				modalImageSrc = imageSrc;
@@ -82,11 +79,9 @@
 		let groupCount = 0;
 		let currentCount = 0;
 
-		// Récupérer toutes les images de la galerie
 		for (const item of gallery) {
 			if (item.images && item.images.length > 0) {
 				for (const image of item.images) {
-					// Vérifier si l'image est dans la page actuelle
 					if (count >= startIndex && count < endIndex) {
 						const isLarge = groupCount === 0;
 
@@ -105,11 +100,9 @@
 			}
 		}
 
-		// Calculer combien d'éléments sont nécessaires pour compléter le dernier groupe
 		const columnsPerRow = isMobile ? 2 : 7;
 		const remainingInGroup = columnsPerRow - (groupCount % columnsPerRow || columnsPerRow);
 
-		// Ajouter les logos pour compléter le groupe
 		for (let i = 0; i < remainingInGroup; i++) {
 			images.push({
 				src: logoC,
@@ -123,49 +116,40 @@
 		return images;
 	}
 
-	// Fonction pour gérer le changement de page
 	function handlePageChange(page: number) {
 		imagesLoaded = 0;
 		loading = true;
 		preloadingComplete = false;
 		currentPage = page;
 
-		// Petit délai pour s'assurer que l'UI se met à jour avant de commencer le préchargement
 		setTimeout(() => {
-			// Précalculer les images pour définir totalImagesToLoad
 			currentVisibleImages = getVisibleImages().filter(
 				(img: { isPlaceholder: boolean }) => !img.isPlaceholder
 			);
 			totalImagesToLoad = currentVisibleImages.length;
 
-			// Si aucune image à charger, on arrête le loading
 			if (totalImagesToLoad === 0) {
 				loading = false;
 			}
 
-			// Force la mise à jour du DOM pour le préchargement
 			preloadingComplete = true;
 		}, 10);
 
-		// Ajouter un timeout de sécurité (5 secondes max)
 		setTimeout(() => {
 			if (loading) {
 				console.warn('Timeout de chargement atteint - Affichage forcé de la galerie');
 				loading = false;
 			}
-		}, 3000); // Réduit à 3 secondes pour une meilleure réactivité
+		}, 3000);
 	}
 
-	// Fonction pour suivre le chargement des images
 	function handleImageLoad() {
 		imagesLoaded++;
-		// Supprimé le log de débogage pour améliorer les performances
 		if (imagesLoaded >= totalImagesToLoad && totalImagesToLoad > 0) {
 			loading = false;
 		}
 	}
 
-	// Throttle pour limiter les appels lors du redimensionnement
 	function throttle(fn: (...args: any[]) => void, delay: number) {
 		let lastCall = 0;
 		return function (...args: any[]) {
