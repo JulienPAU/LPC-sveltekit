@@ -27,7 +27,7 @@ export const articleUpdateSchema = z.object({
     'corps-article': z
         .string()
         .min(50, "Le corps de l'article est trop court")
-        .max(3000, "Le corps de l'article ne peut pas dépasser 3000 caractères"),
+        .max(5000, "Le corps de l'article ne peut pas dépasser 5000 caractères"),
     'end': z
         .string()
         .min(5, "La conclusion est trop courte")
@@ -67,7 +67,7 @@ export const articlePublishSchema = z.object({
     'corps-article': z
         .string()
         .min(50, "Le corps de l'article doit contenir au moins 50 caractères")
-        .max(3000, "Le corps de l'article ne peut pas dépasser 3000 caractères"),
+        .max(5000, "Le corps de l'article ne peut pas dépasser 5000 caractères"),
     'end': z
         .string()
         .min(5, "La conclusion doit contenir au moins 5 caractères")

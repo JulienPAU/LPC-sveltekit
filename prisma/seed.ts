@@ -28,7 +28,6 @@ async function readCSV(filename) {
 
 async function main() {
 	try {
-		// Nettoyer la base de données par ordre de dépendance
 		await prisma.$transaction([
 			prisma.articleWatches.deleteMany(),
 			prisma.articleTags.deleteMany(),
