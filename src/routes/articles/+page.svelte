@@ -131,7 +131,6 @@
 		initialBrand={page.url.searchParams.get('brand') || ''}
 		initialSort={page.url.searchParams.get('sort') || ''}
 	/>
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
 	<div class="mb-20 flex w-full flex-wrap justify-center gap-14 px-4">
 		{#if loading}
@@ -174,4 +173,5 @@
 			</button>
 		</a>
 	</div> -->
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </section>

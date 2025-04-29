@@ -23,8 +23,6 @@
 		<a href="/dashboard/admin/lexique/publish" class="btn btn-neutral"> Publier une définition</a>
 	</div>
 
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
-
 	<div class="flex w-full flex-wrap justify-between gap-2">
 		{#if allDefinitions.length > 0}
 			{#each paginateddefinitions as definition}
@@ -39,4 +37,5 @@
 			<p class="text-center">Aucune définition pour le moment.</p>
 		{/if}
 	</div>
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </div>

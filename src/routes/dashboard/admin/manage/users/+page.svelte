@@ -21,7 +21,6 @@
 
 {#if users}
 	<SectionTitle title="Gestion des utilisateurs" />
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 	<div class="mb-10 flex w-full flex-wrap justify-center gap-4 p-4">
 		{#each paginatedUsers as user}
 			<div
@@ -50,3 +49,5 @@
 {:else}
 	<div>Aucun utilisateur trouvé</div>
 {/if}
+
+<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />

@@ -38,7 +38,7 @@
 	};
 </script>
 
-<div class={`group relative overflow-hidden ${props.style}`}>
+<div class={`group relative justify-between overflow-hidden pb-4 ${props.style} `}>
 	<figure class="group relative max-h-96 overflow-hidden">
 		<img
 			src={props.imageUrl || '/LPC_FAV_BLT.png'}
@@ -64,87 +64,85 @@
 		{/if}
 	</figure>
 
-	<div class="{props.carouselClasses ? 'card-body px-4  py-5 lg:px-5' : 'card-body p-5'}   ">
-		<h3
-			class="card-title overflow-hidden hyphens-auto font-light"
-			lang="fr"
-			style="hyphens: auto; word-break: break-word;"
-		>
-			{props.title}
-		</h3>
-		{#if props.isDashboard || props.isModerator || props.isAdmin}
-			{null}
+	<h3
+		class="card-title overflow-hidden hyphens-auto px-4 py-2 font-light lg:px-5"
+		lang="fr"
+		style="hyphens: auto; word-break: break-word;"
+	>
+		{props.title}
+	</h3>
+	{#if props.isDashboard || props.isModerator || props.isAdmin}
+		{null}
 
-			{#if props.isModerator}
+		{#if props.isModerator}
+			<p class=" px-4 py-5 text-sm font-bold leading-3 lg:px-5">
+				Soumis le {formatDate(props.submit_date)}
+			</p>
+		{/if}
+
+		{#if props.isAdmin}
+			<p class=" text-sm leading-3">
+				Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span>
+			</p>
+
+			{#if props.status === 'PUBLISHED'}
+				<p class=" text-sm font-bold leading-3">
+					Publié le {formatDate(props.publish_date)}
+				</p>
 				<p class=" text-sm font-bold leading-3">
 					Soumis le {formatDate(props.submit_date)}
 				</p>
-			{/if}
-
-			{#if props.isAdmin}
-				<p class=" text-sm leading-3">
-					Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span>
+			{:else if props.status === 'SUBMITTED'}
+				<p class=" text-sm font-bold leading-3">
+					Soumis le {formatDate(props.submit_date)}
 				</p>
-
-				{#if props.status === 'PUBLISHED'}
-					<p class=" text-sm font-bold leading-3">
-						Publié le {formatDate(props.publish_date)}
-					</p>
-					<p class=" text-sm font-bold leading-3">
-						Soumis le {formatDate(props.submit_date)}
-					</p>
-				{:else if props.status === 'SUBMITTED'}
-					<p class=" text-sm font-bold leading-3">
-						Soumis le {formatDate(props.submit_date)}
-					</p>
-				{:else}
-					<p class="mb-2 text-sm font-bold leading-3">Pas encore publié</p>
-				{/if}
-			{/if}
-		{:else}
-			<p class="mb-3 text-sm leading-3">
-				<span class="italic"> {getArticleType(props.article_type) || 'Type inconnu'}</span>
-				Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
-
-				<span class="italic">
-					{props.category && typeof props.category === 'object'
-						? getCategory(props.category.name) || 'Catégorie inconnue'
-						: 'Catégorie inconnue'}
-				</span>
-			</p>
-			{#if props.introduction}
-				<div class="">
-					{@html truncateText(sanitize(props.introduction), 140) || 'Contenu indisponible'}
-				</div>
+			{:else}
+				<p class="mb-2 text-sm font-bold leading-3">Pas encore publié</p>
 			{/if}
 		{/if}
+	{:else}
+		<p class="pb-4 pl-5 text-sm leading-3">
+			<span class="italic"> {getArticleType(props.article_type) || 'Type inconnu'}</span>
+			Par <span class="font-bold"> {props.author || 'Auteur inconnu'}</span> dans
 
-		{#if props.isDashboard || props.isModerator || props.isAdmin}
-			<div
-				class="absolute right-2 top-2 rounded px-2 py-1 font-semibold
+			<span class="italic">
+				{props.category && typeof props.category === 'object'
+					? getCategory(props.category.name) || 'Catégorie inconnue'
+					: 'Catégorie inconnue'}
+			</span>
+		</p>
+		{#if props.introduction}
+			<div class="px-4 lg:px-5">
+				{@html truncateText(sanitize(props.introduction), 140) || 'Contenu indisponible'}
+			</div>
+		{/if}
+	{/if}
+
+	{#if props.isDashboard || props.isModerator || props.isAdmin}
+		<div
+			class="absolute right-2 top-2 rounded px-2 py-1 font-semibold
             {props.status === 'PUBLISHED' ? 'rounded-lg bg-green-500 text-white' : ''}
             {props.status === 'SUBMITTED' ? 'rounded-lg bg-orange-500 text-white' : ''}
             {props.status === 'REFUSED' ? 'rounded-lg bg-red-500 text-white' : ''}"
-			>
-				{#if props.status === 'PUBLISHED'}
-					✔️ Publié
-				{:else if props.status === 'SUBMITTED'}
-					⏳ En attente
-				{:else}
-					📝 Refusé
-				{/if}
-			</div>
-		{/if}
-
-		<div class="card-actions justify-end">
-			<a
-				href={props.isDashboard
-					? `/dashboard/articles/edit/${props.id}`
-					: generateArticleUrl(props.id, props.title)}
-				class="before:content[''] before:absolute before:inset-0"
-				aria-label="Lire l'article"
-			>
-			</a>
+		>
+			{#if props.status === 'PUBLISHED'}
+				✔️ Publié
+			{:else if props.status === 'SUBMITTED'}
+				⏳ En attente
+			{:else}
+				📝 Refusé
+			{/if}
 		</div>
+	{/if}
+
+	<div class="card-actions justify-end">
+		<a
+			href={props.isDashboard
+				? `/dashboard/articles/edit/${props.id}`
+				: generateArticleUrl(props.id, props.title)}
+			class="before:content[''] before:absolute before:inset-0"
+			aria-label="Lire l'article"
+		>
+		</a>
 	</div>
 </div>

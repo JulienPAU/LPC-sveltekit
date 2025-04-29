@@ -84,7 +84,6 @@
 	</button>
 
 	<div bind:this={carousel} class={carouselClasses}>
-		<!-- Le contenu existant du carousel reste inchangé -->
 		{#if loading}
 			{#each Array(items.length) as _}
 				<Skeleton
@@ -136,7 +135,6 @@
 		{/if}
 	</div>
 
-	<!-- Boutons de navigation pour mobile superposés aux cartes (uniquement pour les articles) -->
 	{#if type === 'articles'}
 		<div
 			class="pointer-events-none absolute bottom-6 left-0 right-0 flex h-full items-center justify-between px-2 md:hidden"

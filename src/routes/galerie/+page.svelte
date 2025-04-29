@@ -211,8 +211,6 @@
 
 <SectionTitle title="Galerie" />
 
-<Pagination {currentPage} {totalPages} onPageChange={handlePageChange} />
-
 <div class="container mx-auto mb-8 px-4">
 	{#if loading}
 		<Loader />
@@ -266,6 +264,8 @@
 	{/if}
 </div>
 
+<Pagination {currentPage} {totalPages} onPageChange={handlePageChange} />
+
 <!-- Cette div cachée précharge les images de la page actuelle -->
 {#if preloadingComplete}
 	<div class="hidden">
@@ -275,5 +275,4 @@
 	</div>
 {/if}
 
-<!-- Modal -->
 <ModalImages isOpen={isModalOpen} imageSrc={modalImageSrc} onClose={closeModal} />

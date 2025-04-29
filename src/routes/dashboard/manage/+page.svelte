@@ -21,7 +21,6 @@
 
 <div class="flex flex-col items-center">
 	<SectionTitle title="Gérer les articles" />
-	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 
 	<section class="mb-20 flex w-full flex-wrap justify-center gap-10 px-4 lg:gap-20 xl:gap-20">
 		{#if !submittedArticles}
@@ -64,4 +63,5 @@
 			{/each}
 		{/if}
 	</section>
+	<Pagination {currentPage} {totalPages} onPageChange={(page) => (currentPage = page)} />
 </div>

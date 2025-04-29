@@ -133,7 +133,7 @@
 	}
 </script>
 
-<div class=" items-center bg-slate-900 p-4 shadow-sm md:rounded-lg lg:rounded-lg">
+<div class=" mb-20 items-center bg-slate-900 p-4 shadow-sm md:rounded-lg lg:rounded-lg">
 	<div class="flex flex-wrap items-center justify-center gap-4 font-semibold lg:justify-between">
 		<div class="flex flex-wrap justify-center gap-4">
 			<!-- Type d'article -->

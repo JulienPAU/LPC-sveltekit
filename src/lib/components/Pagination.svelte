@@ -3,14 +3,16 @@
 	export let totalPages: number;
 	export let onPageChange: (page: number) => void;
 
-	// Fonction pour changer de page
 	function changePage(page: number) {
 		if (page >= 1 && page <= totalPages) {
 			onPageChange(page);
+			window.scrollTo({
+				top: 0,
+				behavior: 'auto'
+			});
 		}
 	}
 
-	// Génération des boutons de pagination dynamiques
 	$: paginationButtons = (() => {
 		const pages = [];
 		if (totalPages <= 5) {
@@ -43,7 +45,6 @@
 </script>
 
 <div class="my-10 flex justify-center space-x-1">
-	<!-- Bouton précédent (caché si une seule page) -->
 	{#if totalPages > 1}
 		<button
 			on:click={() => changePage(currentPage - 1)}
@@ -55,7 +56,6 @@
 		</button>
 	{/if}
 
-	<!-- Pages -->
 	{#each paginationButtons as page}
 		{#if page === '...'}
 			<span class="px-2 text-slate-600">...</span>
@@ -72,7 +72,6 @@
 		{/if}
 	{/each}
 
-	<!-- Bouton suivant (caché si une seule page) -->
 	{#if totalPages > 1}
 		<button
 			on:click={() => changePage(currentPage + 1)}

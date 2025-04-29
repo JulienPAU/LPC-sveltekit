@@ -20,7 +20,6 @@
 	const firstFiveArticles = articles.slice(0, 5);
 	const remainingArticles = articles.slice(5, 11);
 
-	// Sur la page d'accueil, stockez les IDs des articles affichés
 	const viewedArticleIds = firstFiveArticles
 		.concat(remainingArticles)
 		.map((article: any) => article.id);
