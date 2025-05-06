@@ -4,6 +4,8 @@
 	import ImageUploader from '$lib/components/ImageUploader.svelte';
 	import SectionTitle from '$lib/components/SectionTitle.svelte';
 	import type { ArticleUploadResponse } from '$lib/types/article.js';
+	import { DEFAULT_FILE_VALIDATION } from '$lib/types/article';
+
 	import toast from 'svelte-5-french-toast';
 
 	let isSubmitting = false;
@@ -192,7 +194,7 @@
 			slot="imageUploader"
 			maxFiles={6}
 			minFiles={1}
-			maxFileSize={3 * 1024 * 1024}
+			maxFileSize={DEFAULT_FILE_VALIDATION.maxFileSize}
 			acceptedTypes="image/jpeg,image/png, image/webp"
 			onFilesSelected={handleFilesSelected}
 		/>
