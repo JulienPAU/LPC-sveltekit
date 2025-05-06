@@ -23,15 +23,15 @@ export const articleUpdateSchema = z.object({
     'introduction': z
         .string()
         .min(10, "L'introduction est trop courte")
-        .max(450, "L'introduction ne peut pas dépasser 450 caractères"),
+        .max(1000, "L'introduction ne peut pas dépasser 1000 caractères"),
     'corps-article': z
         .string()
         .min(50, "Le corps de l'article est trop court")
-        .max(7000, "Le corps de l'article ne peut pas dépasser 7000 caractères"),
+        .max(10000, "Le corps de l'article ne peut pas dépasser 10000 caractères"),
     'end': z
         .string()
         .min(5, "La conclusion est trop courte")
-        .max(450, "La conclusion ne peut pas dépasser 450 caractères"),
+        .max(1000, "La conclusion ne peut pas dépasser 1000 caractères"),
     'type': z.nativeEnum(Article_Type, {
         errorMap: () => ({ message: "Type d'article invalide" })
     }),
@@ -63,15 +63,15 @@ export const articlePublishSchema = z.object({
     'introduction': z
         .string()
         .min(50, "L'introduction doit contenir au moins 50 caractères")
-        .max(450, "L'introduction ne peut pas dépasser 450 caractères"),
+        .max(1000, "L'introduction ne peut pas dépasser 1000 caractères"),
     'corps-article': z
         .string()
         .min(50, "Le corps de l'article doit contenir au moins 50 caractères")
-        .max(7000, "Le corps de l'article ne peut pas dépasser 7000 caractères"),
+        .max(10000, "Le corps de l'article ne peut pas dépasser 10000 caractères"),
     'end': z
         .string()
         .min(5, "La conclusion doit contenir au moins 5 caractères")
-        .max(450, "La conclusion ne peut pas dépasser 450 caractères"),
+        .max(1000, "La conclusion ne peut pas dépasser 1000 caractères"),
     'type': z.nativeEnum(Article_Type, { errorMap: () => ({ message: "Type d'article invalide" }) }),
     'category': z.nativeEnum(Category, { errorMap: () => ({ message: "Catégorie invalide" }) }),
     'brand': z.string().optional(),

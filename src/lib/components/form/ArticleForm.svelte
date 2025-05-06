@@ -222,21 +222,21 @@
 				<label for="introduction" class="mb-1 block text-lg font-bold text-gray-700">
 					Introduction de l'article <span class="text-red-500">*</span>
 				</label>
-				<QuillEditor name="introduction" bind:value={article.introduction} maxLength={450} />
+				<QuillEditor name="introduction" bind:value={article.introduction} maxLength={1000} />
 			</div>
 
 			<div>
 				<label for="corps-article" class="mb-1 block text-lg font-bold text-gray-700">
 					Corps de l'article <span class="text-red-500">*</span>
 				</label>
-				<QuillEditor name="corps-article" bind:value={article.body} maxLength={7000} />
+				<QuillEditor name="corps-article" bind:value={article.body} maxLength={10000} />
 			</div>
 
 			<div>
 				<label for="end" class="mb-1 block text-lg font-bold text-gray-700">
 					Le mot de la fin <span class="text-red-500">*</span>
 				</label>
-				<QuillEditor name="end" bind:value={article.ending} maxLength={450} />
+				<QuillEditor name="end" bind:value={article.ending} maxLength={1000} />
 			</div>
 
 			<div class=" text-sm">

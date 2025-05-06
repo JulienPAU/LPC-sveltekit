@@ -19,7 +19,7 @@
 
 			if (input.files.length > maxFiles) {
 				errorMessage = `Maximum ${maxFiles} fichiers autorisés`;
-				input.value = ''; // Reset l'input
+				input.value = '';
 				onFilesSelected([]);
 				return;
 			}
@@ -30,7 +30,7 @@
 				}
 
 				if (file.size > maxFileSize) {
-					errorMessage = `${file.name} dépasse 2 MO`;
+					errorMessage = `${file.name} dépasse 3 MO`;
 					return false;
 				}
 				return true;
@@ -63,7 +63,7 @@
 		on:change={handleFileSelect}
 	/>
 	<p class="my-1 italic">
-		Minimum {minFiles} photo, maximum {maxFiles} photos, 2 Mo max par photos.
+		Minimum {minFiles} photo, maximum {maxFiles} photos, 3 Mo max par photos.
 	</p>
 	<p class=" italic">Formats acceptés : JPEG / PNG / WEBP</p>
 	<a
