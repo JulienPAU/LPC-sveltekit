@@ -30,7 +30,7 @@
 				}
 
 				if (file.size > maxFileSize) {
-					errorMessage = `${file.name} dépasse 3 MO`;
+					errorMessage = `${file.name} dépasse 3 Mo`;
 					return false;
 				}
 				return true;
