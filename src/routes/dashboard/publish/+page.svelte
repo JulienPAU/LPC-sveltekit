@@ -125,8 +125,8 @@
 	>
 		<ImageUploader
 			slot="imageUploader"
-			maxFiles={6}
-			minFiles={1}
+			maxFiles={DEFAULT_FILE_VALIDATION.maxFileCount}
+			minFiles={DEFAULT_FILE_VALIDATION.minFileCount}
 			maxFileSize={DEFAULT_FILE_VALIDATION.maxFileSize}
 			acceptedTypes="image/jpeg,image/png, image/webp"
 			onFilesSelected={handleFilesSelected}
