@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import { pushState } from '$app/navigation';
 
 	export let isOpen: boolean = false;
 	export let imageSrc: string = '';
@@ -8,57 +9,41 @@
 
 	let modalElement: HTMLElement;
 	let imageElement: HTMLImageElement;
-
-	// Gestion du scroll et des touches du navigateur
 	onMount(() => {
 		if (browser && isOpen) {
-			// Désactiver le scroll
 			document.body.style.overflow = 'hidden';
-
-			// Gérer la touche retour sur mobile
 			window.addEventListener('popstate', handlePopState);
-			// Sauvegarder l'état pour pouvoir revenir en arrière
-			history.pushState({ modal: true }, '');
+			pushState('', '');
 
-			// Ajouter un gestionnaire d'événement pour Escape
 			window.addEventListener('keydown', handleKeydown);
 		}
 	});
 
 	onDestroy(() => {
-		// Nettoyage des événements
 		if (browser) {
 			document.body.style.overflow = '';
 			window.removeEventListener('popstate', handlePopState);
 			window.removeEventListener('keydown', handleKeydown);
 		}
 	});
-
-	// Mise à jour lorsque isOpen change
 	$: if (browser && isOpen) {
 		document.body.style.overflow = 'hidden';
-		if (typeof history !== 'undefined') {
-			history.pushState({ modal: true }, '');
-			window.addEventListener('popstate', handlePopState);
-			window.addEventListener('keydown', handleKeydown);
-		}
+		pushState('', '');
+		window.addEventListener('popstate', handlePopState);
+		window.addEventListener('keydown', handleKeydown);
 	} else if (browser && !isOpen) {
 		document.body.style.overflow = '';
 		window.removeEventListener('popstate', handlePopState);
 		window.removeEventListener('keydown', handleKeydown);
 	}
 
-	// Gestionnaire pour le bouton retour
 	function handlePopState(event: PopStateEvent) {
 		onClose();
-		// Empêcher le retour à la page précédente
-		history.pushState(null, '');
+		pushState('', '');
 	}
 
-	// Gestionnaire pour les clics sur l'arrière-plan
 	function handleBackdropClick(event: MouseEvent) {
-		// Vérifier si le clic est sur l'image ou non
-		if (!imageElement.contains(event.target as Node)) {
+		if (imageElement && !imageElement.contains(event.target as Node)) {
 			onClose();
 		}
 	}
@@ -68,7 +53,6 @@
 		}
 	}
 
-	// Gestionnaire pour les touches du clavier
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
 			onClose();
@@ -77,7 +61,6 @@
 </script>
 
 {#if isOpen}
-	<!-- Utilisation d'un dialog pour l'accessibilité -->
 	<dialog
 		bind:this={modalElement}
 		open={isOpen}

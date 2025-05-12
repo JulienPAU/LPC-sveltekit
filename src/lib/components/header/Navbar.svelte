@@ -51,7 +51,7 @@
 	function handleClickOutside(e: MouseEvent) {
 		const details = document.querySelectorAll('details');
 		details.forEach((detail) => {
-			if (!detail.contains(e.target as Node)) {
+			if (detail && !detail.contains(e.target as Node)) {
 				detail.removeAttribute('open');
 			}
 		});
