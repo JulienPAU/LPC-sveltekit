@@ -92,7 +92,6 @@
 		const hasNewImages = selectedFiles.length > 0;
 
 		try {
-			// ÉTAPE 1: Mettre à jour l'article sans les images
 			const updateResponse = await fetch(`/api/_public/articles/edit/${article.id}`, {
 				method: 'POST',
 				body: formData
@@ -122,7 +121,6 @@
 				return;
 			}
 
-			// ÉTAPE 2: Si des nouvelles images sont sélectionnées, les télécharger
 			if (hasNewImages) {
 				processingStep = 'Téléchargement des nouvelles images...';
 				const uploadedUrls = [];
@@ -152,7 +150,6 @@
 					}
 				}
 
-				// ÉTAPE 3: Finaliser l'article avec les URLs des images
 				if (uploadedUrls.length > 0) {
 					processingStep = 'Finalisation des modifications...';
 					await fetch(`/api/_public/article_id/${article.id}/finalize`, {

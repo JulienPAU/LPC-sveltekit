@@ -98,30 +98,24 @@
 	}
 
 	function toggleStrap(strap: string) {
-		// Met à jour le Set local
 		if (selectedStraps.has(strap)) {
 			selectedStraps.delete(strap);
 		} else {
 			selectedStraps.add(strap);
 		}
 
-		// Force la réactivité du Set
 		selectedStraps = new Set(selectedStraps);
 
-		// Récupère les bracelets existants
 		let existingStraps = article.ArticleWatches[0].watch.straps || [];
 
 		if (selectedStraps.has(strap)) {
-			// Ajoute le nouveau bracelet s'il n'existe pas déjà
 			if (!existingStraps.some((s) => s.strap.material === strap)) {
 				existingStraps.push({ strap: { material: strap } });
 			}
 		} else {
-			// Retire le bracelet décoché
 			existingStraps = existingStraps.filter((s) => s.strap.material !== strap);
 		}
 
-		// Met à jour l'article
 		article.ArticleWatches[0].watch.straps = existingStraps;
 
 		if (onStrapsChange) {
@@ -143,12 +137,10 @@
 		!articleTypesWithoutWatchRequirement.includes(article.article_type);
 
 	$: {
-		// Si c'est une catégorie ou un type qui ne nécessite pas d'info montre
 		if (
 			categoriesWithoutWatchRequirement.includes(selectedCategory) ||
 			articleTypesWithoutWatchRequirement.includes(article.article_type)
 		) {
-			// Assigner des valeurs par défaut
 			watches.brand = watches.brand || 'N/A';
 			watches.model = watches.model || 'N/A';
 			watches.movement = watches.movement || null;
@@ -479,15 +471,14 @@
 					{#each ['Acier', 'Cuir', 'Tissu', 'Nato', 'Métal', 'Nylon', 'Or', 'Titane', 'Céramique', 'Silicone', 'Résine', 'Plastique', 'Caoutchouc', 'Composite', 'Autre'] as strap}
 						<label
 							class="flex h-full cursor-pointer items-center gap-2 rounded-lg border border-yellow-400 bg-warning px-3 py-2"
-						>
-							<input
+						>							<input
 								type="checkbox"
 								name="straps"
 								value={strap}
 								checked={selectedStraps.has(strap)}
 								on:change={() => toggleStrap(strap)}
 								class="form-checkbox h-5 w-5 text-slate-500"
-								disabled={!article.ArticleWatches?.[0]?.watch}
+								disabled={!article.ArticleWatches?.[0]?.watch && selectedCategory !== 'STRAPS'}
 							/>
 							<span class="overflow-hidden truncate text-lg text-gray-900">
 								{strap}

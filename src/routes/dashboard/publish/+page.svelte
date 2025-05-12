@@ -11,8 +11,7 @@
 	let articleId: number | null = null;
 	let uploadProgress = 0;
 	let currentFileIndex = 0;
-	let processingStep = ''; // Pour afficher l'étape actuelle
-
+	let processingStep = '';
 	let selectedStraps: string[] = [];
 
 	function handleStrapsChange(straps: string[]) {
@@ -32,7 +31,6 @@
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		// Vérifier qu'il y a au moins une image
 		if (selectedFiles.length === 0) {
 			toast('Minimum une photo requise', { duration: 5000 });
 			isSubmitting = false;
@@ -40,7 +38,6 @@
 		}
 
 		try {
-			// ÉTAPE 1: Créer l'article sans les images
 			const response = await fetch('/api/_public/articles/publish', {
 				method: 'POST',
 				body: formData
@@ -64,7 +61,6 @@
 				return;
 			}
 
-			// ÉTAPE 2: Télécharger les images une par une
 			processingStep = 'Téléchargement des images...';
 			const uploadedUrls = [];
 			currentFileIndex = 0;
