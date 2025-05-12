@@ -6,6 +6,14 @@
 	import Skeleton from '../skeleton.svelte';
 	import ModalImages from '../ModalImages.svelte';
 
+	import boderryVoyager from '$lib/assets/watches/Boderry_voyager.jpg';
+	import casioImage from '$lib/assets/watches/casio.png';
+	import glycineImage from '$lib/assets/watches/Glycine.png';
+	import humismImage from '$lib/assets/watches/Humism.png';
+	import oltoImage from '$lib/assets/watches/olto.jpg';
+	import seagullImage from '$lib/assets/watches/seagull.png';
+	import seikoImage from '$lib/assets/watches/seiko.jpg';
+
 	let carousel: HTMLDivElement | null = null;
 
 	export let items: (string | any)[];
@@ -26,13 +34,13 @@
 			? items?.length > 0
 				? items.sort(() => 0.5 - Math.random()).slice(0, 10)
 				: [
-						'/src/lib/assets/watches/Boderry_voyager.JPG',
-						'/src/lib/assets/watches/casio.png',
-						'/src/lib/assets/watches/Glycine.png',
-						'/src/lib/assets/watches/Humism.png',
-						'/src/lib/assets/watches/olto.jpg',
-						'/src/lib/assets/watches/seagull.png',
-						'/src/lib/assets/watches/seiko.JPG'
+						boderryVoyager,
+						casioImage,
+						glycineImage,
+						humismImage,
+						oltoImage,
+						seagullImage,
+						seikoImage
 					]
 			: items.slice(0, 10);
 

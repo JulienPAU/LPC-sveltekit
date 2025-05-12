@@ -12,7 +12,7 @@
 	let selectedFiles: File[] = [];
 	let uploadProgress = 0;
 	let currentFileIndex = 0;
-	let processingStep = ''; // Pour afficher l'étape actuelle
+	let processingStep = '';
 
 	export let data;
 	export let { article } = data;
