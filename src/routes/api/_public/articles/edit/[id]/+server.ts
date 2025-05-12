@@ -165,14 +165,28 @@ async function handleWatchAndStraps(articleId: number, watchData: {
     if (!article) {
         throw new Error(`Article ${articleId} non trouvé`);
     }
+    const normalizeChar = (str: string) => {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    };
 
-    const normalizedBrand = watchData.brand.charAt(0).toUpperCase() + watchData.brand.slice(1).toLowerCase();
+    const existingWatches = await prisma.watches.findMany({
+        where: {},
+        select: { brand: true }
+    });
 
+    let brandToUse = watchData.brand.charAt(0).toUpperCase() + watchData.brand.slice(1).toLowerCase();
+
+    for (const existingWatch of existingWatches) {
+        if (normalizeChar(existingWatch.brand.toLowerCase()) === normalizeChar(brandToUse.toLowerCase())) {
+            brandToUse = existingWatch.brand;
+            break;
+        }
+    }
 
     const watch = await prisma.watches.upsert({
         where: {
             brand_model: {
-                brand: normalizedBrand,
+                brand: brandToUse,
                 model: watchData.model
             }
         },
@@ -187,9 +201,8 @@ async function handleWatchAndStraps(articleId: number, watchData: {
             ...(watchData.price && { price: watchData.price }),
             ...(watchData.glass && { glass: watchData.glass })
 
-        },
-        create: {
-            brand: normalizedBrand,
+        }, create: {
+            brand: brandToUse,
             model: watchData.model,
             movement: watchData.movement,
             water_resistance: watchData.water_resistance || null,
@@ -204,7 +217,6 @@ async function handleWatchAndStraps(articleId: number, watchData: {
         }
     });
 
-    // Récupérer tous les bracelets déjà en BDD
     const existingStraps = await prisma.straps.findMany({
         where: { material: { in: watchData.straps } },
         select: { material: true }
@@ -212,23 +224,19 @@ async function handleWatchAndStraps(articleId: number, watchData: {
 
     const existingMaterials = new Set(existingStraps.map(s => s.material));
 
-    // Trouver les bracelets qui ne sont pas encore en BDD
     const newStraps = watchData.straps.filter(material => !existingMaterials.has(material));
 
-    // Insérer uniquement les nouveaux bracelets
     if (newStraps.length > 0) {
         await prisma.straps.createMany({
             data: newStraps.map(material => ({ material }))
         });
     }
 
-    // Récupérer tous les bracelets maintenant existants pour les lier à la montre
     const strapRecords = await prisma.straps.findMany({
         where: { material: { in: watchData.straps } },
         select: { id: true, material: true }
     });
 
-    // Supprimer les liaisons existantes qui ne sont plus présentes
     const existingWatchStraps = await prisma.watchStraps.findMany({
         where: { watch_id: watch.id },
         select: { strap_id: true, strap: { select: { material: true } } }
@@ -245,7 +253,6 @@ async function handleWatchAndStraps(articleId: number, watchData: {
         });
     }
 
-    // Ajouter les nouvelles liaisons
     await prisma.watchStraps.createMany({
         data: strapRecords.map(strap => ({
             watch_id: watch.id,
@@ -254,7 +261,6 @@ async function handleWatchAndStraps(articleId: number, watchData: {
         skipDuplicates: true
     });
 
-    // Vérifier si l'association existe déjà
     await prisma.articleWatches.upsert({
         where: {
             article_id_watch_id: {
@@ -262,7 +268,7 @@ async function handleWatchAndStraps(articleId: number, watchData: {
                 watch_id: watch.id
             }
         },
-        update: {}, // Ne rien mettre à jour si ça existe déjà
+        update: {},
         create: {
             article_id: articleId,
             watch_id: watch.id
