@@ -6,13 +6,13 @@
 	import Skeleton from '../skeleton.svelte';
 	import ModalImages from '../ModalImages.svelte';
 
-	import boderryVoyager from '$lib/assets/watches/Boderry_voyager.jpg';
+	import boderryVoyager from '$lib/assets/watches/Boderry_voyager.JPG';
 	import casioImage from '$lib/assets/watches/casio.png';
 	import glycineImage from '$lib/assets/watches/Glycine.png';
 	import humismImage from '$lib/assets/watches/Humism.png';
 	import oltoImage from '$lib/assets/watches/olto.jpg';
 	import seagullImage from '$lib/assets/watches/seagull.png';
-	import seikoImage from '$lib/assets/watches/seiko.jpg';
+	import seikoImage from '$lib/assets/watches/seiko.JPG';
 
 	let carousel: HTMLDivElement | null = null;
 

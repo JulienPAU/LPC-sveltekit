@@ -237,7 +237,7 @@
 								<img
 									src={getValidImageSrc(userSession)}
 									alt="Avatar"
-									on:error={(event) => {
+									onerror={(event) => {
 										const img = event.target as HTMLImageElement;
 										if (img.src !== '/user.png') {
 											img.src = '/user.png';
