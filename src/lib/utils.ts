@@ -344,9 +344,9 @@ export function getTitleFromSlug(slug: string): string {
 }
 
 
-export function generateArticleUrl( slug?: string): string {
+export function generateArticleUrl(slug?: string) {
 	if (slug) {
 		return `/articles/${slug}`;
 	}
-	
+
 }
