@@ -58,9 +58,21 @@ export const POST = async ({ request, locals }) => {
 
         if (!parsedData.success) {
             throw error(400, `Données invalides : ${parsedData.error.errors.map(e => e.message).join(', ')}`);
-        }
+        } const data = parsedData.data;
 
-        const data = parsedData.data;
+        const recentSimilarArticles = await prisma.articles.findMany({
+            where: {
+                user_id: session.user.id,
+                title: data['titre-article'],
+                submit_date: {
+                    gte: new Date(Date.now() - 60000)
+                }
+            }
+        });
+
+        if (recentSimilarArticles.length > 0) {
+            throw error(409, "Un article avec le même titre a été créé récemment. Veuillez patienter avant d'en créer un nouveau.");
+        }
 
         const result = await prisma.$transaction(async (tx) => {
             const category = await tx.categories.findFirst({
@@ -69,10 +81,10 @@ export const POST = async ({ request, locals }) => {
 
             if (!category) {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
-            }            
+            }
             const baseSlug = generateSlug(data['titre-article']);
 
-            
+
             const existingArticlesWithSimilarSlug = await tx.articles.findMany({
                 where: {
                     slug: {
@@ -82,7 +94,7 @@ export const POST = async ({ request, locals }) => {
                 select: { slug: true }
             });
 
-           
+
             let slug = baseSlug;
             let counter = 1;
 
@@ -191,7 +203,7 @@ async function handleWatchAndStraps(articleId: number, watchData: {
 
     for (const existingWatch of existingWatches) {
         if (normalizeChar(existingWatch.brand.toLowerCase()) === normalizeChar(brandToUse.toLowerCase())) {
-            brandToUse = existingWatch.brand; 
+            brandToUse = existingWatch.brand;
             break;
         }
     }

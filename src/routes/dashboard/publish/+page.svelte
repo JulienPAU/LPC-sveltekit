@@ -31,6 +31,11 @@
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
+		const submitButton = form.querySelector('button[type="submit"]');
+		if (submitButton) {
+			submitButton.setAttribute('disabled', 'true');
+		}
+
 		if (selectedFiles.length === 0) {
 			toast('Minimum une photo requise', { duration: 5000 });
 			isSubmitting = false;

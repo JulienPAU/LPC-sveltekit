@@ -80,9 +80,24 @@ export const POST = async ({ request, locals, params }) => {
                 success: false,
                 errors: parsedData.error.format()
             }, { status: 400 });
-        }
+        } const data = parsedData.data;
 
-        const data = parsedData.data;
+        const recentModifications = await prisma.articles.findMany({
+            where: {
+                id: {
+                    not: articleId
+                },
+                user_id: session.user.id,
+                title: data['titre-article'],
+                submit_date: {
+                    gte: new Date(Date.now() - 30000)
+                }
+            }
+        });
+
+        if (recentModifications.length > 0) {
+            throw error(409, "Une modification similaire a été soumise récemment. Veuillez patienter avant de soumettre à nouveau.");
+        }
 
         const updatedArticle = await prisma.$transaction(async (tx) => {
             const category = await tx.categories.findFirst({
@@ -91,7 +106,7 @@ export const POST = async ({ request, locals, params }) => {
 
             if (!category) {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
-            }            
+            }
             const baseSlug = generateSlug(data['titre-article']);
 
             const existingArticlesWithSimilarSlug = await tx.articles.findMany({

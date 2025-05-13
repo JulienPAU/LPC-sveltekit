@@ -26,11 +26,15 @@
 	function handleFilesSelected(files: File[]) {
 		selectedFiles = files;
 	}
-
 	async function handleDelete(event: MouseEvent) {
 		event.preventDefault();
 		isSubmitting = true;
 		processingStep = "Suppression de l'article...";
+
+		const deleteButton = event.target as HTMLButtonElement;
+		if (deleteButton) {
+			deleteButton.setAttribute('disabled', 'true');
+		}
 
 		try {
 			const response = await fetch(`/api/_public/articles/delete/${article.id}`, {
@@ -74,7 +78,6 @@
 			throw new Error('Erreur lors de la soumission');
 		}
 	}
-
 	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
 		isSubmitting = true;
@@ -82,6 +85,11 @@
 		processingStep = "Mise à jour des informations de l'article...";
 
 		const form = event.target as HTMLFormElement;
+		const submitButton = form.querySelector('button[type="submit"]');
+		if (submitButton) {
+			submitButton.setAttribute('disabled', 'true');
+		}
+
 		const formData = new FormData(form);
 
 		formData.delete('straps');
