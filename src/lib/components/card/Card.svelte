@@ -134,12 +134,11 @@
 			{/if}
 		</div>
 	{/if}
-
 	<div class="card-actions justify-end">
 		<a
 			href={props.isDashboard
 				? `/dashboard/articles/edit/${props.id}`
-				: generateArticleUrl(props.id, props.title)}
+				: generateArticleUrl(props.slug)}
 			class="before:content[''] before:absolute before:inset-0"
 			aria-label="Lire l'article"
 		>

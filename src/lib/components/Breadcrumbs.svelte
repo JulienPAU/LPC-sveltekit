@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { afterNavigate } from '$app/navigation';
+	import { getTitleFromSlug } from '$lib/utils';
 
 	type Segment = {
 		name: string;
@@ -11,11 +12,9 @@
 
 	let segments: Segment[] = [];
 
-	// Fonction pour mettre à jour les segments du breadcrumb
 	const updateBreadcrumbs = () => {
 		const path = page.url.pathname;
 
-		// Vérifie si l'URL commence par un des préfixes cachés
 		const isHidden = hiddenPrefixes.some((prefix) => path.startsWith(prefix));
 
 		if (!isHidden) {
@@ -23,20 +22,29 @@
 
 			segments = [
 				{ name: 'Accueil', href: '/' },
-				...pathSegments.map((segment, index) => ({
-					name: decodeURIComponent(segment.charAt(0).toUpperCase() + segment.slice(1)),
-					href: '/' + pathSegments.slice(0, index + 1).join('/')
-				}))
+				...pathSegments.map((segment, index) => {
+					// Cas particulier pour les articles (format: ID-titre-de-article)
+					if (pathSegments[0] === 'articles' && index > 0 && segment.match(/^\d+-/)) {
+						return {
+							name: getTitleFromSlug(segment),
+							href: '/' + pathSegments.slice(0, index + 1).join('/')
+						};
+					}
+
+					// Cas général
+					return {
+						name: decodeURIComponent(segment.charAt(0).toUpperCase() + segment.slice(1)),
+						href: '/' + pathSegments.slice(0, index + 1).join('/')
+					};
+				})
 			];
 		} else {
 			segments = [];
 		}
 	};
 
-	// Mettre à jour les breadcrumbs au chargement initial
 	updateBreadcrumbs();
 
-	// Forcer la mise à jour des breadcrumbs après chaque navigation
 	afterNavigate(() => {
 		updateBreadcrumbs();
 	});

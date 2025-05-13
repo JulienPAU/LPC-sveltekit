@@ -11,6 +11,7 @@ export interface CardProps {
     publish_date: string;
     submit_date: string;
     id: number;
+    slug?: string;
     style: string;
     isDashboard: boolean;
     isModerator: boolean;

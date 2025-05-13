@@ -12,10 +12,10 @@ export async function GET() {
             },
             orderBy: {
                 id: 'desc',
-            },
-            select: {
+            }, select: {
                 id: true,
                 title: true,
+                slug: true,
                 introduction: true,
                 images: true,
                 publish_date: true,

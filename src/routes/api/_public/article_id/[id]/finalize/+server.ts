@@ -22,7 +22,6 @@ export const POST = async ({ request, locals, params }) => {
             throw error(400, 'Format des URLs d\'images invalide');
         }
 
-        // Vérifier que l'article existe et appartient à l'utilisateur
         const article = await prisma.articles.findFirst({
             where: {
                 id: articleId,
@@ -35,7 +34,6 @@ export const POST = async ({ request, locals, params }) => {
             throw error(404, 'Article non trouvé ou non autorisé');
         }
 
-        // Si des images existaient déjà, les supprimer d'UploadThing
         if (article.images && article.images.length > 0) {
             try {
                 const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
@@ -46,20 +44,16 @@ export const POST = async ({ request, locals, params }) => {
                 await utapi.deleteFiles(fileKeys);
             } catch (deleteError) {
                 console.error('Erreur lors de la suppression des anciennes images:', deleteError);
-                // Continuer malgré l'erreur
             }
         }
 
-        // Mettre à jour l'article avec les URLs des images
         const updatedArticle = await prisma.articles.update({
             where: { id: articleId },
             data: { images: imageUrls }
         });
 
-        // Envoyer l'email de confirmation
         try {
             if (session.user.email) {
-                // Utiliser submitUpdatedArticle si c'est une édition
                 await submitUpdatedArticle(session.user.email);
             }
         } catch (emailError) {

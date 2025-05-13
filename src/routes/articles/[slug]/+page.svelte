@@ -1,4 +1,3 @@
-<!-- src/routes/articles/[id]/+page.svelte -->
 <script lang="ts">
 	import { toast } from 'svelte-5-french-toast';
 
@@ -85,8 +84,7 @@
 	<meta
 		name="keywords"
 		content="montres, horlogerie, {article.category?.name || ''}, {article.title}"
-	/>
-	<meta property="og:title" content="{article.title} | Les Petits Cadrans" />
+	/> <meta property="og:title" content="{article.title} | Les Petits Cadrans" />
 	<meta property="og:description" content={metaDescription} />
 	<meta
 		property="og:image"
@@ -95,7 +93,7 @@
 			: '/default-article-image.jpg'}
 	/>
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="https://lespetitscadrans.com/articles/{article.id}" />
+	<meta property="og:url" content="https://lespetitscadrans.com/articles/{article.slug}" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="author" content={article.user?.username || 'Les Petits Cadrans'} />
 	<meta
@@ -126,7 +124,7 @@
 			},
 			"mainEntityOfPage": {
 				"@type": "WebPage",
-				"@id": "https://lespetitscadrans.com/articles/{article.id}"
+				"@id": "https://lespetitscadrans.com/articles/{article.slug}"
 			}
 		}
 	</script>

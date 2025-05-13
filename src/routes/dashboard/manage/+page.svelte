@@ -45,6 +45,7 @@
 						imageUrl: a.images[0],
 						author: '',
 						article_type: a.article_type,
+						slug: a.slug,
 						category: '',
 						submit_date: a.submit_date,
 						publish_date: '',

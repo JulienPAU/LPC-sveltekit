@@ -46,6 +46,7 @@
 						author: a.user.username,
 						article_type: a.article_type,
 						category: '',
+						slug: a.slug,
 						submit_date: a.submit_date,
 						publish_date: a.publish_date,
 						id: a.id,

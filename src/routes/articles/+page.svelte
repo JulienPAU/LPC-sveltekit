@@ -75,7 +75,6 @@
 	onMount(() => {
 		if (!browser) return;
 
-		// Filtrer les articles selon ces paramètres
 		const typeParam = page.url.searchParams.get('type');
 		const categoryParam = page.url.searchParams.get('category');
 		const brandParam = page.url.searchParams.get('brand');
@@ -112,7 +111,6 @@
 		if (document.readyState === 'complete') {
 			loading = false;
 		} else {
-			// Sinon, attendre que tout soit chargé
 			window.addEventListener('load', () => {
 				loading = false;
 			});
@@ -148,6 +146,7 @@
 						article_type: article.article_type,
 						category: article.category,
 						id: article.id,
+						slug: article.slug,
 						isDashboard: false,
 						isModerator: false,
 						publish_date: '',
