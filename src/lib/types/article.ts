@@ -38,14 +38,12 @@ export const DEFAULT_FILE_VALIDATION = {
 
 
 
-// Enum pour les statuts d'article
 export enum Status {
     PUBLISHED = "PUBLISHED",
     SUBMITTED = "SUBMITTED",
     DRAFT = "DRAFT",
 }
 
-// Enum pour les types d'article
 export enum ArticleType {
     GUIDE = "GUIDE",
     ARTICLE = "ARTICLE",
@@ -60,12 +58,12 @@ export enum ArticleType {
     COMPARISON = "COMPARISON",
 }
 
-// Interface pour le modèle Articles
 export type Articles = {
     id: number;
     user_id: string;
     category_id?: number;
     title: string;
+    slug: string;
     introduction?: string;
     body?: string;
     ending?: string;

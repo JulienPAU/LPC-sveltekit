@@ -3,7 +3,7 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { articlePublishSchema } from '$lib/schemas/articles';
-
+import { generateSlug } from '$lib/utils/slug';
 import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
 
 
@@ -69,12 +69,33 @@ export const POST = async ({ request, locals }) => {
 
             if (!category) {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
+            }            
+            const baseSlug = generateSlug(data['titre-article']);
+
+            
+            const existingArticlesWithSimilarSlug = await tx.articles.findMany({
+                where: {
+                    slug: {
+                        startsWith: baseSlug
+                    }
+                },
+                select: { slug: true }
+            });
+
+           
+            let slug = baseSlug;
+            let counter = 1;
+
+            while (existingArticlesWithSimilarSlug.some(a => a.slug === slug)) {
+                slug = `${baseSlug}-${counter}`;
+                counter++;
             }
 
             const article = await tx.articles.create({
                 data: {
                     user: { connect: { id: session?.user?.id } },
                     title: data['titre-article'],
+                    slug: slug,
                     introduction: data.introduction,
                     body: data['corps-article'],
                     ending: data.end,
@@ -157,12 +178,10 @@ async function handleWatchAndStraps(articleId: number, watchData: {
         throw new Error(`Article ${articleId} non trouvé`);
     }
 
-    // Fonction pour normaliser les caractères (enlever les accents)
     const normalizeChar = (str: string) => {
         return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     };
 
-    // Rechercher des marques similaires (même nom sans accents)
     const existingWatches = await prisma.watches.findMany({
         where: {},
         select: { brand: true }
@@ -170,15 +189,13 @@ async function handleWatchAndStraps(articleId: number, watchData: {
 
     let brandToUse = watchData.brand.charAt(0).toUpperCase() + watchData.brand.slice(1).toLowerCase();
 
-    // Vérifier si une marque similaire (sans accent) existe déjà
     for (const existingWatch of existingWatches) {
         if (normalizeChar(existingWatch.brand.toLowerCase()) === normalizeChar(brandToUse.toLowerCase())) {
-            brandToUse = existingWatch.brand; // Utiliser la marque existante
+            brandToUse = existingWatch.brand; 
             break;
         }
     }
 
-    // Utiliser upsert pour créer ou récupérer la montre
     const watch = await prisma.watches.upsert({
         where: {
             brand_model: {
@@ -187,7 +204,6 @@ async function handleWatchAndStraps(articleId: number, watchData: {
             }
         },
         update: {
-            // Mettre à jour seulement si les champs sont fournis
             ...(watchData.movement && { movement: watchData.movement }),
             ...(watchData.water_resistance && { water_resistance: watchData.water_resistance }),
             ...(watchData.case_material && { case_material: { set: watchData.case_material as WatchCaseMaterial } }),

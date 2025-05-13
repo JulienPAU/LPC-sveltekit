@@ -1,6 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { articleUpdateSchema } from '$lib/schemas/articles';
+import { generateSlug } from '$lib/utils/slug';
 
 import { Article_Type, Category, WatchCaseMaterial } from '@prisma/client';
 
@@ -16,7 +17,6 @@ export const POST = async ({ request, locals, params }) => {
 
         const formData = await request.formData();
 
-        // Récupérer l'article existant
         const existingArticle = await prisma.articles.findUnique({
             where: { id: articleId },
             select: { images: true, user_id: true }
@@ -91,13 +91,34 @@ export const POST = async ({ request, locals, params }) => {
 
             if (!category) {
                 throw new Error(`La catégorie ${data.category} n'existe pas.`);
+            }            
+            const baseSlug = generateSlug(data['titre-article']);
+
+            const existingArticlesWithSimilarSlug = await tx.articles.findMany({
+                where: {
+                    slug: {
+                        startsWith: baseSlug
+                    },
+                    id: {
+                        not: articleId
+                    }
+                },
+                select: { slug: true }
+            });
+
+            let slug = baseSlug;
+            let counter = 1;
+
+            while (existingArticlesWithSimilarSlug.some(a => a.slug === slug)) {
+                slug = `${baseSlug}-${counter}`;
+                counter++;
             }
 
-            // Mise à jour de l'article sans toucher aux images
             const article = await tx.articles.update({
                 where: { id: articleId },
                 data: {
                     title: data['titre-article'],
+                    slug: slug,
                     introduction: data.introduction,
                     body: data['corps-article'],
                     ending: data.end,
@@ -105,7 +126,6 @@ export const POST = async ({ request, locals, params }) => {
                     status: 'SUBMITTED',
                     article_type: data.type,
                     category: { connect: { id: category.id } }
-                    // Ne pas toucher aux images ici
                 }
             });
 

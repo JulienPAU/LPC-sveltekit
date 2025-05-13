@@ -124,6 +124,7 @@
 								author: item.user.username,
 								article_type: item.article_type,
 								category: item.category,
+								slug: item.slug,
 								submit_date: '',
 								publish_date: '',
 								id: item.id,

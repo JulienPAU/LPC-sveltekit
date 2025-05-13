@@ -79,6 +79,7 @@
 					author: article.user.username,
 					article_type: article.article_type,
 					category: article.category,
+					slug: article.slug,
 					submit_date: '',
 					publish_date: '',
 					id: article.id,

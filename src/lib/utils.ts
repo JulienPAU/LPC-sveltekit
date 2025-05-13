@@ -5,7 +5,7 @@ export function truncateText(text: string, maxLength: number): string {
 	return text.slice(0, maxLength) + '...';
 }
 
-// onScroll.js
+
 interface ObserverOptions {
 	root: null | HTMLElement;
 	threshold: number;
@@ -18,16 +18,16 @@ interface OnScrollReturn {
 
 export function onScroll(node: HTMLElement): OnScrollReturn {
 	const observerOptions: ObserverOptions = {
-		root: null, // Utilise la fenêtre comme root
-		rootMargin: '0px 0px 90% 0px', // Le bas du viewport est réduit de 50%
-		threshold: 0, // L'animation se déclenche dès que l'élément commence à être visible
+		root: null,
+		rootMargin: '0px 0px 90% 0px',
+		threshold: 0,
 	};
 
 	const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
 		entries.forEach((entry: IntersectionObserverEntry) => {
 			if (entry.isIntersecting) {
-				node.classList.add('animate'); // Ajoute la classe quand visible
-				observer.unobserve(node); // Arrête d'observer l'élément
+				node.classList.add('animate');
+				observer.unobserve(node);
 			}
 		});
 	}, observerOptions);
@@ -36,7 +36,7 @@ export function onScroll(node: HTMLElement): OnScrollReturn {
 
 	return {
 		destroy() {
-			observer.disconnect(); // Nettoyage si le composant est démonté
+			observer.disconnect();
 		}
 	};
 }
@@ -101,12 +101,12 @@ export async function extractAndValidateFormData(request: Request) {
 	);
 
 	try {
-		return updateUserSchema.parse(filteredUpdateData); // Validation Zod
+		return updateUserSchema.parse(filteredUpdateData);
 	} catch (err) {
 		if (err instanceof z.ZodError) {
 			throw new Error('Données invalides');
 		}
-		throw err; // Rethrow any other error
+		throw err;
 	}
 }
 
@@ -158,7 +158,6 @@ export const getPublicationStatus = (status: string) => {
 	}
 };
 
-// Conversion des types d'articles
 export const getArticleType = (type: string) => {
 	switch (type) {
 		case "GUIDE":
@@ -193,7 +192,6 @@ export const getArticleType = (type: string) => {
 };
 
 
-// Conversion des catégories
 export const getCategory = (category: string) => {
 	switch (category) {
 		case "ANALOG":
@@ -242,7 +240,6 @@ export const getCategory = (category: string) => {
 };
 
 
-
 export const getWatchCaseMaterial = (material: string) => {
 	switch (material) {
 		case "STAINLESS_STEEL_316L":
@@ -288,14 +285,68 @@ export const getWatchCaseMaterial = (material: string) => {
 
 
 export function generateSlug(title: string): string {
-	return title
-		.toLowerCase()
-		.replace(/[^\w\s-]/g, '') // Supprimer les caractères spéciaux
-		.replace(/\s+/g, '-')     // Remplacer les espaces par des tirets
-		.replace(/--+/g, '-')     // Éviter les tirets multiples
-		.trim();                  // Supprimer les espaces au début et à la fin
+	return createSlug(title);
 }
 
-export function generateArticleUrl(id: number, title: string): string {
-	return `/articles/${id}-${generateSlug(title)}`;
+/**
+ * Convertit un titre d'article en slug URL-friendly
+ */
+export function createSlug(title: string): string {
+	if (!title) return '';
+
+	return title
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.replace(/[^\w\s-]/g, '')
+		.replace(/\s+/g, '-')
+		.replace(/-+/g, '-')
+		.trim();
+}
+
+/**
+ * Génère un slug complet avec ID pour un article
+ */
+export function generateArticleSlug(id: number, title: string): string {
+	return `${id}-${createSlug(title)}`;
+}
+
+
+export function getIdFromSlug(slug: string): number {
+	const idMatch = slug.match(/^(\d+)/);
+	return idMatch ? parseInt(idMatch[1]) : NaN;
+}
+
+/**
+ * Formate un slug pour affichage (enlève les tirets, etc.)
+ */
+export function formatSlugForDisplay(slug: string): string {
+	const withoutId = slug.replace(/^\d+-/, '');
+
+	return withoutId
+		.replace(/-/g, ' ')
+		.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/**
+ * Extrait le titre d'un article à partir d'un slug
+ * Par exemple "123-mon-titre-article" -> "Mon Titre Article"
+ */
+export function getTitleFromSlug(slug: string): string {
+	const titlePart = slug.replace(/^\d+-/, '');
+
+	if (!titlePart) return '';
+
+	return titlePart
+		.split('-')
+		.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(' ');
+}
+
+
+export function generateArticleUrl( slug?: string): string {
+	if (slug) {
+		return `/articles/${slug}`;
+	}
+	
 }

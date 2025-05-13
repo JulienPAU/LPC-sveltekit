@@ -41,6 +41,7 @@
 					author: article.user.username,
 					article_type: article.article_type,
 					category: article.category,
+					slug: article.slug,
 					id: article.id,
 					isDashboard: false,
 					isModerator: false,

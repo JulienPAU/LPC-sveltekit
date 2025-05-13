@@ -1,23 +1,22 @@
-// src/routes/api/_public/article_id/[id]/+server.ts
+// src/routes/api/_public/article_slug/[slug]/+server.ts
 
 import { error, json } from '@sveltejs/kit';
 import prisma from '$lib/prisma';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET({ params }: { params: { slug: string } }) {
     try {
-        const idPart = params.id.split('-')[0];
-        const id = parseInt(idPart);
+        const { slug } = params;
 
-        if (isNaN(id) || id <= 0) {
+        if (!slug || slug.trim() === '') {
             throw error(400, {
-                message: "Format d'ID invalide"
+                message: "Slug invalide"
             });
         }
 
         try {
-            const article = await prisma.articles.findUnique({
-                where: { id },
+            const article = await prisma.articles.findFirst({
+                where: { slug },
                 include: {
                     user: {
                         select: {
@@ -51,8 +50,6 @@ export async function GET({ params }: { params: { id: string } }) {
                     message: "Article non trouvé"
                 });
             }
-
-
 
             return json(
                 article
