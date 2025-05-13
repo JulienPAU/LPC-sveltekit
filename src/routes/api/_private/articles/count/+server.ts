@@ -11,7 +11,6 @@ export async function GET({ locals }: RequestEvent) {
     try {
         const session = await locals.auth();
 
-        // Vérification de l'authentification
         if (!session) {
             throw error(401, {
                 message: "Non authentifié"
@@ -39,7 +38,6 @@ export async function GET({ locals }: RequestEvent) {
                 });
             }
 
-            // Transformation des données
             const countByStatus: StatusCount = counts.reduce((acc: StatusCount, item) => {
                 if (item.status && typeof item._count.status === 'number') {
                     acc[item.status] = item._count.status;
@@ -49,7 +47,6 @@ export async function GET({ locals }: RequestEvent) {
 
             const total = Object.values(countByStatus).reduce((sum, count) => sum + count, 0);
 
-            // Si aucun article n'est trouvé
             if (total === 0) {
                 return json({
                     countByStatus: {},
@@ -87,13 +84,10 @@ export async function GET({ locals }: RequestEvent) {
         }
 
     } catch (e: unknown) {
-        // Log de l'erreur pour le débogage
         console.error('Erreur lors du comptage des articles:', e);
 
-        // Si c'est déjà une erreur SvelteKit, la propager
         if (e instanceof Error && 'status' in e) throw e;
 
-        // Pour toute autre erreur inattendue
         throw error(500, {
             message: "Une erreur inattendue s'est produite"
         });

@@ -9,7 +9,6 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 export const GET = async (event: RequestEvent) => {
     try {
-        // Vérification de la session
         const session = await event.locals.auth();
 
         if (!session) {
@@ -26,14 +25,12 @@ export const GET = async (event: RequestEvent) => {
 
         const user = session.user as User;
 
-        // Vérification que User_Role existe
         if (!user.User_Role) {
             throw error(403, {
                 message: 'Rôle utilisateur non défini'
             });
         }
 
-        // Vérification du rôle admin
         const isAdmin = Array.isArray(user.User_Role)
             ? user.User_Role.some(role => role.role === 'ADMIN')
             : user.User_Role === 'ADMIN';
@@ -44,7 +41,6 @@ export const GET = async (event: RequestEvent) => {
             });
         }
 
-        // Filtrer les données sensibles avant de les renvoyer
         const sanitizedUser = {
             id: user.id,
             email: user.email,
@@ -62,15 +58,12 @@ export const GET = async (event: RequestEvent) => {
         });
 
     } catch (err) {
-        // Log de l'erreur pour le débogage
         console.error('Erreur dans la route privée:', err);
 
-        // Si c'est une erreur SvelteKit, la propager
         if (err instanceof Error && 'status' in err) {
             throw err;
         }
 
-        // Pour toute autre erreur inattendue
         throw error(500, {
             message: "Une erreur inattendue s'est produite"
         });

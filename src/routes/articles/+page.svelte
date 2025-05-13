@@ -60,7 +60,6 @@
 	afterNavigate(({ from, to }) => {
 		if (!browser) return;
 
-		// Si la navigation vient d'un changement de filtre, ne pas réinitialiser
 		const toHasFilterParams =
 			to?.url.searchParams.has('type') ||
 			to?.url.searchParams.has('category') ||

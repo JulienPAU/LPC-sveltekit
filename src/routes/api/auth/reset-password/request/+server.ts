@@ -77,26 +77,22 @@ export async function POST({ request }) {
             const user = await prisma.user.findUnique({ where: { email } });
 
             if (!user) {
-                // Par sécurité, on ne révèle pas que l'email n'existe pas
                 return json({
                     message: 'Si cet email existe, un lien a été envoyé'
                 });
             }
 
-            // Génération du token sécurisé
             const rawToken = crypto.randomBytes(32).toString('hex');
             const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
 
-            // Stocker le token
             await prisma.verificationToken.create({
                 data: {
                     identifier: email,
                     token: hashedToken,
-                    expires: new Date(Date.now() + 3600000) // Expiration dans 1h
+                    expires: new Date(Date.now() + 3600000)
                 }
             });
 
-            // Envoyer l'email
             await sendResetEmail(email, rawToken);
 
             return json({

@@ -43,39 +43,30 @@
 			const url = new URL(window.location.href);
 			const currentParams = new URLSearchParams(url.search);
 
-			// Conserver le paramètre 'from' s'il existe
 			const fromParam = currentParams.get('from');
 
-			// Réinitialiser les paramètres de recherche
 			currentParams.delete('type');
 			currentParams.delete('category');
 			currentParams.delete('brand');
 			currentParams.delete('sort');
 
-			// Ajouter les nouveaux paramètres
 			if (type) currentParams.set('type', type);
 			if (cat) currentParams.set('category', cat);
 			if (br) currentParams.set('brand', br);
 			if (sort) currentParams.set('sort', sort);
 
-			// Restaurer le paramètre 'from'
 			if (fromParam) currentParams.set('from', fromParam);
 
-			// Définir la nouvelle URL
 			url.search = currentParams.toString();
 
-			// Utiliser replaceState pour éviter d'ajouter à l'historique
 			goto(url.toString(), {
 				replaceState: true,
 				keepFocus: true,
 				noScroll: true
 			});
-
-			// console.log('URL mise à jour:', url.toString());
 		}
 	}
 
-	// Fonction de filtrage et tri réactive
 	$: {
 		const filtered = [...articles]
 			.filter((article) => !articleType || article.article_type === articleType)
@@ -101,7 +92,6 @@
 	}
 
 	onMount(() => {
-		// Appliquer le filtrage initial
 		const filtered = [...articles]
 			.filter((article) => !articleType || article.article_type === articleType)
 			.filter((article) => !category || article.category?.name === category)
@@ -136,7 +126,6 @@
 <div class=" mb-20 items-center bg-slate-900 p-4 shadow-sm md:rounded-lg lg:rounded-lg">
 	<div class="flex flex-wrap items-center justify-center gap-4 font-semibold lg:justify-between">
 		<div class="flex flex-wrap justify-center gap-4">
-			<!-- Type d'article -->
 			<select bind:value={articleType} class="select select-bordered w-36 lg:w-48">
 				<option value="">Type d'article</option>
 				{#each articleTypes as type}
@@ -144,7 +133,6 @@
 				{/each}
 			</select>
 
-			<!-- Catégorie -->
 			<select bind:value={category} class="select select-bordered w-36 lg:w-48">
 				<option value="">Catégorie</option>
 				{#each categories as cat}
@@ -152,7 +140,6 @@
 				{/each}
 			</select>
 
-			<!-- Marque -->
 			<select bind:value={brand} class="select select-bordered w-36 lg:w-48">
 				<option value="">Marque</option>
 				{#each brands as b}
@@ -160,7 +147,6 @@
 				{/each}
 			</select>
 
-			<!-- Tri par date -->
 			<select bind:value={sortBy} class="select select-bordered w-36 lg:w-48">
 				<option value="" disabled selected>Tri par défaut </option>
 				<option value="newest">Plus récent</option>

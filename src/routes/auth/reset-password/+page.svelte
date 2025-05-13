@@ -14,11 +14,10 @@
 		const urlParams = new URLSearchParams(window.location.search);
 		token = urlParams.get('token') || '';
 
-		// Vérification du token côté client
 		const res = await fetch(`/api/auth/reset-password/validate?token=${token}`);
 		const data = await res.json();
 		if (data.error) {
-			tokenValid = false; // Si le token est invalide
+			tokenValid = false;
 		}
 	});
 
@@ -36,7 +35,6 @@
 		});
 
 		if (data.message === 'Mot de passe mis à jour avec succès') {
-			// Redirection vers la page de connexion après la mise à jour réussie
 			setTimeout(() => goto('/auth/login'), 1000);
 		}
 	}

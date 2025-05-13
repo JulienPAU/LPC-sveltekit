@@ -7,7 +7,6 @@ export async function POST({ request }) {
     try {
         const { name, email, message } = await request.json();
 
-        // Validation basique
         if (!name || !email || !message) {
             return json({
                 success: false,

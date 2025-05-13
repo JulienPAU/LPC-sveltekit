@@ -51,14 +51,12 @@ export const GET = async (event: RequestEvent) => {
     const userId = event.params.id;
 
     try {
-        // Validation de l'ID
         if (!userId) {
             throw error(400, {
                 message: "ID utilisateur requis"
             });
         }
 
-        // Vérification de l'authentification
         const session = await event.locals.auth();
         if (!session) {
             throw error(401, {
@@ -68,7 +66,6 @@ export const GET = async (event: RequestEvent) => {
 
         const user = session.user as SessionUser;
 
-        // Vérification des permissions
         const userRole = user.User_Role;
         const isAdmin = Array.isArray(userRole)
             ? userRole.some(role => role.role === 'ADMIN')
@@ -80,7 +77,6 @@ export const GET = async (event: RequestEvent) => {
             });
         }
 
-        // Récupération de l'utilisateur
         const userById = await prisma.user.findUnique({
             where: {
                 id: userId
@@ -105,7 +101,6 @@ export const GET = async (event: RequestEvent) => {
             }
         });
 
-        // Vérification que l'utilisateur existe
         if (!userById) {
             throw error(404, {
                 message: "Utilisateur non trouvé"
@@ -119,12 +114,10 @@ export const GET = async (event: RequestEvent) => {
     } catch (err) {
         console.error("Erreur lors de la récupération de l'utilisateur:", err);
 
-        // Si c'est une erreur SvelteKit, la propager
         if (err instanceof Error && 'status' in err) {
             throw err;
         }
 
-        // Erreur générique
         throw error(500, {
             message: "Erreur lors de la récupération de l'utilisateur"
         });

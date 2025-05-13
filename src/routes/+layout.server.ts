@@ -19,14 +19,12 @@ export const load: LayoutServerLoad = async ({ fetch, locals, depends }) => {
 
 
 
-        // Gestion des erreurs pour articles
         if (!articlesResponse.ok) {
             throw error(articlesResponse.status, {
                 message: `Erreur lors de la récupération des articles: ${articlesResponse.statusText}`
             });
         }
 
-        // Gestion des erreurs pour watches
         if (!watchesResponse.ok) {
             throw error(watchesResponse.status, {
                 message: `Erreur lors de la récupération des watches: ${watchesResponse.statusText}`
@@ -40,10 +38,8 @@ export const load: LayoutServerLoad = async ({ fetch, locals, depends }) => {
 
         return { articles, session, watches, ariclesSubmitted };
     } catch (e) {
-        // Si l'erreur vient déjà de error(), la propager
         if (e instanceof Error && 'status' in e) throw e;
 
-        // Sinon, créer une nouvelle erreur 500
         throw error(500, {
             message: "Erreur serveur lors de la récupération des données"
         });

@@ -2,7 +2,6 @@ import type { Articles } from './article';
 import type { Watches } from './watches';
 
 
-// Enum pour les catégories
 export enum Category {
     ANALOG = "ANALOG",
     ANALOG_DIGITAL = "ANALOG_DIGITAL",
@@ -26,7 +25,6 @@ export enum Category {
     OTHER = "OTHER",
 }
 
-// Type pour le modèle Categories
 export type Categories = {
     id: number;
     type: Category;
@@ -35,4 +33,3 @@ export type Categories = {
     watches: Watches[];
 };
 
-// Types pour les autres modèles (à définir selon vos besoins)

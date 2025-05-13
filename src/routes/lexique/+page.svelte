@@ -7,12 +7,10 @@
 	let activeLetter: string | null = 'A';
 	let activeWordIndex: number | null = null;
 
-	// Fonction pour normaliser les caractères (enlever les accents)
 	const normalizeChar = (char: string) => {
 		return char.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 	};
 
-	// Créer un objet groupé par première lettre à partir des définitions
 	const groupedDefinitions = definitions.reduce((acc: Record<string, any[]>, def: any) => {
 		const firstLetter = def.title.trim().charAt(0).toUpperCase();
 		if (!acc[firstLetter]) {
@@ -25,12 +23,10 @@
 		return acc;
 	}, {});
 
-	// Tri personnalisé pour les lettres avec accents
 	const sortedLetters = Object.keys(groupedDefinitions).sort((a, b) => {
 		return normalizeChar(a).localeCompare(normalizeChar(b), 'fr');
 	});
 
-	// Si 'A' n'existe pas dans les lettres, on prend la première lettre disponible
 	if (!groupedDefinitions['A'] && sortedLetters.length > 0) {
 		activeLetter = sortedLetters[0];
 	}
@@ -48,7 +44,6 @@
 <div class="flex flex-col items-center">
 	<SectionTitle title="Lexique" />
 
-	<!-- Sidebar déplacée sous le titre -->
 	<p class=" mb-5 w-full p-4 text-justify font-semibold lg:mb-10 lg:w-4/5 lg:text-2xl">
 		Bienvenue dans notre lexique horloger, votre guide complet pour découvrir et comprendre le monde
 		fascinant de l'horlogerie. Que vous soyez passionné par les montres ou simplement curieux, ce

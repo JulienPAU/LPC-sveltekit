@@ -7,7 +7,6 @@ import type { SessionUser } from '$lib/types/user';
 
 export async function GET(event: RequestEvent) {
     try {
-        // Vérification de l'authentification
         const session = await event.locals.auth();
         if (!session) {
             throw error(401, {
@@ -17,7 +16,6 @@ export async function GET(event: RequestEvent) {
 
         const user = session.user as SessionUser;
 
-        // Vérification du rôle admin/modérateur
         const userRole = user.User_Role;
         const hasAccess = Array.isArray(userRole)
             ? userRole.some(role => ['ADMIN', 'MODERATOR'].includes(role.role))

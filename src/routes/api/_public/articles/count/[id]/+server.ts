@@ -19,7 +19,6 @@ export async function GET(event: RequestEvent) {
     }
 
     try {
-        // Vérifier que l'utilisateur existe
         const userExists = await prisma.user.findUnique({
             where: { id: userId }
         });

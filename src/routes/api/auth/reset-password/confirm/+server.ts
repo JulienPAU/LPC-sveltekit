@@ -77,7 +77,6 @@ export async function POST({ request }) {
         const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
         try {
-            // Vérifier le token
             const verificationToken = await prisma.verificationToken.findUnique({
                 where: { token: hashedToken }
             });
@@ -88,14 +87,12 @@ export async function POST({ request }) {
                 });
             }
 
-            // Mettre à jour le mot de passe
             const hashedPassword = await bcrypt.hash(password, 10);
             await prisma.user.update({
                 where: { email: verificationToken.identifier },
                 data: { password: hashedPassword }
             });
 
-            // Supprimer le token après utilisation
             await prisma.verificationToken.delete({
                 where: { token: hashedToken }
             });

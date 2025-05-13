@@ -15,7 +15,6 @@ export const DELETE = async ({ params, locals }) => {
             throw error(401, 'Non autorisé');
         }
 
-        // Récupérer l'article existant et ses images
         const existingArticle = await prisma.articles.findUnique({
             where: { id: articleId },
             select: { images: true, user: { select: { email: true } } }
@@ -26,7 +25,6 @@ export const DELETE = async ({ params, locals }) => {
             throw error(404, 'Article non trouvé');
         }
 
-        // Supprimer les images de l'article
         if (existingArticle?.images && existingArticle.images.length > 0) {
             try {
                 const fileKeys = existingArticle.images.map(url => {
@@ -41,7 +39,6 @@ export const DELETE = async ({ params, locals }) => {
             }
         }
 
-        // Supprimer l'article
         await prisma.articles.delete({
             where: { id: articleId }
         });
@@ -51,7 +48,6 @@ export const DELETE = async ({ params, locals }) => {
                 await deletedArticle(existingArticle.user.email);
             }
         } catch (emailError) {
-            // On log l'erreur mais on ne la propage pas
             console.error('Erreur lors de l\'envoi du mail de mise à jour:', emailError);
         }
 

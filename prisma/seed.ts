@@ -45,7 +45,6 @@ async function main() {
 			prisma.lexical.deleteMany()
 		]);
 
-		// Categories
 		const lexical = await readCSV('lexical.csv');
 		for (const definition of lexical) {
 			await prisma.lexical.create({
@@ -67,7 +66,6 @@ async function main() {
 			});
 		}
 
-		// Users
 		if (!process.env.SEED) {
 			throw new Error('SEED environment variable is not defined');
 		}

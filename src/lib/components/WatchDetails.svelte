@@ -4,11 +4,9 @@
 
 	export let article: any;
 
-	// Vérification plus sécurisée des données
 	let watchData = article?.ArticleWatches?.[0]?.watch || null;
-	let isOpen = false; // État pour gérer l'ouverture/fermeture manuelle
+	let isOpen = false;
 
-	// Formatter pour le type de mouvement
 	const formatMovement = (movement: string) => {
 		if (!movement) return null;
 		return movement
@@ -17,7 +15,6 @@
 			.replace(/\b\w/g, (char) => char.toUpperCase());
 	};
 
-	// Préparer les bracelets en une seule chaîne
 	const formatStraps = (straps: any[] | null | undefined) => {
 		if (!straps || !Array.isArray(straps) || straps.length === 0) return null;
 		return straps
@@ -26,7 +23,6 @@
 			.join(', ');
 	};
 
-	// Fonction pour formater les valeurs ou afficher N/A
 	const formatValue = (value: any) => {
 		if (value === null || value === undefined || value === '') {
 			return 'N/A';
@@ -34,12 +30,10 @@
 		return value;
 	};
 
-	// Gérer le clic sur le titre pour ouvrir/fermer
 	const toggleDropdown = () => {
 		isOpen = !isOpen;
 	};
 
-	// Vérifier si on a des données à afficher
 	$: hasAnyData =
 		watchData &&
 		(watchData.brand ||
@@ -79,7 +73,6 @@
 				</svg>
 			</button>
 
-			<!-- Contenu du dropdown -->
 			{#if isOpen}
 				<div class="bg-slate-900 p-4 text-white transition-all duration-300">
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2">

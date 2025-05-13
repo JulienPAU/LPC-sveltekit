@@ -35,7 +35,6 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             return json({ error: 'Utilisateur non trouvé' }, { status: 404 });
         }
 
-        // Créer un objet ne contenant que les champs du modèle Prisma
         const dataToUpdate: UpdateUserData = {
             ...(validatedData.username && { username: validatedData.username }),
             ...(validatedData.first_name && { first_name: validatedData.first_name }),
@@ -47,7 +46,6 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
         if (validatedData.moderatorRequestStatus) {
             dataToUpdate.moderatorRequestStatus = validatedData.moderatorRequestStatus;
 
-            // Envoi des emails selon le statut
             switch (validatedData.moderatorRequestStatus) {
                 case ModeratorRequest.REJECTED:
                     await sendModeratorRejectionEmail(existingUser.email);
@@ -87,7 +85,6 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
         if (validatedData.role) {
             const upperRole = validatedData.role.toUpperCase() as RoleType;
 
-            // Récupérer d'abord l'enregistrement User_Role existant
             const userRole = await prisma.user_Role.findFirst({
                 where: {
                     user_id: id
@@ -107,7 +104,6 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
                     await sendModeratorApprovalEmail(existingUser.email);
 
                 } else if (upperRole !== 'MODERATOR') {
-                    // Réinitialisation des champs si le rôle n'est pas MODERATOR
                     await prisma.user.update({
                         where: { id },
                         data: {
@@ -116,10 +112,9 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
                         }
                     });
                 }
-                // Mise à jour du rôle avec l'ID correct
                 await prisma.user_Role.update({
                     where: {
-                        id: userRole.id  // Utiliser l'ID numérique comme clé unique
+                        id: userRole.id
                     },
                     data: {
                         role: upperRole

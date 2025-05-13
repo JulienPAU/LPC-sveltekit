@@ -8,7 +8,6 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 export async function GET(event: RequestEvent) {
     try {
-        // Vérification de l'authentification si nécessaire
         const session = await event.locals.auth();
         if (!session) {
             throw error(401, {
@@ -16,7 +15,6 @@ export async function GET(event: RequestEvent) {
             });
         }
 
-        // Récupération des comptages par rôle
         try {
             const roleCounts = await prisma.user_Role.groupBy({
                 by: ['role'],
@@ -27,14 +25,12 @@ export async function GET(event: RequestEvent) {
 
             const totalUsers = await prisma.user.count();
 
-            // Vérification des données
             if (!roleCounts || !Array.isArray(roleCounts)) {
                 throw error(500, {
                     message: "Erreur lors de la récupération des rôles"
                 });
             }
 
-            // Transformation des données
             const countByRole = roleCounts.reduce((acc: { [key: string]: number }, item) => {
                 if (item.role) {
                     acc[item.role.toLowerCase()] = item._count.role;
@@ -49,7 +45,6 @@ export async function GET(event: RequestEvent) {
             });
 
         } catch (dbError) {
-            // Gestion des erreurs Prisma
             if (dbError instanceof PrismaClientKnownRequestError) {
                 switch (dbError.code) {
                     case 'P2002':
@@ -72,15 +67,12 @@ export async function GET(event: RequestEvent) {
         }
 
     } catch (err) {
-        // Log de l'erreur
         console.error('Erreur dans le comptage des rôles:', err);
 
-        // Si c'est une erreur SvelteKit, la propager
         if (err instanceof Error && 'status' in err) {
             throw err;
         }
 
-        // Pour toute autre erreur inattendue
         throw error(500, {
             message: "Une erreur inattendue s'est produite"
         });

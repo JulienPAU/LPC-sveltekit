@@ -28,9 +28,7 @@ export async function GET() {
         return json(articles);
 
     } catch (e: unknown) {
-        // Si c'est une erreur Prisma
         if (e instanceof PrismaClientKnownRequestError) {
-            // Erreurs spécifiques de Prisma
             switch (e.code) {
                 case 'P2002':
                     throw error(400, { message: "Conflit de données" });
@@ -41,10 +39,8 @@ export async function GET() {
             }
         }
 
-        // Si c'est déjà une erreur SvelteKit, la propager
         if (e instanceof Error && 'status' in e) throw e;
 
-        // Pour toute autre erreur inattendue
         throw error(500, {
             message: "Une erreur inattendue s'est produite"
         });

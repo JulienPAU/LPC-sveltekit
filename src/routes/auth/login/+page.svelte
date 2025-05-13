@@ -26,14 +26,12 @@
 			const data = await result?.json();
 
 			if (data?.url?.includes('error')) {
-				// C'est ici que l'erreur d'authentification est détectée
 				toast.error('Email ou mot de passe incorrect', {
 					duration: 15000,
 					style: 'transform:none; filter:none; backdrop-filter:none'
 				});
 				error = 'Email ou mot de passe incorrect';
 			} else {
-				// Connexion réussie
 				goto('/dashboard').then(() => {
 					window.location.reload();
 				});

@@ -7,12 +7,10 @@
 	let activeLetter: string | null = null;
 	let activeBrandIndex: number | null = null;
 
-	// Fonction pour normaliser les caractères (enlever les accents)
 	const normalizeChar = (char: string) => {
 		return char.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 	};
 
-	// Créer un objet groupé par première lettre à partir des marques
 	const groupedBrands = articles.reduce((acc: Record<string, any[]>, article: any) => {
 		article.ArticleWatches.forEach((watch: any) => {
 			const brand = watch.watch.brand.trim();
@@ -30,7 +28,6 @@
 		return acc;
 	}, {});
 
-	// Ajouter les articles à chaque marque
 	articles.forEach((article: any) => {
 		article.ArticleWatches.forEach((watch: any) => {
 			const brand = watch.watch.brand.trim();
@@ -42,12 +39,10 @@
 		});
 	});
 
-	// Tri personnalisé pour les lettres avec accents
 	const sortedLetters = Object.keys(groupedBrands).sort((a, b) => {
 		return normalizeChar(a).localeCompare(normalizeChar(b), 'fr');
 	});
 
-	// Initialiser activeLetter avec 'A' ou la première lettre disponible
 	onMount(() => {
 		if (sortedLetters.includes('A')) {
 			activeLetter = 'A';
@@ -66,8 +61,6 @@
 	};
 </script>
 
-<!-- Le reste du code reste inchangé -->
-<!-- Affichage des lettres -->
 <div class="flex flex-col items-center">
 	<SectionTitle title="Toutes les Marques" />
 	<p class=" mb-5 w-full p-4 text-center font-semibold lg:mb-10 lg:w-4/5 lg:text-2xl">
@@ -91,7 +84,6 @@
 	</div>
 </div>
 
-<!-- Affichage des marques et articles -->
 <div class="w-full p-4">
 	<div class="p-5 lg:p-10">
 		{#if activeLetter}

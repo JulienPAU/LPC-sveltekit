@@ -12,14 +12,12 @@ export const POST = async (event: RequestEvent) => {
     const articleId = parseInt(event.params.id ?? '');
 
     try {
-        // Validation de l'ID
         if (isNaN(articleId) || articleId <= 0) {
             throw error(400, {
                 message: "ID d'article invalide"
             });
         }
 
-        // Récupération et validation du status
         const requestData = await event.request.json();
         const { status, reason } = requestData;
 
@@ -29,7 +27,6 @@ export const POST = async (event: RequestEvent) => {
             });
         }
 
-        // Vérification de l'authentification
         const session = await event.locals.auth?.();
         if (!session?.user) {
             throw error(401, {
@@ -37,7 +34,6 @@ export const POST = async (event: RequestEvent) => {
             });
         }
 
-        // Vérification de l'existence de l'article
         const existingArticle = await prisma.articles.findUnique({
             where: { id: articleId },
             include: {
@@ -53,7 +49,6 @@ export const POST = async (event: RequestEvent) => {
 
         const user = session.user as SessionUser;
 
-        // Vérification des permissions
         const userRole = user.User_Role;
         const isAdmin = Array.isArray(userRole)
             ? userRole.some(role => role.role === 'ADMIN')
@@ -66,7 +61,6 @@ export const POST = async (event: RequestEvent) => {
             });
         }
 
-        // Mise à jour de l'article
         try {
             const isPublishing = status === 'PUBLISHED';
             const updatedArticle = await prisma.articles.update({
@@ -92,7 +86,6 @@ export const POST = async (event: RequestEvent) => {
                 }
             } catch (emailError) {
                 console.error('Erreur lors de l\'envoi du mail de notification:', emailError);
-                // On continue malgré l'erreur d'envoi de mail
             }
 
             return json({

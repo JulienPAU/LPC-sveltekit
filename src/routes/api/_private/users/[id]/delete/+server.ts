@@ -17,8 +17,8 @@ export const DELETE = async (event) => {
         }
 
         const isAdmin = Array.isArray(userRole)
-            ? userRole.some(role => role.role === 'ADMIN')  // Si c'est un tableau, chercher "ADMIN"
-            : userRole === 'ADMIN';  // Sinon, comparer directement
+            ? userRole.some(role => role.role === 'ADMIN')
+            : userRole === 'ADMIN';
 
         if (!isAdmin) {
             throw error(401, 'Non autorisé');

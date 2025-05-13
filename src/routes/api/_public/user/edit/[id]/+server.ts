@@ -28,7 +28,6 @@ export const POST = async ({ params, request }: { params: { id: string }, reques
             return json({ error: 'Utilisateur non trouvé' }, { status: 404 });
         }
 
-        // Créer un objet ne contenant que les champs du modèle Prisma
         const dataToUpdate: UpdateUserData = {
             ...(validatedData.username && { username: validatedData.username }),
             ...(validatedData.first_name && { first_name: validatedData.first_name }),

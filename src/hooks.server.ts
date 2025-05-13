@@ -23,8 +23,8 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
 
 
             const isAdmin = Array.isArray(user.User_Role)
-                ? user.User_Role.some(role => role.role === 'ADMIN')  // Si c'est un tableau, chercher "ADMIN"
-                : user.User_Role === 'ADMIN';  // Sinon, comparer directement
+                ? user.User_Role.some(role => role.role === 'ADMIN')
+                : user.User_Role === 'ADMIN';
 
             if (!isAdmin) {
                 throw redirect(303, '/auth/login');
@@ -52,7 +52,6 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
         const token = urlParams.get('token');
 
         if (!token || !isValidResetToken(token)) {
-            // Si le token est invalide ou absent, on redirige
             throw redirect(303, '/auth/login');
         }
     }
@@ -60,7 +59,6 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
     const cookieConsent = event.cookies.get('cookieConsent')
 
 
-    // Ajoute l'information de consentement à l'event pour y accéder dans les routes
     event.locals.cookieConsent = cookieConsent ? JSON.parse(cookieConsent) : null;
 
     const response = await resolve(event);
@@ -69,7 +67,5 @@ async function authorizationHandle({ event, resolve }: { event: RequestEvent, re
     return response;
 }
 
-// First handle authentication, then authorization
-// Each function acts as a middleware, receiving the request handle
-// And returning a handle which gets passed to the next function
+
 export const handle: Handle = sequence(authenticationHandle, authorizationHandle)

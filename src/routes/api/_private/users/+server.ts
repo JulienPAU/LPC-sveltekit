@@ -30,7 +30,6 @@ import type { SessionUser } from '$lib/types/user';
 
 export async function GET(event: RequestEvent) {
     try {
-        // Vérification de l'authentification
         const session = await event.locals.auth();
         if (!session) {
             throw error(401, {
@@ -40,7 +39,6 @@ export async function GET(event: RequestEvent) {
 
         const user = session.user as SessionUser;
 
-        // Vérification des permissions
         const userRole = user.User_Role;
         const isAdmin = Array.isArray(userRole)
             ? userRole.some(role => role.role === 'ADMIN')
@@ -69,14 +67,12 @@ export async function GET(event: RequestEvent) {
                 }
             });
 
-            // Vérification des résultats
             if (!users || !Array.isArray(users)) {
                 throw error(500, {
                     message: "Erreur lors de la récupération des utilisateurs"
                 });
             }
 
-            // Si aucun utilisateur n'est trouvé
             if (users.length === 0) {
                 return json({
                     success: true,
@@ -117,15 +113,12 @@ export async function GET(event: RequestEvent) {
         }
 
     } catch (err) {
-        // Log de l'erreur
         console.error('Erreur lors de la récupération des utilisateurs:', err);
 
-        // Si c'est une erreur SvelteKit, la propager
         if (err instanceof Error && 'status' in err) {
             throw err;
         }
 
-        // Pour toute autre erreur inattendue
         throw error(500, {
             message: "Une erreur inattendue s'est produite"
         });

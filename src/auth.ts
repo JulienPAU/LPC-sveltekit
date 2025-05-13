@@ -84,8 +84,8 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 
 
                 if (existingUser && existingUser.User_Role && existingUser.User_Role.length > 0) {
-                    user.User_Role = existingUser.User_Role.map(role => role.role).join(', ');  // Ajoute User_Role à user
-                    user.role = existingUser.User_Role[0]?.role;  // Ajoute le rôle à user
+                    user.User_Role = existingUser.User_Role.map(role => role.role).join(', ');
+                    user.role = existingUser.User_Role[0]?.role;
                 }
 
 
@@ -102,7 +102,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                         if (!existingUsername) {
                             usernameExists = false;
                         } else {
-                            const randomSuffix = Math.floor(Math.random() * 900) + 100; // Génère un nombre entre 100 et 999
+                            const randomSuffix = Math.floor(Math.random() * 900) + 100;
                             username = `${firstName}${randomSuffix}`;
                         }
                     }
@@ -164,7 +164,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                         email: true,
                         profile_picture: true,
                         User_Role: {
-                            select: { role: true } // Récupère uniquement le rôle
+                            select: { role: true }
                         },
                         first_name: true,
                         last_name: true,
@@ -185,7 +185,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
                     if (existingUser.User_Role?.length > 0) {
                         token.User_Role = existingUser.User_Role[0].role;
                     } else {
-                        token.User_Role = "READER"; // Valeur par défaut
+                        token.User_Role = "READER";
                     }
                 } else {
                     console.error("Utilisateur introuvable pour l'email :", user.email);
@@ -221,7 +221,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
     secret: process.env.AUTH_SECRET,
     trustHost: true,
     jwt: {
-        maxAge: 2 * 60 * 60,  // Expiration du token en secondes (ici 24 heures)
+        maxAge: 2 * 60 * 60,
     },
 
 });

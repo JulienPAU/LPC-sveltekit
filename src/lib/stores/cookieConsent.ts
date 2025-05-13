@@ -4,7 +4,7 @@ import type { CookieConsent } from '$lib/types/cookies';
 
 function createCookieConsent() {
     const { subscribe, set, update } = writable<CookieConsent>({
-        necessary: true, // Toujours true car nécessaire
+        necessary: true,
         analytics: false,
         preferences: false
     });
@@ -13,7 +13,6 @@ function createCookieConsent() {
         subscribe,
         setConsent: (consent: Partial<CookieConsent>) => {
             update(state => ({ ...state, ...consent }));
-            // Sauvegarde dans localStorage
             localStorage.setItem('cookieConsent', JSON.stringify(consent));
         },
         init: () => {

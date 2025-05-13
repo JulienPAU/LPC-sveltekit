@@ -24,7 +24,6 @@ export const POST = async ({ request, locals, params }) => {
             throw error(400, 'Fichier manquant');
         }
 
-        // Validation du fichier
         if (!DEFAULT_FILE_VALIDATION.acceptedTypes.includes(file.type)) {
             throw error(400, `Type de fichier non supporté : ${file.name}`);
         }
@@ -34,7 +33,6 @@ export const POST = async ({ request, locals, params }) => {
         }
 
         try {
-            // Uploader le fichier
             const utFile = new UTFile([file], `article_${articleId}_${session.user?.id}_${file.name}`);
             const utapi = new UTApi({ token: process.env.UPLOADTHING_TOKEN });
             const fileResult = await utapi.uploadFiles(utFile);

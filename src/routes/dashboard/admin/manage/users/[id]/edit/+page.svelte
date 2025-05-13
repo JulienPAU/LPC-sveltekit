@@ -18,7 +18,6 @@
 	let moderatorRequestStatus = userById.moderatorRequestStatus;
 
 	function resetForm() {
-		// Réinitialisation des variables avec les valeurs de `user`
 		username = userById.username;
 		firstName = userById.first_name || '';
 		lastName = userById.last_name || '';

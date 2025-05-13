@@ -23,7 +23,6 @@
 			segments = [
 				{ name: 'Accueil', href: '/' },
 				...pathSegments.map((segment, index) => {
-					// Cas particulier pour les articles (format: ID-titre-de-article)
 					if (pathSegments[0] === 'articles' && index > 0 && segment.match(/^\d+-/)) {
 						return {
 							name: getTitleFromSlug(segment),
@@ -31,7 +30,6 @@
 						};
 					}
 
-					// Cas général
 					return {
 						name: decodeURIComponent(segment.charAt(0).toUpperCase() + segment.slice(1)),
 						href: '/' + pathSegments.slice(0, index + 1).join('/')

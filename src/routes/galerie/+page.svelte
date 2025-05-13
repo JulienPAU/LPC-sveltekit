@@ -160,16 +160,13 @@
 		};
 	}
 
-	// Fonction pour vérifier si l'appareil est mobile
 	function checkMobile() {
 		if (browser) {
 			const wasMobile = isMobile;
 			isMobile = window.innerWidth < 1024;
 
-			// Si on change de mode (mobile -> desktop ou desktop -> mobile), on vide le cache
 			if (wasMobile !== isMobile) {
 				cachedImages.clear();
-				// Forcer la mise à jour des images visibles
 				setTimeout(() => {
 					currentVisibleImages = getVisibleImages().filter(
 						(img: { isPlaceholder: boolean }) => !img.isPlaceholder
@@ -184,24 +181,21 @@
 		const throttledCheck = throttle(checkMobile, 200);
 		window.addEventListener('resize', throttledCheck);
 
-		// Initialiser les images visibles pour la première page
 		currentVisibleImages = getVisibleImages().filter(
 			(img: { isPlaceholder: boolean }) => !img.isPlaceholder
 		);
 		totalImagesToLoad = currentVisibleImages.length;
 		preloadingComplete = true;
 
-		// Si aucune image à charger, on arrête le loading
 		if (totalImagesToLoad === 0) {
 			loading = false;
 		}
 
-		// Timeout de sécurité pour le chargement initial
 		setTimeout(() => {
 			if (loading) {
 				loading = false;
 			}
-		}, 3000); // Réduit à 3 secondes
+		}, 3000);
 
 		return () => {
 			window.removeEventListener('resize', throttledCheck);
