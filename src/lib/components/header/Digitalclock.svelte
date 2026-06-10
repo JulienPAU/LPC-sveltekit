@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 
-	// Props avec valeurs par défaut
 	export let use24Hour = true;
 	export let showDate = true;
 
 	let time = '';
 	let date = '';
-	let period = ''; // AM/PM
+	let period = '';
 	let timer: NodeJS.Timeout;
 
 	function formatTime(hours: number, minutes: number, seconds: number) {
 		if (!use24Hour) {
 			period = hours >= 12 ? 'PM' : 'AM';
-			hours = hours % 12 || 12; // Convertit 0 en 12
+			hours = hours % 12 || 12;
 		}
 		return {
 			hours: String(hours).padStart(2, '0'),
